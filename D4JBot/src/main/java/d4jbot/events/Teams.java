@@ -11,9 +11,16 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Teams {
 	
+	private MessageSender ms;
+	
 	// default constructor
 	public Teams() { }
 	
+	// constructor
+	public Teams(MessageSender ms) {
+		this.ms = ms;
+	}
+		
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "teams")) {
@@ -34,9 +41,9 @@ public class Teams {
 					}
 				}
 				
-				MessageSender.sendMessage(e.getChannel(), true, "Team 1: " + team1 + "\nTeam 2: " + team2);
+				ms.sendMessage(e.getChannel(), true, "Team 1: " + team1 + "\nTeam 2: " + team2);
 			} else {
-				MessageSender.sendMessage(e.getChannel(), true, "$teams needs at least 3 following parameters / names.");
+				ms.sendMessage(e.getChannel(), true, "$teams needs at least 3 following parameters / names.");
 			}
 		}
 	}

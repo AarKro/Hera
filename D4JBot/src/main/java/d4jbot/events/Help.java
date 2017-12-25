@@ -7,17 +7,28 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Help {
 
+	private MessageSender ms;
+	
 	// default constructor
 	public Help() { }
 	
+	// constructor
+	public Help(MessageSender ms) {
+		this.ms = ms;
+	}
+		
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "help")) {
-			MessageSender.sendMessage(e.getChannel(), true, "Available Commands:"
+			ms.sendMessage(e.getChannel(), true, "Available Commands:"
 														 +"\n- bind"
 													  	 +"\n- report"
 														 +"\n- flip"
 														 +"\n- teams"
+														 +"\n- vote"
+														 +"\n- y"
+														 +"\n- n"
+														 +"\n- end"
 														 +"\n- help");
 		}
 	}

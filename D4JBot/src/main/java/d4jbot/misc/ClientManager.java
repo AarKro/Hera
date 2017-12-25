@@ -1,4 +1,4 @@
-package d4jbot.main;
+package d4jbot.misc;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -18,7 +18,7 @@ public class ClientManager {
 		this.iDiscordClient = createClient(token);
 	}
 	
-	public static IDiscordClient createClient(String token) { // Returns a new instance of the Discord client
+	public IDiscordClient createClient(String token) { // Returns a new instance of the Discord client
 		
         ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
         clientBuilder.withToken(token); // Adds the login info to the builder

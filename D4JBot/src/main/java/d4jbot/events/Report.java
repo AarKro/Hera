@@ -7,8 +7,15 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Report {
 	
+	private MessageSender ms;
+	
 	// default constructor
 	public Report() { }
+	
+	// constructor
+	public Report(MessageSender ms) {
+		this.ms = ms;
+	}
 	
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
@@ -22,11 +29,11 @@ public class Report {
 					message += args[i] + " ";
 				}
 				
-				MessageSender.sendMessage(e.getChannel(), false,   "Reporter:	 " + e.getAuthor().mention() + 
+				ms.sendMessage(e.getChannel(), false,   "Reporter:	 " + e.getAuthor().mention() + 
 																 "\nRecipient:	" + reportedUser +
 																 "\n\nReport message:\n" + message);
 			} else {
-				MessageSender.sendMessage(e.getChannel(), true, "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
+				ms.sendMessage(e.getChannel(), true, "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
 			}
 		}
 	}

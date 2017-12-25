@@ -5,11 +5,18 @@ import sx.blah.discord.handle.obj.IChannel;
 
 public class ChannelBinder {
 
+	private MessageSender ms;
+	
 	// default constructor
 	public ChannelBinder() { }
 	
-	public static void bindChannel(IChannel channel) {
+	// constructor
+	public ChannelBinder(MessageSender ms) {
+		this.ms = ms;
+	}
+		
+	public void bindChannel(IChannel channel) {
 		BoundChannel.BOUND_CHANNEL.setBoundChannel(channel);
-		MessageSender.sendMessage(channel, true, "Output-channel bound to: " + channel.mention());
+		ms.sendMessage(channel, true, "Output-channel bound to: " + channel.mention());
 	}
 }

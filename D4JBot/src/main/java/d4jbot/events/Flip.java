@@ -9,8 +9,15 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Flip {
 
+	private MessageSender ms;
+	
 	// default constructor
 	public Flip() { }
+	
+	// constructor
+	public Flip(MessageSender ms) {
+		this.ms = ms;
+	}
 	
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
@@ -20,7 +27,7 @@ public class Flip {
 			
 			result = (rng.nextBoolean()) ? "Heads" : "Tails"; 
 
-			MessageSender.sendMessage(e.getChannel(), true, result);
+			ms.sendMessage(e.getChannel(), true, result);
 		}
 	}
 }
