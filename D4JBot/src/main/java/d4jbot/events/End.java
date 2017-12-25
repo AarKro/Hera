@@ -30,7 +30,7 @@ public class End {
 							"\n\nVote was started by " + vm.getVoteOrganiser().mention() + "\nVote was ended by " + e.getAuthor().mention());
 					vm.resetVote();
 				} else {
-					ms.sendMessage(e.getChannel(), true, "You must have stated the vote or be an Administrator.");
+					ms.sendMessage(e.getChannel(), true, "You must have started the vote or be an Administrator to end the vote.");
 				}
 			} else {
 				ms.sendMessage(e.getChannel(), true, "There is no active vote to vote on.\nType $vote <topic> to start a vote.");
