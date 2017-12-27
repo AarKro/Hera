@@ -29,7 +29,8 @@ public class Help {
 														 +"\n- y"
 														 +"\n- n"
 														 +"\n- end"
-														 +"\n- help");
+														 +"\n- help"
+														 +"\nFor more information visit https://github.com/Chromeroni/D4JBot");
 		}
 	}
 }
