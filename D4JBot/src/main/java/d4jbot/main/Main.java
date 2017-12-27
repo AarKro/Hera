@@ -1,5 +1,6 @@
 package d4jbot.main;
 
+import d4jbot.events.Begone;
 import d4jbot.events.Bind;
 import d4jbot.events.End;
 import d4jbot.events.Flip;
@@ -37,6 +38,7 @@ public class Main {
 		ed.registerListener(new N(ms, vm));
 		ed.registerListener(new End(ms, vm));
 		ed.registerListener(new Version(ms));
+		ed.registerListener(new Begone(ms));
 	}
 	
 }

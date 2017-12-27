@@ -30,6 +30,7 @@ public class Help {
 														 +"\n- n"
 														 +"\n- end"
 														 +"\n- version"
+														 +"\n- begone"
 														 +"\n- help"
 														 +"\nFor more information visit https://github.com/Chromeroni/D4JBot");
 		}
