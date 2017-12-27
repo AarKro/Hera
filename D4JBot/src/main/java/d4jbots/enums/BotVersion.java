@@ -1,12 +1,12 @@
 package d4jbots.enums;
 
-public enum Version {
+public enum BotVersion {
 	VERSION("v0.3.2");
 	
 	private String version;
 	
 	// constructor
-	private Version(String version) {
+	private BotVersion(String version) {
 		this.version = version;
 	}
 

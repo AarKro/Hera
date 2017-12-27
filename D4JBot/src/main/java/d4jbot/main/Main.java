@@ -7,7 +7,7 @@ import d4jbot.events.Help;
 import d4jbot.events.N;
 import d4jbot.events.Report;
 import d4jbot.events.Teams;
-import d4jbot.events.V;
+import d4jbot.events.Version;
 import d4jbot.events.Vote;
 import d4jbot.events.Y;
 import d4jbot.misc.ChannelBinder;
@@ -36,7 +36,7 @@ public class Main {
 		ed.registerListener(new Y(ms, vm));
 		ed.registerListener(new N(ms, vm));
 		ed.registerListener(new End(ms, vm));
-		ed.registerListener(new V(ms));
+		ed.registerListener(new Version(ms));
 	}
 	
 }
