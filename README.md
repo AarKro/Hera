@@ -1,8 +1,7 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
 
-Bot-prefix: $
-
+Bot-prefix: $  
 Version: v0.3.2
 
 <h2>Available commands</h2>
@@ -53,3 +52,8 @@ Vote no for the currently active vote.
 End the currently active vote.  
 Only usable for the vote organiser or Administrators.
 >Syntax: $end
+
+<h3>v</h3>
+
+Returns the current version of Hera.  
+>Syntax: $v
