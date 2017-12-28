@@ -35,6 +35,7 @@ public class Begone {
 					for(int i = 1; i < args.length; i++) {
 						username += args[i] + " ";
 					}
+					username = username.trim();
 					
 //					StringBuilder sb = new StringBuilder(username);
 //					sb.insert(2, "!");
@@ -50,7 +51,7 @@ public class Begone {
 									IVoiceChannel moveTo = e.getGuild().getVoiceChannels().get(rnd.nextInt(e.getGuild().getVoiceChannels().size()));
 									user.moveToVoiceChannel(moveTo);
 									success = true;
-									ms.sendMessage(e.getChannel(), true, user.mention() + " moved to " + moveTo.mention());
+									ms.sendMessage(e.getChannel(), true, user.mention() + " moved to " + moveTo.getName());
 									break;
 								} catch(MissingPermissionsException error) { }
 							}
