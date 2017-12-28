@@ -26,7 +26,7 @@ public class Begone {
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "begone")) {
-			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
+			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR) || e.getAuthor().getRolesForGuild(e.getGuild()).contains(e.getGuild().getRolesByName("BeGone").get(0))) {
 				String[] args = e.getMessage().getContent().split(" ");
 
 				if(args.length > 1) {
@@ -60,7 +60,7 @@ public class Begone {
 					}
 					
 				} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $begone!\nSyntax: $begone <name/nickname>"); 
-			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server to use this command.");
+			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server or possess the BeGone role to use this command.");
 		}
 	}
 }
