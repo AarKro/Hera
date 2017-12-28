@@ -30,14 +30,20 @@ public class Begone {
 				String[] args = e.getMessage().getContent().split(" ");
 
 				if(args.length > 1) {
+				
+					String username = "";
+					for(int i = 1; i < args.length; i++) {
+						username += args[i] + " ";
+					}
 					
-					//				StringBuilder sb = new StringBuilder(args[1]);
-					//				sb.insert(2, "!");
-					
+//					StringBuilder sb = new StringBuilder(username);
+//					sb.insert(2, "!");
+//					Does not work :/
+																		
 					Random rnd = new Random();
 					for(IUser user : e.getGuild().getUsers()) {
 						
-						if(args[1].equals(user.getName()) || args[1].equals(user.getNicknameForGuild(e.getGuild()))/* || sb.equals(user.mention())*/ ) {
+						if(username.equals(user.getName()) || username.equals(user.getNicknameForGuild(e.getGuild()))/* || sb.equals(user.mention())*/ ) {
 							boolean success = false;
 							while(!success) {
 								try {

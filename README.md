@@ -1,9 +1,8 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
 
-
 Bot-prefix: $  
-Version: v0.3.3
+Version: v0.3.4
 
 <h2>Available commands</h2>
 
@@ -58,3 +57,9 @@ Only usable for the vote organiser or Administrators.
 
 Returns the current version of Hera.  
 >Syntax: $v
+
+<h3>begone</h3>
+
+Moves the user (parameter) to a random channel in the same server for which they have the right permissions.  
+The parameter can be a name or nickname, but not a mention (@name).  
+>Syntax: $begone <name/nickname>
