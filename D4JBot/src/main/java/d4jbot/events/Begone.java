@@ -7,6 +7,7 @@ import d4jbots.enums.BotPrefix;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.util.MissingPermissionsException;
 
@@ -27,25 +28,31 @@ public class Begone {
 		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "begone")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
 				String[] args = e.getMessage().getContent().split(" ");
-				Random rnd = new Random();
-				
-				for(IUser user : e.getGuild().getUsers()) {
+
+				if(args.length > 1) {
 					
-					if(args[1].equals(user.getName()) || args[1].equals(user.getNicknameForGuild(e.getGuild()))) {
-						boolean success = false;
-						while(!success) {
-							try {
-								user.moveToVoiceChannel(e.getGuild().getVoiceChannels().get(rnd.nextInt(e.getGuild().getVoiceChannels().size())));
-								success = true;
-								break;
-							} catch(MissingPermissionsException error) {
-								success = false;
-							}
-						}
+					//				StringBuilder sb = new StringBuilder(args[1]);
+					//				sb.insert(2, "!");
+					
+					Random rnd = new Random();
+					for(IUser user : e.getGuild().getUsers()) {
 						
+						if(args[1].equals(user.getName()) || args[1].equals(user.getNicknameForGuild(e.getGuild()))/* || sb.equals(user.mention())*/ ) {
+							boolean success = false;
+							while(!success) {
+								try {
+									IVoiceChannel moveTo = e.getGuild().getVoiceChannels().get(rnd.nextInt(e.getGuild().getVoiceChannels().size()));
+									user.moveToVoiceChannel(moveTo);
+									success = true;
+									ms.sendMessage(e.getChannel(), true, user.mention() + " moved to " + moveTo.mention());
+									break;
+								} catch(MissingPermissionsException error) { }
+							}
+							
+						}
 					}
-				}
 					
+				} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $begone!\nSyntax: $begone <name/nickname>"); 
 			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server to use this command.");
 		}
 	}
