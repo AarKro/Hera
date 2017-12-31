@@ -1,7 +1,7 @@
 package d4jbots.enums;
 
 public enum BotVersion {
-	VERSION("v0.3.5");
+	VERSION("v0.4.0");
 	
 	private String version;
 	

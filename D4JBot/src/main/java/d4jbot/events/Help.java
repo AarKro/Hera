@@ -32,6 +32,7 @@ public class Help {
 														 +"\n- version"
 														 +"\n- begone"
 														 +"\n- help"
+														 +"\n- motd"
 														 +"\nFor more information visit https://github.com/Chromeroni/D4JBot");
 		}
 	}

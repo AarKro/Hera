@@ -5,6 +5,7 @@ import d4jbot.events.Bind;
 import d4jbot.events.End;
 import d4jbot.events.Flip;
 import d4jbot.events.Help;
+import d4jbot.events.Motd;
 import d4jbot.events.N;
 import d4jbot.events.Report;
 import d4jbot.events.Teams;
@@ -13,6 +14,7 @@ import d4jbot.events.Vote;
 import d4jbot.events.Y;
 import d4jbot.misc.ChannelBinder;
 import d4jbot.misc.ClientManager;
+import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventDispatcher;
@@ -28,6 +30,7 @@ public class Main {
 		MessageSender ms = new MessageSender();
 		ChannelBinder cb = new ChannelBinder(ms);
 		VoteManager vm = new VoteManager();
+		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
 		
 		EventDispatcher ed = cm.getiDiscordClient().getDispatcher();
 		ed.registerListener(new Bind(ms, cb));
@@ -41,6 +44,7 @@ public class Main {
 		ed.registerListener(new End(ms, vm));
 		ed.registerListener(new Version(ms));
 		ed.registerListener(new Begone(ms));
+		ed.registerListener(new Motd(ms, motdm));
 		
 		Runnable runnable = new Runnable() {
 

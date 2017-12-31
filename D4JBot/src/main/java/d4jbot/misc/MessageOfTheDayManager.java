@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
@@ -16,6 +17,8 @@ public class MessageOfTheDayManager {
 
 	private MessageSender ms;
 	private ClientManager cm;
+	private Random rnd;
+	private DateFormat df;
 	private ArrayList<String> messagesOfTheDay;
 	
 	// default constructor
@@ -25,6 +28,8 @@ public class MessageOfTheDayManager {
 	public MessageOfTheDayManager(MessageSender ms, ClientManager cm) {
 		this.ms = ms;
 		this.cm = cm;
+		this.rnd = new Random();
+		this.df = new SimpleDateFormat("dd.MM.yyyy");
 		
 		ArrayList<String> messagesOfTheDay = new ArrayList<String>();
 		messagesOfTheDay.add("Banging your head against a wall burns 150 calories an hour.");
@@ -72,8 +77,6 @@ public class MessageOfTheDayManager {
 
 	public void writteMessageOfTheDay() {
 		
-		Random rnd = new Random();
-		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		String today = df.format(new Date());
 		
 		for(IGuild iGuild : cm.getiDiscordClient().getGuilds()) {
@@ -97,5 +100,14 @@ public class MessageOfTheDayManager {
 				
 			} else System.out.println("No channel \"general\" found.");
 		}
+	}
+	
+	public void setMessageOfTheDay(MessageReceivedEvent e, String message) {
+		String today = df.format(new Date());
+
+		List<IChannel> iChannels = e.getGuild().getChannelsByName("general");
+		if(!iChannels.isEmpty()) {
+			ms.sendMessage(iChannels.get(0), true, "Message of the day: \n" + message + "\n" + today);
+		} else ms.sendMessage(e.getChannel(), true, "No channel \"general\" found.");
 	}
 }
