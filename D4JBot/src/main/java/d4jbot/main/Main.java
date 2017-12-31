@@ -16,13 +16,15 @@ import d4jbot.misc.ClientManager;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventDispatcher;
+import sx.blah.discord.handle.obj.ActivityType;
+import sx.blah.discord.handle.obj.StatusType;
 
 public class Main {
 	
 	public static void main(String[] args) {
 		// to add bot to a server: https://discordapp.com/oauth2/authorize?&client_id=389175473030037504&scope=bot&permissions=0
 		
-		ClientManager cm = new ClientManager("Mzg5MTc1NDczMDMwMDM3NTA0.DR79nw.ylrL1aAd-LsQdpHAbN2kcgsHIuM");
+		final ClientManager cm = new ClientManager("Mzg5MTc1NDczMDMwMDM3NTA0.DR79nw.ylrL1aAd-LsQdpHAbN2kcgsHIuM");
 		MessageSender ms = new MessageSender();
 		ChannelBinder cb = new ChannelBinder(ms);
 		VoteManager vm = new VoteManager();
@@ -39,6 +41,22 @@ public class Main {
 		ed.registerListener(new End(ms, vm));
 		ed.registerListener(new Version(ms));
 		ed.registerListener(new Begone(ms));
+		
+		Runnable runnable = new Runnable() {
+
+			public void run() {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
+			}
+			
+		};
+
+		Thread thread = new Thread(runnable);
+		thread.start();
+		
 	}
-	
 }

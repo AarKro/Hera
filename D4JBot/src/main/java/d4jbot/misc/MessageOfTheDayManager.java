@@ -1,7 +1,5 @@
 package d4jbot.misc;
 
-import java.util.Timer;
-
 public class MessageOfTheDayManager {
 
 	private MessageSender ms;
@@ -18,7 +16,7 @@ public class MessageOfTheDayManager {
 				while (true) {
 					writteMessageOfTheDay();
 					try {
-						Thread.sleep(3600);
+						Thread.sleep(3600000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
