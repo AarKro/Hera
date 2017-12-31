@@ -27,6 +27,13 @@ public class Main {
 		// to add bot to a server: https://discordapp.com/oauth2/authorize?&client_id=389175473030037504&scope=bot&permissions=0
 		
 		final ClientManager cm = new ClientManager("Mzg5MTc1NDczMDMwMDM3NTA0.DR79nw.ylrL1aAd-LsQdpHAbN2kcgsHIuM");
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
 		MessageSender ms = new MessageSender();
 		ChannelBinder cb = new ChannelBinder(ms);
 		VoteManager vm = new VoteManager();
@@ -46,21 +53,6 @@ public class Main {
 		ed.registerListener(new Begone(ms));
 		ed.registerListener(new Motd(ms, motdm));
 		
-		Runnable runnable = new Runnable() {
-
-			public void run() {
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
-			}
-			
-		};
-
-		Thread thread = new Thread(runnable);
-		thread.start();
-		
+		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}
 }
