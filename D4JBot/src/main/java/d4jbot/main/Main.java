@@ -1,5 +1,6 @@
 package d4jbot.main;
 
+import d4jbot.events.AutoAssignRole;
 import d4jbot.events.Begone;
 import d4jbot.events.Bind;
 import d4jbot.events.End;
@@ -37,7 +38,7 @@ public class Main {
 		MessageSender ms = new MessageSender();
 		ChannelBinder cb = new ChannelBinder(ms);
 		VoteManager vm = new VoteManager();
-		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
+		//MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
 		
 		EventDispatcher ed = cm.getiDiscordClient().getDispatcher();
 		ed.registerListener(new Bind(ms, cb));
@@ -51,7 +52,8 @@ public class Main {
 		ed.registerListener(new End(ms, vm));
 		ed.registerListener(new Version(ms));
 		ed.registerListener(new Begone(ms));
-		ed.registerListener(new Motd(ms, motdm));
+		ed.registerListener(new AutoAssignRole());
+		//ed.registerListener(new Motd(ms, motdm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

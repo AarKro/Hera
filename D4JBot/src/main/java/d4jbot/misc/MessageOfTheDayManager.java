@@ -77,30 +77,28 @@ public class MessageOfTheDayManager {
 
 	public void writteMessageOfTheDay() {
 		
-		System.out.println("1");
 		String today = df.format(new Date());
 		
 		for(IGuild iGuild : cm.getiDiscordClient().getGuilds()) {
 			
-			System.out.println("2");
 			List<IChannel> iChannels = iGuild.getChannelsByName("general");
 			if(!iChannels.isEmpty()) {
 			
-				System.out.println("3");
 				List<IMessage> iMessages = iChannels.get(iChannels.size() - 1).getMessageHistory();
+				for(IMessage m : iMessages) {
+					System.out.println(m.getContent());
+				}
 				iMessages = iMessages.stream()
-									 .filter(f -> f.getAuthor() == cm.getiDiscordClient().getOurUser())
-									 .filter(f -> f.getContent().startsWith("Message of the day: "))
+									 .filter(f -> f.getAuthor() != cm.getiDiscordClient().getOurUser())
+									 .filter(f -> !f.getContent().startsWith("Message of the day: "))
 									 .collect(Collectors.toList());
-				
+
 				if(!iMessages.isEmpty()) {
-					System.out.println("4");
+					System.out.println(iMessages.get(0).getContent());
 					if(!iMessages.get(0).getContent().endsWith(today)) {
-						System.out.println("5");
 						ms.sendMessage(iChannels.get(iChannels.size() - 1), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())) + "\n" + today);
 					}
 				} else {
-					System.out.println("6");
 					ms.sendMessage(iChannels.get(iChannels.size() - 1), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())) + "\n" + today);
 				}
 				
