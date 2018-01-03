@@ -33,7 +33,7 @@ public class Motd {
 				if(list.size() > 1) {
 					String motd = "";
 					for(int i = 1; i < list.size(); i++) {
-						motd += list.get(i);
+						motd += list.get(i) + " ";
 					}
 					
 					motdm.setMessageOfTheDay(e, motd);
