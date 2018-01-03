@@ -1,7 +1,6 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
-
-
+  
 Bot-prefix: $  
 Version: v0.4.0
 
