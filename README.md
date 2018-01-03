@@ -69,3 +69,10 @@ The parameter can be a name or nickname, but not a mention (@name).
 
 Sets the message of the day an writes it in a general channel.  
 >Syntax: $motd \<messageOfTheDay\>
+
+<h2>TODO</h2>
+
+* Rename the mistakenly named d4jbots.enums package to d4jbot.enums . 
+* Add second url with clientsecret "-fTYsjrxalkBaLTlF4_Pz4GKC9a_kcLi". This adds the Hera Dev bot to a server, which should be used for testing in the future. Master branch shall still use the normal clientsecret.
+* Add music functionality.
+* Fix Message of the day functionality. Program a single Thread which checks every hour if it is a new date versus the last time it checked, if so post a random message of the day.
