@@ -2,8 +2,8 @@ package d4jbot.events;
 
 import java.util.Random;
 
+import d4jbot.enums.BotPrefix;
 import d4jbot.misc.MessageSender;
-import d4jbots.enums.BotPrefix;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 

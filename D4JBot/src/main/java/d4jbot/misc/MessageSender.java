@@ -2,7 +2,7 @@ package d4jbot.misc;
 
 import java.awt.Color;
 
-import d4jbots.enums.BoundChannel;
+import d4jbot.enums.BoundChannel;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;

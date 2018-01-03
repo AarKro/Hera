@@ -1,8 +1,9 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
   
+  
 Bot-prefix: $  
-Version: v0.4.0
+Version: v0.4.1
 
 <h2>Available commands</h2>
 
@@ -71,7 +72,5 @@ Sets the message of the day an writes it in a general channel.
 
 <h2>TODO</h2>
 
-* Rename the mistakenly named d4jbots.enums package to d4jbot.enums . 
-* Add second url with clientsecret "-fTYsjrxalkBaLTlF4_Pz4GKC9a_kcLi". This adds the Hera Dev bot to a server, which should be used for testing in the future. Master branch shall still use the normal clientsecret.
 * Add music functionality.
 * Fix Message of the day functionality. Program a single Thread which checks every hour if it is a new date versus the last time it checked, if so post a random message of the day.

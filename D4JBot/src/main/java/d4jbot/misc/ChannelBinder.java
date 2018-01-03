@@ -1,6 +1,6 @@
 package d4jbot.misc;
 
-import d4jbots.enums.BoundChannel;
+import d4jbot.enums.BoundChannel;
 import sx.blah.discord.handle.obj.IChannel;
 
 public class ChannelBinder {
