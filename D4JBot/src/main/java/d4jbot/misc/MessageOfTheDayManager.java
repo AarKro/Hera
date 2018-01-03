@@ -20,6 +20,7 @@ public class MessageOfTheDayManager {
 	private Random rnd;
 	private DateFormat df;
 	private ArrayList<String> messagesOfTheDay;
+	private String lastPosted;
 	
 	// default constructor
 	public MessageOfTheDayManager() { }
@@ -30,6 +31,7 @@ public class MessageOfTheDayManager {
 		this.cm = cm;
 		this.rnd = new Random();
 		this.df = new SimpleDateFormat("dd.MM.yyyy");
+		this.lastPosted = "";
 		
 		ArrayList<String> messagesOfTheDay = new ArrayList<String>();
 		messagesOfTheDay.add("Banging your head against a wall burns 150 calories an hour.");
@@ -76,42 +78,14 @@ public class MessageOfTheDayManager {
 	}
 
 	public void writteMessageOfTheDay() {
-		
 		String today = df.format(new Date());
-		
-		for(IGuild iGuild : cm.getiDiscordClient().getGuilds()) {
-			
-			List<IChannel> iChannels = iGuild.getChannelsByName("general");
-			if(!iChannels.isEmpty()) {
-			
-				List<IMessage> iMessages = iChannels.get(iChannels.size() - 1).getMessageHistory();
-				for(IMessage m : iMessages) {
-					System.out.println(m.getContent());
-				}
-				iMessages = iMessages.stream()
-									 .filter(f -> f.getAuthor() != cm.getiDiscordClient().getOurUser())
-									 .filter(f -> !f.getContent().startsWith("Message of the day: "))
-									 .collect(Collectors.toList());
-
-				if(!iMessages.isEmpty()) {
-					System.out.println(iMessages.get(0).getContent());
-					if(!iMessages.get(0).getContent().endsWith(today)) {
-						ms.sendMessage(iChannels.get(iChannels.size() - 1), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())) + "\n" + today);
-					}
-				} else {
-					ms.sendMessage(iChannels.get(iChannels.size() - 1), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())) + "\n" + today);
-				}
-				
-			} else System.out.println("No channel \"general\" found.");
+		if(!lastPosted.equals(today)){
+			ms.sendMessage(cm.getiDiscordClient().getGuilds().get(0).getDefaultChannel(), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
+			this.lastPosted = today;
 		}
 	}
-	
-	public void setMessageOfTheDay(MessageReceivedEvent e, String message) {
-		String today = df.format(new Date());
 
-		List<IChannel> iChannels = e.getGuild().getChannelsByName("general");
-		if(!iChannels.isEmpty()) {
-			ms.sendMessage(iChannels.get(0), true, "Message of the day: \n" + message + "\n" + today);
-		} else ms.sendMessage(e.getChannel(), true, "No channel \"general\" found.");
+	public void setMessageOfTheDay(MessageReceivedEvent e, String message) {
+		ms.sendMessage(e.getGuild().getDefaultChannel(), true, "Message of the day: \n" + message);
 	}
 }

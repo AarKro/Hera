@@ -6,27 +6,27 @@ import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class N {
+public class Yes {
 	
 	private MessageSender ms;
 	private VoteManager vm;
 	
 	// default constructor
-	public N() { }
+	public Yes() { }
 	
 	// constructor
-	public N(MessageSender ms, VoteManager vm) {
+	public Yes(MessageSender ms, VoteManager vm) {
 		this.ms = ms;
 		this.vm = vm;
 	}
 			
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "n")) {
+		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "yes")) {
 			if(vm.isVoteActive()) {
 				if(!vm.hasAlreadyVoted(e.getAuthor())) {
 					vm.addUserToAlreadyVoted(e.getAuthor());
-					vm.setCountNo(vm.getCountNo() + 1);
+					vm.setCountYes(vm.getCountYes() + 1);
 				} else {
 					ms.sendMessage(e.getChannel(), true, "You have already voted!");
 				}

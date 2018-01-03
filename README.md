@@ -1,9 +1,9 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
-  
-  
-Bot-prefix: $  
-Version: v0.4.1
+
+
+Bot-prefix: $
+Version: v0.4.2
 
 <h2>Available commands</h2>
 
@@ -38,15 +38,15 @@ Returns the given parameters / names randomly split into 2 teams.
 Startes a vote about the given topic.  
 >Syntax: $vote \<topic\>
 
-<h3>y</h3>
+<h3>yes</h3>
 
 Vote yes for the currently active vote.  
->Syntax: $y
+>Syntax: $yes
 
-<h3>n</h3>
+<h3>no</h3>
 
 Vote no for the currently active vote.  
->Syntax: $n
+>Syntax: $no
 
 <h3>end</h3>
 
@@ -70,7 +70,7 @@ The parameter can be a name or nickname, but not a mention (@name).
 Sets the message of the day an writes it in a general channel.  
 >Syntax: $motd \<messageOfTheDay\>
 
-<h2>TODO</h2>
+<h2>TODO for releas version v1.0.0</h2>
 
 * Add music functionality.
-* Fix Message of the day functionality. Program a single Thread which checks every hour if it is a new date versus the last time it checked, if so post a random message of the day.
+

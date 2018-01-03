@@ -34,7 +34,7 @@ public class Vote {
 					
 					vm.startVote(topic, e.getAuthor());
 					
-					ms.sendMessage(e.getChannel(), true, "Vote started!\n\nTopic: " + topic + "\nYes ($y) or No ($n).\n\nType $end to end the vote.");
+					ms.sendMessage(e.getChannel(), true, "Vote started!\n\nTopic: " + topic + "\nYes ($yes) or No ($no).\n\nType $end to end the vote.");
 				} else {
 					ms.sendMessage(e.getChannel(), true, "Give a topic to vote on.\n$vote <topic>");
 				}
