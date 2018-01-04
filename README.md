@@ -1,8 +1,7 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
 
-
-Bot-prefix: $
+Bot-prefix: $  
 Version: v0.4.2
 
 <h2>Available commands</h2>
@@ -69,8 +68,3 @@ The parameter can be a name or nickname, but not a mention (@name).
 
 Sets the message of the day an writes it in a general channel.  
 >Syntax: $motd \<messageOfTheDay\>
-
-<h2>TODO for releas version v1.0.0</h2>
-
-* Add music functionality.
-
