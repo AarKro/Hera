@@ -8,12 +8,13 @@ import d4jbot.events.Flip;
 import d4jbot.events.Help;
 import d4jbot.events.Motd;
 import d4jbot.events.No;
+import d4jbot.events.Play;
 import d4jbot.events.Report;
 import d4jbot.events.Teams;
 import d4jbot.events.Version;
 import d4jbot.events.Vote;
 import d4jbot.events.Yes;
-import d4jbot.misc.ChannelBinder;
+import d4jbot.misc.AudioQueueManager;
 import d4jbot.misc.ClientManager;
 import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
@@ -39,12 +40,12 @@ public class Main {
 		}
 		
 		MessageSender ms = new MessageSender();
-		ChannelBinder cb = new ChannelBinder(ms);
 		VoteManager vm = new VoteManager();
+		AudioQueueManager aqm = new AudioQueueManager(cm.getiDiscordClient().getGuilds().get(0), ms);
 		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
 		
 		EventDispatcher ed = cm.getiDiscordClient().getDispatcher();
-		ed.registerListener(new Bind(ms, cb));
+		ed.registerListener(new Bind(ms));
 		ed.registerListener(new Report(ms));
 		ed.registerListener(new Flip(ms));
 		ed.registerListener(new Teams(ms));
@@ -57,6 +58,7 @@ public class Main {
 		ed.registerListener(new Begone(ms));
 		ed.registerListener(new AutoAssignRole());
 		ed.registerListener(new Motd(ms, motdm));
+		ed.registerListener(new Play(ms, aqm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

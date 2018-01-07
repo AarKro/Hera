@@ -23,8 +23,8 @@ public class MessageSender {
 		try {
 			if(forceChannel) {
 				defaultChannel.sendMessage(em);
-			} else if(BoundChannel.BOUND_CHANNEL.getBoundChannel() != null) {
-				BoundChannel.BOUND_CHANNEL.getBoundChannel().sendMessage(em);
+			} else if(BoundChannel.REPORT.getBoundChannel() != null) {
+				BoundChannel.REPORT.getBoundChannel().sendMessage(em);
 			} else {
 				em.description = "Bind me to a channel first ($bind).";
 				defaultChannel.sendMessage(em);
