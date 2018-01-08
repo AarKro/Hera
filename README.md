@@ -1,9 +1,8 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
 
-
 Bot-prefix: $  
-Version: v0.4.2
+Version: v0.4.3
 
 <h2>Available commands</h2>
 
@@ -19,9 +18,9 @@ Flips a coin. Return "Heads" or "Tails" with a 50% chance.
 
 <h3>bind</h3>
 
-Binds the output-channel for reports to the channel the command was written in.  
+Binds the output-channel for the respective function (parameter) to the channel the command was written in.  
 Administrator rights needed for execution.  
->Syntax: $bind
+>Syntax: $bind \<report/music\>
 
 <h3>report</h3>
 
@@ -57,7 +56,7 @@ Only usable for the vote organiser or Administrators.
 <h3>version</h3>
 
 Returns the current version of Hera.  
->Syntax: $v
+>Syntax: $version
 
 <h3>begone</h3>
 
