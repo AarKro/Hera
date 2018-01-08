@@ -1,28 +1,28 @@
 package d4jbot.events;
 
+import d4jbot.enums.BotPrefix;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
-import d4jbots.enums.BotPrefix;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class N {
+public class No {
 	
 	private MessageSender ms;
 	private VoteManager vm;
 	
 	// default constructor
-	public N() { }
+	public No() { }
 	
 	// constructor
-	public N(MessageSender ms, VoteManager vm) {
+	public No(MessageSender ms, VoteManager vm) {
 		this.ms = ms;
 		this.vm = vm;
 	}
 			
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "n")) {
+		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "no")) {
 			if(vm.isVoteActive()) {
 				if(!vm.hasAlreadyVoted(e.getAuthor())) {
 					vm.addUserToAlreadyVoted(e.getAuthor());

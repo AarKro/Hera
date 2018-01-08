@@ -2,7 +2,7 @@ package d4jbot.misc;
 
 import java.awt.Color;
 
-import d4jbots.enums.BoundChannel;
+import d4jbot.enums.BoundChannel;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
@@ -23,8 +23,8 @@ public class MessageSender {
 		try {
 			if(forceChannel) {
 				defaultChannel.sendMessage(em);
-			} else if(BoundChannel.BOUND_CHANNEL.getBoundChannel() != null) {
-				BoundChannel.BOUND_CHANNEL.getBoundChannel().sendMessage(em);
+			} else if(BoundChannel.REPORT.getBoundChannel() != null) {
+				BoundChannel.REPORT.getBoundChannel().sendMessage(em);
 			} else {
 				em.description = "Bind me to a channel first ($bind).";
 				defaultChannel.sendMessage(em);

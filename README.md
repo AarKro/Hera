@@ -1,9 +1,8 @@
 <h1>Hera</h1>
 Hera is a Discord chatbot written in Java using the Discord4Java library.
 
-Bot-prefix: $
-
-Version: v0.3.2
+Bot-prefix: $  
+Version: v0.4.3
 
 <h2>Available commands</h2>
 
@@ -19,9 +18,9 @@ Flips a coin. Return "Heads" or "Tails" with a 50% chance.
 
 <h3>bind</h3>
 
-Binds the output-channel for reports to the channel the command was written in.  
+Binds the output-channel for the respective function (parameter) to the channel the command was written in.  
 Administrator rights needed for execution.  
->Syntax: $bind
+>Syntax: $bind \<report/music\>
 
 <h3>report</h3>
 
@@ -38,18 +37,34 @@ Returns the given parameters / names randomly split into 2 teams.
 Startes a vote about the given topic.  
 >Syntax: $vote \<topic\>
 
-<h3>y</h3>
+<h3>yes</h3>
 
 Vote yes for the currently active vote.  
->Syntax: $y
+>Syntax: $yes
 
-<h3>n</h3>
+<h3>no</h3>
 
 Vote no for the currently active vote.  
->Syntax: $n
+>Syntax: $no
 
 <h3>end</h3>
 
 End the currently active vote.  
 Only usable for the vote organiser or Administrators.
 >Syntax: $end
+
+<h3>version</h3>
+
+Returns the current version of Hera.  
+>Syntax: $version
+
+<h3>begone</h3>
+
+Moves the user (parameter) to a random channel in the same server for which they have the right permissions.  
+The parameter can be a name or nickname, but not a mention (@name).  
+>Syntax: $begone \<name/nickname\>
+
+<h3>motd</h3>
+
+Sets the message of the day an writes it in a general channel.  
+>Syntax: $motd \<messageOfTheDay\>

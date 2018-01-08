@@ -1,9 +1,9 @@
-package d4jbots.enums;
+package d4jbot.enums;
 
 import sx.blah.discord.handle.obj.IChannel;
 
 public enum BoundChannel {
-	BOUND_CHANNEL(null);
+	REPORT(null), MUSIC(null);
 	
 	private IChannel boundChannel;
 	

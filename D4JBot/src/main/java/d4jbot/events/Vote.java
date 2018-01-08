@@ -1,8 +1,8 @@
 package d4jbot.events;
 
+import d4jbot.enums.BotPrefix;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
-import d4jbots.enums.BotPrefix;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -34,7 +34,7 @@ public class Vote {
 					
 					vm.startVote(topic, e.getAuthor());
 					
-					ms.sendMessage(e.getChannel(), true, "Vote started!\n\nTopic: " + topic + "\nYes ($y) or No ($n).\n\nType $end to end the vote.");
+					ms.sendMessage(e.getChannel(), true, "Vote started!\n\nTopic: " + topic + "\nYes ($yes) or No ($no).\n\nType $end to end the vote.");
 				} else {
 					ms.sendMessage(e.getChannel(), true, "Give a topic to vote on.\n$vote <topic>");
 				}

@@ -1,7 +1,7 @@
 package d4jbot.events;
 
+import d4jbot.enums.BotPrefix;
 import d4jbot.misc.MessageSender;
-import d4jbots.enums.BotPrefix;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -26,10 +26,13 @@ public class Help {
 														 +"\n- flip"
 														 +"\n- teams"
 														 +"\n- vote"
-														 +"\n- y"
-														 +"\n- n"
+														 +"\n- yes"
+														 +"\n- no"
 														 +"\n- end"
+														 +"\n- version"
+														 +"\n- begone"
 														 +"\n- help"
+														 +"\n- motd"
 														 +"\nFor more information visit https://github.com/Chromeroni/D4JBot");
 		}
 	}
