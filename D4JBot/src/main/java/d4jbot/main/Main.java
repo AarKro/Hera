@@ -28,10 +28,10 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// to add Hera to a server: https://discordapp.com/oauth2/authorize?&client_id=398542528581861386&scope=bot&permissions=0
-		ClientManager cm = new ClientManager("Mzk4NTQyNTI4NTgxODYxMzg2.DTAPaA.oHpgHwl6GzoVpFWBbFXsCuccF4U");
+		//ClientManager cm = new ClientManager("Mzk4NTQyNTI4NTgxODYxMzg2.DTAPaA.oHpgHwl6GzoVpFWBbFXsCuccF4U");
 
 		// to add Hera dev to a server: https://discordapp.com/oauth2/authorize?&client_id=398019889417420802&scope=bot&permissions=0
-		// ClientManager cm = new ClientManager("Mzk4MDE5ODg5NDE3NDIwODAy.DS6Qgw.tIp07lDjYYZZLqVjqjKI6PyNAgc");
+		ClientManager cm = new ClientManager("Mzk4MDE5ODg5NDE3NDIwODAy.DS6Qgw.tIp07lDjYYZZLqVjqjKI6PyNAgc");
 		
 		try {
 			Thread.sleep(5000);
