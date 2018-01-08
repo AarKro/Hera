@@ -45,20 +45,23 @@ public class Begone {
 					for(IUser user : e.getGuild().getUsers()) {
 						
 						if(username.equals(user.getName()) || username.equals(user.getNicknameForGuild(e.getGuild()))/* || sb.equals(user.mention())*/ ) {
+						
 							boolean success = false;
 							while(!success) {
-								try {
-									IVoiceChannel moveTo = e.getGuild().getVoiceChannels().get(rnd.nextInt(e.getGuild().getVoiceChannels().size()));
+							
+								IVoiceChannel moveTo = e.getGuild().getVoiceChannels().get(rnd.nextInt(e.getGuild().getVoiceChannels().size()));
+								if(moveTo.getModifiedPermissions(user).contains(Permissions.VOICE_CONNECT)) {
 									user.moveToVoiceChannel(moveTo);
 									success = true;
 									ms.sendMessage(e.getChannel(), true, user.mention() + " moved to " + moveTo.getName());
-									break;
-								} catch(MissingPermissionsException error) { }
+								}															
+						
 							}
-							
+						
 						}
+												
 					}
-					
+			
 				} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $begone.\nSyntax: $begone <name/nickname>"); 
 			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server or possess the BeGone role to use this command.");
 		}
