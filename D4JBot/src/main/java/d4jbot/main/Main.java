@@ -41,8 +41,8 @@ public class Main {
 		
 		MessageSender ms = new MessageSender();
 		VoteManager vm = new VoteManager();
-		//AudioQueueManager aqm = new AudioQueueManager(cm.getiDiscordClient().getGuilds().get(0), ms);
-		//MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
+		AudioQueueManager aqm = new AudioQueueManager(cm.getiDiscordClient().getGuilds().get(0), ms);
+		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
 		
 		EventDispatcher ed = cm.getiDiscordClient().getDispatcher();
 		ed.registerListener(new Bind(ms));
@@ -57,8 +57,8 @@ public class Main {
 		ed.registerListener(new Version(ms));
 		ed.registerListener(new Begone(ms));
 		ed.registerListener(new AutoAssignRole());
-		//ed.registerListener(new Motd(ms, motdm));
-		//ed.registerListener(new Play(ms, aqm));
+		ed.registerListener(new Motd(ms, motdm));
+		ed.registerListener(new Play(ms, aqm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

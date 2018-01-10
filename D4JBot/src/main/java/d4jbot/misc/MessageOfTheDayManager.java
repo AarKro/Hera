@@ -59,7 +59,7 @@ public class MessageOfTheDayManager {
 				while (true) {
 					writteMessageOfTheDay();
 					try {
-						Thread.sleep(3600000);
+						Thread.sleep(3600000);	
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
