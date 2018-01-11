@@ -1,5 +1,9 @@
 package d4jbot.main;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+
 import d4jbot.events.AutoAssignRole;
 import d4jbot.events.Begone;
 import d4jbot.events.Bind;
@@ -14,8 +18,8 @@ import d4jbot.events.Teams;
 import d4jbot.events.Version;
 import d4jbot.events.Vote;
 import d4jbot.events.Yes;
-import d4jbot.misc.AudioQueueManager;
 import d4jbot.misc.ClientManager;
+import d4jbot.misc.GuildAudioPlayerManager;
 import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
@@ -41,9 +45,7 @@ public class Main {
 		
 		MessageSender ms = new MessageSender();
 		VoteManager vm = new VoteManager();
-		AudioQueueManager aqm = new AudioQueueManager(cm.getiDiscordClient().getGuilds().get(0), ms);
-		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
-		
+						
 		EventDispatcher ed = cm.getiDiscordClient().getDispatcher();
 		ed.registerListener(new Bind(ms));
 		ed.registerListener(new Report(ms));
@@ -57,8 +59,15 @@ public class Main {
 		ed.registerListener(new Version(ms));
 		ed.registerListener(new Begone(ms));
 		ed.registerListener(new AutoAssignRole());
+		
+		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
 		ed.registerListener(new Motd(ms, motdm));
-		ed.registerListener(new Play(ms, aqm));
+		
+		AudioPlayerManager apm = new DefaultAudioPlayerManager();
+		AudioSourceManagers.registerRemoteSources(apm);
+		AudioSourceManagers.registerLocalSource(apm);
+		GuildAudioPlayerManager gapm = new GuildAudioPlayerManager(apm);
+		ed.registerListener(new Play(ms, apm, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

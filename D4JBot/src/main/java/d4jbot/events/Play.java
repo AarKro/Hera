@@ -1,10 +1,11 @@
 package d4jbot.events;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import d4jbot.enums.BotPrefix;
-import d4jbot.misc.AudioQueueManager;
+import d4jbot.misc.AudioLoadResultManager;
+import d4jbot.misc.GuildAudioPlayerManager;
+import d4jbot.misc.GuildMusicManager;
 import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -12,32 +13,29 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 public class Play {
 
 	private MessageSender ms;
-	private AudioQueueManager aqm;
-	
+	private AudioPlayerManager apm;
+	private GuildAudioPlayerManager gapm;
+
 	// default constructor
-	public Play() { }
-	
+	public Play() {	}
+
 	// constructor
-	public Play(MessageSender ms, AudioQueueManager aqm) {
+	public Play(MessageSender ms, AudioPlayerManager apm, GuildAudioPlayerManager gapm) {
 		this.ms = ms;
-		this.aqm = aqm;
+		this.apm = apm;
+		this.gapm = gapm;
 	}
-	
+
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "p") || e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "play")) {
+		if (e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "p") || e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "play")) {
+				
 			String[] args = e.getMessage().getContent().split(" ");
 
-			e.getAuthor().getVoiceStateForGuild(e.getGuild()).getChannel().join();
-			
-			URL url;
-			try {
-				url = new URL(args[1]);
-				System.out.println(url.toString());
-				aqm.play(url);
-			} catch (MalformedURLException e1) {
-				System.out.println("ERROR @ Play.java: MalformedURLException");
-			}
+			if (args.length > 1) {
+				GuildMusicManager musicManager = gapm.getGuildAudioPlayer(e.getGuild());
+				apm.loadItemOrdered(musicManager, args[1], new AudioLoadResultManager(e, args[1], ms, musicManager));
+			} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $play | $p.\nSyntax: $play <URL>");
 		}
 	}
 }
