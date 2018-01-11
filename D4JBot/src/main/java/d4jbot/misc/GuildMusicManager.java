@@ -17,4 +17,9 @@ public class GuildMusicManager {
 	public AudioProvider getAudioProvider() {
 		return new AudioProvider(player);
 	}
+	
+	// getters & setters
+	public TrackScheduler getScheduler() {
+		return scheduler;
+	}
 }

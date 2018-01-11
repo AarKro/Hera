@@ -13,6 +13,7 @@ import d4jbot.events.Help;
 import d4jbot.events.Motd;
 import d4jbot.events.No;
 import d4jbot.events.Play;
+import d4jbot.events.Queue;
 import d4jbot.events.Report;
 import d4jbot.events.Teams;
 import d4jbot.events.Version;
@@ -68,6 +69,7 @@ public class Main {
 		AudioSourceManagers.registerLocalSource(apm);
 		GuildAudioPlayerManager gapm = new GuildAudioPlayerManager(apm);
 		ed.registerListener(new Play(ms, apm, gapm));
+		ed.registerListener(new Queue(ms, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}
