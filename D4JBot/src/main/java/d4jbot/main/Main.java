@@ -23,6 +23,7 @@ import d4jbot.events.Version;
 import d4jbot.events.Volume;
 import d4jbot.events.Vote;
 import d4jbot.events.Yes;
+import d4jbot.misc.BindingInitalizer;
 import d4jbot.misc.ClientManager;
 import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
@@ -42,11 +43,16 @@ public class Main {
 		// to add Hera dev Aaron to a server: https://discordapp.com/oauth2/authorize?&client_id=398019889417420802&scope=bot&permissions=0
 		//ClientManager cm = new ClientManager("Mzk4MDE5ODg5NDE3NDIwODAy.DS6Qgw.tIp07lDjYYZZLqVjqjKI6PyNAgc");
 		
+		// to add Hera dev Linus to a server: https://discordapp.com/oauth2/authorize?&client_id=400790650070761472&scope=bot&permissions=0
+        //ClientManager cm = new ClientManager("NDAwNzkwNjUwMDcwNzYxNDcy.DTgw6g.F2prjTmPWXejjAJNAjkEE4hNkTg");
+		
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		
+		BindingInitalizer bindInit = new BindingInitalizer(cm.getiDiscordClient().getGuilds().get(0));
 		
 		MessageSender ms = new MessageSender();
 		VoteManager vm = new VoteManager();

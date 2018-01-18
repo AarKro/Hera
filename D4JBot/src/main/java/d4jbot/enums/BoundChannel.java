@@ -1,15 +1,21 @@
 package d4jbot.enums;
 
+import d4jbot.constants.BotConstants;
+import d4jbot.misc.PropertiesHandler;
 import sx.blah.discord.handle.obj.IChannel;
 
 public enum BoundChannel {
-	REPORT(null), MUSIC(null);
+	REPORT("reportChannel", null), MUSIC("musicChannel", null);
 	
 	private IChannel boundChannel;
+	private String propertyName;
+	
+	PropertiesHandler propertiesHandler;
 	
 	// constructor
-	private BoundChannel(IChannel boundChannel) {
-		this.boundChannel = boundChannel;
+	private BoundChannel(String name, IChannel channel) {
+		boundChannel = channel;
+		propertyName = name;
 	}
 
 	// getters & setters
@@ -19,5 +25,20 @@ public enum BoundChannel {
 
 	public void setBoundChannel(IChannel boundChannel) {
 		this.boundChannel = boundChannel;
+		if (boundChannel != null) {
+			PropertiesHandler propertiesHandler = new PropertiesHandler(BotConstants.BINDING_PROPERTY_LOCATION);
+			propertiesHandler.put(propertyName, "" + boundChannel.getLongID());
+			propertiesHandler.save("binding saved");
+		}
 	}
+
+	public String getPropertyName() {
+		return propertyName;
+	}
+
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+	
+	
 }
