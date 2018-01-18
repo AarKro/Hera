@@ -12,6 +12,10 @@ import d4jbot.constants.BotConstants;
 public class PropertiesHandler extends Properties {
 	File propertyFile;
 	public PropertiesHandler(String propertyName) {
+		File baseLocation = new File(BotConstants.PROPERTIES_BASE_LOCATION);
+		if (!baseLocation.isDirectory()) {
+			baseLocation.mkdirs();
+		}
 		String propertyLocation = BotConstants.PROPERTIES_BASE_LOCATION + propertyName;
 		propertyFile = new File(propertyLocation);
 
