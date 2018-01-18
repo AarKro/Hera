@@ -1,24 +1,18 @@
 package d4jbot.misc;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
 
 public class MessageOfTheDayManager {
 
 	private MessageSender ms;
 	private ClientManager cm;
 	private Random rnd;
-	private DateFormat df;
+	private DateTimeFormatter dtf;
 	private ArrayList<String> messagesOfTheDay;
 	private String lastPosted;
 	
@@ -30,7 +24,7 @@ public class MessageOfTheDayManager {
 		this.ms = ms;
 		this.cm = cm;
 		this.rnd = new Random();
-		this.df = new SimpleDateFormat("dd.MM.yyyy");
+		this.dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 		this.lastPosted = "";
 		
 		ArrayList<String> messagesOfTheDay = new ArrayList<String>();
@@ -64,7 +58,7 @@ public class MessageOfTheDayManager {
 				while (true) {
 					writteMessageOfTheDay();
 					try {
-						Thread.sleep(3600000);
+						Thread.sleep(3600000);	
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -78,7 +72,7 @@ public class MessageOfTheDayManager {
 	}
 
 	public void writteMessageOfTheDay() {
-		String today = df.format(new Date());
+		String today = LocalDateTime.now().format(dtf);
 		if(!lastPosted.equals(today)){
 			ms.sendMessage(cm.getiDiscordClient().getGuilds().get(0).getDefaultChannel(), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
 			this.lastPosted = today;

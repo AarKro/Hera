@@ -33,6 +33,12 @@ public class Help {
 														 +"\n- begone"
 														 +"\n- help"
 														 +"\n- motd"
+														 +"\n- join"
+														 +"\n- leave"
+														 +"\n- np"
+														 +"\n- volume"
+														 +"\n- play"
+														 +"\n- queue"
 														 +"\nFor more information visit https://github.com/Chromeroni/D4JBot");
 		}
 	}
