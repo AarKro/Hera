@@ -1,4 +1,4 @@
-package d4jbot.misc;
+package d4jbot.music;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -35,10 +35,6 @@ public class TrackScheduler extends AudioEventAdapter {
 		// stop the player.
 		player.startTrack(queue.poll(), false);
 	}
-	
-	public BlockingQueue<AudioTrack> getQueue() {
-		return queue;
-	}
 
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
@@ -47,5 +43,9 @@ public class TrackScheduler extends AudioEventAdapter {
 		if (endReason.mayStartNext) {
 			nextTrack();
 		}
+	}
+	
+	public AudioTrack[] getQueue() {
+		return queue.toArray(new AudioTrack[0]);
 	}
 }

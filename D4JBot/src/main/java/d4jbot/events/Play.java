@@ -3,10 +3,10 @@ package d4jbot.events;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import d4jbot.enums.BotPrefix;
-import d4jbot.misc.AudioLoadResultManager;
-import d4jbot.misc.GuildAudioPlayerManager;
-import d4jbot.misc.GuildMusicManager;
 import d4jbot.misc.MessageSender;
+import d4jbot.music.AudioLoadResultManager;
+import d4jbot.music.GuildAudioPlayerManager;
+import d4jbot.music.GuildMusicManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 

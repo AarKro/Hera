@@ -1,4 +1,4 @@
-package d4jbot.misc;
+package d4jbot.music;
 
 import java.util.HashMap;
 import java.util.Map;
