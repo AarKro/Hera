@@ -2,7 +2,7 @@ package d4jbot.events;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.GuildAudioPlayerManager;
@@ -25,7 +25,7 @@ public class Np {
 	
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "np")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "np")) {
 			AudioTrack track = gapm.getGuildAudioPlayer(e.getGuild()).player.getPlayingTrack();
 			if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Now playing:\n" + track.getInfo().title + " | " + getFormattedTime(track.getDuration()) + " Requested by: " + e.getAuthor());
 			else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "No song is playing right now");

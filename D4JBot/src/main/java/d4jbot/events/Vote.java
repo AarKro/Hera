@@ -1,6 +1,6 @@
 package d4jbot.events;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -22,7 +22,7 @@ public class Vote {
 			
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "vote")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "vote")) {
 			String[] args = e.getMessage().getContent().split(" ");
 			
 			if(!vm.isVoteActive()) {

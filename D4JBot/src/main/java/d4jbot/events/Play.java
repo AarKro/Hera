@@ -2,7 +2,7 @@ package d4jbot.events;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.AudioLoadResultManager;
 import d4jbot.music.GuildAudioPlayerManager;
@@ -28,7 +28,7 @@ public class Play {
 
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if (e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "p") || e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "play")) {
+		if (e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "p") || e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "play")) {
 				
 			String[] args = e.getMessage().getContent().split(" ");
 

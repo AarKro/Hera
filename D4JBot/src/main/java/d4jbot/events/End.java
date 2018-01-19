@@ -1,6 +1,6 @@
 package d4jbot.events;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -23,7 +23,7 @@ public class End {
 			
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "end")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "end")) {
 			if(vm.isVoteActive()) {
 				if(e.getAuthor() == vm.getVoteOrganiser() || e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
 					ms.sendMessage(e.getChannel(), true, "Vote has ended!\n\nTopic: " + vm.getVoteTopic() + "\nYes: " + vm.getCountYes() + "\nNo: " + vm.getCountNo() + 

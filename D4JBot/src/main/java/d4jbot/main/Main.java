@@ -23,10 +23,10 @@ import d4jbot.events.Version;
 import d4jbot.events.Volume;
 import d4jbot.events.Vote;
 import d4jbot.events.Yes;
-import d4jbot.misc.BindingInitalizer;
 import d4jbot.misc.ClientManager;
 import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
+import d4jbot.misc.ProjectInitalizer;
 import d4jbot.misc.VoteManager;
 import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventDispatcher;
@@ -36,15 +36,9 @@ import sx.blah.discord.handle.obj.StatusType;
 public class Main {
 	
 	public static void main(String[] args) {
-		
-		// to add Hera to a server: https://discordapp.com/oauth2/authorize?&client_id=398542528581861386&scope=bot&permissions=0
-		ClientManager cm = new ClientManager("Mzk4NTQyNTI4NTgxODYxMzg2.DTAPaA.oHpgHwl6GzoVpFWBbFXsCuccF4U");
-
-		// to add Hera dev Aaron to a server: https://discordapp.com/oauth2/authorize?&client_id=398019889417420802&scope=bot&permissions=0
-		//ClientManager cm = new ClientManager("Mzk4MDE5ODg5NDE3NDIwODAy.DS6Qgw.tIp07lDjYYZZLqVjqjKI6PyNAgc");
-		
-		// to add Hera dev Linus to a server: https://discordapp.com/oauth2/authorize?&client_id=400790650070761472&scope=bot&permissions=0
-        //ClientManager cm = new ClientManager("NDAwNzkwNjUwMDcwNzYxNDcy.DTgw6g.F2prjTmPWXejjAJNAjkEE4hNkTg");
+		ProjectInitalizer projectInitalizer = new ProjectInitalizer();
+		projectInitalizer.initalizeProperties();
+		ClientManager cm = projectInitalizer.getClientmanager();
 		
 		try {
 			Thread.sleep(5000);
@@ -52,7 +46,7 @@ public class Main {
 			e1.printStackTrace();
 		}
 		
-		BindingInitalizer bindInit = new BindingInitalizer(cm.getiDiscordClient().getGuilds().get(0));
+		projectInitalizer.initalizeBindings(cm.getiDiscordClient().getGuilds().get(0));
 		
 		MessageSender ms = new MessageSender();
 		VoteManager vm = new VoteManager();

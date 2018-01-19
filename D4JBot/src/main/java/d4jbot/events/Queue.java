@@ -2,7 +2,7 @@ package d4jbot.events;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.GuildAudioPlayerManager;
@@ -25,7 +25,7 @@ public class Queue {
 
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if (e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "queue")) {
+		if (e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "queue")) {
 			AudioTrack[] tracks = gapm.getGuildAudioPlayer(e.getGuild()).getScheduler().getQueue();
 
 			String queue = "";

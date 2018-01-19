@@ -1,6 +1,6 @@
 package d4jbot.events;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -21,7 +21,7 @@ public class Bind {
 	
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "bind")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "bind")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
 			
 				String[] args = e.getMessage().getContent().split(" ");

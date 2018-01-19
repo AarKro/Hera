@@ -3,7 +3,7 @@ package d4jbot.events;
 import java.util.Arrays;
 import java.util.List;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -26,7 +26,7 @@ public class Motd {
 		
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "motd")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "motd")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
 				List<String> list = Arrays.asList(e.getMessage().getContent().split(" "));
 				

@@ -2,14 +2,13 @@ package d4jbot.events;
 
 import java.util.Random;
 
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.handle.obj.Permissions;
-import sx.blah.discord.util.MissingPermissionsException;
 
 public class Begone {
 
@@ -25,7 +24,7 @@ public class Begone {
 	
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "begone")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "begone")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR) || e.getAuthor().getRolesForGuild(e.getGuild()).contains(e.getGuild().getRolesByName("BeGone").get(0))) {
 				String[] args = e.getMessage().getContent().split(" ");
 

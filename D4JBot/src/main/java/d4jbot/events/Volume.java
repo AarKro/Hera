@@ -1,8 +1,6 @@
 package d4jbot.events;
 
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-
-import d4jbot.enums.BotPrefix;
+import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.GuildAudioPlayerManager;
@@ -25,7 +23,7 @@ public class Volume {
 	
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotPrefix.BOT_PREFIX.getBotPrefix() + "volume")) {
+		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "volume")) {
 			String[] args = e.getMessage().getContent().split(" ");
 			
 			if(args.length == 2) {

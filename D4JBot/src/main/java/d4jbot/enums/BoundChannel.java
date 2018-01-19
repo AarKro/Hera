@@ -27,6 +27,7 @@ public enum BoundChannel {
 		this.boundChannel = boundChannel;
 		if (boundChannel != null) {
 			PropertiesHandler propertiesHandler = new PropertiesHandler(BotConstants.BINDING_PROPERTY_LOCATION);
+			propertiesHandler.load();
 			propertiesHandler.put(propertyName, "" + boundChannel.getLongID());
 			propertiesHandler.save("binding saved");
 		}
