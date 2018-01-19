@@ -3,9 +3,13 @@ package d4jbot.misc;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IMessage;
 
 public class MessageOfTheDayManager {
 
@@ -59,7 +63,7 @@ public class MessageOfTheDayManager {
 					writteMessageOfTheDay();
 					try {
 						Thread.sleep(3600000);	
-					} catch (InterruptedException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -74,7 +78,17 @@ public class MessageOfTheDayManager {
 	public void writteMessageOfTheDay() {
 		String today = LocalDateTime.now().format(dtf);
 		if(!lastPosted.equals(today)){
-			ms.sendMessage(cm.getiDiscordClient().getGuilds().get(0).getDefaultChannel(), true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
+			IChannel channel = cm.getiDiscordClient().getGuilds().get(0).getChannelsByName("announcements").get(0);
+			
+			if(!channel.getMessageHistory().isEmpty()) {
+				List<IMessage> messages = channel.getMessageHistory().stream()
+																	 .filter(f -> f.getAuthor() == cm.getiDiscordClient().getOurUser())
+																	 .collect(Collectors.toList());
+				
+				if(!messages.isEmpty()) messages.get(0).delete();
+			}
+			
+			ms.sendMessage(channel, true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
 			this.lastPosted = today;
 		}
 	}
