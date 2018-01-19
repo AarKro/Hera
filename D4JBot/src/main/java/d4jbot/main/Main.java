@@ -36,6 +36,7 @@ import sx.blah.discord.handle.obj.StatusType;
 public class Main {
 	
 	public static void main(String[] args) {
+		
 		ProjectInitalizer projectInitalizer = new ProjectInitalizer();
 		projectInitalizer.initalizeProperties();
 		ClientManager cm = projectInitalizer.getClientmanager();
