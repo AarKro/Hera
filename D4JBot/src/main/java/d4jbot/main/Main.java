@@ -12,13 +12,13 @@ import d4jbot.events.Flip;
 import d4jbot.events.Help;
 import d4jbot.events.Join;
 import d4jbot.events.Leave;
-import d4jbot.events.Lq;
 import d4jbot.events.Motd;
 import d4jbot.events.No;
 import d4jbot.events.Np;
 import d4jbot.events.Play;
 import d4jbot.events.Queue;
 import d4jbot.events.Report;
+import d4jbot.events.Shame;
 import d4jbot.events.Teams;
 import d4jbot.events.Version;
 import d4jbot.events.Volume;
@@ -65,6 +65,7 @@ public class Main {
 		ed.registerListener(new End(ms, vm));
 		ed.registerListener(new Version(ms));
 		ed.registerListener(new Begone(ms));
+		ed.registerListener(new Shame(ms));
 		ed.registerListener(new AutoAssignRole());
 		
 		MessageOfTheDayManager motdm = new MessageOfTheDayManager(ms, cm);
@@ -80,7 +81,7 @@ public class Main {
 		ed.registerListener(new Leave());
 		ed.registerListener(new Np(ms, gapm));
 		ed.registerListener(new Volume(ms, gapm));
-		ed.registerListener(new Lq(ms, gapm));
+		//ed.registerListener(new Lq(ms, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

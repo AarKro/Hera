@@ -43,8 +43,11 @@ public class Queue {
 				queue += "Total songs: " + (tracks.length) + " | Total duration: " + getFormattedTime(totalLength);
 				
 			} else queue = "There are no songs in the queue!";
-			
+			try {
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), queue);
+			} catch(Exception e2){
+				// pls don't abend
+			}
 		}
 	}
 	
