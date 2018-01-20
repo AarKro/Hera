@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
@@ -32,6 +33,18 @@ public class TrackScheduler extends AudioEventAdapter {
 		// track goes to the queue instead.
 		if (!player.startTrack(track, true)) {
 			queue.offer(track);
+		} else {
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		}
+	}
+	
+	public void queuePlaylist(AudioPlaylist playlist) {
+		for(AudioTrack track : playlist.getTracks()) {
+			if (!player.startTrack(track, true)) {
+				queue.offer(track);
+			} else {
+				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+			}
 		}
 	}
 
@@ -50,8 +63,11 @@ public class TrackScheduler extends AudioEventAdapter {
 		// Only start the next track if the end reason is suitable for it
 		// (FINISHED or LOAD_FAILED)
 		if (endReason.mayStartNext) {
+			if(loopQueue) {
+				track.setPosition(0);
+				queue.offer(track);
+			}
 			nextTrack();
-			if(loopQueue) queue(track);
 		}
 	}
 	

@@ -10,16 +10,12 @@ import sx.blah.discord.util.EmbedBuilder;
 
 public class MessageSender {
 
-	private EmbedBuilder eb;
-	
 	// default constructor
-	public MessageSender() {
-		this.eb = new EmbedBuilder();
-	}
+	public MessageSender() { }
 
 	public void sendMessage(IChannel defaultChannel, String message) {
 		if(defaultChannel != null) {
-			eb.clearFields();
+			EmbedBuilder eb = new EmbedBuilder();
 			eb.withColor(Color.ORANGE);
 			eb.appendDesc(message);
 			
@@ -31,6 +27,6 @@ public class MessageSender {
 				System.err.println("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
-		} else System.out.println("Channel binding missing!");
+		} else System.out.println("Channel binding is missing!");
 	}
 }

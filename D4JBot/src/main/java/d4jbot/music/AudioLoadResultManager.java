@@ -39,10 +39,11 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	public void playlistLoaded(AudioPlaylist playlist) {
 		int totalDuration = 0;
 		for(AudioTrack track : playlist.getTracks()) {
-			play(event.getGuild(), musicManager, track);
 			totalDuration += track.getDuration();
 		}
 
+		playPlaylist(event.getGuild(), musicManager, playlist);
+		
 		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
 				"Adding to queue:\nPlaylist " + playlist.getName() + "\n\nTotal songs: " + playlist.getTracks().size() + " | Total duration " + getFormattedTime(totalDuration));
 	}
@@ -60,6 +61,11 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	private void play(IGuild guild, GuildMusicManager musicManager, AudioTrack track) {
 		event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel().join();
 		musicManager.scheduler.queue(track);
+	}
+
+	private void playPlaylist(IGuild guild, GuildMusicManager musicManager, AudioPlaylist playlist) {
+		event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel().join();
+		musicManager.scheduler.queuePlaylist(playlist);
 	}
 	
 	private String getFormattedTime(long milliseconds) {
