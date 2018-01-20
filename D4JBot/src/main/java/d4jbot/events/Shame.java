@@ -27,7 +27,13 @@ public class Shame {
 				String[] args = e.getMessage().getContent().split(" ");
 				
 				if(args.length == 2) {
-					List<IUser> users = e.getGuild().getUsersByName(args[1], true);
+					
+					String username = "";
+					for(int i = 1; i < args.length; i++) {
+						username += args[i] + " ";
+					}
+					
+					List<IUser> users = e.getGuild().getUsersByName(username, true);
 					if(!users.isEmpty()) {
 						
 						Runnable runnable = new Runnable() {
@@ -38,7 +44,7 @@ public class Shame {
 										IRole casual = e.getGuild().getRolesByName("Casual").get(0);
 										IRole shameOnYou = e.getGuild().getRolesByName("Schäm dich").get(0);
 										IVoiceChannel current = e.getAuthor().getVoiceStateForGuild(e.getGuild()).getChannel();
-										IVoiceChannel shameCorner = e.getGuild().getVoiceChannelsByName("Sch$mdicheggli").get(0);
+										IVoiceChannel shameCorner = e.getGuild().getVoiceChannelsByName("Schämdicheggli").get(0);
 										
 										removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
 										Thread.sleep(60000);	
