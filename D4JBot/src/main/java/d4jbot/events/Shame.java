@@ -26,7 +26,7 @@ public class Shame {
 				
 				String[] args = e.getMessage().getContent().split(" ");
 				
-				if(args.length == 2) {
+				if(args.length >= 2) {
 					
 					String username = "";
 					for(int i = 1; i < args.length; i++) {
