@@ -31,11 +31,12 @@ public class Volume {
 					int volume = Integer.parseInt(args[1]);
 					if(volume >= 0 && volume <= 150) {
 						gapm.getGuildAudioPlayer(e.getGuild()).player.setVolume(volume);
-					} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Volume level must be between 0 and 150");
+						BotSettings.BOT_VOLUME.setPropertyValue(Integer.toString(volume));
+					} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Volume level must be between 0 and 150");
 				} catch(NumberFormatException e2) {
-					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Volume level must be a number");
+					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Volume level must be a number");
 				}
-			} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Invalid usage!\nSyntax: $volume <0 - 150>");
+			} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage!\nSyntax: $volume <0 - 150>");
 		}
 	}
 }

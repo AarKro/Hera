@@ -12,6 +12,7 @@ import d4jbot.events.Flip;
 import d4jbot.events.Help;
 import d4jbot.events.Join;
 import d4jbot.events.Leave;
+import d4jbot.events.Lq;
 import d4jbot.events.Motd;
 import d4jbot.events.No;
 import d4jbot.events.Np;
@@ -72,13 +73,14 @@ public class Main {
 		AudioPlayerManager apm = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(apm);
 		AudioSourceManagers.registerLocalSource(apm);
-		GuildAudioPlayerManager gapm = new GuildAudioPlayerManager(apm);
+		GuildAudioPlayerManager gapm = new GuildAudioPlayerManager(apm, ms);
 		ed.registerListener(new Play(ms, apm, gapm));
 		ed.registerListener(new Queue(ms, gapm));
 		ed.registerListener(new Join());
 		ed.registerListener(new Leave());
 		ed.registerListener(new Np(ms, gapm));
 		ed.registerListener(new Volume(ms, gapm));
+		ed.registerListener(new Lq(ms, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

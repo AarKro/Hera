@@ -36,7 +36,7 @@ public class Queue {
 				AudioTrack track;
 				for(int i = 0; i < tracks.length; i++) {
 					track = tracks[i];
-					queue += (i + 1) + ". " + track.getInfo().title + " | " + getFormattedTime(track.getDuration()) + " Requested by: " + e.getAuthor() + "\n\n";
+					queue += (i + 1) + ". " + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()) + "\n\n";
 					totalLength += track.getDuration();
 				}
 				
@@ -44,7 +44,7 @@ public class Queue {
 				
 			} else queue = "There are no songs in the queue!";
 			
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, queue);
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), queue);
 		}
 	}
 	

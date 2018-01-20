@@ -27,7 +27,7 @@ public class Flip {
 			
 			result = (rng.nextBoolean()) ? "Heads" : "Tails"; 
 
-			ms.sendMessage(e.getChannel(), true, result);
+			ms.sendMessage(e.getChannel(), result);
 		}
 	}
 }

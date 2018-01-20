@@ -26,14 +26,14 @@ public class End {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "end")) {
 			if(vm.isVoteActive()) {
 				if(e.getAuthor() == vm.getVoteOrganiser() || e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
-					ms.sendMessage(e.getChannel(), true, "Vote has ended!\n\nTopic: " + vm.getVoteTopic() + "\nYes: " + vm.getCountYes() + "\nNo: " + vm.getCountNo() + 
+					ms.sendMessage(e.getChannel(), "Vote has ended!\n\nTopic: " + vm.getVoteTopic() + "\nYes: " + vm.getCountYes() + "\nNo: " + vm.getCountNo() + 
 							"\n\nVote was started by " + vm.getVoteOrganiser().mention() + "\nVote was ended by " + e.getAuthor().mention());
 					vm.resetVote();
 				} else {
-					ms.sendMessage(e.getChannel(), true, "You must have started the vote or be an Administrator to end the vote.");
+					ms.sendMessage(e.getChannel(), "You must have started the vote or be an Administrator to end the vote.");
 				}
 			} else {
-				ms.sendMessage(e.getChannel(), true, "There is no active vote to vote on.\nType $vote <topic> to start a vote.");
+				ms.sendMessage(e.getChannel(), "There is no active vote to vote on.\nType $vote <topic> to start a vote.");
 			}
 		}
 	}

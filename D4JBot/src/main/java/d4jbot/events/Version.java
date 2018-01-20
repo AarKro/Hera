@@ -20,7 +20,7 @@ public class Version {
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "version")) {
-			ms.sendMessage(e.getChannel(), true, BotSettings.BOT_VERSION.getPropertyValue());
+			ms.sendMessage(e.getChannel(), BotSettings.BOT_VERSION.getPropertyValue());
 		}
 	}
 }

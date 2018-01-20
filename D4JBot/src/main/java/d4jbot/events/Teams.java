@@ -41,9 +41,9 @@ public class Teams {
 					}
 				}
 				
-				ms.sendMessage(e.getChannel(), true, "Team 1: " + team1 + "\nTeam 2: " + team2);
+				ms.sendMessage(e.getChannel(), "Team 1: " + team1 + "\nTeam 2: " + team2);
 			} else {
-				ms.sendMessage(e.getChannel(), true, "$teams needs at least 3 following parameters / names.");
+				ms.sendMessage(e.getChannel(), "$teams needs at least 3 following parameters / names.");
 			}
 		}
 	}

@@ -29,18 +29,18 @@ public class Bind {
 					switch(args[1]) {
 					case "report":
 						BoundChannel.REPORT.setBoundChannel(e.getChannel());
-						ms.sendMessage(e.getChannel(), true, "Report output bound to: " + e.getChannel().mention());
+						ms.sendMessage(e.getChannel(), "Report output bound to: " + e.getChannel().mention());
 						break;
 					case "music":
 						BoundChannel.MUSIC.setBoundChannel(e.getChannel());
-						ms.sendMessage(e.getChannel(), true, "Music output bound to: " + e.getChannel().mention());
+						ms.sendMessage(e.getChannel(), "Music output bound to: " + e.getChannel().mention());
 						break;
 					default: 
-						ms.sendMessage(e.getChannel(), true, "Invalid usage of $bind.\nSyntax: $bind <report/music>");
+						ms.sendMessage(e.getChannel(), "Invalid usage of $bind.\nSyntax: $bind <report/music>");
 					}
-				} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $bind.\nSyntax: $bind <report/music>");
+				} else ms.sendMessage(e.getChannel(), "Invalid usage of $bind.\nSyntax: $bind <report/music>");
 
-			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server to use this command.");
+			} else ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
 		}
 	}
 }

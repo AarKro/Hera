@@ -13,7 +13,6 @@ public class PropertiesHandler extends Properties {
 	File propertyFile;
 	public PropertiesHandler(String propertyName) {
 		File baseLocation = new File(BotConstants.PROPERTIES_BASE_LOCATION);
-		System.err.println(baseLocation.getAbsolutePath());
 		if (!baseLocation.isDirectory()) {
 			baseLocation.mkdirs();
 		}

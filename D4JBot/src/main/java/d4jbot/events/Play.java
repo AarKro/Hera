@@ -35,7 +35,7 @@ public class Play {
 			if (args.length > 1) {
 				GuildMusicManager musicManager = gapm.getGuildAudioPlayer(e.getGuild());
 				apm.loadItemOrdered(musicManager, args[1], new AudioLoadResultManager(e, args[1], ms, musicManager));
-			} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $play | $p.\nSyntax: $play <URL>");
+			} else ms.sendMessage(e.getChannel(), "Invalid usage of $play | $p.\nSyntax: $play <URL>");
 		}
 	}
 }

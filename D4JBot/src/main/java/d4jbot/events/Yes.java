@@ -28,10 +28,10 @@ public class Yes {
 					vm.addUserToAlreadyVoted(e.getAuthor());
 					vm.setCountYes(vm.getCountYes() + 1);
 				} else {
-					ms.sendMessage(e.getChannel(), true, "You have already voted!");
+					ms.sendMessage(e.getChannel(), "You have already voted!");
 				}
 			} else {
-				ms.sendMessage(e.getChannel(), true, "There is no active vote to vote on.\nType $vote <topic> to start a vote.");
+				ms.sendMessage(e.getChannel(), "There is no active vote to vote on.\nType $vote <topic> to start a vote.");
 			}
 		}
 	}

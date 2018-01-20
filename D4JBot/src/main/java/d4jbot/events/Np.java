@@ -27,8 +27,8 @@ public class Np {
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "np")) {
 			AudioTrack track = gapm.getGuildAudioPlayer(e.getGuild()).player.getPlayingTrack();
-			if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Now playing:\n" + track.getInfo().title + " | " + getFormattedTime(track.getDuration()) + " Requested by: " + e.getAuthor());
-			else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "No song is playing right now");
+			if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+			else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "No song is playing right now");
 		}
 	}
 	

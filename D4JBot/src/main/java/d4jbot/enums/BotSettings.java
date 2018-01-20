@@ -4,7 +4,7 @@ import d4jbot.constants.BotConstants;
 import d4jbot.misc.PropertiesHandler;
 
 public enum BotSettings {
-	BOT_PREFIX("prefix", "$"), BOT_VERSION("version", "v0.4.4"), BOT_DEV_STATUS("devStatus", "devl");
+	BOT_PREFIX("prefix", "$"), BOT_VERSION("version", "v0.4.4"), BOT_DEV_STATUS("devStatus", "devl"), BOT_VOLUME("volume", "100");
 	
 	private String propertyName;
 	private String propertyValue;

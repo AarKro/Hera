@@ -31,35 +31,38 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 
 	@Override
 	public void trackLoaded(AudioTrack track) {
-	    ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Adding to queue:\n" + track.getInfo().title);
+	    ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:\n" + track.getInfo().title);
 		play(event.getGuild(), musicManager, track);
 	}
 
 	@Override
 	public void playlistLoaded(AudioPlaylist playlist) {
-		AudioTrack firstTrack = playlist.getSelectedTrack();
-
-		if (firstTrack == null) {
-			firstTrack = playlist.getTracks().get(0);
+		int totalDuration = 0;
+		for(AudioTrack track : playlist.getTracks()) {
+			play(event.getGuild(), musicManager, track);
+			totalDuration += track.getDuration();
 		}
 
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Adding to queue:\n" + firstTrack.getInfo().title + "\n(first track of playlist: " + playlist.getName() + ")");
-
-		play(event.getGuild(), musicManager, firstTrack);
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
+				"Adding to queue:\nPlaylist " + playlist.getName() + "\n\nTotal songs: " + playlist.getTracks().size() + " | Total duration " + getFormattedTime(totalDuration));
 	}
 
 	@Override
 	public void noMatches() {
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Nothing found by:\n" + trackUrl);
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Nothing found by:\n" + trackUrl);
 	}
 
 	@Override
 	public void loadFailed(FriendlyException exception) {
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), true, "Could not play:\n" + exception.getMessage());
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Could not play:\n" + exception.getMessage());
 	}
 
 	private void play(IGuild guild, GuildMusicManager musicManager, AudioTrack track) {
 		event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel().join();
 		musicManager.scheduler.queue(track);
+	}
+	
+	private String getFormattedTime(long milliseconds) {
+		return String.format("%02d:%02d:%02d", (milliseconds / (1000 * 60 * 60)) % 24, (milliseconds / (1000 * 60)) % 60, (milliseconds / 1000) %60);
 	}
 }

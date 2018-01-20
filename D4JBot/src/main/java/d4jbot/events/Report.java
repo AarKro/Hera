@@ -1,6 +1,7 @@
 package d4jbot.events;
 
 import d4jbot.enums.BotSettings;
+import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -29,11 +30,11 @@ public class Report {
 					message += args[i] + " ";
 				}
 				
-				ms.sendMessage(e.getChannel(), false,   "Reporter:	 " + e.getAuthor().mention() + 
-																 "\nRecipient:	" + reportedUser +
-																 "\n\nReport message:\n" + message);
+				ms.sendMessage(BoundChannel.REPORT.getBoundChannel(),   "Reporter:	 " + e.getAuthor().mention() + 
+																		"\nRecipient:	" + reportedUser +
+																		"\n\nReport message:\n" + message);
 			} else {
-				ms.sendMessage(e.getChannel(), true, "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
+				ms.sendMessage(e.getChannel(), "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
 			}
 		}
 	}

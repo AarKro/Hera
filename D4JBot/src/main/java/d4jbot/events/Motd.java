@@ -38,8 +38,8 @@ public class Motd {
 					
 					motdm.setMessageOfTheDay(e, motd);
 					
-				} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $motd.\nSyntax: $motd <messageOfTheDay>");
-			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server to use this command.");
+				} else ms.sendMessage(e.getChannel(), "Invalid usage of $motd.\nSyntax: $motd <messageOfTheDay>");
+			} else ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
 		}
 	}
 }

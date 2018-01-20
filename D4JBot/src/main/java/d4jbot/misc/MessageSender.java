@@ -10,28 +10,27 @@ import sx.blah.discord.util.EmbedBuilder;
 
 public class MessageSender {
 
+	private EmbedBuilder eb;
+	
 	// default constructor
-	public MessageSender() { }
+	public MessageSender() {
+		this.eb = new EmbedBuilder();
+	}
 
-	public void sendMessage(IChannel defaultChannel, boolean forceChannel, String message) {
-		EmbedBuilder eb = new EmbedBuilder();
-		eb.withColor(Color.ORANGE);
-		eb.appendDesc(message);
-		
-		EmbedObject em = eb.build();
-		
-		try {
-			if(forceChannel) {
+	public void sendMessage(IChannel defaultChannel, String message) {
+		if(defaultChannel != null) {
+			eb.clearFields();
+			eb.withColor(Color.ORANGE);
+			eb.appendDesc(message);
+			
+			EmbedObject em = eb.build();
+			
+			try {
 				defaultChannel.sendMessage(em);
-			} else if(BoundChannel.REPORT.getBoundChannel() != null) {
-				BoundChannel.REPORT.getBoundChannel().sendMessage(em);
-			} else {
-				em.description = "Bind me to a channel first ($bind).";
-				defaultChannel.sendMessage(em);
+			} catch (DiscordException e) {
+				System.err.println("Message could not be sent with error: ");
+				e.printStackTrace();
 			}
-		} catch (DiscordException e) {
-			System.err.println("Message could not be sent with error: ");
-			e.printStackTrace();
-		}
+		} else System.out.println("Channel binding missing!");
 	}
 }

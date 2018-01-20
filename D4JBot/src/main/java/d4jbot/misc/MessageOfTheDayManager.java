@@ -15,6 +15,7 @@ public class MessageOfTheDayManager {
 
 	private MessageSender ms;
 	private ClientManager cm;
+	private IChannel channel;
 	private Random rnd;
 	private DateTimeFormatter dtf;
 	private ArrayList<String> messagesOfTheDay;
@@ -27,6 +28,7 @@ public class MessageOfTheDayManager {
 	public MessageOfTheDayManager(MessageSender ms, ClientManager cm) {
 		this.ms = ms;
 		this.cm = cm;
+		this.channel = cm.getiDiscordClient().getGuilds().get(0).getChannelsByName("announcements").get(0);
 		this.rnd = new Random();
 		this.dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 		this.lastPosted = "";
@@ -78,22 +80,26 @@ public class MessageOfTheDayManager {
 	public void writteMessageOfTheDay() {
 		String today = LocalDateTime.now().format(dtf);
 		if(!lastPosted.equals(today)){
-			IChannel channel = cm.getiDiscordClient().getGuilds().get(0).getChannelsByName("announcements").get(0);
 			
-			if(!channel.getMessageHistory().isEmpty()) {
-				List<IMessage> messages = channel.getMessageHistory().stream()
-																	 .filter(f -> f.getAuthor() == cm.getiDiscordClient().getOurUser())
-																	 .collect(Collectors.toList());
-				
-				if(!messages.isEmpty()) messages.get(0).delete();
-			}
+			deleteLastMessageOfTheDay();
 			
-			ms.sendMessage(channel, true, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
+			ms.sendMessage(channel, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
 			this.lastPosted = today;
 		}
 	}
 
 	public void setMessageOfTheDay(MessageReceivedEvent e, String message) {
-		ms.sendMessage(e.getGuild().getDefaultChannel(), true, "Message of the day: \n" + message);
+		deleteLastMessageOfTheDay();
+		ms.sendMessage(e.getGuild().getDefaultChannel(), "Message of the day: \n" + message);
+	}
+	
+	public void deleteLastMessageOfTheDay() {
+		if(!channel.getMessageHistory().isEmpty()) {
+			List<IMessage> messages = channel.getMessageHistory().stream()
+																 .filter(f -> f.getAuthor() == cm.getiDiscordClient().getOurUser())
+																 .collect(Collectors.toList());
+			
+			if(!messages.isEmpty()) messages.get(0).delete();
+		}
 	}
 }

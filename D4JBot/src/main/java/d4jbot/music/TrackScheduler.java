@@ -8,13 +8,20 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
+import d4jbot.enums.BoundChannel;
+import d4jbot.misc.MessageSender;
+
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
+	private boolean loopQueue;
+	private MessageSender ms;
 
-	public TrackScheduler(AudioPlayer player) {
+	public TrackScheduler(AudioPlayer player, MessageSender ms) {
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
+		this.loopQueue = false;
+		this.ms = ms;
 	}
 
 	public void queue(AudioTrack track) {
@@ -33,7 +40,9 @@ public class TrackScheduler extends AudioEventAdapter {
 		// or not. In case queue was empty, we are
 		// giving null to startTrack, which is a valid argument and will simply
 		// stop the player.
-		player.startTrack(queue.poll(), false);
+		AudioTrack track = queue.poll();
+		if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		player.startTrack(track, false);
 	}
 
 	@Override
@@ -42,10 +51,23 @@ public class TrackScheduler extends AudioEventAdapter {
 		// (FINISHED or LOAD_FAILED)
 		if (endReason.mayStartNext) {
 			nextTrack();
+			if(loopQueue) queue(track);
 		}
+	}
+	
+	private String getFormattedTime(long milliseconds) {
+		return String.format("%02d:%02d:%02d", (milliseconds / (1000 * 60 * 60)) % 24, (milliseconds / (1000 * 60)) % 60, (milliseconds / 1000) %60);
 	}
 	
 	public AudioTrack[] getQueue() {
 		return queue.toArray(new AudioTrack[0]);
+	}
+	
+	public boolean getLoopQueue() {
+		return loopQueue;
+	}
+	
+	public void setLoopQueue(boolean loopQueue) {
+		this.loopQueue = loopQueue;
 	}
 }

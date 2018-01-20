@@ -52,7 +52,7 @@ public class Begone {
 								if(moveTo.getModifiedPermissions(user).contains(Permissions.VOICE_CONNECT)) {
 									user.moveToVoiceChannel(moveTo);
 									success = true;
-									ms.sendMessage(e.getChannel(), true, user.mention() + " moved to " + moveTo.getName());
+									ms.sendMessage(e.getChannel(), user.mention() + " moved to " + moveTo.getName());
 								}															
 						
 							}
@@ -61,8 +61,8 @@ public class Begone {
 												
 					}
 			
-				} else ms.sendMessage(e.getChannel(), true, "Invalid usage of $begone.\nSyntax: $begone <name/nickname>"); 
-			} else ms.sendMessage(e.getChannel(), true, "You need to be an Administrator of this server or possess the BeGone role to use this command.");
+				} else ms.sendMessage(e.getChannel(), "Invalid usage of $begone.\nSyntax: $begone <name/nickname>"); 
+			} else ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server or possess the BeGone role to use this command.");
 		}
 	}
 }
