@@ -1,5 +1,6 @@
 package d4jbot.music;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -37,16 +38,14 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 	
 	public void queuePlaylist(AudioPlaylist playlist) {
-		System.out.println("4");
-		for(AudioTrack track : playlist.getTracks()) {
-			if (!player.startTrack(track, true)) {
-				System.out.println("6");
-				queue.offer(track);
-			} else {
-				System.out.println("5");
-				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
-				System.out.println("5.1");
-			}
+		List<AudioTrack> tracks = playlist.getTracks();
+		if (!player.startTrack(playlist.getTracks().get(0), true)) {
+			queue.addAll(tracks);
+		} else {
+			tracks.remove(0);
+			queue.addAll(tracks);
+//			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
+//					"Now playing:\n" + tracks.get(0).getInfo().title + " by " + tracks.get(0).getInfo().author + " | " + getFormattedTime(tracks.get(0).getDuration()));
 		}
 	}
 
@@ -56,7 +55,8 @@ public class TrackScheduler extends AudioEventAdapter {
 		// giving null to startTrack, which is a valid argument and will simply
 		// stop the player.
 		AudioTrack track = queue.poll();
-		if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+//		if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		System.out.println("bla");
 		player.startTrack(track, false);
 	}
 
@@ -65,11 +65,11 @@ public class TrackScheduler extends AudioEventAdapter {
 		// Only start the next track if the end reason is suitable for it
 		// (FINISHED or LOAD_FAILED)
 		if (endReason.mayStartNext) {
+			nextTrack();
 			if(loopQueue) {
 				track.setPosition(0);
-				queue.offer(track);
+				queue(track);
 			}
-			nextTrack();
 		}
 	}
 	
