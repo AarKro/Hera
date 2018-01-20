@@ -33,17 +33,19 @@ public class TrackScheduler extends AudioEventAdapter {
 		// track goes to the queue instead.
 		if (!player.startTrack(track, true)) {
 			queue.offer(track);
-		} else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
 		}
 	}
 	
 	public void queuePlaylist(AudioPlaylist playlist) {
+		System.out.println("4");
 		for(AudioTrack track : playlist.getTracks()) {
 			if (!player.startTrack(track, true)) {
+				System.out.println("6");
 				queue.offer(track);
 			} else {
+				System.out.println("5");
 				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+				System.out.println("5.1");
 			}
 		}
 	}

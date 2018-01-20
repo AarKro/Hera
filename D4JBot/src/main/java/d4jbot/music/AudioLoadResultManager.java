@@ -31,21 +31,25 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 
 	@Override
 	public void trackLoaded(AudioTrack track) {
-	    ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:\n" + track.getInfo().title);
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
 		play(event.getGuild(), musicManager, track);
 	}
 
 	@Override
 	public void playlistLoaded(AudioPlaylist playlist) {
 		int totalDuration = 0;
+		System.out.println(playlist.getTracks().size());
 		for(AudioTrack track : playlist.getTracks()) {
 			totalDuration += track.getDuration();
 		}
 
+		System.out.println("1");
 		playPlaylist(event.getGuild(), musicManager, playlist);
+		System.out.println("8");
 		
 		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
 				"Adding to queue:\nPlaylist " + playlist.getName() + "\n\nTotal songs: " + playlist.getTracks().size() + " | Total duration " + getFormattedTime(totalDuration));
+		System.out.println("9");
 	}
 
 	@Override
@@ -64,8 +68,11 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	}
 
 	private void playPlaylist(IGuild guild, GuildMusicManager musicManager, AudioPlaylist playlist) {
+		System.out.println("2");
 		event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel().join();
+		System.out.println("3");
 		musicManager.scheduler.queuePlaylist(playlist);
+		System.out.println("7");
 	}
 	
 	private String getFormattedTime(long milliseconds) {

@@ -35,6 +35,10 @@ public class Bind {
 						BoundChannel.MUSIC.setBoundChannel(e.getChannel());
 						ms.sendMessage(e.getChannel(), "Music output bound to: " + e.getChannel().mention());
 						break;
+					case "announcements":
+						BoundChannel.ANNOUNCEMENTS.setBoundChannel(e.getChannel());
+						ms.sendMessage(e.getChannel(), "Announcement messages bound to: " + e.getChannel().mention());
+						break;
 					default: 
 						ms.sendMessage(e.getChannel(), "Invalid usage of $bind.\nSyntax: $bind <report/music>");
 					}

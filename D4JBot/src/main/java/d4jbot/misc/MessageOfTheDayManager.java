@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import d4jbot.enums.BotSettings;
+import d4jbot.enums.BoundChannel;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
@@ -15,7 +17,6 @@ public class MessageOfTheDayManager {
 
 	private MessageSender ms;
 	private ClientManager cm;
-	private IChannel channel;
 	private Random rnd;
 	private DateTimeFormatter dtf;
 	private ArrayList<String> messagesOfTheDay;
@@ -28,10 +29,9 @@ public class MessageOfTheDayManager {
 	public MessageOfTheDayManager(MessageSender ms, ClientManager cm) {
 		this.ms = ms;
 		this.cm = cm;
-		this.channel = cm.getiDiscordClient().getGuilds().get(0).getChannelsByName("announcements").get(0);
 		this.rnd = new Random();
 		this.dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		this.lastPosted = "";
+		this.lastPosted = BotSettings.LAST_MOTD.getPropertyValue();
 		
 		ArrayList<String> messagesOfTheDay = new ArrayList<String>();
 		messagesOfTheDay.add("Banging your head against a wall burns 150 calories an hour.");
@@ -62,8 +62,12 @@ public class MessageOfTheDayManager {
 
 			public void run() {
 				while (true) {
-					writteMessageOfTheDay();
 					try {
+						while(BoundChannel.ANNOUNCEMENTS.getBoundChannel() == null) {
+							Thread.sleep(5000);
+						}
+						writteMessageOfTheDay();
+					
 						Thread.sleep(3600000);	
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -83,22 +87,22 @@ public class MessageOfTheDayManager {
 			
 			deleteLastMessageOfTheDay();
 			
-			ms.sendMessage(channel, "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
+			ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day: \n" + messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size())));
 			this.lastPosted = today;
+			BotSettings.LAST_MOTD.setPropertyValue(today);
 		}
 	}
 
 	public void setMessageOfTheDay(MessageReceivedEvent e, String message) {
 		deleteLastMessageOfTheDay();
-		ms.sendMessage(e.getGuild().getDefaultChannel(), "Message of the day: \n" + message);
+		ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day: \n" + message);
 	}
 	
 	public void deleteLastMessageOfTheDay() {
-		if(!channel.getMessageHistory().isEmpty()) {
-			List<IMessage> messages = channel.getMessageHistory().stream()
-																 .filter(f -> f.getAuthor() == cm.getiDiscordClient().getOurUser())
-																 .collect(Collectors.toList());
-			
+		if(!BoundChannel.ANNOUNCEMENTS.getBoundChannel().getFullMessageHistory().isEmpty()) {
+			List<IMessage> messages = BoundChannel.ANNOUNCEMENTS.getBoundChannel().getFullMessageHistory().stream()
+																				  .filter(f -> f.getAuthor() == cm.getiDiscordClient().getOurUser())
+																				  .collect(Collectors.toList());
 			if(!messages.isEmpty()) messages.get(0).delete();
 		}
 	}

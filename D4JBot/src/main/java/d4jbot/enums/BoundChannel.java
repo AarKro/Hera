@@ -5,7 +5,7 @@ import d4jbot.misc.PropertiesHandler;
 import sx.blah.discord.handle.obj.IChannel;
 
 public enum BoundChannel {
-	REPORT("reportChannel", null), MUSIC("musicChannel", null);
+	REPORT("reportChannel", null), MUSIC("musicChannel", null), ANNOUNCEMENTS("announcements", null);
 	
 	private IChannel boundChannel;
 	private String propertyName;
