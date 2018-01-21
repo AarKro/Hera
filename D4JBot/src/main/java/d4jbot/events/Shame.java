@@ -26,12 +26,13 @@ public class Shame {
 				
 				String[] args = e.getMessage().getContent().split(" ");
 				
-				if(args.length >= 2) {
+				if(args.length > 1) {
 					
 					String username = "";
 					for(int i = 1; i < args.length; i++) {
 						username += args[i] + " ";
 					}
+					username = username.trim();
 					
 					List<IUser> users = e.getGuild().getUsersByName(username, true);
 					if(!users.isEmpty()) {
@@ -39,19 +40,17 @@ public class Shame {
 						Runnable runnable = new Runnable() {
 							
 							public void run() {
-								while (true) {
-									try {
-										IRole casual = e.getGuild().getRolesByName("Casual").get(0);
-										IRole shameOnYou = e.getGuild().getRolesByName("Schäm dich").get(0);
-										IVoiceChannel current = e.getAuthor().getVoiceStateForGuild(e.getGuild()).getChannel();
-										IVoiceChannel shameCorner = e.getGuild().getVoiceChannelsByName("Schämdicheggli").get(0);
-										
-										removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
-										Thread.sleep(60000);	
-										addCasualRole(users.get(0), casual, shameOnYou, current);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
+								try {
+									IRole casual = e.getGuild().getRolesByName("Casual").get(0);
+									IRole shameOnYou = e.getGuild().getRolesByName("Schäm dich").get(0);
+									IVoiceChannel current = e.getAuthor().getVoiceStateForGuild(e.getGuild()).getChannel();
+									IVoiceChannel shameCorner = e.getGuild().getVoiceChannelsByName("Schämdicheggli").get(0);
+									
+									removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
+									Thread.sleep(10000);	
+									addCasualRole(users.get(0), casual, shameOnYou, current);
+								} catch (Exception e) {
+									e.printStackTrace();
 								}
 							}
 							
@@ -60,7 +59,7 @@ public class Shame {
 						Thread thread = new Thread(runnable);
 						thread.start();
 						
-					} else ms.sendMessage(e.getChannel(), "No user with the name " + args[1] + " found.");
+					} else ms.sendMessage(e.getChannel(), "No user with the name " + username + " found.");
 				} else ms.sendMessage(e.getChannel(), "Invalid usage of $shame\nSyntax: $shame <user>");
 			} else ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
 		}
