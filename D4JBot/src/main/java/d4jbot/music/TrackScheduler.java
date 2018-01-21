@@ -76,6 +76,10 @@ public class TrackScheduler extends AudioEventAdapter {
 		}
 	}
 	
+	public void removeSongFromQueue(AudioTrack trackToRemove) {
+		queue.remove(trackToRemove);
+	}
+	
 	private String getFormattedTime(long milliseconds) {
 		return String.format("%02d:%02d:%02d", (milliseconds / (1000 * 60 * 60)) % 24, (milliseconds / (1000 * 60)) % 60, (milliseconds / 1000) %60);
 	}

@@ -14,8 +14,15 @@ public class GuildAudioPlayerManager {
 	private AudioPlayerManager apm;
 	private MessageSender ms;
 	
+	private static GuildAudioPlayerManager instance;
+	
+	public static GuildAudioPlayerManager getInstance(AudioPlayerManager apm, MessageSender ms) {
+		if(instance == null) instance = new GuildAudioPlayerManager(apm, ms); 
+		return instance;
+	}
+	
 	// constructor
-	public GuildAudioPlayerManager(AudioPlayerManager apm, MessageSender ms) {
+	private GuildAudioPlayerManager(AudioPlayerManager apm, MessageSender ms) {
 		this.apm = apm;
 		this.musicManagers = new HashMap<>();
 	}

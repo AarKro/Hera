@@ -19,6 +19,7 @@ import d4jbot.events.Play;
 import d4jbot.events.Queue;
 import d4jbot.events.Report;
 import d4jbot.events.Shame;
+import d4jbot.events.Skip;
 import d4jbot.events.Teams;
 import d4jbot.events.Version;
 import d4jbot.events.Volume;
@@ -74,13 +75,14 @@ public class Main {
 		AudioPlayerManager apm = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(apm);
 		AudioSourceManagers.registerLocalSource(apm);
-		GuildAudioPlayerManager gapm = new GuildAudioPlayerManager(apm, ms);
+		GuildAudioPlayerManager gapm = GuildAudioPlayerManager.getInstance(apm, ms);
 		ed.registerListener(new Play(ms, gapm));
 		ed.registerListener(new Queue(ms, gapm));
 		ed.registerListener(new Join());
 		ed.registerListener(new Leave());
 		ed.registerListener(new Np(ms, gapm));
 		ed.registerListener(new Volume(ms, gapm));
+		ed.registerListener(Skip.getInstance(ms, gapm));
 		//ed.registerListener(new Lq(ms, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
