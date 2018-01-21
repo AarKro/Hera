@@ -32,4 +32,8 @@ public class GuildAudioPlayerManager {
 
 		return musicManager;
 	}
+	
+	public AudioPlayerManager getApm() {
+		return this.apm;
+	}
 }

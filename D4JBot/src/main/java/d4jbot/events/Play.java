@@ -20,10 +20,10 @@ public class Play {
 	public Play() {	}
 
 	// constructor
-	public Play(MessageSender ms, AudioPlayerManager apm, GuildAudioPlayerManager gapm) {
+	public Play(MessageSender ms, GuildAudioPlayerManager gapm) {
 		this.ms = ms;
-		this.apm = apm;
 		this.gapm = gapm;
+		this.apm = this.gapm.getApm();
 	}
 
 	@EventSubscriber

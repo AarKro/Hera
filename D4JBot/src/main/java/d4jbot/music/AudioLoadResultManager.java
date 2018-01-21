@@ -43,10 +43,11 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 			totalDuration += track.getDuration();
 		}
 
-		playPlaylist(event.getGuild(), musicManager, playlist);
-		
 		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
 				"Adding to queue:\nPlaylist " + playlist.getName() + "\n\nTotal songs: " + playlist.getTracks().size() + " | Total duration " + getFormattedTime(totalDuration));
+
+		playPlaylist(event.getGuild(), musicManager, playlist);
+		
 	}
 
 	@Override

@@ -75,7 +75,7 @@ public class Main {
 		AudioSourceManagers.registerRemoteSources(apm);
 		AudioSourceManagers.registerLocalSource(apm);
 		GuildAudioPlayerManager gapm = new GuildAudioPlayerManager(apm, ms);
-		ed.registerListener(new Play(ms, apm, gapm));
+		ed.registerListener(new Play(ms, gapm));
 		ed.registerListener(new Queue(ms, gapm));
 		ed.registerListener(new Join());
 		ed.registerListener(new Leave());

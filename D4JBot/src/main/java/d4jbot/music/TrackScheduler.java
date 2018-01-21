@@ -43,9 +43,9 @@ public class TrackScheduler extends AudioEventAdapter {
 			queue.addAll(tracks);
 		} else {
 			tracks.remove(0);
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
+					"Now playing:\n" + tracks.get(0).getInfo().title + " by " + tracks.get(0).getInfo().author + " | " + getFormattedTime(tracks.get(0).getDuration()));
 			queue.addAll(tracks);
-//			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
-//					"Now playing:\n" + tracks.get(0).getInfo().title + " by " + tracks.get(0).getInfo().author + " | " + getFormattedTime(tracks.get(0).getDuration()));
 		}
 	}
 
@@ -55,8 +55,11 @@ public class TrackScheduler extends AudioEventAdapter {
 		// giving null to startTrack, which is a valid argument and will simply
 		// stop the player.
 		AudioTrack track = queue.poll();
-//		if(track != null) ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
-		System.out.println("bla");
+		if(track != null) {
+			System.out.println("bla1");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+			System.out.println("bla2");
+		}
 		player.startTrack(track, false);
 	}
 
