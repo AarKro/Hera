@@ -50,6 +50,7 @@ public class Shame {
 										
 										removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
 										Thread.sleep(Long.parseLong(BotSettings.SHAME_TIME.getPropertyValue()));	
+										ms.sendMessage(e.getChannel(), users.get(0).mention() + " has been put to shame.");
 										addCasualRole(users.get(0), casual, shameOnYou, current);
 									} catch (Exception e) {
 										e.printStackTrace();

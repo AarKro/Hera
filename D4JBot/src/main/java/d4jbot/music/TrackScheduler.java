@@ -58,6 +58,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		if(track != null) {
 			System.out.println("bla1");
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		} else {
 			System.out.println("bla2");
 		}
 		player.startTrack(track, false);

@@ -15,9 +15,12 @@ import d4jbot.events.Leave;
 import d4jbot.events.Motd;
 import d4jbot.events.No;
 import d4jbot.events.Np;
+import d4jbot.events.Pause;
 import d4jbot.events.Play;
 import d4jbot.events.Queue;
+import d4jbot.events.Remove;
 import d4jbot.events.Report;
+import d4jbot.events.Resume;
 import d4jbot.events.Shame;
 import d4jbot.events.Skip;
 import d4jbot.events.Teams;
@@ -83,6 +86,9 @@ public class Main {
 		ed.registerListener(new Np(ms, gapm));
 		ed.registerListener(new Volume(ms, gapm));
 		ed.registerListener(Skip.getInstance(ms, gapm));
+		ed.registerListener(Remove.getInstance(ms, gapm));
+		ed.registerListener(Pause.getInstance(ms, gapm));
+		ed.registerListener(Resume.getInstance(ms, gapm));
 		//ed.registerListener(new Lq(ms, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
