@@ -1,6 +1,9 @@
 package d4jbot.events;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+
 import d4jbot.enums.BotSettings;
+import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -34,13 +37,16 @@ public class Remove {
 					int queuePos = Integer.parseInt(args[1]);
 					if(gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getQueue().length >= queuePos && 1 <= queuePos) {
 						
-						gapm.getGuildAudioPlayer(e.getGuild()).scheduler.removeSongFromQueue(gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getQueue()[queuePos - 1]);
+						AudioTrack trackToRemove = gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getQueue()[queuePos - 1];
+						gapm.getGuildAudioPlayer(e.getGuild()).scheduler.removeSongFromQueue(trackToRemove);
 						
-					} else ms.sendMessage(e.getChannel(), queuePos + " is not a valid song ID.");
+						ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Removed " + trackToRemove.getInfo().title + " by " + trackToRemove.getInfo().author + " from the queue");
+						
+					} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), queuePos + " is not a valid song ID.");
 				} catch(NumberFormatException e2) {
-					ms.sendMessage(e.getChannel(), args[0] + " is not a number.");
+					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), args[1] + " is not a number.");
 				}
-			} else ms.sendMessage(e.getChannel(), "Invalid usage of $remove\nSyntax: $remove <songID>");
+			} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $remove\nSyntax: $remove <songID>");
 		}
 	}
 }

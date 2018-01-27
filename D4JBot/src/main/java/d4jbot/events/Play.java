@@ -3,6 +3,7 @@ package d4jbot.events;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import d4jbot.enums.BotSettings;
+import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.AudioLoadResultManager;
 import d4jbot.music.GuildAudioPlayerManager;
@@ -35,7 +36,7 @@ public class Play {
 			if (args.length > 1) {
 				GuildMusicManager musicManager = gapm.getGuildAudioPlayer(e.getGuild());
 				apm.loadItemOrdered(musicManager, args[1], new AudioLoadResultManager(e, args[1], ms, musicManager));
-			} else ms.sendMessage(e.getChannel(), "Invalid usage of $play | $p.\nSyntax: $play <URL>");
+			} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $play | $p.\nSyntax: $play <URL>");
 		}
 	}
 }
