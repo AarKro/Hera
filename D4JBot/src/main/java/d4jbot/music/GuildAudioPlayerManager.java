@@ -5,27 +5,33 @@ import java.util.Map;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
+import d4jbot.events.Lq;
 import d4jbot.misc.MessageSender;
+import d4jbot.misc.SingletonInstancer;
 import sx.blah.discord.handle.obj.IGuild;
 
 public class GuildAudioPlayerManager {
+
+	private static GuildAudioPlayerManager instance;
+	
+	public static GuildAudioPlayerManager getInstance() {
+		if (instance == null) instance = new GuildAudioPlayerManager();
+		return instance;
+	}
 	
 	private Map<Long, GuildMusicManager> musicManagers;
 	private AudioPlayerManager apm;
 	private MessageSender ms;
 	
-	private static GuildAudioPlayerManager instance;
-	
-	public static GuildAudioPlayerManager getInstance(AudioPlayerManager apm, MessageSender ms) {
-		if(instance == null) instance = new GuildAudioPlayerManager(apm, ms); 
-		return instance;
+	// constructor
+	private GuildAudioPlayerManager() {
+		this.ms = MessageSender.getInstance();
+		this.apm = SingletonInstancer.getAPMInstance();
+		this.musicManagers = new HashMap<>();
 	}
 	
-	// constructor
-	private GuildAudioPlayerManager(AudioPlayerManager apm, MessageSender ms) {
-		this.apm = apm;
-		this.ms = ms;
-		this.musicManagers = new HashMap<>();
+	public AudioPlayerManager getApm() {
+		return apm;
 	}
 	
 	public GuildMusicManager getGuildAudioPlayer(IGuild guild) {
@@ -39,9 +45,5 @@ public class GuildAudioPlayerManager {
 		guild.getAudioManager().setAudioProvider(musicManager.getAudioProvider());
 
 		return musicManager;
-	}
-	
-	public AudioPlayerManager getApm() {
-		return this.apm;
 	}
 }

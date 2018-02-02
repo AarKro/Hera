@@ -6,19 +6,21 @@ import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Help {
+public class Help implements Command {
 
+	private static Help instance;
+	
+	public static Help getInstance() {
+		if (instance == null) instance = new Help();
+		return instance;
+	}
+	
 	private MessageSender ms;
 	
-	// default constructor
-	public Help() { }
-	
-	// constructor
-	public Help(MessageSender ms) {
-		this.ms = ms;
+	private Help() { 
+		this.ms = MessageSender.getInstance();
 	}
-		
-	@EventSubscriber
+	
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "help")) {
 			

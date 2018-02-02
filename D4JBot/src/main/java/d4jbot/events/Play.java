@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
+import d4jbot.misc.SingletonInstancer;
 import d4jbot.music.AudioLoadResultManager;
 import d4jbot.music.GuildAudioPlayerManager;
 import d4jbot.music.GuildMusicManager;
@@ -12,23 +13,26 @@ import d4jbot.youtubeAPI.YoutubeAPIHandler;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Play {
+public class Play implements Command{
 
+	private static Play instance;
+	
+	public static Play getInstance() {
+		if(instance == null) instance = new Play();
+		return instance;
+	}
+	
 	private MessageSender ms;
 	private AudioPlayerManager apm;
 	private GuildAudioPlayerManager gapm;
 
-	// default constructor
-	public Play() {	}
-
 	// constructor
-	public Play(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
-		this.apm = this.gapm.getApm();
+	private Play() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
+		this.apm = SingletonInstancer.getAPMInstance();
 	}
 
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if (e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "p") || e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "play")) {
 				

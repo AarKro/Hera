@@ -7,21 +7,23 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class End {
+public class End implements Command {
+	private static End instance;
+	
+	public static End getInstance() {
+		if (instance == null) instance = new End();
+		return instance;
+	}
 
 	private MessageSender ms;
 	private VoteManager vm;
 	
 	// default constructor
-	public End() { }
-	
-	// constructor
-	public End(MessageSender ms, VoteManager vm) {
-		this.ms = ms;
-		this.vm = vm;
+	private End() { 
+		this.ms = MessageSender.getInstance();
+		this.vm = VoteManager.getInstance();
 	}
 			
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "end")) {
 			if(vm.isVoteActive()) {

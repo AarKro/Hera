@@ -4,12 +4,18 @@ import d4jbot.enums.BotSettings;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Join {
+public class Join implements Command {
+	
+	private static Join instance;
+	
+	public static Join getInstance() {
+		if (instance == null) instance = new Join();
+		return instance;
+	}
 
 	// default constructor
-	public Join() { }
+	private Join() { }
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "join")) {
 			e.getAuthor().getVoiceStateForGuild(e.getGuild()).getChannel().join();

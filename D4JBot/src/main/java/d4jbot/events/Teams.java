@@ -9,19 +9,24 @@ import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Teams {
+public class Teams implements Command {
+	
+	private static Teams instance;
+	
+	public static Teams getInstance() {
+		if (instance == null) {
+			instance = new Teams();
+		}
+		return instance;
+	}
 	
 	private MessageSender ms;
 	
-	// default constructor
-	public Teams() { }
-	
 	// constructor
-	public Teams(MessageSender ms) {
-		this.ms = ms;
+	private Teams() {
+		this.ms = MessageSender.getInstance();
 	}
 		
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "teams")) {
 			List<String> list = Arrays.asList(e.getMessage().getContent().split(" "));

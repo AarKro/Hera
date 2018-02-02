@@ -7,21 +7,24 @@ import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Lq {
+public class Lq implements Command {
 
+	private static Lq instance;
+	
+	public static Lq getInstance() {
+		if (instance == null) instance = new Lq();
+		return instance;
+	}
+	
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 	
-	// default constructor
-	public Lq() { }
-
 	// constructor
-	public Lq(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
+	private Lq() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "lq")) {
 			gapm.getGuildAudioPlayer(e.getGuild()).scheduler.setLoopQueue(!gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getLoopQueue());

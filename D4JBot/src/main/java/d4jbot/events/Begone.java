@@ -10,19 +10,20 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class Begone {
-
-	private MessageSender ms;
+public class Begone implements Command {
+	private static Begone instance;
 	
-	// default constructor
-	public Begone() { }
-	
-	// constructor
-	public Begone(MessageSender ms) {
-		this.ms = ms;
+	public static Begone getInstance() {
+		if (instance == null) instance = new Begone();
+		return instance;
 	}
 	
-	@EventSubscriber
+	private MessageSender ms;
+
+	private Begone() {
+		this.ms = MessageSender.getInstance();
+	}
+
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "begone")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR) || e.getAuthor().getRolesForGuild(e.getGuild()).contains(e.getGuild().getRolesByName("BeGone").get(0))) {

@@ -66,15 +66,10 @@ public class TrackScheduler extends AudioEventAdapter {
 		// Only start the next track if the end reason is suitable for it
 		// (FINISHED or LOAD_FAILED)
 		if (endReason.mayStartNext) {
-			System.out.println("1");
 			if(loopQueue) {
-				System.out.println("2");
 				addLoopQueueSong(track.makeClone());
-				System.out.println("3");
 			}
-			System.out.println("4");
 			nextTrack();
-			System.out.println("5");
 		}
 	}
 	

@@ -7,25 +7,24 @@ import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Pause {
+public class Pause implements Command{
 	
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 	
-	public static Pause instance;
+	private static Pause instance;
 	
-	public static Pause getInstance(MessageSender ms, GuildAudioPlayerManager gapm) {
-		if(instance == null) instance = new Pause(ms, gapm);
+	public static Pause getInstance() {
+		if(instance == null) instance = new Pause();
 		return instance;
 	}
 	
 	// constructor
-	private Pause(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
+	private Pause() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "pause")) {
 			if(!gapm.getGuildAudioPlayer(e.getGuild()).player.isPaused()) {

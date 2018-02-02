@@ -3,10 +3,19 @@ package d4jbot.misc;
 import java.util.ArrayList;
 import java.util.List;
 
+import d4jbot.events.AutoAssignRole;
 import sx.blah.discord.handle.obj.IUser;
 
 public class VoteManager {
-
+	
+	private static VoteManager instance;
+	
+	public static VoteManager getInstance() {
+		if (instance == null) instance = new VoteManager();
+		return instance;
+	}
+	
+	
 	private String voteTopic;
 	private boolean voteActive;
 	private int countYes;
@@ -15,7 +24,7 @@ public class VoteManager {
 	private IUser voteOrganiser;
 
 	// default constructor
-	public VoteManager() {
+	private VoteManager() {
 		this.voteTopic = "";
 		this.voteActive = false;
 		this.countYes = 0;

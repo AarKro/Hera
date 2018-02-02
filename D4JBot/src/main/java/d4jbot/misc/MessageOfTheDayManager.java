@@ -9,11 +9,19 @@ import java.util.stream.Collectors;
 
 import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
+import d4jbot.events.Lq;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 
 public class MessageOfTheDayManager {
+
+	private static MessageOfTheDayManager instance;
+	
+	public static MessageOfTheDayManager getInstance() {
+		if (instance == null) instance = new MessageOfTheDayManager(MessageSender.getInstance(), ClientManager.getInstance());
+		return instance;
+	}
 
 	private MessageSender ms;
 	private ClientManager cm;
@@ -26,7 +34,7 @@ public class MessageOfTheDayManager {
 	public MessageOfTheDayManager() { }
 
 	// constructor
-	public MessageOfTheDayManager(MessageSender ms, ClientManager cm) {
+	private MessageOfTheDayManager(MessageSender ms, ClientManager cm) {
 		this.ms = ms;
 		this.cm = cm;
 		this.rnd = new Random();

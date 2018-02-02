@@ -9,9 +9,18 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 
 public class MessageSender {
-
+	private static MessageSender instance;
+	
+	public static MessageSender getInstance() {
+		if (instance == null) {
+			instance = new MessageSender();
+		}
+		return instance;
+	}
+	
+	
 	// default constructor
-	public MessageSender() { }
+	private MessageSender() { }
 
 	public void sendMessage(IChannel defaultChannel, String message) {
 		if(defaultChannel != null) {
@@ -23,7 +32,7 @@ public class MessageSender {
 			
 			try {
 				defaultChannel.sendMessage(em);
-			} catch (DiscordException e) {
+			} catch (Exception e) {
 				System.err.println("Message could not be sent with error: ");
 				e.printStackTrace();
 			}

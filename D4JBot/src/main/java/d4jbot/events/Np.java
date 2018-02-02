@@ -9,21 +9,24 @@ import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Np {
+public class Np implements Command{
 
+	private static Np instance;
+	
+	public static Np getInstance() {
+		if (instance == null) instance = new Np();
+		return instance;
+	}
+	
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 	
-	// default constructor
-	public Np() { }
-
 	// constructor
-	public Np(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
+	private Np() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "np")) {
 			AudioTrack track = gapm.getGuildAudioPlayer(e.getGuild()).player.getPlayingTrack();

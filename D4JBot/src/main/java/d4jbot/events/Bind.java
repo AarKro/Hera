@@ -7,19 +7,21 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class Bind {
+public class Bind implements Command {
+	private static Bind instance;
+	
+	public static Bind getInstance() {
+		if (instance == null) instance = new Bind();
+		return instance;
+	}
 
 	private MessageSender ms;
 	
 	// default constructor
-	public Bind() { }
-	
-	// constructor
-	public Bind(MessageSender ms) {
-		this.ms = ms;
+	private Bind() { 
+		this.ms = MessageSender.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "bind")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {

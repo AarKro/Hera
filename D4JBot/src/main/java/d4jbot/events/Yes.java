@@ -6,21 +6,26 @@ import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Yes {
+public class Yes implements Command {
+
+	private static Yes instance;
+	
+	public static Yes getInstance() {
+		if (instance == null) {
+			instance = new Yes();
+		}
+		return instance;
+	}
 	
 	private MessageSender ms;
 	private VoteManager vm;
 	
 	// default constructor
-	public Yes() { }
-	
-	// constructor
-	public Yes(MessageSender ms, VoteManager vm) {
-		this.ms = ms;
-		this.vm = vm;
+	private Yes() { 
+		this.ms = MessageSender.getInstance();
+		this.vm = VoteManager.getInstance();
 	}
 			
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "yes")) {
 			if(vm.isVoteActive()) {

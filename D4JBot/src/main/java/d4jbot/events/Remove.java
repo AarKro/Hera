@@ -9,25 +9,24 @@ import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Remove {
+public class Remove implements Command{
 	
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 	
-	public static Remove instance;
+	private static Remove instance;
 	
-	public static Remove getInstance(MessageSender ms, GuildAudioPlayerManager gapm) {
-		if(instance == null) instance = new Remove(ms, gapm);
+	public static Remove getInstance() {
+		if(instance == null) instance = new Remove();
 		return instance;
 	}
 	
 	// constructor
-	private Remove(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
+	private Remove() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "remove") || e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "rm")) {
 			String[] args = e.getMessage().getContent().split(" ");

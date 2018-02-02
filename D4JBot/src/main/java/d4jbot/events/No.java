@@ -6,21 +6,24 @@ import d4jbot.misc.VoteManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class No {
+public class No implements Command {
+
+	private static No instance;
+	
+	public static No getInstance() {
+		if (instance == null) instance = new No();
+		return instance;
+	}
 	
 	private MessageSender ms;
 	private VoteManager vm;
 	
 	// default constructor
-	public No() { }
-	
-	// constructor
-	public No(MessageSender ms, VoteManager vm) {
-		this.ms = ms;
-		this.vm = vm;
+	private No() { 
+		this.ms = MessageSender.getInstance();
+		this.vm = VoteManager.getInstance();
 	}
 			
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "no")) {
 			if(vm.isVoteActive()) {

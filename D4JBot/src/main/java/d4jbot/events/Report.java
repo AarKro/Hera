@@ -6,19 +6,24 @@ import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Report {
+public class Report implements Command {
+	
+	private static Report instance;
+	
+	public static Report getInstance() {
+		if (instance == null) {
+			instance = new Report();
+		}
+		return instance;
+	}
 	
 	private MessageSender ms;
 	
-	// default constructor
-	public Report() { }
-	
 	// constructor
-	public Report(MessageSender ms) {
-		this.ms = ms;
+	private Report() {
+		this.ms = MessageSender.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "report")) {
 			String[] args = e.getMessage().getContent().split(" ");

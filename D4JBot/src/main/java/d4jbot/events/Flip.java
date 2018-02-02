@@ -7,19 +7,22 @@ import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Flip {
+public class Flip implements Command {
 
+	private static Flip instance;
+	
+	public static Flip getInstance() {
+		if (instance == null) instance = new Flip();
+		return instance;
+	}
+	
 	private MessageSender ms;
 	
 	// default constructor
-	public Flip() { }
-	
-	// constructor
-	public Flip(MessageSender ms) {
-		this.ms = ms;
+	private Flip() {
+		this.ms = MessageSender.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "flip")) {
 			Random rng = new Random();

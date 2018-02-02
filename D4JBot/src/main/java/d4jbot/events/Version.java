@@ -5,19 +5,24 @@ import d4jbot.misc.MessageSender;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Version {
+public class Version implements Command {
+	
+	private static Version instance;
+	
+	public static Version getInstance() {
+		if (instance == null) {
+			instance = new Version();
+		}
+		return instance;
+	}
 
 	private MessageSender ms;
 	
 	// default constructor
-	public Version() { }
-	
-	// constructor
-	public Version(MessageSender ms) {
-		this.ms = ms;
+	private Version() {
+		this.ms = MessageSender.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "version")) {
 			ms.sendMessage(e.getChannel(), BotSettings.BOT_VERSION.getPropertyValue());

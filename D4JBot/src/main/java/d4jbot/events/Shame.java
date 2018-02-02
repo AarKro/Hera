@@ -11,16 +11,22 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class Shame {
+public class Shame implements Command{
 
-	private MessageSender ms;
-
-	public Shame(MessageSender ms) {
-		this.ms = ms;
+	private static Shame instance;
+	
+	public static Shame getInstance() {
+		if(instance == null) instance = new Shame();
+		return instance;
 	}
 	
-	@EventSubscriber
-	public void timoutUser(MessageReceivedEvent e) {
+	private MessageSender ms;
+
+	private Shame() {
+		this.ms = MessageSender.getInstance();
+	}
+	
+	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "shame")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
 				

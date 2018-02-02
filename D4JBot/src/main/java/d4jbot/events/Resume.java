@@ -7,25 +7,24 @@ import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Resume {
+public class Resume implements Command{
 	
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 	
-	public static Resume instance;
+	private static Resume instance;
 	
-	public static Resume getInstance(MessageSender ms, GuildAudioPlayerManager gapm) {
-		if(instance == null) instance = new Resume(ms, gapm);
+	public static Resume getInstance() {
+		if(instance == null) instance = new Resume();
 		return instance;
 	}
 	
 	// constructor
-	private Resume(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
+	private Resume() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "resume")) {
 			if(gapm.getGuildAudioPlayer(e.getGuild()).player.isPaused()) {

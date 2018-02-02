@@ -37,20 +37,4 @@ public class ProjectInitalizer {
 			}
 		}
 	}
-	
-	public ClientManager getClientmanager() {
-		PropertiesHandler propHandler = new PropertiesHandler(BotConstants.CLIENT_PROPERTY_LOCATION);
-		propHandler.load();
-		String propertyName = BotSettings.BOT_DEV_STATUS.getPropertyValue() + "." + BotConstants.CLIENT_TOKEN_PROPERTY_NAME;
-		String token = propHandler.getProperty(propertyName);
-		return new ClientManager(token);
-	}
-	
-	public ClientManager getClientmanagerForDevStatus(String devStatus) {
-		PropertiesHandler propHandler = new PropertiesHandler(BotConstants.CLIENT_PROPERTY_LOCATION);
-		propHandler.load();
-		String token = propHandler.getProperty(devStatus + "." + BotConstants.CLIENT_TOKEN_PROPERTY_NAME);
-		return new ClientManager(token);
-	}
-
 }

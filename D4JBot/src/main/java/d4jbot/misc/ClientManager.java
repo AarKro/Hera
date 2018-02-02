@@ -1,21 +1,31 @@
 package d4jbot.misc;
 
+import d4jbot.constants.BotConstants;
+import d4jbot.enums.BotSettings;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.ActivityType;
-import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 
 public class ClientManager {
+	private static ClientManager instance;
+	
+	public static ClientManager getInstance() {
+		if (instance == null)  {
+			PropertiesHandler propHandler = new PropertiesHandler(BotConstants.CLIENT_PROPERTY_LOCATION);
+			propHandler.load();
+			String propertyName = BotSettings.BOT_DEV_STATUS.getPropertyValue() + "." + BotConstants.CLIENT_TOKEN_PROPERTY_NAME;
+			String token = propHandler.getProperty(propertyName);
+			instance = new ClientManager(token);
+		}
+		return instance;
+	}
+	
 	
 	private String token;
 	private IDiscordClient iDiscordClient;
-
-	// default constructor
-	public ClientManager() { }
 	
 	// constructor
-	public ClientManager(String token) {
+	private ClientManager(String token) {
 		this.token = token;
 		this.iDiscordClient = createClient(token);
 	}

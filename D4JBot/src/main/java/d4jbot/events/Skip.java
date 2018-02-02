@@ -6,25 +6,24 @@ import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Skip {
+public class Skip implements Command{
 	
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 	
-	public static Skip instance;
+	private static Skip instance;
 	
-	public static Skip getInstance(MessageSender ms, GuildAudioPlayerManager gapm) {
-		if(instance == null) instance = new Skip(ms, gapm);
+	public static Skip getInstance() {
+		if(instance == null) instance = new Skip();
 		return instance;
 	}
 	
 	// constructor
-	private Skip(MessageSender ms, GuildAudioPlayerManager gapm) {
-		this.ms = ms;
-		this.gapm = gapm;
+	private Skip() {
+		this.ms = MessageSender.getInstance();
+		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 	
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "skip")) {
 			gapm.getGuildAudioPlayer(e.getGuild()).scheduler.nextTrack();

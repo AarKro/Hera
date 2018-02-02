@@ -10,21 +10,24 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class Motd {
+public class Motd implements Command {
+
+	private static Motd instance;
+	
+	public static Motd getInstance() {
+		if (instance == null) instance = new Motd();
+		return instance;
+	}
 
 	private MessageSender ms;
 	private MessageOfTheDayManager motdm;
 	
 	// default constructor
-	public Motd() { }
-	
-	// constructor
-	public Motd(MessageSender ms, MessageOfTheDayManager motdm) {
-		this.ms = ms;
-		this.motdm = motdm;
+	private Motd() {
+		this.ms = MessageSender.getInstance();
+		this.motdm = MessageOfTheDayManager.getInstance();
 	}
 		
-	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "motd")) {
 			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
