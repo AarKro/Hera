@@ -7,11 +7,13 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import d4jbot.events.AutoAssignRole;
 import d4jbot.events.Begone;
 import d4jbot.events.Bind;
+import d4jbot.events.Clear;
 import d4jbot.events.End;
 import d4jbot.events.Flip;
 import d4jbot.events.Help;
 import d4jbot.events.Join;
 import d4jbot.events.Leave;
+import d4jbot.events.Lq;
 import d4jbot.events.Motd;
 import d4jbot.events.No;
 import d4jbot.events.Np;
@@ -53,6 +55,7 @@ public class Main {
 		}
 		
 		projectInitalizer.initalizeBindings(cm.getiDiscordClient().getGuilds().get(0));
+		projectInitalizer.initializeYoutubeProperties();
 		
 		MessageSender ms = new MessageSender();
 		VoteManager vm = new VoteManager();
@@ -89,7 +92,8 @@ public class Main {
 		ed.registerListener(Remove.getInstance(ms, gapm));
 		ed.registerListener(Pause.getInstance(ms, gapm));
 		ed.registerListener(Resume.getInstance(ms, gapm));
-		//ed.registerListener(new Lq(ms, gapm));
+		ed.registerListener(Clear.getInstance(ms, gapm));
+		ed.registerListener(new Lq(ms, gapm));
 		
 		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}

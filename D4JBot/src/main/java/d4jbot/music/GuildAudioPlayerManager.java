@@ -24,6 +24,7 @@ public class GuildAudioPlayerManager {
 	// constructor
 	private GuildAudioPlayerManager(AudioPlayerManager apm, MessageSender ms) {
 		this.apm = apm;
+		this.ms = ms;
 		this.musicManagers = new HashMap<>();
 	}
 	

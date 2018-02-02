@@ -56,12 +56,9 @@ public class TrackScheduler extends AudioEventAdapter {
 		// stop the player.
 		AudioTrack track = queue.poll();
 		if(track != null) {
-			System.out.println("bla1");
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
-		} else {
-			System.out.println("bla2");
+			player.startTrack(track, false);
 		}
-		player.startTrack(track, false);
 	}
 
 	@Override
@@ -69,12 +66,20 @@ public class TrackScheduler extends AudioEventAdapter {
 		// Only start the next track if the end reason is suitable for it
 		// (FINISHED or LOAD_FAILED)
 		if (endReason.mayStartNext) {
-			nextTrack();
+			System.out.println("1");
 			if(loopQueue) {
-				track.setPosition(0);
-				queue(track);
+				System.out.println("2");
+				addLoopQueueSong(track.makeClone());
+				System.out.println("3");
 			}
+			System.out.println("4");
+			nextTrack();
+			System.out.println("5");
 		}
+	}
+	
+	public void addLoopQueueSong(AudioTrack track) {
+		queue.offer(track);
 	}
 	
 	public void clearQueue() {
