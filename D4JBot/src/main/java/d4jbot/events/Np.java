@@ -6,7 +6,6 @@ import d4jbot.enums.BotSettings;
 import d4jbot.enums.BoundChannel;
 import d4jbot.misc.MessageSender;
 import d4jbot.music.GuildAudioPlayerManager;
-import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Np implements Command{

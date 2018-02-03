@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
-import d4jbot.events.Lq;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.SingletonInstancer;
 import sx.blah.discord.handle.obj.IGuild;

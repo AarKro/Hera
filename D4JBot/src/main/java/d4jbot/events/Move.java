@@ -1,8 +1,5 @@
 package d4jbot.events;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;

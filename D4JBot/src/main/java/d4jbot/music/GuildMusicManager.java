@@ -10,7 +10,6 @@ public class GuildMusicManager {
   
 	public final AudioPlayer player;
 	public final TrackScheduler scheduler;
-	private MessageSender ms;
   
 	public GuildMusicManager(AudioPlayerManager manager, MessageSender ms) {
 		player = manager.createPlayer();

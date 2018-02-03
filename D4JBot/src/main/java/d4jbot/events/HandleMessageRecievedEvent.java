@@ -2,8 +2,6 @@ package d4jbot.events;
 
 import java.util.HashMap;
 
-import org.apache.commons.lang3.StringUtils;
-
 import d4jbot.enums.BotCommands;
 import d4jbot.enums.BotSettings;
 import sx.blah.discord.api.events.EventSubscriber;

@@ -3,7 +3,6 @@ package d4jbot.misc;
 import java.util.ArrayList;
 import java.util.List;
 
-import d4jbot.events.AutoAssignRole;
 import sx.blah.discord.handle.obj.IUser;
 
 public class VoteManager {

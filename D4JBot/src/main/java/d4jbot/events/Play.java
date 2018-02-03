@@ -10,7 +10,6 @@ import d4jbot.music.AudioLoadResultManager;
 import d4jbot.music.GuildAudioPlayerManager;
 import d4jbot.music.GuildMusicManager;
 import d4jbot.youtubeAPI.YoutubeAPIHandler;
-import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Play implements Command{
