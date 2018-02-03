@@ -37,6 +37,7 @@ public class Report implements Command {
 				ms.sendMessage(BoundChannel.REPORT.getBoundChannel(),   "Reporter:	 " + e.getAuthor().mention() + 
 																		"\nRecipient:	" + reportedUser +
 																		"\n\nReport message:\n" + message);
+				ms.sendMessage(e.getChannel(), "Reported " + reportedUser);
 			} else {
 				ms.sendMessage(e.getChannel(), "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
 			}
