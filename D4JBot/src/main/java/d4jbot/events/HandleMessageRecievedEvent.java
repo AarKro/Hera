@@ -14,13 +14,13 @@ public class HandleMessageRecievedEvent {
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		if (e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue())) {
+
 			String message = e.getMessage().getContent().substring(BotSettings.BOT_PREFIX.getPropertyValue().length());
 			HashMap<String, Command> hashmap = convertEnumToHashmap();
 			String command = message.split(" ")[0];
 			if (hashmap.containsKey(command)) {
 				hashmap.get(command).onMessageReceivedEvent(e);
 			}
-			
 			
 		}
 	}
@@ -40,6 +40,7 @@ public class HandleMessageRecievedEvent {
 				hashmap.put(value.getCommandName(), value.getCommandInstance());
 			}
 		}
+		
 		return hashmap;
 	}
 }

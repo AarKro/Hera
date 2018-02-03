@@ -1,5 +1,7 @@
 package d4jbot.music;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -91,6 +93,11 @@ public class TrackScheduler extends AudioEventAdapter {
 	
 	public AudioTrack[] getQueue() {
 		return queue.toArray(new AudioTrack[0]);
+	}
+	
+	public void setQueueAfterMove(AudioTrack[] queue) {
+		clearQueue();
+		this.queue.addAll(Arrays.asList(queue));
 	}
 	
 	public boolean getLoopQueue() {
