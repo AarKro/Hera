@@ -1,7 +1,6 @@
 package d4jbot.music;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -44,9 +43,9 @@ public class TrackScheduler extends AudioEventAdapter {
 		if (!player.startTrack(playlist.getTracks().get(0), true)) {
 			queue.addAll(tracks);
 		} else {
-			tracks.remove(0);
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
 					"Now playing:\n" + tracks.get(0).getInfo().title + " by " + tracks.get(0).getInfo().author + " | " + getFormattedTime(tracks.get(0).getDuration()));
+			tracks.remove(0);
 			queue.addAll(tracks);
 		}
 	}

@@ -6,7 +6,6 @@ import java.util.List;
 import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageOfTheDayManager;
 import d4jbot.misc.MessageSender;
-import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 

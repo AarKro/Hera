@@ -3,7 +3,6 @@ package d4jbot.events;
 import d4jbot.enums.BotSettings;
 import d4jbot.misc.MessageSender;
 import d4jbot.misc.VoteManager;
-import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class No implements Command {
