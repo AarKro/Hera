@@ -45,7 +45,7 @@ public class AudioProvider implements IAudioProvider {
 		return AudioEncodingType.OPUS;
 	}
 	
-	// getters a& setters
+	// getters & setters
 	public AudioPlayer getAudioPlayer() {
 		return audioPlayer;
 	}
