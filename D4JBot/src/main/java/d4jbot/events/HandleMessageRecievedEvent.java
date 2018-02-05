@@ -17,7 +17,7 @@ public class HandleMessageRecievedEvent {
 			HashMap<String, Command> hashmap = convertEnumToHashmap();
 			String command = message.split(" ")[0];
 			if (hashmap.containsKey(command)) {
-				hashmap.get(command).onMessageReceivedEvent(e);
+				hashmap.get(command).execute(e);
 			}
 			
 		}

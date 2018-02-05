@@ -10,76 +10,82 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class Shame implements Command{
+public class Shame implements Command {
 
 	private static Shame instance;
-	
+
 	public static Shame getInstance() {
-		if(instance == null) instance = new Shame();
+		if (instance == null)
+			instance = new Shame();
 		return instance;
 	}
-	
+
 	private MessageSender ms;
 
 	private Shame() {
 		this.ms = MessageSender.getInstance();
 	}
-	
-	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "shame")) {
-			if(e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
-				
-				String[] args = e.getMessage().getContent().split(" ");
-				
-				if(args.length > 1) {
-					
-					String username = "";
-					for(int i = 1; i < args.length; i++) {
-						username += args[i] + " ";
-					}
-					username = username.trim();
-					
-					List<IUser> users = e.getGuild().getUsersByName(username, true);
-					if(!users.isEmpty()) {
-						
-						if(users.get(0).getRolesForGuild(e.getGuild()).contains(e.getGuild().getRolesByName("Casual").get(0))) {
-								
-							Runnable runnable = new Runnable() {
-								
-								public void run() {
-									try {
-										IRole casual = e.getGuild().getRolesByName("Casual").get(0);
-										IRole shameOnYou = e.getGuild().getRolesByName("Schäm dich").get(0);
-										IVoiceChannel current = e.getAuthor().getVoiceStateForGuild(e.getGuild()).getChannel();
-										IVoiceChannel shameCorner = e.getGuild().getVoiceChannelsByName("Schämdicheggli").get(0);
-										
-										removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
-										Thread.sleep(Long.parseLong(BotSettings.SHAME_TIME.getPropertyValue()));	
-										ms.sendMessage(e.getChannel(), users.get(0).mention() + " has been put to shame.");
-										addCasualRole(users.get(0), casual, shameOnYou, current);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-								
-							};
-					
-							Thread thread = new Thread(runnable);
-							thread.start();
 
-						} else ms.sendMessage(e.getChannel(), users.get(0).getName() + " can't be put to shame.");
-					} else ms.sendMessage(e.getChannel(), "No user with the name " + username + " found.");
-				} else ms.sendMessage(e.getChannel(), "Invalid usage of $shame\nSyntax: $shame <user>");
-			} else ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
-		}
+	public void execute(MessageReceivedEvent e) {
+		if (e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
+
+			String[] args = e.getMessage().getContent().split(" ");
+
+			if (args.length > 1) {
+
+				String username = "";
+				for (int i = 1; i < args.length; i++) {
+					username += args[i] + " ";
+				}
+				username = username.trim();
+
+				List<IUser> users = e.getGuild().getUsersByName(username, true);
+				if (!users.isEmpty()) {
+
+					if (users.get(0).getRolesForGuild(e.getGuild())
+							.contains(e.getGuild().getRolesByName("Casual").get(0))) {
+
+						Runnable runnable = new Runnable() {
+
+							public void run() {
+								try {
+									IRole casual = e.getGuild().getRolesByName("Casual").get(0);
+									IRole shameOnYou = e.getGuild().getRolesByName("Schäm dich").get(0);
+									IVoiceChannel current = e.getAuthor().getVoiceStateForGuild(e.getGuild())
+											.getChannel();
+									IVoiceChannel shameCorner = e.getGuild().getVoiceChannelsByName("Schämdicheggli")
+											.get(0);
+
+									removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
+									Thread.sleep(Long.parseLong(BotSettings.SHAME_TIME.getPropertyValue()));
+									ms.sendMessage(e.getChannel(), users.get(0).mention() + " has been put to shame.");
+									addCasualRole(users.get(0), casual, shameOnYou, current);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+
+						};
+
+						Thread thread = new Thread(runnable);
+						thread.start();
+
+					} else
+						ms.sendMessage(e.getChannel(), users.get(0).getName() + " can't be put to shame.");
+				} else
+					ms.sendMessage(e.getChannel(), "No user with the name " + username + " found.");
+			} else
+				ms.sendMessage(e.getChannel(), "Invalid usage of $shame\nSyntax: $shame <user>");
+		} else
+			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
 	}
-	
+
 	private void removeCasualRoleAndMoveUser(IUser user, IRole casual, IRole shameOnYou, IVoiceChannel shameCorner) {
 		user.moveToVoiceChannel(shameCorner);
 		user.addRole(shameOnYou);
 		user.removeRole(casual);
 	}
-	
+
 	private void addCasualRole(IUser user, IRole casual, IRole shameOnYou, IVoiceChannel current) {
 		user.moveToVoiceChannel(current);
 		user.addRole(casual);

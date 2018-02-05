@@ -22,9 +22,7 @@ public class Version implements Command {
 		this.ms = MessageSender.getInstance();
 	}
 	
-	public void onMessageReceivedEvent(MessageReceivedEvent e) {
-		if(e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue() + "version")) {
+	public void execute(MessageReceivedEvent e) {
 			ms.sendMessage(e.getChannel(), BotSettings.BOT_VERSION.getPropertyValue());
-		}
 	}
 }

@@ -4,5 +4,5 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public interface Command {
 	
-	public void onMessageReceivedEvent(MessageReceivedEvent e);
+	public void execute(MessageReceivedEvent e);
 }
