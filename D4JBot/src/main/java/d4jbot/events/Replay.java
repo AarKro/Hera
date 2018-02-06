@@ -3,27 +3,24 @@ package d4jbot.events;
 import d4jbot.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Skip implements Command {
+public class Replay implements Command {
 
-//TODO implement responce message
-//	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 
-	private static Skip instance;
+	private static Replay instance;
 
-	public static Skip getInstance() {
+	public static Replay getInstance() {
 		if (instance == null)
-			instance = new Skip();
+			instance = new Replay();
 		return instance;
 	}
 
 	// constructor
-	private Skip() {
-//		this.ms = MessageSender.getInstance();
+	private Replay() {
 		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 
 	public void execute(MessageReceivedEvent e) {
-		gapm.getGuildAudioPlayer(e.getGuild()).scheduler.skipSong();
+		gapm.getGuildAudioPlayer(e.getGuild()).scheduler.requeueSong();
 	}
 }

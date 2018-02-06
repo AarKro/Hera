@@ -67,14 +67,26 @@ public class TrackScheduler extends AudioEventAdapter {
 		// Only start the next track if the end reason is suitable for it
 		// (FINISHED or LOAD_FAILED)
 		if (endReason.mayStartNext) {
-			if(loopQueue) {
-				addLoopQueueSong(track.makeClone());
-			}
+			if(loopQueue) addSong(track.makeClone());
 			nextTrack();
 		}
 	}
 	
-	public void addLoopQueueSong(AudioTrack track) {
+	public void requeueSong() {
+		if(player.getPlayingTrack() != null) {
+			addSong(player.getPlayingTrack().makeClone());
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Requeued " + player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author);
+		} else {
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "There is no song playing at the moment.");
+		}
+	}
+	
+	public void skipSong() {
+		if(loopQueue && player.getPlayingTrack() != null) addSong(player.getPlayingTrack().makeClone());
+		nextTrack();
+	}
+	
+	public void addSong(AudioTrack track) {
 		queue.offer(track);
 	}
 	
