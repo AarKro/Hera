@@ -21,6 +21,7 @@ public enum BotCommands {
 	PLAY("play,p", Play.getInstance()), 
 	QUEUE("queue", Queue.getInstance()),
 	REMOVE("remove,rm", Remove.getInstance()),
+	REPLAY("replay", Replay.getInstance()),
 	REPORT("report", Report.getInstance()),
 	RESUME("resume", Resume.getInstance()),
 	SHAME("shame", Shame.getInstance()),
