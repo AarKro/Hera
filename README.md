@@ -216,7 +216,7 @@ Can be used by all guild members.
 Syntax: ```$yes```
 
 <h2>Property files</h2>
-Hera ready various property files on startup. In them are values relevant on runtime stored.  
+Hera reads various property files on startup. In them are values stored, which are relevant on runtime.  
 The property files also get updated automatically by Hera, if such a command is issued.
 
 Example values that are stored in property files are channel IDs for the bound channels or when the last message of the day was posted. This way channels don't have to be rebound on every startup and the message of the day is only posted once a day.
