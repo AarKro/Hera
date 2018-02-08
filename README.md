@@ -230,4 +230,4 @@ Property files Hera uses:
 
 <h2>License</h2>
 
-This project is licensed under the open-source license [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0).
+This project is licensed under the open-source license [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
