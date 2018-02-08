@@ -216,6 +216,7 @@ Can be used by all guild members.
 Syntax: ```$yes```
 
 <h2>Property files</h2>
+
 Hera reads various property files on startup. In them are values stored, which are relevant on runtime.  
 The property files also get updated automatically by Hera, if such a command is issued.
 
@@ -228,4 +229,5 @@ Property files Hera uses:
 * youtube.properties
 
 <h2>License</h2>
+
 This project is licensed under the open-source license [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0).
