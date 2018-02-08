@@ -1,102 +1,229 @@
 <h1>Hera</h1>
-Hera is a Discord chatbot written in Java using the Discord4Java library.
 
-Bot-prefix: $  
-Version: v0.4.4
+Bot-prefix: ```$``` | Version ```v1.0.0```
 
-<h2>Available commands</h2>
+Hera is a Discord chatbot written in Java using the Discord4Java library.  
+She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
 
-<h3>help</h3>
+Some of these areas are:  
+* **Discord guild management**  
+Hera supports auto role assign on join and a message of the day functionality.
+* **Guild member management**  
+Report, timeout or randomly move other users with ```$report```, ```$shame``` & ```begone```.
+* **Music player functionality**  
+Queue your favorite songs via ```URL``` or just give Hera a few keywords to search with on YouTube.
+* **General convenience**  
+Use various little commands such as ```$flip``` to flip a coin, or ```$vote``` to start a guild wide vote.
 
-Returns a list of all currently available commands.  
->Syntax: $help
+<h2>Full command list</h2>  
 
-<h3>flip</h3>
+<h3>Begone</h3>
 
-Flips a coin. Return "Heads" or "Tails" with a 50% chance.  
->Syntax: $flip
+Moves another user to a random voice channel, for which they have the right permissions for.
 
-<h3>bind</h3>
+Can only be used by Admins and the role BeGone.  
+Syntax: ```$begone <username | usernickname>```
 
-Binds the output-channel for the respective function (parameter) to the channel the command was written in.  
-Administrator rights needed for execution.  
->Syntax: $bind \<report/music\>
+<h3>Bind</h3>
 
-<h3>report</h3>
+Binds a channel to a specific message output group from Hera.  
+For example: ```$bind music``` binds all of Heras output messages regarding music to the channel in which the command was written in.
 
-Sendes a report to the bound channel. Channel needs to be bound in before, else an appropriate error message will appear.  
->Syntax: $report \<@userToReport\> \<reportMessage\>
+Output message groups:  
+* ```report```
+* ```music```
+* ```announcements```
 
-<h3>teams</h3>
+Can only be used by Admins.  
+Syntax: ```$bind <output message group>```
 
-Returns the given parameters / names randomly split into 2 teams.  
->Syntax: $teams \<parameter\> \<parameter\> \<parameter\> ...
+<h3>Clear</h3>
 
-<h3>vote</h3>
+Clears all songs from the current music queue.
 
-Startes a vote about the given topic.  
->Syntax: $vote \<topic\>
+Can be used by all guild members.  
+Syntax: ```$clear```
 
-<h3>yes</h3>
+<h3>End</h3>
 
-Vote yes for the currently active vote.  
->Syntax: $yes
+Ends an ongoing vote.
 
-<h3>no</h3>
+Can only be used by Admins and the user who started the vote.  
+Syntax: ```$end```
 
-Vote no for the currently active vote.  
->Syntax: $no
+<h3>Flip</h3>
 
-<h3>end</h3>
+This command simulates a coin flip. The outcome of it is randomly chosen between ```Heads``` & ```Tails```.
 
-End the currently active vote.  
-Only usable for the vote organiser or Administrators.
->Syntax: $end
+Can be used by all guild members.  
+Syntax: ```$flip```
 
-<h3>version</h3>
+<h3>Help</h3>
 
-Returns the current version of Hera.  
->Syntax: $version
+Displays a list of all available commands and a link to https://chromeroni.github.io/Hera-Chatbot/ for more information.
 
-<h3>begone</h3>
+Can be used by all guild members.  
+Syntax: ```$help```
 
-Moves the user (parameter) to a random channel in the same server for which they have the right permissions.  
-The parameter can be a name or nickname, but not a mention (@name).  
->Syntax: $begone \<name/nickname\>
+<h3>Join</h3>
 
-<h3>motd</h3>
+Hera joins the voice channel to which the user who issued the command is connected.
 
-Sets the message of the day an writes it in a general channel.  
->Syntax: $motd \<messageOfTheDay\>
+Can be used by all guild members.  
+Syntax: ```$join```
 
-<h3>join</h3>
+<h3>Leave</h3>
 
-Hera joins the voice-channel in which the author of the message is in.  
->Syntax: $join
+Hera leaves the voice channel to which she is currently connected.
 
-<h3>leave</h3>
+Can be used by all guild members.  
+Syntax: ```$leave```
 
-Hera leaves the voice-channel in which she is currently in.  
->Syntax: $leave
+<h3>Lq</h3>
 
-<h3>np</h3>
+Loops the music queue, so that at the end of a song it is simply requeued.
 
-Show the song that is currently playing.  
->Syntax: $np
+Can be used by all guild members.  
+Syntax: ```$lq```
 
-<h3>volume</h3>
+<h3>Motd</h3>
 
-Set the Heras volume.  
-The volume level must be a number between 0 and 150.  
->Syntax: $volume <0 - 150>
+Lets you choose your own message of the day and override the current one.
 
-<h3>play</h3>
+Can only be used by Admins.  
+Syntax: ```$motd <message of the day>```
 
-Adds the provided url to the song queue.  
-Hera will join the voice channel of the author if she has not already done this.  
->Syntax: $play <URL>
+<h3>Move</h3>
 
-<h3>queue</h3>
+Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through ```$queue```.
 
-Shows the songs currently in the song queue.  
->Syntax: $queue
+Can be used by all guild members.  
+Syntax: ```$move <song ID> <song ID>```
+
+<h3>No</h3>
+
+Vote no on the currently active vote.
+
+Can be used by all guild members.  
+Syntax: ```$no```
+
+<h3>Np</h3>
+
+Display the currently playing song.
+
+Can be used by all guild members.  
+Syntax: ```$np```
+
+<h3>Pause</h3>
+
+Pauses the music player.
+
+Can be used by all guild members.
+Syntax: ```$pause```
+
+<h3>Play</h3>
+
+Queues a song through an ```URL``` or a few keywords with which Hera will search and queue the first search result on YouTube.  
+If there is no song playing at the moment, play will start the player by itself.  
+If Hera has not join a voice channel yet, she will automatically join the voice channel of the user who issued the command.
+
+Can be used by all guild members.  
+Syntax: ```$play <url | keywords>```
+
+<h3>Queue</h3>
+
+Displays all song that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
+If the message still exeeds the character limit, only the first 5 song will be displayed in normal view.
+
+Can be used by all guild members.  
+Syntax: ```$queue```
+
+<h3>Remove</h3>
+
+Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through ```$queue```.
+
+Can be used by all guild members.  
+Syntax: ```$remove <song ID>```
+
+<h3>Replay</h3>
+
+Requeues the currently playing song.
+
+Can be used by all guild members.  
+Syntax: ```$replay```
+
+<h3>Report</h3>
+
+Reports the specified user to the Admins.
+
+Can be used by all guild members.  
+Syntax: ```$report <@user> <report message>```
+
+<h3>Resume</h3>
+
+Resumes the music player.
+
+Can be used by all guild members.  
+Syntax: ```$resume```
+
+<h3>Shame</h3>
+
+Removes the casual role from the specified user and replaces it with the "schäm dich" role. Also moves the user to the "schämdicheggli" voice channel for a by the Admins specified time period.
+
+Can only be used by Admins.  
+Syntax: ```$shame <username | usernickname>```
+
+<h3>Skip</h3>
+
+Skips the currently playing song and starts the next one in the queue.
+
+Can be used by all guild members.  
+Syntax: ```$skip```
+
+<h3>Teams</h3>
+
+Creates two teams of its parameters. There need to be at least 3 parameters to use this command.
+
+Can be used by all guild members.  
+Syntax: ```$teams <name> <name> <name> ...```
+
+<h3>Version</h3>
+
+Displays the current version of Hera.
+
+Can be used by all guild members.  
+Syntax: ```$version```
+
+<h3>Volume</h3>
+
+Sets the volume of the music player. Valid values are numbers between 0 and 150.
+
+Can only be used by Admins.  
+Syntax: ```$volume <value>```
+
+<h3>Vote</h3>
+
+Starts a vote. Only 1 vote can be active at a time. All guild members can vote 1 times on a vote.
+
+Can be used by all guild members.  
+Syntax: ```$vote <vote topic>```
+
+<h3>Yes</h3>
+
+Vote yes on the currently active vote.
+
+Can be used by all guild members.  
+Syntax: ```$yes```
+
+<h2>Property files</h2>
+Hera ready various property files on startup. In them are values relevant on runtime stored.  
+The property files also get updated automatically by Hera, if such a command is issued.
+
+Example values that are stored in property files are channel IDs for the bound channels or when the last message of the day was posted.  
+This way channels don't have to be rebound on every startup and the message of the day is only posted once a day.
+
+Property files Hera uses:  
+* binding.properties
+* settings.properties
+* client.properties
+* youtube.properties
