@@ -9,7 +9,7 @@ Some of these areas are:
 * **Discord guild management**  
 Hera supports auto role assign on join and a message of the day functionality.
 * **Guild member management**  
-Report, timeout or randomly move other users with ```$report```, ```$shame``` & ```begone```.
+Report, timeout or randomly move other users with ```$report```, ```$shame``` & ```$begone```.
 * **Music player functionality**  
 Queue your favorite songs via ```URL``` or just give Hera a few keywords to search with on YouTube.
 * **General convenience**  
@@ -118,7 +118,7 @@ Syntax: ```$np```
 
 Pauses the music player.
 
-Can be used by all guild members.
+Can be used by all guild members.  
 Syntax: ```$pause```
 
 <h3>Play</h3>
@@ -219,8 +219,7 @@ Syntax: ```$yes```
 Hera ready various property files on startup. In them are values relevant on runtime stored.  
 The property files also get updated automatically by Hera, if such a command is issued.
 
-Example values that are stored in property files are channel IDs for the bound channels or when the last message of the day was posted.  
-This way channels don't have to be rebound on every startup and the message of the day is only posted once a day.
+Example values that are stored in property files are channel IDs for the bound channels or when the last message of the day was posted. This way channels don't have to be rebound on every startup and the message of the day is only posted once a day.
 
 Property files Hera uses:  
 * binding.properties
