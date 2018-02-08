@@ -226,3 +226,6 @@ Property files Hera uses:
 * settings.properties
 * client.properties
 * youtube.properties
+
+<h2>License</h2>
+This project is licensed under the open-source license [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0).
