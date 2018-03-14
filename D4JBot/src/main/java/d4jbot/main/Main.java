@@ -9,8 +9,6 @@ import d4jbot.misc.ClientManager;
 import d4jbot.misc.ProjectInitalizer;
 import d4jbot.misc.SingletonInstancer;
 import sx.blah.discord.api.events.EventDispatcher;
-import sx.blah.discord.handle.obj.ActivityType;
-import sx.blah.discord.handle.obj.StatusType;
 
 public class Main {
 	
@@ -37,6 +35,6 @@ public class Main {
 		ed.registerListener(new AutoAssignRole());
 		ed.registerListener(new HandleMessageRecievedEvent());
 		
-		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
+		//cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
 	}
 }
