@@ -1,6 +1,6 @@
 <h1>Hera</h1>
 
-Bot-prefix: `$` | Version `v0.6.0`
+Bot-prefix: `$` ¦ Version `v0.6.0`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -21,7 +21,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 
 | Command | Usable for | Quick syntax |
 | ------- | ---------- | ------------ |
-| [Begone](#begone) | Admins and role BeGone | `$begone <username \| usernickname>` |
+| [Begone](#begone) | Admins and role BeGone | `$begone <username ¦ usernickname>` |
 | [Bind](#bind) | Admins only | `$bind <output message group>` |
 | [Clear](#clear) | All users | `$clear` |
 | [End](#end) | All users | `$end` |
@@ -35,13 +35,13 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 | [No](#no) | All users | `$no` |
 | [Np](#np) | All users | `$np` |
 | [Pause](#pause) | All users | `$pause` |
-| [Play](#play) | All users | `$play <url \| keywords>` |
+| [Play](#play) | All users | `$play <url ¦ keywords>` |
 | [Queue](#queue) | All users | `$queue` |
 | [Remove](#remove) | All users | `$remove <song ID>` |
 | [Replay](#replay) | All users | `$replay` |
 | [Report](#report) | All users | `$report <@user> <report message>` |
 | [Resume](#resume) | All users | `$resume` |
-| [Shame](#shame) | Admins only | `$shame <username \| usernickname>` |
+| [Shame](#shame) | Admins only | `$shame <username ¦ usernickname>` |
 | [Skip](#skip) | All users | `$skip` |
 | [Teams](#teams) | All users | `$teams <name> <name> <name> ...` |
 | [Version](#version) | All users | `$version` |
@@ -56,7 +56,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 Moves another user to a random voice channel, for which they have the right permissions for.
 
 Can only be used by Admins and the role BeGone.  
-Syntax: `$begone <username | usernickname>`
+Syntax: `$begone <username ¦ usernickname>`
 
 <h4>Bind</h4>
 
@@ -162,7 +162,7 @@ If there is no song playing at the moment, play will start the player by itself.
 If Hera has not join a voice channel yet, she will automatically join the voice channel of the user who issued the command.
 
 Can be used by all guild members.  
-Syntax: `$play <url | keywords>`
+Syntax: `$play <url ¦ keywords>`
 
 <h4>Queue</h4>
 
@@ -205,7 +205,7 @@ Syntax: `$resume`
 Removes the casual role from the specified user and replaces it with the "schäm dich" role. Also moves the user to the "schämdicheggli" voice channel for a by the Admins specified time period.
 
 Can only be used by Admins.  
-Syntax: `$shame <username | usernickname>`
+Syntax: `$shame <username ¦ usernickname>`
 
 <h4>Skip</h4>
 
