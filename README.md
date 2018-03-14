@@ -1,6 +1,6 @@
 <h1>Hera</h1>
 
-Bot-prefix: ```$``` | Version ```v1.0.0```
+Bot-prefix: `$` | Version `v0.6.0`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -9,211 +9,245 @@ Some of these areas are:
 * **Discord guild management**  
 Hera supports auto role assign on join and a message of the day functionality.
 * **Guild member management**  
-Report, timeout or randomly move other users with ```$report```, ```$shame``` & ```$begone```.
+Report, timeout or randomly move other users with `$report`, `$shame` & `$begone`.
 * **Music player functionality**  
-Queue your favorite songs via ```URL``` or just give Hera a few keywords to search with on YouTube.
+Queue your favorite songs via `URL` or just give Hera a few keywords to search with on YouTube.
 * **General convenience**  
-Use various little commands such as ```$flip``` to flip a coin, or ```$vote``` to start a guild wide vote.
+Use various little commands such as `$flip` to flip a coin, or `$vote` to start a guild wide vote.
 
 <h2>Full command list</h2>  
 
-<h3>Begone</h3>
+<h3>Command listing</h3>
+
+| Command | Usable for | Quick syntax |
+| ------- | ---------- | ------------ |
+| [Begone](#begone) | Admins and role BeGone | `$begone <username \| usernickname>` |
+| [Bind](#bind) | Admins only | `$bind <output message group>` |
+| [Clear](#clear) | All users | `$clear` |
+| [End](#end) | All users | `$end` |
+| [Flip](#flip) | All users | `$flip` |
+| [Help](#help) | All users | `$help` |
+| [Join](#join) | All users | `$join` |
+| [Leave](#leave) | All users | `$leave` |
+| [Lq](#lq) | All users | `$lq` |
+| [Motd](#motd) | Admins only | `$motd <message of the day>` |
+| [Move](#move) | All users | `$move <song ID> <song ID>` |
+| [No](#no) | All users | `$no` |
+| [Np](#np) | All users | `$np` |
+| [Pause](#pause) | All users | `$pause` |
+| [Play](#play) | All users | `$play <url \| keywords>` |
+| [Queue](#queue) | All users | `$queue` |
+| [Remove](#remove) | All users | `$remove <song ID>` |
+| [Replay](#replay) | All users | `$replay` |
+| [Report](#report) | All users | `$report <@user> <report message>` |
+| [Resume](#resume) | All users | `$resume` |
+| [Shame](#shame) | Admins only | `$shame <username \| usernickname>` |
+| [Skip](#skip) | All users | `$skip` |
+| [Teams](#teams) | All users | `$teams <name> <name> <name> ...` |
+| [Version](#version) | All users | `$version` |
+| [Volume](#volume) | Admins only | `$volume <value>` |
+| [Vote](#vote) | All users | `$vote <vote topic>` |
+| [Yes](#yes) | All users | `$yes` |
+
+<h3>Detailed command listing</h3>
+
+<h4>Begone</h4>
 
 Moves another user to a random voice channel, for which they have the right permissions for.
 
 Can only be used by Admins and the role BeGone.  
-Syntax: ```$begone <username | usernickname>```
+Syntax: `$begone <username | usernickname>`
 
-<h3>Bind</h3>
+<h4>Bind</h4>
 
 Binds a channel to a specific message output group from Hera.  
-For example: ```$bind music``` binds all of Heras output messages regarding music to the channel in which the command was written in.
+For example: `$bind music` binds all of Heras output messages regarding music to the channel in which the command was written in.
 
 Output message groups:  
-* ```report```
-* ```music```
-* ```announcements```
+* `report`
+* `music`
+* `announcements`
 
 Can only be used by Admins.  
-Syntax: ```$bind <output message group>```
+Syntax: `$bind <output message group>`
 
-<h3>Clear</h3>
+<h4>Clear</h4>
 
 Clears all songs from the current music queue.
 
 Can be used by all guild members.  
-Syntax: ```$clear```
+Syntax: `$clear`
 
-<h3>End</h3>
+<h4>End</h4>
 
 Ends an ongoing vote.
 
 Can only be used by Admins and the user who started the vote.  
-Syntax: ```$end```
+Syntax: `$end`
 
-<h3>Flip</h3>
+<h4>Flip</h4>
 
-This command simulates a coin flip. The outcome of it is randomly chosen between ```Heads``` & ```Tails```.
+This command simulates a coin flip. The outcome of it is randomly chosen between `Heads` & `Tails`.
 
 Can be used by all guild members.  
-Syntax: ```$flip```
+Syntax: `$flip`
 
-<h3>Help</h3>
+<h4>Help</h4>
 
 Displays a list of all available commands and a link to https://chromeroni.github.io/Hera-Chatbot/ for more information.
 
 Can be used by all guild members.  
-Syntax: ```$help```
+Syntax: `$help`
 
-<h3>Join</h3>
+<h4>Join</h4>
 
 Hera joins the voice channel to which the user who issued the command is connected.
 
 Can be used by all guild members.  
-Syntax: ```$join```
+Syntax: `$join`
 
-<h3>Leave</h3>
+<h4>Leave</h4>
 
 Hera leaves the voice channel to which she is currently connected.
 
 Can be used by all guild members.  
-Syntax: ```$leave```
+Syntax: `$leave`
 
-<h3>Lq</h3>
+<h4>Lq</h4>
 
 Loops the music queue, so that at the end of a song it is simply requeued.
 
 Can be used by all guild members.  
-Syntax: ```$lq```
+Syntax: `$lq`
 
-<h3>Motd</h3>
+<h4>Motd</h4>
 
 Lets you choose your own message of the day and override the current one.
 
 Can only be used by Admins.  
-Syntax: ```$motd <message of the day>```
+Syntax: `$motd <message of the day>`
 
-<h3>Move</h3>
+<h4>Move</h4>
 
-Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through ```$queue```.
+Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through `$queue`.
 
 Can be used by all guild members.  
-Syntax: ```$move <song ID> <song ID>```
+Syntax: `$move <song ID> <song ID>`
 
-<h3>No</h3>
+<h4>No</h4>
 
 Vote no on the currently active vote.
 
 Can be used by all guild members.  
-Syntax: ```$no```
+Syntax: `$no`
 
-<h3>Np</h3>
+<h4>Np</h4>
 
 Display the currently playing song.
 
 Can be used by all guild members.  
-Syntax: ```$np```
+Syntax: `$np`
 
-<h3>Pause</h3>
+<h4>Pause</h4>
 
 Pauses the music player.
 
 Can be used by all guild members.  
-Syntax: ```$pause```
+Syntax: `$pause`
 
-<h3>Play</h3>
+<h4>Play</h4>
 
-Queues a song through an ```URL``` or a few keywords with which Hera will search and queue the first search result on YouTube.  
+Queues a song through an `URL` or a few keywords with which Hera will search and queue the first search result on YouTube.  
 If there is no song playing at the moment, play will start the player by itself.  
 If Hera has not join a voice channel yet, she will automatically join the voice channel of the user who issued the command.
 
 Can be used by all guild members.  
-Syntax: ```$play <url | keywords>```
+Syntax: `$play <url | keywords>`
 
-<h3>Queue</h3>
+<h4>Queue</h4>
 
 Displays all song that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
 If the message still exeeds the character limit, only the first 5 song will be displayed in normal view.
 
 Can be used by all guild members.  
-Syntax: ```$queue```
+Syntax: `$queue`
 
-<h3>Remove</h3>
+<h4>Remove</h4>
 
-Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through ```$queue```.
+Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through `$queue`.
 
 Can be used by all guild members.  
-Syntax: ```$remove <song ID>```
+Syntax: `$remove <song ID>`
 
-<h3>Replay</h3>
+<h4>Replay</h4>
 
 Requeues the currently playing song.
 
 Can be used by all guild members.  
-Syntax: ```$replay```
+Syntax: `$replay`
 
-<h3>Report</h3>
+<h4>Report</h4>
 
 Reports the specified user to the Admins.
 
 Can be used by all guild members.  
-Syntax: ```$report <@user> <report message>```
+Syntax: `$report <@user> <report message>`
 
-<h3>Resume</h3>
+<h4>Resume</h4>
 
 Resumes the music player.
 
 Can be used by all guild members.  
-Syntax: ```$resume```
+Syntax: `$resume`
 
-<h3>Shame</h3>
+<h4>Shame</h4>
 
 Removes the casual role from the specified user and replaces it with the "schäm dich" role. Also moves the user to the "schämdicheggli" voice channel for a by the Admins specified time period.
 
 Can only be used by Admins.  
-Syntax: ```$shame <username | usernickname>```
+Syntax: `$shame <username | usernickname>`
 
-<h3>Skip</h3>
+<h4>Skip</h4>
 
 Skips the currently playing song and starts the next one in the queue.
 
 Can be used by all guild members.  
-Syntax: ```$skip```
+Syntax: `$skip`
 
-<h3>Teams</h3>
+<h4>Teams</h4>
 
 Creates two teams of its parameters. There need to be at least 3 parameters to use this command.
 
 Can be used by all guild members.  
-Syntax: ```$teams <name> <name> <name> ...```
+Syntax: `$teams <name> <name> <name> ...`
 
-<h3>Version</h3>
+<h4>Version</h4>
 
 Displays the current version of Hera.
 
 Can be used by all guild members.  
-Syntax: ```$version```
+Syntax: `$version`
 
-<h3>Volume</h3>
+<h4>Volume</h4>
 
 Sets the volume of the music player. Valid values are numbers between 0 and 150.
 
 Can only be used by Admins.  
-Syntax: ```$volume <value>```
+Syntax: `$volume <value>`
 
-<h3>Vote</h3>
+<h4>Vote</h4>
 
 Starts a vote. Only 1 vote can be active at a time. All guild members can vote 1 times on a vote.
 
 Can be used by all guild members.  
-Syntax: ```$vote <vote topic>```
+Syntax: `$vote <vote topic>`
 
-<h3>Yes</h3>
+<h4>Yes</h4>
 
 Vote yes on the currently active vote.
 
 Can be used by all guild members.  
-Syntax: ```$yes```
+Syntax: `$yes`
 
 <h2>Property files</h2>
 
