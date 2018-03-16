@@ -1,7 +1,7 @@
-package d4jbot.events;
+package hera.events;
 
-import d4jbot.enums.BotSettings;
-import d4jbot.misc.MessageSender;
+import hera.enums.BotSettings;
+import hera.misc.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Version implements Command {

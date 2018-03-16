@@ -1,10 +1,10 @@
-package d4jbot.events;
+package hera.events;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
-import d4jbot.enums.BoundChannel;
-import d4jbot.misc.MessageSender;
-import d4jbot.music.GuildAudioPlayerManager;
+import hera.enums.BoundChannel;
+import hera.misc.MessageSender;
+import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Queue implements Command {

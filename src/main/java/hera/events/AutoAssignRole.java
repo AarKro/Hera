@@ -1,4 +1,4 @@
-package d4jbot.events;
+package hera.events;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;

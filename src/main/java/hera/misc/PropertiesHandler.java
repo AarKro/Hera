@@ -1,4 +1,4 @@
-package d4jbot.misc;
+package hera.misc;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import d4jbot.constants.BotConstants;
+import hera.constants.BotConstants;
 
 public class PropertiesHandler extends Properties {
 	File propertyFile;

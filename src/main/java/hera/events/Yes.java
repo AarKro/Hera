@@ -1,7 +1,7 @@
-package d4jbot.events;
+package hera.events;
 
-import d4jbot.misc.MessageSender;
-import d4jbot.misc.VoteManager;
+import hera.misc.MessageSender;
+import hera.misc.VoteManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Yes implements Command {

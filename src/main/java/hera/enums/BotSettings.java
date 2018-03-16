@@ -1,7 +1,7 @@
-package d4jbot.enums;
+package hera.enums;
 
-import d4jbot.constants.BotConstants;
-import d4jbot.misc.PropertiesHandler;
+import hera.constants.BotConstants;
+import hera.misc.PropertiesHandler;
 
 public enum BotSettings {
 	BOT_PREFIX("prefix", "$"), BOT_VERSION("version", "v0.4.4"), BOT_DEV_STATUS("devStatus", "devl"), BOT_VOLUME("volume", "100"), LAST_MOTD("lastMotd", "01.01.1990"), SHAME_TIME("shameTime", "30000");

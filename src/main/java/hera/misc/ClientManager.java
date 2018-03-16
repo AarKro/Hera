@@ -1,7 +1,7 @@
-package d4jbot.misc;
+package hera.misc;
 
-import d4jbot.constants.BotConstants;
-import d4jbot.enums.BotSettings;
+import hera.constants.BotConstants;
+import hera.enums.BotSettings;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.util.DiscordException;

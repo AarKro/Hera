@@ -1,4 +1,4 @@
-package d4jbot.misc;
+package hera.misc;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;

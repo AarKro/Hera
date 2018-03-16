@@ -1,10 +1,10 @@
-package d4jbot.music;
+package hera.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
-import d4jbot.enums.BotSettings;
-import d4jbot.misc.MessageSender;
+import hera.enums.BotSettings;
+import hera.misc.MessageSender;
 
 public class GuildMusicManager {
   

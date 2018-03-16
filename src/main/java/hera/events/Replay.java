@@ -1,6 +1,6 @@
-package d4jbot.events;
+package hera.events;
 
-import d4jbot.music.GuildAudioPlayerManager;
+import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Replay implements Command {

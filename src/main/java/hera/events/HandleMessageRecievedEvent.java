@@ -1,9 +1,9 @@
-package d4jbot.events;
+package hera.events;
 
 import java.util.HashMap;
 
-import d4jbot.enums.BotCommands;
-import d4jbot.enums.BotSettings;
+import hera.enums.BotCommands;
+import hera.enums.BotSettings;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 

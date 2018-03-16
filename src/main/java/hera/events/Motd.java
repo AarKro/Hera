@@ -1,10 +1,10 @@
-package d4jbot.events;
+package hera.events;
 
 import java.util.Arrays;
 import java.util.List;
 
-import d4jbot.misc.MessageOfTheDayManager;
-import d4jbot.misc.MessageSender;
+import hera.misc.MessageOfTheDayManager;
+import hera.misc.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 

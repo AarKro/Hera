@@ -1,9 +1,9 @@
-package d4jbot.misc;
+package hera.misc;
 
-import d4jbot.constants.BotConstants;
-import d4jbot.enums.BotSettings;
-import d4jbot.enums.BoundChannel;
-import d4jbot.enums.YoutubeSettings;
+import hera.constants.BotConstants;
+import hera.enums.BotSettings;
+import hera.enums.BoundChannel;
+import hera.enums.YoutubeSettings;
 import sx.blah.discord.handle.obj.IGuild;
 
 public class ProjectInitalizer {

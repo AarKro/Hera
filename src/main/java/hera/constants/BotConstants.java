@@ -1,4 +1,4 @@
-package d4jbot.constants;
+package hera.constants;
 
 public class BotConstants {
 	//property location constants

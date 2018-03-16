@@ -1,8 +1,8 @@
-package d4jbot.events;
+package hera.events;
 
 import java.util.Random;
 
-import d4jbot.misc.MessageSender;
+import hera.misc.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.IVoiceChannel;

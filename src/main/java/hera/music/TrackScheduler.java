@@ -1,4 +1,4 @@
-package d4jbot.music;
+package hera.music;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +11,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
-import d4jbot.enums.BoundChannel;
-import d4jbot.misc.MessageSender;
+import hera.enums.BoundChannel;
+import hera.misc.MessageSender;
 
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;

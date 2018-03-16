@@ -1,4 +1,4 @@
-package d4jbot.misc;
+package hera.misc;
 
 import java.awt.Color;
 

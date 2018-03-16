@@ -1,6 +1,6 @@
-package d4jbot.enums;
+package hera.enums;
 
-import d4jbot.events.*;
+import hera.events.*;
 
 
 public enum BotCommands {

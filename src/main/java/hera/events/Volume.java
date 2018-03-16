@@ -1,9 +1,9 @@
-package d4jbot.events;
+package hera.events;
 
-import d4jbot.enums.BotSettings;
-import d4jbot.enums.BoundChannel;
-import d4jbot.misc.MessageSender;
-import d4jbot.music.GuildAudioPlayerManager;
+import hera.enums.BotSettings;
+import hera.enums.BoundChannel;
+import hera.misc.MessageSender;
+import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 

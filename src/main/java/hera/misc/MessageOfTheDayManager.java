@@ -1,4 +1,4 @@
-package d4jbot.misc;
+package hera.misc;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import d4jbot.enums.BotSettings;
-import d4jbot.enums.BoundChannel;
+import hera.enums.BotSettings;
+import hera.enums.BoundChannel;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 

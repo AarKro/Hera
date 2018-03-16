@@ -1,7 +1,7 @@
-package d4jbot.enums;
+package hera.enums;
 
-import d4jbot.constants.BotConstants;
-import d4jbot.misc.PropertiesHandler;
+import hera.constants.BotConstants;
+import hera.misc.PropertiesHandler;
 
 public enum YoutubeSettings {
 	APPLICATION_NAME("applicationName", ""), API_KEY("APIKey", ""), NUMBER_OF_VIDEOS_RETURNED("numberOfVideosReturned", "");

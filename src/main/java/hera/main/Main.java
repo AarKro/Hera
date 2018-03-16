@@ -1,13 +1,13 @@
-package d4jbot.main;
+package hera.main;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 
-import d4jbot.events.AutoAssignRole;
-import d4jbot.events.HandleMessageRecievedEvent;
-import d4jbot.misc.ClientManager;
-import d4jbot.misc.ProjectInitalizer;
-import d4jbot.misc.SingletonInstancer;
+import hera.events.AutoAssignRole;
+import hera.events.HandleMessageRecievedEvent;
+import hera.misc.ClientManager;
+import hera.misc.ProjectInitalizer;
+import hera.misc.SingletonInstancer;
 import sx.blah.discord.api.events.EventDispatcher;
 
 public class Main {

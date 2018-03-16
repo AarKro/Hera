@@ -1,4 +1,4 @@
-package d4jbot.events;
+package hera.events;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
