@@ -1,4 +1,4 @@
-# project specific excludes
+# Project specific excludes
 properties/
 
 # Maven 
@@ -10,7 +10,7 @@ target/
 *.ipr
 .idea/
 
-# eclipse project file
+# Eclipse project file
 .settings/
 .classpath
 .project
