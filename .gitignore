@@ -1,25 +1,25 @@
 # Project specific excludes
-properties/
+properties
 
 # Maven 
-target/
+target
 
 # IntelliJ project files 
 *.iml
 *.iws
 *.ipr
-.idea/
+.idea
 
 # Eclipse project file
-.settings/
+.settings
 .classpath
 .project
 
 # NetBeans specific
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
+nbproject/private
+build
+nbbuild
+dist
+nbdist
 nbactions.xml
 nb-configuration.xml
