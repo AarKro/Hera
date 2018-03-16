@@ -21,7 +21,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 
 | Command | Usable for | Quick syntax |
 | ------- | ---------- | ------------ |
-| [Begone](#begone) | Admins and role BeGone | `$begone <username | usernickname>` |
+| [Begone](#begone) | Admins and role BeGone | `$begone <username \| usernickname>` |
 | [Bind](#bind) | Admins only | `$bind <output message group>` |
 | [Clear](#clear) | All users | `$clear` |
 | [End](#end) | All users | `$end` |
@@ -35,13 +35,13 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 | [No](#no) | All users | `$no` |
 | [Np](#np) | All users | `$np` |
 | [Pause](#pause) | All users | `$pause` |
-| [Play](#play) | All users | `$play <url | keywords>` |
+| [Play](#play) | All users | `$play <url \| keywords>` |
 | [Queue](#queue) | All users | `$queue` |
 | [Remove](#remove) | All users | `$remove <song ID>` |
 | [Replay](#replay) | All users | `$replay` |
 | [Report](#report) | All users | `$report <@user> <report message>` |
 | [Resume](#resume) | All users | `$resume` |
-| [Shame](#shame) | Admins only | `$shame <username | usernickname>` |
+| [Shame](#shame) | Admins only | `$shame <username \| usernickname>` |
 | [Skip](#skip) | All users | `$skip` |
 | [Teams](#teams) | All users | `$teams <name> <name> <name> ...` |
 | [Version](#version) | All users | `$version` |
@@ -94,7 +94,7 @@ Syntax: `$flip`
 
 <h4>Help</h4>
 
-Displays a list of all available commands and a link to https://github.com/Chromeroni/Hera-Chatbot#full-command-list for more information.
+Displays a list of all available commands and a link to https://github.com/Chromeroni/Hera-Chatbot#commands for more information.
 
 Can be used by all guild members.  
 Syntax: `$help`

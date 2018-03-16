@@ -27,6 +27,6 @@ public class Help implements Command {
 		}
 
 		ms.sendMessage(e.getChannel(), "Available Commands:" + commands
-				+ "\nFor more information visit https://github.com/Chromeroni/Hera-Chatbot#full-command-list");
+				+ "\nFor more information visit https://github.com/Chromeroni/Hera-Chatbot#commands");
 	}
 }
