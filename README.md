@@ -17,7 +17,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 
 <h2>Full command list</h2>  
 
-<h3>Command listing</h3>
+<h3>Short command listing</h3>
 
 | Command | Usable for | Quick syntax |
 | ------- | ---------- | ------------ |
