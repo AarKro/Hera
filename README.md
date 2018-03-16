@@ -1,6 +1,6 @@
 <h1>Hera</h1>
 
-Bot-prefix: `$` ¦ Version `v0.6.0`
+Bot-prefix: `$`  ¦  Version `v0.6.0`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -166,8 +166,8 @@ Syntax: `$play <url ¦ keywords>`
 
 <h4>Queue</h4>
 
-Displays all song that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
-If the message still exeeds the character limit, only the first 5 song will be displayed in normal view.
+Displays all songs that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
+If the message still exeeds the character limit, only the first 5 songs will be displayed in normal view.
 
 Can be used by all guild members.  
 Syntax: `$queue`
