@@ -1,5 +1,6 @@
 # Project specific excludes
 properties
+log
 
 # Maven 
 target

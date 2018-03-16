@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyyMMdd-HHmmss.SSS} %-5p %c:%L - %m%n" />
+		</layout>
+	</appender>
+	<appender name="dailyLogFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="File" value="./log/hera.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HHmmss.SSS} %-5p %c:%L - %m%n" />
+		</layout>
+	</appender>
+	<appender name="dailyDebugLogFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="DEBUG" />
+		<param name="File" value="./log/hera.debug.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HHmmss.SSS} %-5p %c:%L - %m%n" />
+		</layout>
+	</appender>
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="console" />
+		<appender-ref ref="dailyLogFile" />
+		<appender-ref ref="dailyDebugLogFile" />
+	</root>
+
+</log4j:configuration>  
