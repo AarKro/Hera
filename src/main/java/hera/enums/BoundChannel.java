@@ -1,11 +1,16 @@
 package hera.enums;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import hera.constants.BotConstants;
 import hera.misc.PropertiesHandler;
 import sx.blah.discord.handle.obj.IChannel;
 
 public enum BoundChannel {
 	REPORT("reportChannel", null), MUSIC("musicChannel", null), ANNOUNCEMENTS("announcements", null);
+	
+	private static final Logger LOG = LoggerFactory.getLogger(BotSettings.class);
 	
 	private IChannel boundChannel;
 	private String propertyName;
