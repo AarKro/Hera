@@ -12,6 +12,8 @@ import hera.misc.ClientManager;
 import hera.misc.ProjectInitalizer;
 import hera.misc.SingletonInstancer;
 import sx.blah.discord.api.events.EventDispatcher;
+import sx.blah.discord.handle.obj.ActivityType;
+import sx.blah.discord.handle.obj.StatusType;
 
 public class Main {
 	
@@ -60,9 +62,9 @@ public class Main {
 		ed.registerListener(new HandleMessageRecievedEvent());
 		LOG.info("Event listeners registered");
 		
-		//LOG.info("Setting discord presence");
-		//cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
-		//LOG.info("Discord presence set");
+		LOG.info("Setting discord presence");
+		cm.getiDiscordClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "over you ಠ_ಠ");
+		LOG.info("Discord presence set");
 		
 		LOG.info("Project initialization finished");
 		LOG.info("Hera is now ready to use");
