@@ -34,6 +34,7 @@ public enum BotSettings {
 	}
 
 	public void setPropertyValue(String propertyValue) {
+		LOG.debug("Start of: BotSettings.setPropertyValue");
 		this.propertyValue = propertyValue;
 		if (propertyValue != null) {
 			LOG.info("Property " + propertyName + " has not been set yet, thus it will be set now with value " + propertyValue );
@@ -43,6 +44,7 @@ public enum BotSettings {
 			propHandler.save("setting saved");
 			LOG.info("Property file successfully modified");
 		}
+		LOG.debug("End of: BotSettings.setPropertyValue");
 	}
 	
 	

@@ -23,8 +23,7 @@ public class AutoAssignRole {
 		} catch(Exception error) {
 			LOG.error("Assigning role for user " + e.getUser().getName() + " failed");
 			LOG.error(error.getMessage() + " : " + error.getCause());
-		} finally {
-			LOG.debug("End of: AutoAssignRole.onUserJoin");
 		}
+		LOG.debug("End of: AutoAssignRole.onUserJoin");
 	}
 }

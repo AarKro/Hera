@@ -7,7 +7,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 
 import hera.events.AutoAssignRole;
-import hera.events.HandleMessageRecievedEvent;
+import hera.events.MessageReceivedEventHandler;
 import hera.misc.ClientManager;
 import hera.misc.ProjectInitalizer;
 import hera.misc.SingletonInstancer;
@@ -59,7 +59,7 @@ public class Main {
 		LOG.info("Register event listeners");
 		EventDispatcher ed = cm.getiDiscordClient().getDispatcher();
 		ed.registerListener(new AutoAssignRole());
-		ed.registerListener(new HandleMessageRecievedEvent());
+		ed.registerListener(new MessageReceivedEventHandler());
 		LOG.info("Event listeners registered");
 		
 		LOG.info("Setting discord presence");

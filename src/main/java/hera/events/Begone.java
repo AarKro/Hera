@@ -14,7 +14,7 @@ import sx.blah.discord.handle.obj.Permissions;
 
 public class Begone implements Command {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(BoundChannel.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Begone.class);
 	
 	private static Begone instance;
 
@@ -67,13 +67,10 @@ public class Begone implements Command {
 								user.moveToVoiceChannel(moveTo);
 								success = true;
 								ms.sendMessage(e.getChannel(), user.mention() + " moved to " + moveTo.getName());
-								LOG.info("User " + user.getName() + " moved to " + moveTo.getName());
+								LOG.info("User " + user.getName() + " moved to " + moveTo.getName() + " : " + moveTo.getLongID());
 							}
-
 						}
-
 					}
-
 				}
 
 			} else {

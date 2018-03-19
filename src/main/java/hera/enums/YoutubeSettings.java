@@ -34,6 +34,7 @@ public enum YoutubeSettings {
 	}
 
 	public void setPropertyValue(String propertyValue) {
+		LOG.debug("Start of: YoutubeSettings.setPropertyValue");
 		this.propertyValue = propertyValue;
 		if (propertyValue != null) {
 			LOG.info("YouTube settings attribute " + propertyName + " has not been set yet, thus it will be set now with value " + propertyValue);
@@ -43,5 +44,6 @@ public enum YoutubeSettings {
 			propHandler.save("setting saved");
 			LOG.info("YouTube settings successfully modified");
 		}
+		LOG.debug("End of: YoutubeSettings.setPropertyValue");
 	}
 }

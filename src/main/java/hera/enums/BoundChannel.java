@@ -29,6 +29,7 @@ public enum BoundChannel {
 	}
 
 	public void setBoundChannel(IChannel boundChannel) {
+		LOG.debug("Start of: BoundChannel.setBoundChannel");
 		this.boundChannel = boundChannel;
 		if (boundChannel != null) {
 			LOG.info("Channel binding " + propertyName + " has not been set yet, thus it will be set now with value " + boundChannel.getLongID() );
@@ -38,6 +39,7 @@ public enum BoundChannel {
 			propertiesHandler.save("binding saved");
 			LOG.info("Property file successfully modified");
 		}
+		LOG.debug("End of: BoundChannel.setBoundChannel");
 	}
 
 	public String getPropertyName() {
