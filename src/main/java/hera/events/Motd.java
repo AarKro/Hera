@@ -3,6 +3,9 @@ package hera.events;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import hera.misc.MessageOfTheDayManager;
 import hera.misc.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -10,6 +13,8 @@ import sx.blah.discord.handle.obj.Permissions;
 
 public class Motd implements Command {
 
+	private static final Logger LOG = LoggerFactory.getLogger(Motd.class);
+	
 	private static Motd instance;
 
 	public static Motd getInstance() {
@@ -21,14 +26,15 @@ public class Motd implements Command {
 	private MessageSender ms;
 	private MessageOfTheDayManager motdm;
 
-	// default constructor
 	private Motd() {
 		this.ms = MessageSender.getInstance();
 		this.motdm = MessageOfTheDayManager.getInstance();
 	}
 
 	public void execute(MessageReceivedEvent e) {
+		LOG.debug("Start of: Motd.execute");
 		if (e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
+			LOG.debug(e.getAuthor() + " has admin rights");
 			List<String> list = Arrays.asList(e.getMessage().getContent().split(" "));
 
 			if (list.size() > 1) {
@@ -38,10 +44,16 @@ public class Motd implements Command {
 				}
 
 				motdm.setMessageOfTheDay(e, motd);
+				LOG.info(e.getAuthor() + " set message of the day manually to: " + motd);
 
-			} else
+			} else {
 				ms.sendMessage(e.getChannel(), "Invalid usage of $motd.\nSyntax: $motd <messageOfTheDay>");
-		} else
+				LOG.debug(e.getAuthor() + " used command motd wrong");
+			}
+		} else {
 			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
+			LOG.debug(e.getAuthor() + " is not an admin of this server");
+		}
+		LOG.debug("End of: Motd.execute");
 	}
 }
