@@ -1,5 +1,8 @@
 package hera.events;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import hera.enums.BoundChannel;
@@ -13,6 +16,8 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Play implements Command {
 
+	private static final Logger LOG = LoggerFactory.getLogger(Pause.class);
+	
 	private static Play instance;
 
 	public static Play getInstance() {
@@ -33,26 +38,34 @@ public class Play implements Command {
 	}
 
 	public void execute(MessageReceivedEvent e) {
+		LOG.debug("Start of: Play.execute");
 		String[] args = e.getMessage().getContent().split(" ");
 
 		String songURL = "";
 		if (args.length > 1) {
-			if (args[1].matches(
-					"(http(s)?:\\/\\/.)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")) {
+			LOG.debug("Enough parameters to interpret command: " + args.length);
+			if (args[1].matches("(http(s)?:\\/\\/.)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")) {
 				songURL = args[1];
+				LOG.debug("Input matches an URL. URL: " + songURL);
 			} else {
 				String keywords = "";
 				for (int i = 1; i < args.length; i++) {
 					keywords += args[i] + " ";
 				}
-
+				
+				LOG.debug("Input consists of keywords to search with on YouTube");
 				songURL = YoutubeAPIHandler.getInstance().getYoutubeVideoFromKeyword(keywords);
+				LOG.debug("URL received after searching on YouTube: " + songURL);
 			}
 
 			GuildMusicManager musicManager = gapm.getGuildAudioPlayer(e.getGuild());
 			apm.loadItemOrdered(musicManager, songURL, new AudioLoadResultManager(e, songURL, ms, musicManager));
+			LOG.info(e.getAuthor() + " queued song: " + songURL);
 
-		} else
+		} else {
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $play | $p.\nSyntax: $play <URL>");
+			LOG.debug(e.getAuthor() + " used command play wrong");
+		}
+		LOG.debug("End of: Play.execute");
 	}
 }

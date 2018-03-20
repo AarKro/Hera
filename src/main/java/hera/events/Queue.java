@@ -1,5 +1,8 @@
 package hera.events;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import hera.enums.BoundChannel;
