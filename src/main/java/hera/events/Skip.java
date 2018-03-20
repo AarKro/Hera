@@ -1,12 +1,15 @@
 package hera.events;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Skip implements Command {
 
-//TODO implement responce message
-//	private MessageSender ms;
+	private static final Logger LOG = LoggerFactory.getLogger(Shame.class);
+	
 	private GuildAudioPlayerManager gapm;
 
 	private static Skip instance;
@@ -19,11 +22,13 @@ public class Skip implements Command {
 
 	// constructor
 	private Skip() {
-//		this.ms = MessageSender.getInstance();
 		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 
 	public void execute(MessageReceivedEvent e) {
+		LOG.debug("Start of: Skip.execute");
 		gapm.getGuildAudioPlayer(e.getGuild()).scheduler.skipSong();
+		LOG.info(e.getAuthor() + " skipped the currently playing song");
+		LOG.debug("End of: Skip.execute");
 	}
 }

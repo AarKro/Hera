@@ -4,12 +4,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import hera.enums.BotSettings;
 import hera.misc.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Teams implements Command {
 
+	private static final Logger LOG = LoggerFactory.getLogger(Teams.class);
+	
 	private static Teams instance;
 
 	public static Teams getInstance() {
@@ -27,9 +32,11 @@ public class Teams implements Command {
 	}
 
 	public void execute(MessageReceivedEvent e) {
+		LOG.debug("Start of: Teams.execute");
 		List<String> list = Arrays.asList(e.getMessage().getContent().split(" "));
 
 		if (list.size() > 3) {
+			LOG.debug("Enough parameters to interpret command: " + list.size());
 			Collections.shuffle(list);
 
 			String team1 = "";
@@ -47,8 +54,10 @@ public class Teams implements Command {
 			}
 
 			ms.sendMessage(e.getChannel(), "Team 1: " + team1 + "\nTeam 2: " + team2);
+			LOG.info("Team1: " + team1 + ", Team2: " + team2);
 		} else {
 			ms.sendMessage(e.getChannel(), "$teams needs at least 3 following parameters / names.");
 		}
+		LOG.debug("End of: Teams.execute");
 	}
 }
