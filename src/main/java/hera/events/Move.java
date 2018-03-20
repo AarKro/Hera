@@ -66,7 +66,7 @@ public class Move implements Command {
 
 			} catch (NumberFormatException e2) {
 				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "One of the provided song IDs is not a number");
-				LOG.error("One of the provided song IDs is not a number");
+				LOG.error("One of the provided song IDs is not a number, songID1: " + args[1] + ", songID2: " + args[2]);
 				LOG.error(e2.getMessage() + " : " + e2.getCause());
 			}
 			
