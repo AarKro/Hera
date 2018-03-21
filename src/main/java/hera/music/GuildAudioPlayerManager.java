@@ -3,6 +3,9 @@ package hera.music;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import hera.misc.MessageSender;
@@ -11,6 +14,8 @@ import sx.blah.discord.handle.obj.IGuild;
 
 public class GuildAudioPlayerManager {
 
+	private static final Logger LOG = LoggerFactory.getLogger(GuildAudioPlayerManager.class);
+	
 	private static GuildAudioPlayerManager instance;
 	
 	public static GuildAudioPlayerManager getInstance() {
@@ -34,6 +39,7 @@ public class GuildAudioPlayerManager {
 	}
 	
 	public GuildMusicManager getGuildAudioPlayer(IGuild guild) {
+		LOG.debug("Start of: GuildAudioPlayerManager.getGuildAudioPlayer");
 		GuildMusicManager musicManager = musicManagers.get(guild.getLongID());
 
 		if (musicManager == null) {
@@ -42,7 +48,10 @@ public class GuildAudioPlayerManager {
 		}
 
 		guild.getAudioManager().setAudioProvider(musicManager.getAudioProvider());
+		
+		LOG.info("Organized music manager for guild " + guild.getName() + " : " + guild.getLongID());
 
+		LOG.debug("End of: GuildAudioPlayerManager.getGuildAudioPlayer");
 		return musicManager;
 	}
 }

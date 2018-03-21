@@ -3,9 +3,14 @@ package hera.misc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sx.blah.discord.handle.obj.IUser;
 
 public class VoteManager {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(VoteManager.class);
 	
 	private static VoteManager instance;
 	
@@ -14,7 +19,6 @@ public class VoteManager {
 		return instance;
 	}
 	
-	
 	private String voteTopic;
 	private boolean voteActive;
 	private int countYes;
@@ -22,7 +26,6 @@ public class VoteManager {
 	private List<IUser> alreadyVoted;
 	private IUser voteOrganiser;
 
-	// default constructor
 	private VoteManager() {
 		this.voteTopic = "";
 		this.voteActive = false;
@@ -32,28 +35,35 @@ public class VoteManager {
 		this.voteOrganiser = null;
 	}
 
-	// functions
 	public void startVote(String voteTopic, IUser voteOrganiser) {
+		LOG.debug("Start of: VoteManager.startVote");
 		this.voteTopic = voteTopic;
 		this.voteOrganiser = voteOrganiser;
 		this.voteActive = true;
+		LOG.debug("End of: VoteManager.startVote");
 	}
 	
 	public void addUserToAlreadyVoted(IUser user) {
+		LOG.debug("End of: VoteManager.addUserToAlreadyVoted");
 		this.alreadyVoted.add(user);
+		LOG.debug("End of: VoteManager.addUserToAlreadyVoted");
 	}
 	
 	public boolean hasAlreadyVoted(IUser user) {
+		LOG.debug("End of: VoteManager.hasAlreadyVoted");
+		LOG.debug("End of: VoteManager.hasAlreadyVoted");
 		return this.alreadyVoted.contains(user);
 	}
 	
 	public void resetVote() {
+		LOG.debug("End of: VoteManager.resetVote");
 		this.voteTopic = "";
 		this.voteOrganiser = null;
 		this.voteActive = false;
 		this.countYes = 0;
 		this.countNo = 0;
 		this.alreadyVoted.clear();
+		LOG.debug("End of: VoteManager.resetVote");
 	}
 	
 	// getters & setters

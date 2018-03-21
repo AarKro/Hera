@@ -59,8 +59,8 @@ public class Play implements Command {
 			}
 
 			GuildMusicManager musicManager = gapm.getGuildAudioPlayer(e.getGuild());
-			apm.loadItemOrdered(musicManager, songURL, new AudioLoadResultManager(e, songURL, ms, musicManager));
 			LOG.info(e.getAuthor() + " queued song: " + songURL);
+			apm.loadItemOrdered(musicManager, songURL, new AudioLoadResultManager(e, songURL, ms, musicManager));
 
 		} else {
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $play | $p.\nSyntax: $play <URL>");

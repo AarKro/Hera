@@ -68,10 +68,10 @@ public class Shame implements Command {
 
 									removeCasualRoleAndMoveUser(users.get(0), casual, shameOnYou, shameCorner);
 									LOG.info(e.getAuthor() + " has put " + users.get(0) + " to shame");
-									
+
 									LOG.info("Putting Shame.Thread to sleep");
 									Thread.sleep(Long.parseLong(BotSettings.SHAME_TIME.getPropertyValue()));
-									LOG.info("Shame.Thread up from sleep again");
+									LOG.info("Waking Shame.Thread up from sleep");
 									
 									ms.sendMessage(e.getChannel(), users.get(0).mention() + " has been put to shame.");
 									addCasualRole(users.get(0), casual, shameOnYou, current);
