@@ -5,8 +5,10 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hera.constants.BotConstants;
 import hera.enums.BotCommands;
 import hera.enums.BotSettings;
+import hera.misc.PropertiesHandler;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -33,8 +35,48 @@ public class MessageReceivedEventHandler {
 		}
 		LOG.debug("End of: MessageReceivedEventHandler.onMessageReceivedEvent");
 	}
-
+	
 	private HashMap<String, Command> convertEnumToHashmap() {
+
+		BotCommands[] values = BotCommands.values();
+
+		HashMap<String, Command> hashmap = new HashMap<>();
+		for (BotCommands value : values) {
+			if (isEnabled(value.getCommandName())) {
+				String[] aliases = getAliases(value.getCommandName());
+				hashmap.put(value.getCommandName(), value.getCommandInstance());
+				if (aliases.length > 0) {
+					for (String alias : aliases) {
+						hashmap.put(alias, value.getCommandInstance());
+					}
+				}
+			}
+		}
+
+		return hashmap;
+	}
+
+	private boolean isEnabled(String commandName) {
+		PropertiesHandler modulProperties = new PropertiesHandler(BotConstants.MODULS_PROPERTY_LOCATION);
+		modulProperties.load();
+		if (modulProperties.containsKey(commandName)) {
+			return Integer.parseInt(modulProperties.getProperty(commandName)) == 1;
+		}
+		return true;
+	}
+
+	private String[] getAliases(String command) {
+		PropertiesHandler aliasProperties = new PropertiesHandler(BotConstants.ALIAS_PROPERTY_LOCATION);
+		aliasProperties.load();
+		if (aliasProperties.containsKey(command)) {
+			return aliasProperties.getProperty(command).split(",");
+		}
+		return new String[] {};
+	}
+	
+
+
+	/*private HashMap<String, Command> convertEnumToHashmap() {
 		LOG.debug("Start of: MessageReceivedEventHandler.convertEnumToHashmap");
 		BotCommands[] values = BotCommands.values();
 		
@@ -52,5 +94,5 @@ public class MessageReceivedEventHandler {
 		
 		LOG.debug("End of: MessageReceivedEventHandler.convertEnumToHashmap");
 		return hashmap;
-	}
+	}*/
 }
