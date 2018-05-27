@@ -6,15 +6,15 @@ import org.slf4j.LoggerFactory;
 import hera.constants.BotConstants;
 import hera.misc.PropertiesHandler;
 
-public enum YoutubeSettings {
-	APPLICATION_NAME("applicationName", ""), API_KEY("APIKey", ""), NUMBER_OF_VIDEOS_RETURNED("numberOfVideosReturned", "");
+public enum DriveSettings {
+	APPLICATION_NAME("applicationName", ""), API_KEY("APIKey", "");
 	
-	private static final Logger LOG = LoggerFactory.getLogger(YoutubeSettings.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DriveSettings.class);
 	
 	private String propertyName;
 	private String propertyValue;
 
-	private YoutubeSettings(String propertyName, String propertyValue) {
+	private DriveSettings(String propertyName, String propertyValue) {
 		this.propertyName = propertyName;
 		this.propertyValue = propertyValue;
 	}
@@ -33,16 +33,16 @@ public enum YoutubeSettings {
 	}
 
 	public void setPropertyValue(String propertyValue) {
-		LOG.debug("Start of: YoutubeSettings.setPropertyValue");
+		LOG.debug("Start of: DriveSettings.setPropertyValue");
 		this.propertyValue = propertyValue;
 		if (propertyValue != null) {
-			LOG.info("YouTube settings attribute " + propertyName + " has not been set yet, thus it will be set now with value " + propertyValue);
+			LOG.info("Drive settings attribute " + propertyName + " has not been set yet, thus it will be set now with value " + propertyValue);
 			PropertiesHandler propHandler = new PropertiesHandler(BotConstants.YOUTUBE_PROPERTY_LOCATION);
 			propHandler.load();
 			propHandler.put(propertyName, propertyValue);	
 			propHandler.save("setting saved");
-			LOG.info("YouTube settings successfully modified");
+			LOG.info("Drive settings successfully modified");
 		}
-		LOG.debug("End of: YoutubeSettings.setPropertyValue");
+		LOG.debug("End of: DriveSettings.setPropertyValue");
 	}
 }

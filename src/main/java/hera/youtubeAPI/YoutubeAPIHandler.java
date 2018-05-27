@@ -15,7 +15,6 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
 import hera.enums.YoutubeSettings;
-import hera.events.Yes;
 
 public class YoutubeAPIHandler {
 
