@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
-import hera.misc.MessageSender;
-import hera.misc.SingletonInstancer;
+import hera.eventSupplements.MessageSender;
+import hera.instanceManagement.SingletonInstancer;
 import sx.blah.discord.handle.obj.IGuild;
 
 public class GuildAudioPlayerManager {

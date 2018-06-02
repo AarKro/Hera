@@ -1,4 +1,4 @@
-package hera.misc;
+package hera.instanceManagement;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;

@@ -15,7 +15,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
 import hera.enums.BoundChannel;
-import hera.misc.MessageSender;
+import hera.eventSupplements.MessageSender;
 
 public class TrackScheduler extends AudioEventAdapter {
 	

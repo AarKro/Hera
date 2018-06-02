@@ -1,4 +1,4 @@
-package hera.misc;
+package hera.eventSupplements;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hera.discordClient.ClientManager;
 import hera.enums.BotSettings;
 import hera.enums.BoundChannel;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -127,6 +128,7 @@ public class MessageOfTheDayManager {
 		LOG.debug("Deleting last message of the day e.g. message of yesterday");
 		deleteLastMessageOfTheDay();
 		ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day:", message);
+		LOG.info("New message of the day: " + message);
 
 		LOG.debug("End of: MessageOfTheDayManager.setMessageOfTheDay");
 	}

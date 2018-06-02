@@ -1,11 +1,11 @@
-package hera.misc;
+package hera.discordClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hera.constants.BotConstants;
 import hera.enums.BotSettings;
-import hera.main.Main;
+import hera.propertyHandling.PropertiesHandler;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.util.DiscordException;
@@ -26,7 +26,6 @@ public class ClientManager {
 		}
 		return instance;
 	}
-	
 	
 	private String token;
 	private IDiscordClient iDiscordClient;

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hera.constants.BotConstants;
-import hera.misc.PropertiesHandler;
+import hera.propertyHandling.PropertiesHandler;
 
 public enum YoutubeSettings {
 	APPLICATION_NAME("applicationName", ""), API_KEY("APIKey", ""), NUMBER_OF_VIDEOS_RETURNED("numberOfVideosReturned", "");

@@ -1,4 +1,4 @@
-package hera.misc;
+package hera.eventSupplements;
 
 import java.awt.Color;
 

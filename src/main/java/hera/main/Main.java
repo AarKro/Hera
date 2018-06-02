@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 
+import hera.discordClient.ClientManager;
 import hera.events.AutoAssignRole;
 import hera.events.MessageReceivedEventHandler;
-import hera.misc.ClientManager;
-import hera.misc.ProjectInitalizer;
-import hera.misc.SingletonInstancer;
+import hera.instanceManagement.SingletonInstancer;
+import hera.propertyHandling.ProjectInitalizer;
 import sx.blah.discord.api.events.EventDispatcher;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.StatusType;
