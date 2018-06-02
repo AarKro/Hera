@@ -40,12 +40,12 @@ public class Report implements Command {
 				message += args[i] + " ";
 			}
 
-			ms.sendMessage(BoundChannel.REPORT.getBoundChannel(), "Reporter:	 " + e.getAuthor().mention()
+			ms.sendMessage(BoundChannel.REPORT.getBoundChannel(), "", "Reporter:	 " + e.getAuthor().mention()
 					+ "\nRecipient:	" + reportedUser + "\n\nReport message:\n" + message);
-			ms.sendMessage(e.getChannel(), "Reported " + reportedUser);
+			ms.sendMessage(e.getChannel(), "", "Reported " + reportedUser);
 			LOG.info(e.getAuthor() + " reported user " + reportedUser + " with message: " + message);
 		} else {
-			ms.sendMessage(e.getChannel(), "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
+			ms.sendMessage(e.getChannel(), "", "Invalid report! \nReport example: $report <@userToReport> <reportMessage>");
 			LOG.debug(e.getAuthor() + " used command report wrong");
 		}
 		LOG.debug("End of: Report.execute");

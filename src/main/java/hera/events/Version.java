@@ -28,7 +28,7 @@ public class Version implements Command {
 	
 	public void execute(MessageReceivedEvent e) {
 		LOG.debug("Start of: Version.execute");
-		ms.sendMessage(e.getChannel(), BotSettings.BOT_VERSION.getPropertyValue());
+		ms.sendMessage(e.getChannel(), "Version", BotSettings.BOT_VERSION.getPropertyValue());
 		LOG.info(e.getAuthor() + " requested the current version of Hera, which is " + BotSettings.BOT_VERSION.getPropertyValue());
 		LOG.debug("End of: Version.execute");
 	}

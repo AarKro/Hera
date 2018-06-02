@@ -48,7 +48,7 @@ public class MessageOfTheDayManager {
 		ArrayList<String> messagesOfTheDay = new ArrayList<String>();
 		messagesOfTheDay.add("Banging your head against a wall burns 150 calories an hour.");
 		messagesOfTheDay.add("Approximately 40,000 Americans are injured by toilets each year.");
-		messagesOfTheDay.add("Almost” is the longest word in English with all the letters in alphabetical order.");
+		messagesOfTheDay.add("\"Almost\" is the longest word in English with all the letters in alphabetical order.");
 		messagesOfTheDay.add("There is enough sperm in one single man to impregnate every woman on earth.");
 		messagesOfTheDay.add("It is impossible to sneeze with your eyes open.");
 		messagesOfTheDay.add("All swans in England belong to the queen.");
@@ -112,7 +112,7 @@ public class MessageOfTheDayManager {
 			deleteLastMessageOfTheDay();
 			
 			String motd = messagesOfTheDay.get(rnd.nextInt(messagesOfTheDay.size()));
-			ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day: \n" + motd);
+			ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day:", motd);
 			LOG.info("New message of the day: " + motd);
 			
 			this.lastPosted = today;
@@ -126,7 +126,7 @@ public class MessageOfTheDayManager {
 		
 		LOG.debug("Deleting last message of the day e.g. message of yesterday");
 		deleteLastMessageOfTheDay();
-		ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day: \n" + message);
+		ms.sendMessage(BoundChannel.ANNOUNCEMENTS.getBoundChannel(), "Message of the day:", message);
 
 		LOG.debug("End of: MessageOfTheDayManager.setMessageOfTheDay");
 	}

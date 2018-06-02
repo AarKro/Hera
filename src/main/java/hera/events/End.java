@@ -36,18 +36,18 @@ public class End implements Command {
 					|| e.getAuthor().getPermissionsForGuild(e.getGuild()).contains(Permissions.ADMINISTRATOR)) {
 				LOG.debug(e.getAuthor() + " is an admin or has started the vote, thus can end it");
 				ms.sendMessage(e.getChannel(),
-						"Vote has ended!\n\nTopic: " + vm.getVoteTopic() + "\nYes: " + vm.getCountYes() + "\nNo: "
+						"Vote has ended!", "Topic: " + vm.getVoteTopic() + "\nYes: " + vm.getCountYes() + "\nNo: "
 								+ vm.getCountNo() + "\n\nVote was started by " + vm.getVoteOrganiser().mention()
 								+ "\nVote was ended by " + e.getAuthor().mention());
 				LOG.info(e.getAuthor() + " has ended the active vote");
 				vm.resetVote();
 				LOG.info("Vote parameters have been reseted. A new vote can be started");
 			} else {
-				ms.sendMessage(e.getChannel(), "You must have started the vote or be an Administrator to end the vote.");
+				ms.sendMessage(e.getChannel(), "", "You must have started the vote or be an Administrator to end the vote.");
 				LOG.debug(e.getAuthor() + " is not an admin or has not started the vote, thus can't end it");
 			}
 		} else {
-			ms.sendMessage(e.getChannel(), "There is no active vote to end.\nType $vote <topic> to start a vote.");
+			ms.sendMessage(e.getChannel(), "There is no active vote to end", "Type $vote <topic> to start a vote.");
 			LOG.debug(e.getAuthor() + " tried to end a non existing vote");
 		}
 		LOG.debug("End of: End.execute");

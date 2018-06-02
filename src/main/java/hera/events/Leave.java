@@ -30,8 +30,8 @@ public class Leave implements Command {
 			if(botChannel != null) {
 				if(userChannel.getLongID() == botChannel.getLongID()) {
 					botChannel.leave();
-				} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), e.getAuthor().mention() + ", you need to be in the same voice channel as me to make me leave.");
-			} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "I am currently not in a voice channel.");
-		} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), e.getAuthor().mention() + ", you need to be in a voice channel to make me leave.");
+				} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", e.getAuthor().mention() + ", you need to be in the same voice channel as me to make me leave.");
+			} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "I am currently not in a voice channel.");
+		} else ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", e.getAuthor().mention() + ", you need to be in a voice channel to make me leave.");
 	}
 }

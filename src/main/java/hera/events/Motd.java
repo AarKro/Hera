@@ -47,11 +47,11 @@ public class Motd implements Command {
 				LOG.info(e.getAuthor() + " set message of the day manually to: " + motd);
 
 			} else {
-				ms.sendMessage(e.getChannel(), "Invalid usage of $motd.\nSyntax: $motd <messageOfTheDay>");
+				ms.sendMessage(e.getChannel(), "", "Invalid usage of $motd.\nSyntax: $motd <messageOfTheDay>");
 				LOG.debug(e.getAuthor() + " used command motd wrong");
 			}
 		} else {
-			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
+			ms.sendMessage(e.getChannel(), "", "You need to be an Administrator of this server to use this command.");
 			LOG.debug(e.getAuthor() + " is not an admin of this server");
 		}
 		LOG.debug("End of: Motd.execute");

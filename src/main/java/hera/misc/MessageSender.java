@@ -26,25 +26,25 @@ public class MessageSender {
 	// default constructor
 	private MessageSender() { }
 
-	public void sendMessage(IChannel defaultChannel, String message) {
+	public void sendMessage(IChannel channel, String title, String message) {
 		LOG.debug("Start of: MessageSender.sendMessage");
-		if(defaultChannel != null) {
+		if(channel != null) {
 			EmbedBuilder eb = new EmbedBuilder();
 			eb.withColor(Color.ORANGE);
+			eb.withTitle(title);
 			eb.appendDesc(message);
 			
 			EmbedObject em = eb.build();
 			
 			try {
-				defaultChannel.sendMessage(em);
+				channel.sendMessage(em);
 				LOG.debug("Sent message: " + message);
 			} catch (Exception e) {
 				LOG.error("Message could not be sent");
-				LOG.error("Channel trying to post to: " + defaultChannel.getName() + ", " + defaultChannel.getLongID() + ", Message causing error: " + message);
+				LOG.error("Channel trying to post to: " + channel.getName() + ", " + channel.getLongID() + ", Message causing error: " + message);
 				LOG.error(e.getMessage() + " : " + e.getCause());
 			}
 		} else {
-			System.out.println("Channel binding is missing!");
 			LOG.debug("Channel binding is missing");
 		}
 		LOG.debug("End of: MessageSender.sendMessage");

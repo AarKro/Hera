@@ -39,31 +39,31 @@ public class Bind implements Command {
 				switch (args[1]) {
 				case "report":
 					BoundChannel.REPORT.setBoundChannel(e.getChannel());
-					ms.sendMessage(e.getChannel(), "Report output bound to: " + e.getChannel().mention());
+					ms.sendMessage(e.getChannel(), "", "Report output bound to: " + e.getChannel().mention());
 					LOG.info(e.getAuthor() + " has bound report output to channel " + e.getChannel().getName() + " : " + e.getChannel().getLongID());
 					break;
 				case "music":
 					BoundChannel.MUSIC.setBoundChannel(e.getChannel());
-					ms.sendMessage(e.getChannel(), "Music output bound to: " + e.getChannel().mention());
+					ms.sendMessage(e.getChannel(), "", "Music output bound to: " + e.getChannel().mention());
 					LOG.info(e.getAuthor() + " has bound music output to channel " + e.getChannel().getName() + " : " + e.getChannel().getLongID());
 					break;
 				case "announcements":
 					BoundChannel.ANNOUNCEMENTS.setBoundChannel(e.getChannel());
-					ms.sendMessage(e.getChannel(), "Announcement messages bound to: " + e.getChannel().mention());
+					ms.sendMessage(e.getChannel(), "", "Announcement messages bound to: " + e.getChannel().mention());
 					LOG.info(e.getAuthor() + " has bound announcement messages to channel " + e.getChannel().getName() + " : " + e.getChannel().getLongID());
 					break;
 				default:
-					ms.sendMessage(e.getChannel(), "Invalid usage of $bind.\nSyntax: $bind <report/music>");
+					ms.sendMessage(e.getChannel(), "", "Invalid usage of $bind.\nSyntax: $bind <report/music>");
 					LOG.debug("User " + e.getAuthor() + " used command bind wrong");
 				}
 				
 			} else {
-				ms.sendMessage(e.getChannel(), "Invalid usage of $bind.\nSyntax: $bind <report/music>");
+				ms.sendMessage(e.getChannel(), "", "Invalid usage of $bind.\nSyntax: $bind <report/music>");
 				LOG.debug(e.getAuthor() + " used command bind wrong");
 			}
 				
 		} else {
-			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
+			ms.sendMessage(e.getChannel(), "", "You need to be an Administrator of this server to use this command.");
 			LOG.debug(e.getAuthor() + " is not an admin on this server");
 		}
 		

@@ -3,6 +3,7 @@ package hera.events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hera.enums.BotSettings;
 import hera.misc.MessageSender;
 import hera.misc.VoteManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -44,14 +45,14 @@ public class Vote implements Command {
 				vm.startVote(topic, e.getAuthor());
 
 				ms.sendMessage(e.getChannel(),
-						"Vote started!\n\nTopic: " + topic + "\nYes ($yes) or No ($no).\n\nType $end to end the vote.");
+						"Vote started!", "Topic: " + topic + "\nYes ("+BotSettings.BOT_PREFIX.getPropertyValue()+"yes) or No ("+BotSettings.BOT_PREFIX.getPropertyValue()+"no).\n\nType $end to end the vote.");
 				LOG.info(e.getAuthor() + " started a vote with the topic " + topic);
 			} else {
-				ms.sendMessage(e.getChannel(), "Give a topic to vote on.\n$vote <topic>");
+				ms.sendMessage(e.getChannel(), "", "Give a topic to vote on.\n$vote <topic>");
 				LOG.debug(e.getAuthor() + " tried to start a vote but did not provide a vote title");
 			}
 		} else {
-			ms.sendMessage(e.getChannel(), "There is already a vote going on.\n\nTopic: " + vm.getVoteTopic()
+			ms.sendMessage(e.getChannel(), "There is already a vote going on", "Topic: " + vm.getVoteTopic()
 					+ "\n\nType $end to end the vote.");
 			LOG.debug(e.getAuthor() + " tired to start a vote, although there is already an active vote");
 		}

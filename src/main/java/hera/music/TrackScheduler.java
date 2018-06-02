@@ -55,7 +55,7 @@ public class TrackScheduler extends AudioEventAdapter {
 			queue.addAll(tracks);
 		} else {
 			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
-					"Now playing:\n" + tracks.get(0).getInfo().title + " by " + tracks.get(0).getInfo().author + " | " + getFormattedTime(tracks.get(0).getDuration()));
+					"Now playing:", tracks.get(0).getInfo().title + " by " + tracks.get(0).getInfo().author + " | " + getFormattedTime(tracks.get(0).getDuration()));
 			tracks.remove(0);
 			LOG.debug("First song of playlist is now playing, rest is added to the queue");
 			queue.addAll(tracks);
@@ -71,7 +71,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		// stop the player.
 		AudioTrack track = queue.poll();
 		if(track != null) {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:", track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
 			player.startTrack(track, false);
 		}
 		LOG.debug("End of: TrackScheduler.nextTrack");
@@ -93,9 +93,9 @@ public class TrackScheduler extends AudioEventAdapter {
 		LOG.debug("Start of: TrackScheduler.requeueSong");
 		if(player.getPlayingTrack() != null) {
 			addSong(player.getPlayingTrack().makeClone());
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Requeued " + player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author);
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Requeued:", player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author);
 		} else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "There is no song playing at the moment.");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "There is no song playing at the moment.");
 		}
 		LOG.debug("End of: TrackScheduler.requeueSong");
 	}

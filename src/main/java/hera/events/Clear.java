@@ -33,7 +33,7 @@ public class Clear implements Command {
 		LOG.debug("Start of: Clear.execute");
 		gapm.getGuildAudioPlayer(e.getGuild()).scheduler.clearQueue();
 		LOG.info("Queue cleared");
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Queue cleared");
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Queue cleared");
 		LOG.debug("End of: Clear.execute");
 	}
 }

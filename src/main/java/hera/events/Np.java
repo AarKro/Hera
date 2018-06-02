@@ -35,13 +35,13 @@ public class Np implements Command {
 		LOG.debug("Start of: Np.execute");
 		AudioTrack track = gapm.getGuildAudioPlayer(e.getGuild()).player.getPlayingTrack();
 		if (track != null) {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:\n" + track.getInfo().title + " by "
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:", track.getInfo().title + " by "
 					+ track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
 			LOG.info(e.getAuthor() + " used command np, receiving the following information: Now playing: " + track.getInfo().title + " by "
 					+ track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
 		}
 		else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "No song is playing right now");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "No song is playing right now");
 			LOG.debug(e.getAuthor() + " used command np although there was no song playing");
 		}
 		LOG.debug("End of: Np.execute");

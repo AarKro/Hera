@@ -56,22 +56,22 @@ public class Move implements Command {
 
 					gapm.getGuildAudioPlayer(e.getGuild()).scheduler.setQueueAfterMove(queue);
 
-					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Song " + trackToMove.getInfo().title + " moved");
+					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Song " + trackToMove.getInfo().title + " moved");
 					LOG.info(e.getAuthor() + " moved song " + trackToMove.getInfo().title);
 
 				} else {
-					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), songToMove + " or " + position + " is not a valid song ID.");
+					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", songToMove + " or " + position + " is not a valid song ID.");
 					LOG.debug(e.getAuthor() + " used a invalid song ID. Used song IDs: " + songToMove + ", " + position);
 				}
 
 			} catch (NumberFormatException e2) {
-				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "One of the provided song IDs is not a number");
+				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "One of the provided song IDs is not a number");
 				LOG.error("One of the provided song IDs is not a number, songID1: " + args[1] + ", songID2: " + args[2]);
 				LOG.error(e2.getMessage() + " : " + e2.getCause());
 			}
 			
 		} else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $move\nSyntax: $move <songID> <songID>");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Invalid usage of $move\nSyntax: $move <songID> <songID>");
 			LOG.debug(e.getAuthor() + " used command move wrong");
 		}
 		LOG.debug("End of: Move.execute");
