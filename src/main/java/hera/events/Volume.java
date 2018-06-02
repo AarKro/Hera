@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import hera.enums.BotSettings;
 import hera.enums.BoundChannel;
-import hera.misc.MessageSender;
+import hera.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;

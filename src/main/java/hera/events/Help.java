@@ -1,7 +1,7 @@
 package hera.events;
 
 import hera.enums.BotCommands;
-import hera.misc.MessageSender;
+import hera.eventSupplements.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Help implements Command {

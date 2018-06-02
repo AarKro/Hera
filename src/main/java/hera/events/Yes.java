@@ -3,8 +3,8 @@ package hera.events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import hera.misc.MessageSender;
-import hera.misc.VoteManager;
+import hera.eventSupplements.MessageSender;
+import hera.eventSupplements.VoteManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Yes implements Command {

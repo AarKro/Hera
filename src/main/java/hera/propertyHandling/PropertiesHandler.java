@@ -1,4 +1,4 @@
-package hera.misc;
+package hera.propertyHandling;
 
 import java.io.File;
 import java.io.FileInputStream;

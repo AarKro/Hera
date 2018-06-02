@@ -1,7 +1,7 @@
 package hera.events;
 
 import hera.enums.BoundChannel;
-import hera.misc.MessageSender;
+import hera.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 

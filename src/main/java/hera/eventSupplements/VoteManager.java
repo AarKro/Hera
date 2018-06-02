@@ -1,4 +1,4 @@
-package hera.misc;
+package hera.eventSupplements;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hera.constants.BotConstants;
-import hera.misc.PropertiesHandler;
+import hera.propertyHandling.PropertiesHandler;
 import sx.blah.discord.handle.obj.IChannel;
 
 public enum BoundChannel {
