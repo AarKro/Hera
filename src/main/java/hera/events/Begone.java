@@ -65,7 +65,7 @@ public class Begone implements Command {
 							if (moveTo.getModifiedPermissions(user).contains(Permissions.VOICE_CONNECT)) {
 								user.moveToVoiceChannel(moveTo);
 								success = true;
-								ms.sendMessage(e.getChannel(), user.mention() + " moved to " + moveTo.getName());
+								ms.sendMessage(e.getChannel(), "", user.mention() + " moved to " + moveTo.getName());
 								LOG.info("User " + user.getName() + " moved to " + moveTo.getName() + " : " + moveTo.getLongID());
 							}
 						}
@@ -73,12 +73,12 @@ public class Begone implements Command {
 				}
 
 			} else {
-				ms.sendMessage(e.getChannel(), "Invalid usage of $begone.\nSyntax: $begone <name/nickname>");
+				ms.sendMessage(e.getChannel(), "", "Invalid usage of $begone.\nSyntax: $begone <name/nickname>");
 				LOG.debug("User " + e.getAuthor() + " used command begon wrong");
 			}
 				
 		} else {
-			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server or possess the BeGone role to use this command.");
+			ms.sendMessage(e.getChannel(), "", "You need to be an Administrator of this server or possess the BeGone role to use this command.");
 			LOG.debug("User " + e.getAuthor() + " does not have admin rights or the role BeGone");
 		}
 			

@@ -68,7 +68,7 @@ public class Queue implements Command {
 		}
 
 		try {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), queue);
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Queue:", queue);
 		} catch (Exception e2) {
 			AudioTrack track;
 			queue = "";
@@ -83,7 +83,7 @@ public class Queue implements Command {
 
 			queue += "\n\nOnly the first 5 songs are displayed because of exeeding character limit.";
 
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), queue);
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Queue:", queue);
 			LOG.info("Compact view still exeeds discord character limit");
 		} finally {
 			LOG.info(e.getAuthor() + " used command Queue. Total songs: " + tracks.length + " | Total duration: " + getFormattedTime(totalLength));

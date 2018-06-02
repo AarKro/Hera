@@ -33,10 +33,10 @@ public class Pause implements Command {
 		LOG.debug("Start of: Pause.execute");
 		if (!gapm.getGuildAudioPlayer(e.getGuild()).player.isPaused()) {
 			gapm.getGuildAudioPlayer(e.getGuild()).player.setPaused(true);
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Player paused.");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Player paused.");
 			LOG.info(e.getAuthor() + " paused the audio player");
 		} else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Player is already paused.");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Player is already paused.");
 			LOG.debug(e.getAuthor() + " tried to pause the already paused audio player");
 		}
 		LOG.debug("End of: Pause.execute");

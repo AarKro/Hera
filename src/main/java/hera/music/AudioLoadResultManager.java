@@ -38,7 +38,7 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	@Override
 	public void trackLoaded(AudioTrack track) {
 		LOG.debug("Start of: AudioLoadResultManager.trackLoaded");
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:\n" + track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:", track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
 		play(event.getGuild(), musicManager, track);
 		LOG.debug("End of: AudioLoadResultManager.trackLoaded");
 	}
@@ -53,7 +53,7 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 		}
 
 		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), 
-				"Adding to queue:\nPlaylist " + playlist.getName() + "\n\nTotal songs: " + playlist.getTracks().size() + " | Total duration " + getFormattedTime(totalDuration));
+				"Adding to queue:", "Playlist " + playlist.getName() + "\n\nTotal songs: " + playlist.getTracks().size() + " | Total duration " + getFormattedTime(totalDuration));
 		LOG.debug("Adding playlist to queue");
 		
 		playPlaylist(event.getGuild(), musicManager, playlist);
@@ -64,7 +64,7 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	@Override
 	public void noMatches() {
 		LOG.debug("Start of: AudioLoadResultManager.noMatches");
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Nothing found by:\n" + trackUrl);
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Nothing found", "by " + trackUrl);
 		LOG.info( "Nothing found by: " + trackUrl);
 		LOG.debug("End of: AudioLoadResultManager.noMatches");
 	}
@@ -72,7 +72,7 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	@Override
 	public void loadFailed(FriendlyException exception) {
 		LOG.debug("Start of: AudioLoadResultManager.loadFailed");
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Could not play:\n" + exception.getMessage());
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Could not play:", exception.getMessage());
 		LOG.error("Could not play");
 		LOG.error(exception.getMessage() + " : " + exception.getCause());
 		LOG.debug("End of: AudioLoadResultManager.loadFailed");

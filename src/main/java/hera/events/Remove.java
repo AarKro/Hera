@@ -14,9 +14,6 @@ public class Remove implements Command {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Remove.class);
 	
-	private MessageSender ms;
-	private GuildAudioPlayerManager gapm;
-
 	private static Remove instance;
 
 	public static Remove getInstance() {
@@ -24,6 +21,9 @@ public class Remove implements Command {
 			instance = new Remove();
 		return instance;
 	}
+
+	private MessageSender ms;
+	private GuildAudioPlayerManager gapm;
 
 	// constructor
 	private Remove() {
@@ -45,21 +45,21 @@ public class Remove implements Command {
 							- 1];
 					gapm.getGuildAudioPlayer(e.getGuild()).scheduler.removeSongFromQueue(trackToRemove);
 
-					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Removed " + trackToRemove.getInfo().title
+					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Removed:", trackToRemove.getInfo().title
 							+ " by " + trackToRemove.getInfo().author + " from the queue");
 					LOG.info(e.getAuthor() + " removed song with songID " + queuePos);
 
 				} else {
-					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), queuePos + " is not a valid song ID.");
+					ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", queuePos + " is not a valid song ID.");
 					LOG.debug(e.getAuthor() + " entered a invalid songID, " + queuePos);
 				}
 			} catch (NumberFormatException e2) {
-				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), args[1] + " is not a number.");
+				ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", args[1] + " is not a number.");
 				LOG.error("Provided song id is not a number. songID: " + args[1]);
 				LOG.error(e2.getMessage() + " : " + e2.getCause());
 			}
 		} else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $remove\nSyntax: $remove <songID>");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Invalid usage of $remove\nSyntax: $remove <songID>");
 			LOG.debug(e.getAuthor() + " used command remove wrong");
 		}
 		

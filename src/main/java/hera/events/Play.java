@@ -63,7 +63,7 @@ public class Play implements Command {
 			apm.loadItemOrdered(musicManager, songURL, new AudioLoadResultManager(e, songURL, ms, musicManager));
 
 		} else {
-			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Invalid usage of $play | $p.\nSyntax: $play <URL>");
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Invalid usage of $play | $p.\nSyntax: $play <URL>");
 			LOG.debug(e.getAuthor() + " used command play wrong");
 		}
 		LOG.debug("End of: Play.execute");

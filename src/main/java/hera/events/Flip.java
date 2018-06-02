@@ -35,7 +35,7 @@ public class Flip implements Command {
 		result = (rng.nextBoolean()) ? "Heads" : "Tails";
 		LOG.info(e.getAuthor() + " fliped a coin, result: " + result);
 		
-		ms.sendMessage(e.getChannel(), result);
+		ms.sendMessage(e.getChannel(), "", result);
 		LOG.debug("End of: Flip.execute");
 	}
 }

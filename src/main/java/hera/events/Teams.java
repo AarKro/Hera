@@ -45,18 +45,17 @@ public class Teams implements Command {
 
 			for (String s : list) {
 				if (!s.equals(BotSettings.BOT_PREFIX.getPropertyValue() + "teams")) {
-					if (teamSwitch)
-						team1 += s + " ";
-					else
-						team2 += s + " ";
+					if (teamSwitch) team1 += s + " ";
+					else team2 += s + " ";
+						
 					teamSwitch = !teamSwitch;
 				}
 			}
 
-			ms.sendMessage(e.getChannel(), "Team 1: " + team1 + "\nTeam 2: " + team2);
+			ms.sendMessage(e.getChannel(), "Teams:", "Team 1: " + team1 + "\nTeam 2: " + team2);
 			LOG.info("Team1: " + team1 + ", Team2: " + team2);
 		} else {
-			ms.sendMessage(e.getChannel(), "$teams needs at least 3 following parameters / names.");
+			ms.sendMessage(e.getChannel(), "", "$teams needs at least 3 names");
 		}
 		LOG.debug("End of: Teams.execute");
 	}

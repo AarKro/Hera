@@ -73,7 +73,7 @@ public class Shame implements Command {
 									Thread.sleep(Long.parseLong(BotSettings.SHAME_TIME.getPropertyValue()));
 									LOG.info("Waking Shame.Thread up from sleep");
 									
-									ms.sendMessage(e.getChannel(), users.get(0).mention() + " has been put to shame.");
+									ms.sendMessage(e.getChannel(), "", users.get(0).mention() + " has been put to shame.");
 									addCasualRole(users.get(0), casual, shameOnYou, current);
 									LOG.info(users.get(0) + " will no longer be shamed... for now");
 									LOG.debug("End of: Shame.Thread");
@@ -93,19 +93,19 @@ public class Shame implements Command {
 						LOG.info("Shame.Thread started");
 
 					} else {
-						ms.sendMessage(e.getChannel(), users.get(0).getName() + " can't be put to shame.");
+						ms.sendMessage(e.getChannel(), "", users.get(0).getName() + " can't be put to shame.");
 						LOG.debug(e.getAuthor() + " tried to put " + users.get(0).getName() + " to shame, but couldn't for some reason");
 					}
 				} else {
-					ms.sendMessage(e.getChannel(), "No user with the name " + username + " found.");
+					ms.sendMessage(e.getChannel(), "", "No user with the name " + username + " found.");
 					LOG.debug("No user with the name " + username + " found");
 				}
 			} else {
-				ms.sendMessage(e.getChannel(), "Invalid usage of $shame\nSyntax: $shame <user>");
+				ms.sendMessage(e.getChannel(), "", "Invalid usage of $shame\nSyntax: $shame <user>");
 				LOG.debug(e.getAuthor() + " used command shame wrong");
 			}
 		} else {
-			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
+			ms.sendMessage(e.getChannel(), "", "You need to be an Administrator of this server to use this command.");
 			LOG.debug(e.getAuthor() + " used command shame but is not an admin on this server");
 		}
 		LOG.debug("End of: Shame.execute");

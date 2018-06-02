@@ -37,11 +37,11 @@ public class Yes implements Command {
 				vm.setCountYes(vm.getCountYes() + 1);
 				LOG.info(e.getAuthor() + " voted yes on the currently active vote");
 			} else {
-				ms.sendMessage(e.getChannel(), "You have already voted!");
+				ms.sendMessage(e.getChannel(), "", "You have already voted!");
 				LOG.debug(e.getAuthor() + " tried to vote yes on a vote that was already voted on");
 			}
 		} else {
-			ms.sendMessage(e.getChannel(), "There is no active vote to vote on.\nType $vote <topic> to start a vote.");
+			ms.sendMessage(e.getChannel(), "There is no active vote to vote on", "Type $vote <topic> to start a vote.");
 			LOG.debug(e.getAuthor() + " tried to vote yes on a non existing vote");
 		}
 		LOG.debug("End of: Yes.execute");

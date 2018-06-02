@@ -29,7 +29,7 @@ public class Lq implements Command {
 				.setLoopQueue(!gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getLoopQueue());
 		String message = (gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getLoopQueue()) ? "Loop queue enabled"
 				: "Loop queue disabled";
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), message);
+		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", message);
 	}
 
 }
