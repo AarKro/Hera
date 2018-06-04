@@ -54,7 +54,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 
 <h4>Alias</h4>
 
-Creates an alias for a command. The command can now be used with both, its alias or by its original name.
+Creates an alias for a command. The command can now be used with both, its alias or with its original name.
 
 Can only be used by Admins.  
 Syntax: `$alias <command> <alias>`
