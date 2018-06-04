@@ -4,6 +4,7 @@ import hera.events.*;
 
 
 public enum BotCommands {
+	ALIAS("alias", Alias.getInstance()),
 	BEGONE("begone", Begone.getInstance()),
 	BIND("bind", Bind.getInstance()),
 	CLEAR("clear", Clear.getInstance()),
