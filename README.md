@@ -1,6 +1,6 @@
 <h1>Hera</h1>
 
-Bot-prefix: `$`  |  Version `v0.6.0`
+Version `v1.0.0` | Default bot-prefix: `$`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -21,6 +21,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 
 | Command | Usable for | Quick syntax |
 | ------- | ---------- | ------------ |
+| [Alias](#alias)| Admins only | `$alias <command> <alias>` |
 | [Begone](#begone) | Admins and role BeGone | `$begone <username \| usernickname>` |
 | [Bind](#bind) | Admins only | `$bind <output message group>` |
 | [Clear](#clear) | All users | `$clear` |
@@ -51,6 +52,13 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 
 <h3>Detailed command listing</h3>
 
+<h4>Alias</h4>
+
+Creates an alias for a command. The command can now be used with both, its alias or by its original name.
+
+Can only be used by Admins.  
+Syntax: `$alias <command> <alias>`
+
 <h4>Begone</h4>
 
 Moves another user to a random voice channel, for which they have the right permissions for.
@@ -60,7 +68,7 @@ Syntax: `$begone <username | usernickname>`
 
 <h4>Bind</h4>
 
-Binds a channel to a specific message output group from Hera.  
+Binds a channel to a specific output message group from Hera.  
 For example: `$bind music` binds all of Heras output messages regarding music to the channel in which the command was written in.
 
 Output message groups:  
@@ -248,19 +256,6 @@ Vote yes on the currently active vote.
 
 Can be used by all guild members.  
 Syntax: `$yes`
-
-<h2>Property files</h2>
-
-Hera reads various property files on startup. In them are values stored, which are relevant on runtime.  
-The property files also get updated automatically by Hera, if such a command is issued.
-
-Example values that are stored in property files are channel IDs for the bound channels or when the last message of the day was posted. This way channels don't have to be rebound on every startup and the message of the day is only posted once a day.
-
-Property files Hera uses:  
-* binding.properties
-* settings.properties
-* client.properties
-* youtube.properties
 
 <h2>License</h2>
 
