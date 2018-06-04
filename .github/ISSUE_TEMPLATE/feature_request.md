@@ -4,13 +4,11 @@ about: Suggest an idea for this project
 
 ---
 
-//Remove all lines starting with //.
-
-**Is your feature request related to a problem? Please describe.**
-//A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Describe the current situation / your motivation for the change**
+// text goes here
 
 **Describe the solution you'd like**
-//A clear and concise description of what you want to happen.
+// text goes here
 
 **Additional context**
-//Add any other context or screenshots about the feature request here.
+// text goes here
