@@ -1,14 +1,11 @@
 package hera.events;
 
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hera.constants.BotConstants;
-import hera.enums.BoundChannel;
-import hera.misc.MessageSender;
-import hera.misc.PropertiesHandler;
+import hera.eventSupplements.MessageSender;
+import hera.propertyHandling.PropertiesHandler;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
@@ -37,7 +34,7 @@ public class Alias implements Command {
 			LOG.debug(e.getAuthor() + " has admin rights");
 			
 			String[] args = e.getMessage().getContent().split(" ");
-			if (args.length == 2) {
+			if (args.length == 3) {
 				LOG.debug("Enough parameters to interpret command: " + args.length);
 				PropertiesHandler aliasProperties = new PropertiesHandler(BotConstants.ALIAS_PROPERTY_LOCATION);
 				aliasProperties.load();
@@ -60,12 +57,12 @@ public class Alias implements Command {
 			
 				
 			} else {
-				ms.sendMessage(e.getChannel(), "Invalid usage of $alias .\nSyntax: $alias command aliases");
+				ms.sendMessage(e.getChannel(), "", "Invalid usage of $alias .\nSyntax: $alias command alias");
 				LOG.debug(e.getAuthor() + " used command alias wrong");
 			}
 				
 		} else {
-			ms.sendMessage(e.getChannel(), "You need to be an Administrator of this server to use this command.");
+			ms.sendMessage(e.getChannel(), "", "You need to be an Administrator of this server to use this command.");
 			LOG.debug(e.getAuthor() + " is not an admin on this server");
 		}
 		
