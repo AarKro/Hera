@@ -2,7 +2,7 @@
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=Inbox,To%20Be%20Reviewed,To%20Do,In%20Progress)](https://waffle.io/Chromeroni/Hera-Chatbot)
 
-Latest version [`v1.0.0`](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) | Default bot-prefix: `$`
+Latest version [![release](https://img.shields.io/badge/release-v1.0.0-004cc6.svg)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) | Default bot-prefix: `$`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -258,6 +258,7 @@ Vote yes on the currently active vote.
 
 Can be used by all guild members.  
 Syntax: `$yes`
+
 
 <h2>License</h2> 
 
