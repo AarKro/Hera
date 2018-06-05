@@ -1,6 +1,6 @@
 <h1>Hera</h1>
 
-Latest version [`v1.0.0`](https://github.com/Chromeroni/Hera-Chatbot/releases/latest)| Default bot-prefix: `$`
+Latest version [`v1.0.0`](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) | Default bot-prefix: `$`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
