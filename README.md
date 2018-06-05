@@ -2,6 +2,8 @@
 
 Latest version [`v1.0.0`](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) | Default bot-prefix: `$`
 
+Issue.board:  [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=all)](https://waffle.io/Chromeroni/Hera-Chatbot)
+
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
 
