@@ -1,6 +1,6 @@
 <h1>Hera</h1>
 
-[![Latest Release](https://img.shields.io/github/tag/robotology/yarp.svg?label=Latest Release)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) | Default bot-prefix: `$`
+Latest version [`v1.0.0`](https://github.com/Chromeroni/Hera-Chatbot/releases/latest)| Default bot-prefix: `$`
 
 Hera is a Discord chatbot written in Java using the Discord4Java library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -258,6 +258,5 @@ Can be used by all guild members.
 Syntax: `$yes`
 
 <h2>License</h2> 
-[![GitHub license](https://img.shields.io/github/license/Chromeroni/Hera-Chatbot.svg)](https://github.com/Chromeroni/Hera-Chatbot/blob/master/LICENSE)
 
 This project is licensed under the open-source license [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
