@@ -9,6 +9,7 @@ public class BotConstants {
 	public static final String YOUTUBE_PROPERTY_LOCATION = "youtube.properties";
 	public static final String ALIAS_PROPERTY_LOCATION = "alias.properties";
 	public static final String MODULS_PROPERTY_LOCATION = "moduls.properties";
+	public static final String PLAYLISTS_PROPERTY_LOCATION = "playlists.properties";
 	
 	public static final String CLIENT_TOKEN_PROPERTY_NAME = "clientToken";
 	

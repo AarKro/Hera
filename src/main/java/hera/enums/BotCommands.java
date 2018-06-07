@@ -31,7 +31,10 @@ public enum BotCommands {
 	VERSION("version", Version.getInstance()), 
 	VOLUME("volume", Volume.getInstance()), 
 	VOTE("vote", Vote.getInstance()), 
-	YES("yes", Yes.getInstance());
+	YES("yes", Yes.getInstance()),
+	SAVETOPLAYLIST("savetoplaylist", SaveToPlaylist.getInstance()),
+	STARTPLAYLIST("startplaylist", StartPlaylist.getInstance()),
+	PLAYLISTS("playlists", Playlists.getInstance());
 	
 	private String commandName;
 	private Command commandInstance;
