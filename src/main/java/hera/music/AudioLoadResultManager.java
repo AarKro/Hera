@@ -10,7 +10,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import hera.enums.BoundChannel;
 import hera.eventSupplements.MessageSender;
-import hera.events.Yes;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IGuild;
 
@@ -22,6 +21,7 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 	private String trackUrl;
 	private MessageSender ms;
 	private GuildMusicManager musicManager;
+	private boolean isHeraPlaylist = false;
 
 	// default constructor
 	public AudioLoadResultManager() {
@@ -34,11 +34,22 @@ public class AudioLoadResultManager implements AudioLoadResultHandler {
 		this.ms = ms;
 		this.musicManager = musicManager;
 	}
+	
+	// constructor used so that HeraPlaylists don't spam the Chat
+	public AudioLoadResultManager(MessageReceivedEvent event, String trackUrl, MessageSender ms, GuildMusicManager musicManager, boolean isHeraPlaylist) {
+		this.event = event;
+		this.trackUrl = trackUrl;
+		this.ms = ms;
+		this.musicManager = musicManager;
+		this.isHeraPlaylist = isHeraPlaylist;
+	}
 
 	@Override
 	public void trackLoaded(AudioTrack track) {
 		LOG.debug("Start of: AudioLoadResultManager.trackLoaded");
-		ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:", track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		if(!isHeraPlaylist) {
+			ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Adding to queue:", track.getInfo().title + " by " + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
+		}
 		play(event.getGuild(), musicManager, track);
 		LOG.debug("End of: AudioLoadResultManager.trackLoaded");
 	}

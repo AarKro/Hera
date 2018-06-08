@@ -51,12 +51,11 @@ LOG.debug("Start of: StartPlaylist.execute");
 				String playlist = playlists.getProperty(args[1]);
 				String[] songs = playlist.split(";");
 				
-				ms.sendMessage(e.getChannel(), "", "Now loading playlist: " + args[1]);
+				ms.sendMessage(e.getChannel(), "", "Now queueing playlist: " + args[1]);
 				for(String song : songs) {
 					GuildMusicManager musicManager = gapm.getGuildAudioPlayer(e.getGuild());
-					apm.loadItemOrdered(musicManager, song, new AudioLoadResultManager(e, song, ms, musicManager));
+					apm.loadItemOrdered(musicManager, song, new AudioLoadResultManager(e, song, ms, musicManager, true));
 				}
-				ms.sendMessage(e.getChannel(), "", "Finished queueing playlist: " + args[1]);
 			}
 		} else {
 			ms.sendMessage(e.getChannel(), "", "Invalid usage of $startplaylist .\nSyntax: $startplaylist name");
