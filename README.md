@@ -59,12 +59,16 @@ Creates an alias for a command. The command can now be used with both, its alias
 Can only be used by Admins.  
 Syntax: `$alias <command> <alias>`
 
+---
+
 <h4>Begone</h4>
 
 Moves another user to a random voice channel, for which they have the right permissions for.
 
 Can only be used by Admins and the role BeGone.  
 Syntax: `$begone <username | usernickname>`
+
+---
 
 <h4>Bind</h4>
 
@@ -79,12 +83,16 @@ Output message groups:
 Can only be used by Admins.  
 Syntax: `$bind <output message group>`
 
+---
+
 <h4>Clear</h4>
 
 Clears all songs from the current music queue.
 
 Can be used by all guild members.  
 Syntax: `$clear`
+
+---
 
 <h4>End</h4>
 
@@ -93,12 +101,16 @@ Ends an ongoing vote.
 Can only be used by Admins and the user who started the vote.  
 Syntax: `$end`
 
+---
+
 <h4>Flip</h4>
 
 This command simulates a coin flip. The outcome of it is randomly chosen between `Heads` & `Tails`.
 
 Can be used by all guild members.  
 Syntax: `$flip`
+
+---
 
 <h4>Help</h4>
 
@@ -107,12 +119,16 @@ Displays a list of all available commands and a link to https://github.com/Chrom
 Can be used by all guild members.  
 Syntax: `$help`
 
+---
+
 <h4>Join</h4>
 
 Hera joins the voice channel to which the user who issued the command is connected.
 
 Can be used by all guild members.  
 Syntax: `$join`
+
+---
 
 <h4>Leave</h4>
 
@@ -121,12 +137,16 @@ Hera leaves the voice channel to which she is currently connected.
 Can be used by all guild members.  
 Syntax: `$leave`
 
+---
+
 <h4>Lq</h4>
 
 Loops the music queue, so that at the end of a song it is simply requeued.
 
 Can be used by all guild members.  
 Syntax: `$lq`
+
+---
 
 <h4>Motd</h4>
 
@@ -135,12 +155,16 @@ Lets you choose your own message of the day and override the current one.
 Can only be used by Admins.  
 Syntax: `$motd <message of the day>`
 
+---
+
 <h4>Move</h4>
 
 Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through `$queue`.
 
 Can be used by all guild members.  
 Syntax: `$move <song ID> <song ID>`
+
+---
 
 <h4>No</h4>
 
@@ -149,6 +173,8 @@ Vote no on the currently active vote.
 Can be used by all guild members.  
 Syntax: `$no`
 
+---
+
 <h4>Np</h4>
 
 Display the currently playing song.
@@ -156,12 +182,16 @@ Display the currently playing song.
 Can be used by all guild members.  
 Syntax: `$np`
 
+---
+
 <h4>Pause</h4>
 
 Pauses the music player.
 
 Can be used by all guild members.  
 Syntax: `$pause`
+
+---
 
 <h4>Play</h4>
 
@@ -172,6 +202,8 @@ If Hera has not join a voice channel yet, she will automatically join the voice 
 Can be used by all guild members.  
 Syntax: `$play <url | keywords>`
 
+---
+
 <h4>Queue</h4>
 
 Displays all songs that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
@@ -180,12 +212,16 @@ If the message still exeeds the character limit, only the first 5 songs will be 
 Can be used by all guild members.  
 Syntax: `$queue`
 
+---
+
 <h4>Remove</h4>
 
 Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through `$queue`.
 
 Can be used by all guild members.  
 Syntax: `$remove <song ID>`
+
+---
 
 <h4>Replay</h4>
 
@@ -194,12 +230,16 @@ Requeues the currently playing song.
 Can be used by all guild members.  
 Syntax: `$replay`
 
+---
+
 <h4>Report</h4>
 
 Reports the specified user to the Admins.
 
 Can be used by all guild members.  
 Syntax: `$report <@user> <report message>`
+
+---
 
 <h4>Resume</h4>
 
@@ -208,12 +248,16 @@ Resumes the music player.
 Can be used by all guild members.  
 Syntax: `$resume`
 
+---
+
 <h4>Shame</h4>
 
 Removes the casual role from the specified user and replaces it with the "schäm dich" role. Also moves the user to the "schämdicheggli" voice channel for a by the Admins specified time period.
 
 Can only be used by Admins.  
 Syntax: `$shame <username | usernickname>`
+
+---
 
 <h4>Skip</h4>
 
@@ -222,12 +266,16 @@ Skips the currently playing song and starts the next one in the queue.
 Can be used by all guild members.  
 Syntax: `$skip`
 
+---
+
 <h4>Teams</h4>
 
 Creates two teams of its parameters. There need to be at least 3 parameters to use this command.
 
 Can be used by all guild members.  
 Syntax: `$teams <name> <name> <name> ...`
+
+---
 
 <h4>Version</h4>
 
@@ -236,12 +284,16 @@ Displays the current version of Hera.
 Can be used by all guild members.  
 Syntax: `$version`
 
+---
+
 <h4>Volume</h4>
 
 Sets the volume of the music player. Valid values are numbers between 0 and 150.
 
 Can only be used by Admins.  
 Syntax: `$volume <value>`
+
+---
 
 <h4>Vote</h4>
 
@@ -250,6 +302,8 @@ Starts a vote. Only 1 vote can be active at a time. All guild members can vote 1
 Can be used by all guild members.  
 Syntax: `$vote <vote topic>`
 
+---
+
 <h4>Yes</h4>
 
 Vote yes on the currently active vote.
@@ -257,6 +311,7 @@ Vote yes on the currently active vote.
 Can be used by all guild members.  
 Syntax: `$yes`
 
+---
 
 <h2>License</h2> 
 
