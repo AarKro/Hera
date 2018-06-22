@@ -1,4 +1,4 @@
-<h1>Hera</h1>
+# Hera
 
 [![release](https://img.shields.io/badge/latest%20release%20version-v1.0.0-004cc6.svg)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=Inbox,To%20Be%20Reviewed,To%20Do,In%20Progress,To%20Be%20Merged)](https://waffle.io/Chromeroni/Hera-Chatbot)
 
@@ -15,9 +15,9 @@ Queue your favorite songs via `URL` or just give Hera a few keywords to search w
 * **General convenience**  
 Use various little commands such as `$flip` to flip a coin, or `$vote` to start a guild wide vote.
 
-<h2>Commands</h2>  
+##  Commands  
 
-<h3>Short command listing</h3>
+### Short command listing
 
 | Command | Usable for | Quick syntax |
 | ------- | ---------- | ------------ |
@@ -50,9 +50,9 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 | [Vote](#vote) | All users | `$vote <vote topic>` |
 | [Yes](#yes) | All users | `$yes` |
 
-<h3>Detailed command listing</h3>
+### Detailed command listing
 
-<h4>Alias</h4>
+#### Alias
 
 Creates an alias for a command. The command can now be used with both, its alias or with its original name.
 
@@ -61,7 +61,7 @@ Syntax: `$alias <command> <alias>`
 
 ---
 
-<h4>Begone</h4>
+#### Begone
 
 Moves another user to a random voice channel, for which they have the right permissions for.
 
@@ -70,7 +70,7 @@ Syntax: `$begone <username | usernickname>`
 
 ---
 
-<h4>Bind</h4>
+#### Bind
 
 Binds a channel to a specific output message group from Hera.  
 For example: `$bind music` binds all of Heras output messages regarding music to the channel in which the command was written in.
@@ -85,7 +85,7 @@ Syntax: `$bind <output message group>`
 
 ---
 
-<h4>Clear</h4>
+#### Clear
 
 Clears all songs from the current music queue.
 
@@ -94,7 +94,7 @@ Syntax: `$clear`
 
 ---
 
-<h4>End</h4>
+#### End
 
 Ends an ongoing vote.
 
@@ -103,7 +103,7 @@ Syntax: `$end`
 
 ---
 
-<h4>Flip</h4>
+#### Flip
 
 This command simulates a coin flip. The outcome of it is randomly chosen between `Heads` & `Tails`.
 
@@ -112,7 +112,7 @@ Syntax: `$flip`
 
 ---
 
-<h4>Help</h4>
+#### Help
 
 Displays a list of all available commands and a link to https://github.com/Chromeroni/Hera-Chatbot#commands for more information.
 
@@ -121,7 +121,7 @@ Syntax: `$help`
 
 ---
 
-<h4>Join</h4>
+#### Join
 
 Hera joins the voice channel to which the user who issued the command is connected.
 
@@ -130,7 +130,7 @@ Syntax: `$join`
 
 ---
 
-<h4>Leave</h4>
+#### Leave
 
 Hera leaves the voice channel to which she is currently connected.
 
@@ -139,7 +139,7 @@ Syntax: `$leave`
 
 ---
 
-<h4>Lq</h4>
+#### Lq
 
 Loops the music queue, so that at the end of a song it is simply requeued.
 
@@ -148,7 +148,7 @@ Syntax: `$lq`
 
 ---
 
-<h4>Motd</h4>
+#### Motd
 
 Lets you choose your own message of the day and override the current one.
 
@@ -157,7 +157,7 @@ Syntax: `$motd <message of the day>`
 
 ---
 
-<h4>Move</h4>
+#### Move
 
 Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through `$queue`.
 
@@ -166,7 +166,7 @@ Syntax: `$move <song ID> <song ID>`
 
 ---
 
-<h4>No</h4>
+#### No
 
 Vote no on the currently active vote.
 
@@ -175,7 +175,7 @@ Syntax: `$no`
 
 ---
 
-<h4>Np</h4>
+#### Np
 
 Display the currently playing song.
 
@@ -184,7 +184,7 @@ Syntax: `$np`
 
 ---
 
-<h4>Pause</h4>
+#### Pause
 
 Pauses the music player.
 
@@ -193,7 +193,7 @@ Syntax: `$pause`
 
 ---
 
-<h4>Play</h4>
+#### Play
 
 Queues a song through an `URL` or a few keywords with which Hera will search and queue the first search result on YouTube.  
 If there is no song playing at the moment, play will start the player by itself.  
@@ -204,7 +204,7 @@ Syntax: `$play <url | keywords>`
 
 ---
 
-<h4>Queue</h4>
+#### Queue
 
 Displays all songs that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
 If the message still exeeds the character limit, only the first 5 songs will be displayed in normal view.
@@ -214,7 +214,7 @@ Syntax: `$queue`
 
 ---
 
-<h4>Remove</h4>
+#### Remove
 
 Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through `$queue`.
 
@@ -223,7 +223,7 @@ Syntax: `$remove <song ID>`
 
 ---
 
-<h4>Replay</h4>
+#### Replay
 
 Requeues the currently playing song.
 
@@ -232,7 +232,7 @@ Syntax: `$replay`
 
 ---
 
-<h4>Report</h4>
+#### Report
 
 Reports the specified user to the Admins.
 
@@ -241,7 +241,7 @@ Syntax: `$report <@user> <report message>`
 
 ---
 
-<h4>Resume</h4>
+#### Resume
 
 Resumes the music player.
 
@@ -250,7 +250,7 @@ Syntax: `$resume`
 
 ---
 
-<h4>Shame</h4>
+#### Shame
 
 Removes the casual role from the specified user and replaces it with the "schäm dich" role. Also moves the user to the "schämdicheggli" voice channel for a by the Admins specified time period.
 
@@ -259,7 +259,7 @@ Syntax: `$shame <username | usernickname>`
 
 ---
 
-<h4>Skip</h4>
+#### Skip
 
 Skips the currently playing song and starts the next one in the queue.
 
@@ -268,7 +268,7 @@ Syntax: `$skip`
 
 ---
 
-<h4>Teams</h4>
+#### Teams
 
 Creates two teams of its parameters. There need to be at least 3 parameters to use this command.
 
@@ -277,7 +277,7 @@ Syntax: `$teams <name> <name> <name> ...`
 
 ---
 
-<h4>Version</h4>
+#### Version
 
 Displays the current version of Hera.
 
@@ -286,7 +286,7 @@ Syntax: `$version`
 
 ---
 
-<h4>Volume</h4>
+#### Volume
 
 Sets the volume of the music player. Valid values are numbers between 0 and 150.
 
@@ -295,7 +295,7 @@ Syntax: `$volume <value>`
 
 ---
 
-<h4>Vote</h4>
+#### Vote
 
 Starts a vote. Only 1 vote can be active at a time. All guild members can vote 1 times on a vote.
 
@@ -304,7 +304,7 @@ Syntax: `$vote <vote topic>`
 
 ---
 
-<h4>Yes</h4>
+#### Yes
 
 Vote yes on the currently active vote.
 
@@ -313,6 +313,6 @@ Syntax: `$yes`
 
 ---
 
-<h2>License</h2> 
+##  License 
 
 This project is licensed under the open-source license [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
