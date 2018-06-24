@@ -38,7 +38,7 @@ public class Playlists implements Command {
 			Object[] keys = playlists.keySet().toArray();
 			
 			for(int i = 0; i < playlists.size(); i++) {
-				output += "					" + String.valueOf(i + 1) + ".	" + String.valueOf(keys[i]) + "\n";
+				output += String.valueOf(i + 1) + ".	" + String.valueOf(keys[i]) + "\n";
 			}
 			
 			ms.sendMessage(e.getChannel(), "Playlists:", output);
