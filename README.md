@@ -44,10 +44,10 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 | [Replay](#replay) | All users | `$replay` |
 | [Report](#report) | All users | `$report <@user> <report message>` |
 | [Resume](#resume) | All users | `$resume` |
-| [Save to playlist](#savetoplaylist) | All users | `$savetoplaylist <name>` |
+| [Save to playlist](#save-to-playlist) | All users | `$savetoplaylist <name>` |
 | [Shame](#shame) | Admins only | `$shame <username \| usernickname>` |
 | [Skip](#skip) | All users | `$skip` |
-| [Start playlist](#startplaylist) | All users | `$startplaylist <name>` |
+| [Start playlist](#start-playlist) | All users | `$startplaylist <name>` |
 | [Teams](#teams) | All users | `$teams <name> <name> <name> ...` |
 | [Version](#version) | All users | `$version` |
 | [Volume](#volume) | Admins only | `$volume <value>` |
