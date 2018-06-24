@@ -20,22 +20,22 @@ public enum BotCommands {
 	NP("np", Np.getInstance()), 
 	PAUSE("pause", Pause.getInstance()),
 	PLAY("play", Play.getInstance()),
+	PLAYLISTS("playlists", Playlists.getInstance()),
 	PREFIX("prefix", Prefix.getInstance()),
 	QUEUE("queue", Queue.getInstance()),
 	REMOVE("remove", Remove.getInstance()),
 	REPLAY("replay", Replay.getInstance()),
 	REPORT("report", Report.getInstance()),
 	RESUME("resume", Resume.getInstance()),
+	SAVETOPLAYLIST("savetoplaylist", SaveToPlaylist.getInstance()),
 	SHAME("shame", Shame.getInstance()),
 	SKIP("skip", Skip.getInstance()),
+	STARTPLAYLIST("startplaylist", StartPlaylist.getInstance()),
 	TEAMS("teams", Teams.getInstance()), 
 	VERSION("version", Version.getInstance()), 
 	VOLUME("volume", Volume.getInstance()), 
 	VOTE("vote", Vote.getInstance()), 
-	YES("yes", Yes.getInstance()),
-	SAVETOPLAYLIST("savetoplaylist", SaveToPlaylist.getInstance()),
-	STARTPLAYLIST("startplaylist", StartPlaylist.getInstance()),
-	PLAYLISTS("playlists", Playlists.getInstance());
+	YES("yes", Yes.getInstance());
 	
 	private String commandName;
 	private Command commandInstance;

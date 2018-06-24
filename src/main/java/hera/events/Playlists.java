@@ -34,14 +34,14 @@ public class Playlists implements Command {
 			PropertiesHandler playlists = new PropertiesHandler(BotConstants.PLAYLISTS_PROPERTY_LOCATION);
 			playlists.load();
 			
-			String output = "Playlists:	\n";
+			String output = "";
 			Object[] keys = playlists.keySet().toArray();
 			
 			for(int i = 0; i < playlists.size(); i++) {
 				output += "					" + String.valueOf(i + 1) + ".	" + String.valueOf(keys[i]) + "\n";
 			}
 			
-			ms.sendMessage(e.getChannel(), "", output);
+			ms.sendMessage(e.getChannel(), "Playlists:", output);
 		} else {
 			ms.sendMessage(e.getChannel(), "", "Invalid usage of $playlists .\nSyntax: $playlists ");
 			LOG.debug(e.getAuthor() + " used command playlists wrong");
