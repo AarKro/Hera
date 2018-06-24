@@ -15,7 +15,7 @@ Queue your favorite songs via `URL` or just give Hera a few keywords to search w
 * **General convenience**  
 Use various little commands such as `$flip` to flip a coin, or `$vote` to start a guild wide vote.
 
-##  Commands  
+## Commands  
 
 ### Short command listing
 
@@ -37,13 +37,17 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 | [Np](#np) | All users | `$np` |
 | [Pause](#pause) | All users | `$pause` |
 | [Play](#play) | All users | `$play <url \| keywords>` |
+| [Playlists](#playlists) | All users | `$playlists` |
+| [Prefix](#prefix) | Admins only | `$prefix <prefix>` |
 | [Queue](#queue) | All users | `$queue` |
 | [Remove](#remove) | All users | `$remove <song ID>` |
 | [Replay](#replay) | All users | `$replay` |
 | [Report](#report) | All users | `$report <@user> <report message>` |
 | [Resume](#resume) | All users | `$resume` |
+| [Save to playlist](#savetoplaylist) | All users | `$savetoplaylist <name>` |
 | [Shame](#shame) | Admins only | `$shame <username \| usernickname>` |
 | [Skip](#skip) | All users | `$skip` |
+| [Start playlist](#startplaylist) | All users | `$startplaylist <name>` |
 | [Teams](#teams) | All users | `$teams <name> <name> <name> ...` |
 | [Version](#version) | All users | `$version` |
 | [Volume](#volume) | Admins only | `$volume <value>` |
@@ -204,6 +208,24 @@ Syntax: `$play <url | keywords>`
 
 ---
 
+#### Playlists
+
+Retrieves and displays a list of all currently saved playlists.
+
+Can be used by all guild members.  
+Syntax: `$playlists`
+
+---
+
+#### Prefix
+
+Change the default prefix ($) of hera to your character of choosing.
+
+Can only be used by Admins. 
+Syntax: `$prefix <prefix>`
+
+---
+
 #### Queue
 
 Displays all songs that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.  
@@ -250,6 +272,15 @@ Syntax: `$resume`
 
 ---
 
+#### Save to playlist
+
+Save the current queue as a playlist. Saved playlists can be conveniently requeued at any time.
+
+Can be used by all guild members.  
+Syntax: `$savetoplaylist <name>`
+
+---
+
 #### Shame
 
 Removes the casual role from the specified user and replaces it with the "schäm dich" role. Also moves the user to the "schämdicheggli" voice channel for a by the Admins specified time period.
@@ -265,6 +296,15 @@ Skips the currently playing song and starts the next one in the queue.
 
 Can be used by all guild members.  
 Syntax: `$skip`
+
+---
+
+#### Start playlist
+
+Queue all songs from a previously saved playlist.
+
+Can be used by all guild members.  
+Syntax: `$startplaylist <name>`
 
 ---
 
@@ -313,6 +353,6 @@ Syntax: `$yes`
 
 ---
 
-##  License 
+## License 
 
 This project is licensed under the open-source license [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
