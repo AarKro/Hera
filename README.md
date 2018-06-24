@@ -1,6 +1,6 @@
 # Hera
 
-[![release](https://img.shields.io/badge/latest%20release%20version-v1.0.0-004cc6.svg)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=Inbox,To%20Be%20Reviewed,To%20Do,In%20Progress,To%20Be%20Merged)](https://waffle.io/Chromeroni/Hera-Chatbot)
+[![release](https://img.shields.io/badge/latest%20release%20version-v1.0.2-004cc6.svg)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=Inbox,To%20Be%20Reviewed,To%20Do,In%20Progress,To%20Be%20Merged)](https://waffle.io/Chromeroni/Hera-Chatbot)
 
 Hera is a Discord chatbot written in Java using the [Discord4Java](https://github.com/Discord4J/Discord4J) library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
