@@ -24,7 +24,7 @@ html {
 }
  table, tr, th, td {
      text-align: left;
-     border: 1px solid #000000;
+     border: 1px solid rgba(0,42,150,0.3);
      border-collapse: collapse;
      padding: 5px;
 }
