@@ -1,6 +1,6 @@
 html {
      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-     background-color: #edf3ff;
+     background-color: #f7faff;
 }
  body {
      width: 100%;
@@ -10,12 +10,9 @@ html {
  h1 {
      color: #edf3ff;
 }
- .headerText {
-     opacity: 0.8;
-     color: #edf3ff;
-     font-size: 17px;
-     font-weight: bold;
-}
+ a {
+     text-decoration: none 
+}      
  h2, h3, h4 {
      color: #002a96;
 }
@@ -26,7 +23,7 @@ html {
      text-align: left;
      border: 1px solid rgba(0,42,150,0.3);
      border-collapse: collapse;
-     padding: 5px;
+     padding: 7px;
 }
  code {
      background-color: #dce2ef;
@@ -36,10 +33,16 @@ html {
      width: 55%;
      position: relative;
      text-align: left;
-     border-left: 1px solid rgba(0,42,150,0.1);
-     border-right: 1px solid rgba(0,42,150,0.1);
+     border-left: 2px solid rgba(0,42,150,0.1);
+     border-right: 2px solid rgba(0,42,150,0.1);
      padding-left: 50px;
      padding-right: 50px;
+}
+ .headerText {
+     opacity: 0.8;
+     color: #edf3ff;
+     font-size: 17px;
+     font-weight: bold;
 }
  .header {
      width: 100%;
@@ -53,10 +56,6 @@ html {
      width: 100%;
      opacity: 0.8;
      color: #edf3ff;
-}
- .footerHr {
-     margin-left: 0;
-     width: 50%;
 }
  .tr-light {
      background-color: #edf3ff;
