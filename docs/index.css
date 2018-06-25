@@ -33,7 +33,7 @@ html {
 }
  .container {
      display: inline-block;
-     width: 40%;
+     width: 55%;
      position: relative;
      text-align: left;
      border-left: 1px solid rgba(0,42,150,0.1);
