@@ -4,357 +4,372 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    
     <title>Hera - Commands</title>
 </head>
 
 <body>
-    <div>
+    <div class="header">
         <h1>Hera - A Discord Chatbot</h1>
-        <p>Latest release version: v1.1.1 | Default bot-prefix: <code>$</code>
+        <p class="headerText">Latest release version: v1.1.1 | Default bot-prefix: $
     </div>
-    <h2>Commands</h2>
-    <h3>Short command listing</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Command</th>
-                <th>Usable for</th>
-                <th>Quick syntax</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><a href="#alias">Alias</a></td>
-                <td>Admins only</td>
-                <td><code>$alias &lt;command&gt; &lt;alias&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#begone">Begone</a></td>
-                <td>Admins and role BeGone</td>
-                <td><code>$begone &lt;username | usernickname&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#bind">Bind</a></td>
-                <td>Admins only</td>
-                <td><code>$bind &lt;output message group&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#clear">Clear</a></td>
-                <td>All users</td>
-                <td><code>$clear</code></td>
-            </tr>
-            <tr>
-                <td><a href="#end">End</a></td>
-                <td>All users</td>
-                <td><code>$end</code></td>
-            </tr>
-            <tr>
-                <td><a href="#flip">Flip</a></td>
-                <td>All users</td>
-                <td><code>$flip</code></td>
-            </tr>
-            <tr>
-                <td><a href="#help">Help</a></td>
-                <td>All users</td>
-                <td><code>$help</code></td>
-            </tr>
-            <tr>
-                <td><a href="#join">Join</a></td>
-                <td>All users</td>
-                <td><code>$join</code></td>
-            </tr>
-            <tr>
-                <td><a href="#leave">Leave</a></td>
-                <td>All users</td>
-                <td><code>$leave</code></td>
-            </tr>
-            <tr>
-                <td><a href="#lq">Lq</a></td>
-                <td>All users</td>
-                <td><code>$lq</code></td>
-            </tr>
-            <tr>
-                <td><a href="#motd">Motd</a></td>
-                <td>Admins only</td>
-                <td><code>$motd &lt;message of the day&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#move">Move</a></td>
-                <td>All users</td>
-                <td><code>$move &lt;song ID&gt; &lt;song ID&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#no">No</a></td>
-                <td>All users</td>
-                <td><code>$no</code></td>
-            </tr>
-            <tr>
-                <td><a href="#np">Np</a></td>
-                <td>All users</td>
-                <td><code>$np</code></td>
-            </tr>
-            <tr>
-                <td><a href="#pause">Pause</a></td>
-                <td>All users</td>
-                <td><code>$pause</code></td>
-            </tr>
-            <tr>
-                <td><a href="#play">Play</a></td>
-                <td>All users</td>
-                <td><code>$play &lt;url | keywords&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#playlists">Playlists</a></td>
-                <td>All users</td>
-                <td><code>$playlists</code></td>
-            </tr>
-            <tr>
-                <td><a href="#prefix">Prefix</a></td>
-                <td>Admins only</td>
-                <td><code>$prefix &lt;prefix&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#queue">Queue</a></td>
-                <td>All users</td>
-                <td><code>$queue</code></td>
-            </tr>
-            <tr>
-                <td><a href="#remove">Remove</a></td>
-                <td>All users</td>
-                <td><code>$remove &lt;song ID&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#replay">Replay</a></td>
-                <td>All users</td>
-                <td><code>$replay</code></td>
-            </tr>
-            <tr>
-                <td><a href="#report">Report</a></td>
-                <td>All users</td>
-                <td><code>$report &lt;@user&gt; &lt;report message&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#resume">Resume</a></td>
-                <td>All users</td>
-                <td><code>$resume</code></td>
-            </tr>
-            <tr>
-                <td><a href="#save-to-playlist">Save to playlist</a></td>
-                <td>All users</td>
-                <td><code>$savetoplaylist &lt;name&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#shame">Shame</a></td>
-                <td>Admins only</td>
-                <td><code>$shame &lt;username | usernickname&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#skip">Skip</a></td>
-                <td>All users</td>
-                <td><code>$skip</code></td>
-            </tr>
-            <tr>
-                <td><a href="#start-playlist">Start playlist</a></td>
-                <td>All users</td>
-                <td><code>$startplaylist &lt;name&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#teams">Teams</a></td>
-                <td>All users</td>
-                <td><code>$teams &lt;name&gt; &lt;name&gt; &lt;name&gt; ...</code></td>
-            </tr>
-            <tr>
-                <td><a href="#version">Version</a></td>
-                <td>All users</td>
-                <td><code>$version</code></td>
-            </tr>
-            <tr>
-                <td><a href="#volume">Volume</a></td>
-                <td>Admins only</td>
-                <td><code>$volume &lt;value&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#vote">Vote</a></td>
-                <td>All users</td>
-                <td><code>$vote &lt;vote topic&gt;</code></td>
-            </tr>
-            <tr>
-                <td><a href="#yes">Yes</a></td>
-                <td>All users</td>
-                <td><code>$yes</code></td>
-            </tr>
-        </tbody>
-    </table>
-    <h3>Detailed command listing</h3>
-    <h4 id="alias">Alias</h4>
-    <p>Creates an alias for a command. The command can now be used with both, its alias or with its original name.</p>
-    <p>Can only be used by Admins.
-        <br> Syntax: <code>$alias &lt;command&gt; &lt;alias&gt;</code></p>
-    <hr>
-    <h4 id="begone">Begone</h4>
-    <p>Moves another user to a random voice channel, for which they have the right permissions for.</p>
-    <p>Can only be used by Admins and the role BeGone.
-        <br> Syntax: <code>$begone &lt;username | usernickname&gt;</code></p>
-    <hr>
-    <h4 id="bind">Bind</h4>
-    <p>Binds a channel to a specific output message group from Hera.
-        <br> For example: <code>$bind music</code> binds all of Heras output messages regarding music to the channel in which the command was written in.</p>
-    <p>Output message groups:</p>
-    <ul>
-        <li><code>report</code></li>
-        <li><code>music</code></li>
-        <li><code>announcements</code></li>
-    </ul>
-    <p>Can only be used by Admins.
-        <br> Syntax: <code>$bind &lt;output message group&gt;</code></p>
-    <hr>
-    <h4 id="clear">Clear</h4>
-    <p>Clears all songs from the current music queue.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$clear</code></p>
-    <hr>
-    <h4 id="end">End</h4>
-    <p>Ends an ongoing vote.</p>
-    <p>Can only be used by Admins and the user who started the vote.
-        <br> Syntax: <code>$end</code></p>
-    <hr>
-    <h4 id="flip">Flip</h4>
-    <p>This command simulates a coin flip. The outcome of it is randomly chosen between <code>Heads</code> &amp; <code>Tails</code>.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$flip</code></p>
-    <hr>
-    <h4 id="help">Help</h4>
-    <p>Displays a list of all available commands and a link to <a href="https://chromeroni.github.io/Hera-Chatbot/">https://chromeroni.github.io/Hera-Chatbot/</a> for more information.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$help</code></p>
-    <hr>
-    <h4 id="join">Join</h4>
-    <p>Hera joins the voice channel to which the user who issued the command is connected.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$join</code></p>
-    <hr>
-    <h4 id="leave">Leave</h4>
-    <p>Hera leaves the voice channel to which she is currently connected.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$leave</code></p>
-    <hr>
-    <h4 id="lq">Lq</h4>
-    <p>Loops the music queue, so that at the end of a song it is simply requeued.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$lq</code></p>
-    <hr>
-    <h4 id="motd">Motd</h4>
-    <p>Lets you choose your own message of the day and override the current one.</p>
-    <p>Can only be used by Admins.
-        <br> Syntax: <code>$motd &lt;message of the day&gt;</code></p>
-    <hr>
-    <h4 id="move">Move</h4>
-    <p>Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through <code>$queue</code>.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$move &lt;song ID&gt; &lt;song ID&gt;</code></p>
-    <hr>
-    <h4 id="no">No</h4>
-    <p>Vote no on the currently active vote.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$no</code></p>
-    <hr>
-    <h4 id="np">Np</h4>
-    <p>Display the currently playing song.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$np</code></p>
-    <hr>
-    <h4 id="pause">Pause</h4>
-    <p>Pauses the music player.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$pause</code></p>
-    <hr>
-    <h4 id="play">Play</h4>
-    <p>Queues a song through an <code>URL</code> or a few keywords with which Hera will search and queue the first search result on YouTube.
-        <br> If there is no song playing at the moment, play will start the player by itself.
-        <br> If Hera has not join a voice channel yet, she will automatically join the voice channel of the user who issued the command.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$play &lt;url | keywords&gt;</code></p>
-    <hr>
-    <h4 id="playlists">Playlists</h4>
-    <p>Retrieves and displays a list of all currently saved playlists.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$playlists</code></p>
-    <hr>
-    <h4 id="prefix">Prefix</h4>
-    <p>Change the default prefix ($) of hera to your character of choosing.</p>
-    <p>Can only be used by Admins.
-        <br> Syntax: <code>$prefix &lt;name&gt;</code></p>
-    <hr>
-    <h4 id="queue">Queue</h4>
-    <p>Displays all songs that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.
-        <br> If the message still exeeds the character limit, only the first 5 songs will be displayed in normal view.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$queue</code></p>
-    <hr>
-    <h4 id="remove">Remove</h4>
-    <p>Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through <code>$queue</code>.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$remove &lt;song ID&gt;</code></p>
-    <hr>
-    <h4 id="replay">Replay</h4>
-    <p>Requeues the currently playing song.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$replay</code></p>
-    <hr>
-    <h4 id="report">Report</h4>
-    <p>Reports the specified user to the Admins.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$report &lt;@user&gt; &lt;report message&gt;</code></p>
-    <hr>
-    <h4 id="resume">Resume</h4>
-    <p>Resumes the music player.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$resume</code></p>
-    <hr>
-    <h4 id="save-to-playlist">Save to playlist</h4>
-    <p>Save the current queue as a playlist. Saved playlists can be conveniently requeued at any time.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$savetoplaylist &lt;name&gt;</code></p>
-    <hr>
-    <h4 id="shame">Shame</h4>
-    <p>Removes the casual role from the specified user and replaces it with the “schäm dich” role. Also moves the user to the “schämdicheggli” voice channel for a by the Admins specified time period.</p>
-    <p>Can only be used by Admins.
-        <br> Syntax: <code>$shame &lt;username | usernickname&gt;</code></p>
-    <hr>
-    <h4 id="skip">Skip</h4>
-    <p>Skips the currently playing song and starts the next one in the queue.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$skip</code></p>
-    <hr>
-    <h4 id="start-playlist">Start playlist</h4>
-    <p>Queue all songs from a previously saved playlist.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$startplaylist &lt;name&gt;</code></p>
-    <hr>
-    <h4 id="teams">Teams</h4>
-    <p>Creates two teams of its parameters. There need to be at least 3 parameters to use this command.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$teams &lt;name&gt; &lt;name&gt; &lt;name&gt; ...</code></p>
-    <hr>
-    <h4 id="version">Version</h4>
-    <p>Displays the current version of Hera.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$version</code></p>
-    <hr>
-    <h4 id="volume">Volume</h4>
-    <p>Sets the volume of the music player. Valid values are numbers between 0 and 150.</p>
-    <p>Can only be used by Admins.
-        <br> Syntax: <code>$volume &lt;value&gt;</code></p>
-    <hr>
-    <h4 id="vote">Vote</h4>
-    <p>Starts a vote. Only 1 vote can be active at a time. All guild members can vote 1 times on a vote.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$vote &lt;vote topic&gt;</code></p>
-    <hr>
-    <h4 id="yes">Yes</h4>
-    <p>Vote yes on the currently active vote.</p>
-    <p>Can be used by all guild members.
-        <br> Syntax: <code>$yes</code></p>
+    <br />
+    <div class="container">
+        <h2>Commands</h2>
+        <h3>Short command listing</h3>
+        <table>
+            <thead>
+                <tr class="td-light">
+                    <th>Command</th>
+                    <th>Usable for</th>
+                    <th>Quick syntax</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tr-light">
+                    <td><a href="#alias">Alias</a></td>
+                    <td>Admins only</td>
+                    <td><code>$alias &lt;command&gt; &lt;alias&gt;</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#begone">Begone</a></td>
+                    <td>Admins and role BeGone</td>
+                    <td><code>$begone &lt;username | usernickname&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#bind">Bind</a></td>
+                    <td>Admins only</td>
+                    <td><code>$bind &lt;output message group&gt;</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#clear">Clear</a></td>
+                    <td>All users</td>
+                    <td><code>$clear</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#end">End</a></td>
+                    <td>All users</td>
+                    <td><code>$end</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#flip">Flip</a></td>
+                    <td>All users</td>
+                    <td><code>$flip</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#help">Help</a></td>
+                    <td>All users</td>
+                    <td><code>$help</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#join">Join</a></td>
+                    <td>All users</td>
+                    <td><code>$join</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#leave">Leave</a></td>
+                    <td>All users</td>
+                    <td><code>$leave</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#lq">Lq</a></td>
+                    <td>All users</td>
+                    <td><code>$lq</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#motd">Motd</a></td>
+                    <td>Admins only</td>
+                    <td><code>$motd &lt;message of the day&gt;</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#move">Move</a></td>
+                    <td>All users</td>
+                    <td><code>$move &lt;song ID&gt; &lt;song ID&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#no">No</a></td>
+                    <td>All users</td>
+                    <td><code>$no</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#np">Np</a></td>
+                    <td>All users</td>
+                    <td><code>$np</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#pause">Pause</a></td>
+                    <td>All users</td>
+                    <td><code>$pause</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#play">Play</a></td>
+                    <td>All users</td>
+                    <td><code>$play &lt;url | keywords&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#playlists">Playlists</a></td>
+                    <td>All users</td>
+                    <td><code>$playlists</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#prefix">Prefix</a></td>
+                    <td>Admins only</td>
+                    <td><code>$prefix &lt;prefix&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#queue">Queue</a></td>
+                    <td>All users</td>
+                    <td><code>$queue</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#remove">Remove</a></td>
+                    <td>All users</td>
+                    <td><code>$remove &lt;song ID&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#replay">Replay</a></td>
+                    <td>All users</td>
+                    <td><code>$replay</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#report">Report</a></td>
+                    <td>All users</td>
+                    <td><code>$report &lt;@user&gt; &lt;report message&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#resume">Resume</a></td>
+                    <td>All users</td>
+                    <td><code>$resume</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#save-to-playlist">Save to playlist</a></td>
+                    <td>All users</td>
+                    <td><code>$savetoplaylist &lt;name&gt;</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#shame">Shame</a></td>
+                    <td>Admins only</td>
+                    <td><code>$shame &lt;username | usernickname&gt;</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#skip">Skip</a></td>
+                    <td>All users</td>
+                    <td><code>$skip</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#start-playlist">Start playlist</a></td>
+                    <td>All users</td>
+                    <td><code>$startplaylist &lt;name&gt;</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#teams">Teams</a></td>
+                    <td>All users</td>
+                    <td><code>$teams &lt;name&gt; &lt;name&gt; &lt;name&gt; ...</code></td>
+                </tr>
+                <tr class="tr-light">
+                    <td><a href="#version">Version</a></td>
+                    <td>All users</td>
+                    <td><code>$version</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#volume">Volume</a></td>
+                    <td>Admins only</td>
+                    <td><code>$volume &lt;value&gt;</code></td>
+                </tr>
+                <tr #F0F8FF="tr-light">
+                    <td><a href="#vote">Vote</a></td>
+                    <td>All users</td>
+                    <td><code>$vote &lt;vote topic&gt;</code></td>
+                </tr>
+                <tr class="tr-dark">
+                    <td><a href="#yes">Yes</a></td>
+                    <td>All users</td>
+                    <td><code>$yes</code></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <h3>Detailed command listing</h3>
+        <h4 id="alias">Alias</h4>
+        <p>Creates an alias for a command. The command can now be used with both, its alias or with its original name.</p>
+        <p>Can only be used by Admins.
+            <br> Syntax: <code>$alias &lt;command&gt; &lt;alias&gt;</code></p>
+        <hr>
+        <h4 id="begone">Begone</h4>
+        <p>Moves another user to a random voice channel, for which they have the right permissions for.</p>
+        <p>Can only be used by Admins and the role BeGone.
+            <br> Syntax: <code>$begone &lt;username | usernickname&gt;</code></p>
+        <hr>
+        <h4 id="bind">Bind</h4>
+        <p>Binds a channel to a specific output message group from Hera.
+            <br> For example: <code>$bind music</code> binds all of Heras output messages regarding music to the channel in which the command was written in.</p>
+        <p>Output message groups:</p>
+        <ul>
+            <li><code>report</code></li>
+            <li><code>music</code></li>
+            <li><code>announcements</code></li>
+        </ul>
+        <p>Can only be used by Admins.
+            <br> Syntax: <code>$bind &lt;output message group&gt;</code></p>
+        <hr>
+        <h4 id="clear">Clear</h4>
+        <p>Clears all songs from the current music queue.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$clear</code></p>
+        <hr>
+        <h4 id="end">End</h4>
+        <p>Ends an ongoing vote.</p>
+        <p>Can only be used by Admins and the user who started the vote.
+            <br> Syntax: <code>$end</code></p>
+        <hr>
+        <h4 id="flip">Flip</h4>
+        <p>This command simulates a coin flip. The outcome of it is randomly chosen between <code>Heads</code> &amp; <code>Tails</code>.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$flip</code></p>
+        <hr>
+        <h4 id="help">Help</h4>
+        <p>Displays a list of all available commands and a link to <a href="https://chromeroni.github.io/Hera-Chatbot/">https://chromeroni.github.io/Hera-Chatbot/</a> for more information.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$help</code></p>
+        <hr>
+        <h4 id="join">Join</h4>
+        <p>Hera joins the voice channel to which the user who issued the command is connected.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$join</code></p>
+        <hr>
+        <h4 id="leave">Leave</h4>
+        <p>Hera leaves the voice channel to which she is currently connected.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$leave</code></p>
+        <hr>
+        <h4 id="lq">Lq</h4>
+        <p>Loops the music queue, so that at the end of a song it is simply requeued.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$lq</code></p>
+        <hr>
+        <h4 id="motd">Motd</h4>
+        <p>Lets you choose your own message of the day and override the current one.</p>
+        <p>Can only be used by Admins.
+            <br> Syntax: <code>$motd &lt;message of the day&gt;</code></p>
+        <hr>
+        <h4 id="move">Move</h4>
+        <p>Move a queued song to another position in the queue. To identify a song and the position to which it should be moved, use song IDs. Song IDs can be displayed through <code>$queue</code>.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$move &lt;song ID&gt; &lt;song ID&gt;</code></p>
+        <hr>
+        <h4 id="no">No</h4>
+        <p>Vote no on the currently active vote.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$no</code></p>
+        <hr>
+        <h4 id="np">Np</h4>
+        <p>Display the currently playing song.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$np</code></p>
+        <hr>
+        <h4 id="pause">Pause</h4>
+        <p>Pauses the music player.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$pause</code></p>
+        <hr>
+        <h4 id="play">Play</h4>
+        <p>Queues a song through an <code>URL</code> or a few keywords with which Hera will search and queue the first search result on YouTube.
+            <br> If there is no song playing at the moment, play will start the player by itself.
+            <br> If Hera has not join a voice channel yet, she will automatically join the voice channel of the user who issued the command.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$play &lt;url | keywords&gt;</code></p>
+        <hr>
+        <h4 id="playlists">Playlists</h4>
+        <p>Retrieves and displays a list of all currently saved playlists.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$playlists</code></p>
+        <hr>
+        <h4 id="prefix">Prefix</h4>
+        <p>Change the default prefix ($) of hera to your character of choosing.</p>
+        <p>Can only be used by Admins.
+            <br> Syntax: <code>$prefix &lt;name&gt;</code></p>
+        <hr>
+        <h4 id="queue">Queue</h4>
+        <p>Displays all songs that are in the music queue. If the message to display the queue exeeds the discord message character limit of 2000, a compact version of the message will be dispalyed instead.
+            <br> If the message still exeeds the character limit, only the first 5 songs will be displayed in normal view.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$queue</code></p>
+        <hr>
+        <h4 id="remove">Remove</h4>
+        <p>Removes a song from the music queue. To identify the song which should be removed, use song IDs. Song IDs can be displayed through <code>$queue</code>.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$remove &lt;song ID&gt;</code></p>
+        <hr>
+        <h4 id="replay">Replay</h4>
+        <p>Requeues the currently playing song.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$replay</code></p>
+        <hr>
+        <h4 id="report">Report</h4>
+        <p>Reports the specified user to the Admins.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$report &lt;@user&gt; &lt;report message&gt;</code></p>
+        <hr>
+        <h4 id="resume">Resume</h4>
+        <p>Resumes the music player.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$resume</code></p>
+        <hr>
+        <h4 id="save-to-playlist">Save to playlist</h4>
+        <p>Save the current queue as a playlist. Saved playlists can be conveniently requeued at any time.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$savetoplaylist &lt;name&gt;</code></p>
+        <hr>
+        <h4 id="shame">Shame</h4>
+        <p>Removes the casual role from the specified user and replaces it with the “schäm dich” role. Also moves the user to the “schämdicheggli” voice channel for a by the Admins specified time period.</p>
+        <p>Can only be used by Admins.
+            <br> Syntax: <code>$shame &lt;username | usernickname&gt;</code></p>
+        <hr>
+        <h4 id="skip">Skip</h4>
+        <p>Skips the currently playing song and starts the next one in the queue.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$skip</code></p>
+        <hr>
+        <h4 id="start-playlist">Start playlist</h4>
+        <p>Queue all songs from a previously saved playlist.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$startplaylist &lt;name&gt;</code></p>
+        <hr>
+        <h4 id="teams">Teams</h4>
+        <p>Creates two teams of its parameters. There need to be at least 3 parameters to use this command.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$teams &lt;name&gt; &lt;name&gt; &lt;name&gt; ...</code></p>
+        <hr>
+        <h4 id="version">Version</h4>
+        <p>Displays the current version of Hera.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$version</code></p>
+        <hr>
+        <h4 id="volume">Volume</h4>
+        <p>Sets the volume of the music player. Valid values are numbers between 0 and 150.</p>
+        <p>Can only be used by Admins.
+            <br> Syntax: <code>$volume &lt;value&gt;</code></p>
+        <hr>
+        <h4 id="vote">Vote</h4>
+        <p>Starts a vote. Only 1 vote can be active at a time. All guild members can vote 1 times on a vote.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$vote &lt;vote topic&gt;</code></p>
+        <hr>
+        <h4 id="yes">Yes</h4>
+        <p>Vote yes on the currently active vote.</p>
+        <p>Can be used by all guild members.
+            <br> Syntax: <code>$yes</code></p>
+
+    </div>
+    <br />
+    <br />
+    <div class="footer">
+        <br /> For questions ask <b>Chromer#2298</b> or <b>Pacman#3964</b> on Discord.
+        <br />
+        <br />
+    </div>
+
 </body>
 
 </html>
