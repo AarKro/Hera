@@ -30,7 +30,7 @@ html {
 }
  .container {
      display: inline-block;
-     width: 55%;
+     width: 50%;
      position: relative;
      text-align: left;
      border-left: 2px solid rgba(0,42,150,0.1);
