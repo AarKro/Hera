@@ -27,6 +27,7 @@ html {
 }
  code {
      background-color: #dce2ef;
+     font-size: 17px;
 }
  .container {
      display: inline-block;
@@ -58,9 +59,9 @@ html {
      color: #edf3ff;
 }
  .tr-light {
-     background-color: #edf3ff;
+     background-color: #f7faff;
 }
  .tr-dark {
-     background-color: #e6e8ed;
+     background-color: #edf3ff;
 }
  
