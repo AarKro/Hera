@@ -58,7 +58,7 @@ public class Bind implements Command {
 				}
 				
 			} else {
-				ms.sendMessage(e.getChannel(), "", "Invalid usage of $bind.\nSyntax: $bind <report/music>");
+				ms.sendMessage(e.getChannel(), "", "Invalid usage of $bind.\nSyntax: $bind <report/music/announcements>");
 				LOG.debug(e.getAuthor() + " used command bind wrong");
 			}
 				
