@@ -1,6 +1,6 @@
 # Hera
 
-[![release](https://img.shields.io/badge/latest%20release%20version-v1.1.1-004cc6.svg)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=Inbox,To%20Be%20Reviewed,To%20Do,In%20Progress,To%20Be%20Merged)](https://waffle.io/Chromeroni/Hera-Chatbot)
+[![release](https://img.shields.io/badge/latest%20release%20version-v1.1.2-004cc6.svg)](https://github.com/Chromeroni/Hera-Chatbot/releases/latest) [![Waffle.io - Columns and their card count](https://badge.waffle.io/Chromeroni/Hera-Chatbot.svg?columns=Inbox,To%20Be%20Reviewed,To%20Do,In%20Progress,To%20Be%20Merged)](https://waffle.io/Chromeroni/Hera-Chatbot)
 
 Hera is a Discord chatbot written in Java using the [Discord4Java](https://github.com/Discord4J/Discord4J) library.  
 She is programmed as an all-around Discord bot, thus finds its functionality in various areas.
@@ -25,6 +25,7 @@ Use various little commands such as `$flip` to flip a coin, or `$vote` to start 
 | [Begone](#begone) | Admins and role BeGone | `$begone <username \| usernickname>` |
 | [Bind](#bind) | Admins only | `$bind <output message group>` |
 | [Clear](#clear) | All users | `$clear` |
+| [Delete messages](#delete-messages) | Admins only | `$deleteMessages <number>` |
 | [End](#end) | All users | `$end` |
 | [Flip](#flip) | All users | `$flip` |
 | [Help](#help) | All users | `$help` |
@@ -98,6 +99,15 @@ Syntax: `$clear`
 
 ---
 
+#### Delete messages
+
+Deletes a given number of messages in the channel in which the command was issued, starting with the most recently sent one.
+
+Can only be used by Admins. 
+Syntax: `$deleteMessages <number>`
+
+---
+
 #### End
 
 Ends an ongoing vote.
@@ -118,7 +128,7 @@ Syntax: `$flip`
 
 #### Help
 
-Displays a list of all available commands and a link to https://github.com/Chromeroni/Hera-Chatbot#commands for more information.
+Displays a list of all available commands and a link to https://chromeroni.github.io/Hera-Chatbot/ for more information.
 
 Can be used by all guild members.  
 Syntax: `$help`
@@ -221,7 +231,7 @@ Syntax: `$playlists`
 
 Change the default prefix ($) of hera to your character of choosing.
 
-Can only be used by Admins. 
+Can only be used by Admins.  
 Syntax: `$prefix <prefix>`
 
 ---
