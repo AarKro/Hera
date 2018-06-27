@@ -103,7 +103,7 @@ Syntax: `$clear`
 
 Deletes a given number of messages in the channel in which the command was issued, starting with the most recently sent one.
 
-Can only be used by Admins. 
+Can only be used by Admins.  
 Syntax: `$deleteMessages <number>`
 
 ---
