@@ -1,26 +1,39 @@
 package hera.events;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hera.discordClient.ClientManager;
+import hera.enums.BoundChannel;
 import hera.eventSupplements.CompChannelManager;
 import hera.eventSupplements.MessageSender;
+import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.obj.Guild;
+import sx.blah.discord.handle.impl.obj.VoiceChannel;
+import sx.blah.discord.handle.obj.ICategory;
+import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IVoiceChannel;
 
 public class CompChannel implements Command {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CompChannel.class);
 	
 	private static CompChannel instance;
-
+	private MessageSender ms;
+	private CompChannelManager ccm;
+	private IGuild g;
+	
+	private List<IVoiceChannel> channels;
+	private List<ICategory> categories;
+	
 	public static CompChannel getInstance() {
 		if (instance == null)
 			instance = new CompChannel();
 		return instance;
 	}
-
-	private MessageSender ms;
-	private CompChannelManager ccm;
 
 	private CompChannel() {
 		this.ms = MessageSender.getInstance();
@@ -29,8 +42,56 @@ public class CompChannel implements Command {
 
 	public void execute(MessageReceivedEvent e) {
 		LOG.debug("Start of: CompChannel.execute");
-			//TODO: Check Role, Then Check Arguments, Then Create Comptryhard if following node argument is valid
-				// Arguments: Node, MaxPeople, Game (Just so that name stays unique)
+		
+		g = e.getGuild();
+		ccm.setGuild(g);
+		
+		String[] args = e.getMessage().getContent().split(" ");
+		if (args.length == 4) {			
+			LOG.debug("CompChannel.execute is Fetching Channels and Nodes");
+			channels = g.getVoiceChannels();
+			categories = g.getCategories();
+			
+			LOG.debug("CompChannel.execute is Checking Channels and Nodes");
+			boolean nameUnique = false;
+			boolean categoryExists = false;
+			ICategory category = null;
+			
+			for(IVoiceChannel vc : channels) {
+				if(vc.getName().equals(args[1])) {
+					nameUnique = true;
+				}
+			}
+			
+			for(ICategory c : categories) {
+				if(c.getName().equals(args[2])) {
+					category = c;
+					categoryExists = true;
+				}
+			}
+			
+			if(categoryExists) {
+				LOG.debug("CompChannel.execute failed: category dosen't exist");
+				ms.sendMessage(e.getChannel(), "", "CompChannel failed, couldn't find category");
+				return;
+			} else if(nameUnique){
+				LOG.debug("CompChannel.execute failed: name not unique");
+				ms.sendMessage(e.getChannel(), "", "CompChannel failed, please chose a unique name");
+				return;
+			} else {
+				LOG.debug("CompChannel.execute creating Channel");
+				IVoiceChannel vc = g.createVoiceChannel("Comptryhard " + args[1]);
+				vc.changeCategory(category);
+				vc.changeUserLimit(Integer.parseInt(args[3]));
+			}		
+			
+			LOG.info(e.getAuthor() + " has created a compChannel " + args[1]);
+			
+		} else {
+			ms.sendMessage(e.getChannel(), "", "Invalid usage of $compChannel .\nSyntax: $compChannel name category maxUsers");
+			LOG.debug(e.getAuthor() + " used command compChannel wrong");
+		}		
+			
 		LOG.debug("End of: CompChannel.execute");
 	}
 }
