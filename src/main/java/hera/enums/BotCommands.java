@@ -8,6 +8,7 @@ public enum BotCommands {
 	BEGONE("begone", Begone.getInstance()),
 	BIND("bind", Bind.getInstance()),
 	CLEAR("clear", Clear.getInstance()),
+	COMPCHANNEL("compChannel", CompChannel.getInstance()),
 	DELETEMESSAGES("deleteMessages", DeleteMessages.getInstance()),
 	END("end", End.getInstance()),
 	FLIP("flip", Flip.getInstance()), 
