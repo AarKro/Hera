@@ -53,7 +53,7 @@ public class CompChannel implements Command {
 			ICategory category = null;
 			
 			for(IVoiceChannel vc : channels) {
-				if(vc.getName().equals(args[1])) {
+				if(vc.getName().equals("Comptryhard " + args[1])) {
 					nameUnique = true;
 				}
 			}
@@ -83,7 +83,7 @@ public class CompChannel implements Command {
 			LOG.info(e.getAuthor() + " has created a compChannel " + args[1]);
 			
 		} else {
-			ms.sendMessage(e.getChannel(), "", "Invalid usage of $compChannel .\nSyntax: $compChannel name category maxUsers");
+			ms.sendMessage(e.getChannel(), "", "Invalid usage of $compChannel .\nSyntax: $compChannel channelName category maxUsers");
 			LOG.debug(e.getAuthor() + " used command compChannel wrong");
 		}		
 			

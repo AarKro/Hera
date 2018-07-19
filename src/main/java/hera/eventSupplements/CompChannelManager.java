@@ -32,33 +32,34 @@ public class CompChannelManager {
 			public void run() {
 				while(true) {
 					try {
-						LOG.error("Start of CompChannelManager.run");
-						
-						channels = g.getVoiceChannels();
-						compChannels = new ArrayList<IVoiceChannel>();
-						channelsToDelete = new ArrayList<IVoiceChannel>();
-						
-						LOG.error("CompChannelManager.run is collecting Comptryhard Channels");
-						for(IVoiceChannel vc : channels) {
-							if(vc.getName().startsWith("Comptryhard")) {
-								compChannels.add(vc);
+						if(g != null) {
+							LOG.error("Start of CompChannelManager.run");
+							
+							channels = g.getVoiceChannels();
+							compChannels = new ArrayList<IVoiceChannel>();
+							channelsToDelete = new ArrayList<IVoiceChannel>();
+							
+							LOG.error("CompChannelManager.run is collecting Comptryhard Channels");
+							for(IVoiceChannel vc : channels) {
+								if(vc.getName().startsWith("Comptryhard")) {
+									compChannels.add(vc);
+								}
 							}
-						}
-						
-						LOG.error("CompChannelManager.run is checking for empty Comptryhard Channels");
-						for(IVoiceChannel vc : compChannels) {
-							if(vc.getConnectedUsers().isEmpty()) {
-								channelsToDelete.add(vc);
+							
+							LOG.error("CompChannelManager.run is checking for empty Comptryhard Channels");
+							for(IVoiceChannel vc : compChannels) {
+								if(vc.getConnectedUsers().isEmpty()) {
+									channelsToDelete.add(vc);
+								}
 							}
+							
+							LOG.error("CompChannelManager.run is deleting empty Comptryhard Channels");
+							for(IVoiceChannel vc : channelsToDelete) {
+								vc.delete();
+							}
+							LOG.error("End of CompChannelManager.run");
 						}
-						
-						LOG.error("CompChannelManager.run is deleting empty Comptryhard Channels");
-						for(IVoiceChannel vc : channelsToDelete) {
-							vc.delete();
-						}
-						
 						Thread.sleep(3600000);
-						LOG.error("End of CompChannelManager.run");
 					} catch (Exception e) {
 						LOG.error("Exception in CompChannelManager.Thread");
 						LOG.error(e.getMessage() + " : " + e.getCause());
