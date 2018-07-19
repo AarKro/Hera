@@ -3,6 +3,7 @@ package hera.events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hera.eventSupplements.CompChannelManager;
 import hera.eventSupplements.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -19,9 +20,11 @@ public class CompChannel implements Command {
 	}
 
 	private MessageSender ms;
+	private CompChannelManager ccm;
 
 	private CompChannel() {
 		this.ms = MessageSender.getInstance();
+		this.ccm = CompChannelManager.getInstance();
 	}
 
 	public void execute(MessageReceivedEvent e) {

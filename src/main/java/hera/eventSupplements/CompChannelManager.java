@@ -18,7 +18,17 @@ public class CompChannelManager {
 		Runnable runnable = new Runnable() {
 
 			public void run() {
-//				//TODO: impl what it should do (search for comptryhard channels and delete them if empty)
+				while(true) {
+					try {
+						//TODO: impl what it should do (search for comptryhard channels and delete them if empty)
+						
+						
+						Thread.sleep(3600000);
+					} catch (Exception e) {
+						LOG.error("Exception in MessageOfTheDayManager.Thread");
+						LOG.error(e.getMessage() + " : " + e.getCause());
+					}
+				}
 			}
 			
 		};
