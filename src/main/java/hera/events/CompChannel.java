@@ -48,28 +48,28 @@ public class CompChannel implements Command {
 			categories = g.getCategories();
 			
 			LOG.debug("CompChannel.execute is Checking Channels and Nodes");
-			boolean nameUnique = false;
+			boolean nameUnique = true;
 			boolean categoryExists = false;
 			ICategory category = null;
 			
 			for(IVoiceChannel vc : channels) {
 				if(vc.getName().equals("Comptryhard " + args[1])) {
-					nameUnique = true;
+					nameUnique = false;
 				}
 			}
 			
 			for(ICategory c : categories) {
-				if(c.getName().equals(args[2])) {
+				if(c.getName().toLowerCase().equals(args[2].toLowerCase())) {
 					category = c;
 					categoryExists = true;
 				}
 			}
 			
-			if(categoryExists) {
+			if(!categoryExists) {
 				LOG.debug("CompChannel.execute failed: category dosen't exist");
 				ms.sendMessage(e.getChannel(), "", "CompChannel failed, couldn't find category");
 				return;
-			} else if(nameUnique){
+			} else if(!nameUnique){
 				LOG.debug("CompChannel.execute failed: name not unique");
 				ms.sendMessage(e.getChannel(), "", "CompChannel failed, please chose a unique name");
 				return;
