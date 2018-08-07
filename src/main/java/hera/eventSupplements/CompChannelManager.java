@@ -1,5 +1,6 @@
 package hera.eventSupplements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ public class CompChannelManager {
 	private IGuild g;
 	
 	private List<IVoiceChannel> channels;
+	private List<IVoiceChannel> compChannels;
 	
 	public static CompChannelManager getInstance() {
 		if (instance == null) {
@@ -32,19 +34,11 @@ public class CompChannelManager {
 						if(g != null) {
 							LOG.error("Start of CompChannelManager.run");
 							
-							// Loads all Channels from scratch, due to the possibility of it being a different Guild
-							channels = g.getVoiceChannels();
-							
-							// CompChannels are searched by name not ID, since if I would save the ID's of the created Channels
-							// It would create null pointers once the Guild has been switched
-							for(IVoiceChannel vc : channels) {
-								LOG.error("CompChannelManager.run is collecting Comptryhard Channels");
-								if(vc.getName().startsWith("Comptryhard")) {
-									LOG.error("CompChannelManager.run is checking for empty Comptryhard Channels");
-									if(vc.getConnectedUsers().isEmpty()) {
-										LOG.error("CompChannelManager.run is deleting the empty Comptryhard Channels");
-										vc.delete();
-									}
+							for(IVoiceChannel vc : compChannels) {
+								LOG.error("CompChannelManager.run is checking for empty Comptryhard Channels");
+								if(vc.getConnectedUsers().isEmpty()) {
+									LOG.error("CompChannelManager.run is deleting the empty Comptryhard Channels");
+									vc.delete();
 								}
 							}
 							
@@ -64,9 +58,26 @@ public class CompChannelManager {
 		LOG.info("CompChannelManager.Thread created");
 		thread.start();
 		LOG.info("CompChannelManager.Thread started");
+		
+		compChannels = new ArrayList<>();
+		channels = new ArrayList<>();
 	}
 	
 	public void setGuild(IGuild g) {
 		this.g = g;
+		loadChannels();
+	}
+	
+	private void loadChannels() {
+		channels.addAll(g.getVoiceChannels());
+		
+		for(IVoiceChannel vc : channels) {
+			LOG.error("CompChannelManager.run is collecting Comptryhard Channels");
+			if(vc.getName().startsWith("Comptryhard")) {
+				compChannels.add(vc);
+			}
+		}
+		
+		channels.clear();
 	}
 }
