@@ -8,7 +8,10 @@ import hera.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Clear implements Command {
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Clear extends Command {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Clear.class);
 	
@@ -25,11 +28,13 @@ public class Clear implements Command {
 
 	// constructor
 	private Clear() {
+		super(null, 0);
 		this.ms = MessageSender.getInstance();
 		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 
-	public void execute(MessageReceivedEvent e) {
+	@Override
+	protected void commandBody(String[] params, MessageReceivedEvent e) {
 		LOG.debug("Start of: Clear.execute");
 		gapm.getGuildAudioPlayer(e.getGuild()).scheduler.clearQueue();
 		LOG.info("Queue cleared");
