@@ -16,7 +16,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Play implements Command {
 
-	private static final Logger LOG = LoggerFactory.getLogger(Pause.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Play.class);
 	
 	private static Play instance;
 

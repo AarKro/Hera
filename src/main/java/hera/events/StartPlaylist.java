@@ -16,7 +16,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class StartPlaylist implements Command {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(Alias.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StartPlaylist.class);
 	
 	private static StartPlaylist instance;
 

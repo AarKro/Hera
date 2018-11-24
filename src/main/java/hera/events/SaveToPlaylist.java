@@ -13,7 +13,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class SaveToPlaylist implements Command {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(Alias.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SaveToPlaylist.class);
 	
 	private static SaveToPlaylist instance;
 

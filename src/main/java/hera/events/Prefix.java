@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hera.enums.BotSettings;
-import hera.enums.BoundChannel;
 import hera.eventSupplements.MessageSender;
-import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
@@ -24,12 +22,10 @@ public class Prefix implements Command {
 	}
 
 	private MessageSender ms;
-	private GuildAudioPlayerManager gapm;
 
 	// constructor
 	public Prefix() {
 		this.ms = MessageSender.getInstance();
-		this.gapm = GuildAudioPlayerManager.getInstance();
 	}
 
 	public void execute(MessageReceivedEvent e) {

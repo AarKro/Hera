@@ -8,7 +8,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Skip implements Command {
 
-	private static final Logger LOG = LoggerFactory.getLogger(Shame.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Skip.class);
 	
 	private GuildAudioPlayerManager gapm;
 

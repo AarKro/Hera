@@ -10,7 +10,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Playlists implements Command {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(Alias.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Playlists.class);
 	
 	private static Playlists instance;
 
