@@ -7,7 +7,7 @@ import hera.constants.BotConstants;
 import hera.propertyHandling.PropertiesHandler;
 
 public enum BotSettings {
-	BOT_PREFIX("prefix", "$"), BOT_VERSION("version", "v0.4.4"), BOT_DEV_STATUS("devStatus", "devl"), BOT_VOLUME("volume", "100"), LAST_MOTD("lastMotd", "01.01.1990"), SHAME_TIME("shameTime", "30000");
+	BOT_PREFIX("prefix", "$"), BOT_VERSION("version", "v0.4.4"), BOT_DEV_STATUS("devStatus", "deva"), BOT_VOLUME("volume", "100"), LAST_MOTD("lastMotd", "01.01.1990"), SHAME_TIME("shameTime", "30000");
 
 	private static final Logger LOG = LoggerFactory.getLogger(BotSettings.class);
 	

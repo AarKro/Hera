@@ -1,6 +1,7 @@
 package hera.events;
 
 import hera.eventSupplements.MessageSender;
+import hera.events.commands.DeleteMessages;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
@@ -8,15 +9,31 @@ import sx.blah.discord.handle.obj.Permissions;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 
 abstract public class Command {
 
+	private static Map<String, Command> instances;
+
+	public static Command getInstance(String className) {
+		if (!instances.containsKey(className)) {
+			try {
+				instances.put(className, (Command) ((Object) Class.forName(className)));
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return instances.get(className);
+	}
+
 	private List<String> permissions;
 	private int numberOfParameters;
+	private boolean hasMessageParameter;
 
-	protected Command(List<String> permissions, int numberOfParameters) {
+	protected Command(List<String> permissions, int numberOfParameters, boolean hasMessageParameter) {
 		this.permissions = permissions;
 		this.numberOfParameters = numberOfParameters;
+		this.hasMessageParameter = hasMessageParameter;
 	}
 
 	public void execute(MessageReceivedEvent e) {
@@ -24,7 +41,7 @@ abstract public class Command {
 			String[] params = extractCommandParameters(e.getMessage().getContent());
 
 			if(params != null) commandBody(params, e);
-			else MessageSender.getInstance().sendMessage(e.getChannel(), "Wrong usage", "There weren't enough parameters to execute the command");
+			else MessageSender.getInstance().sendMessage(e.getChannel(), "Invalid usage", "Expected " + numberOfParameters + " parameters");
 
 		} else MessageSender.getInstance().sendMessage(e.getChannel(), "Permission denied", "You don't possess the rights to execute this command");
 	}
@@ -51,7 +68,9 @@ abstract public class Command {
 	private String[] extractCommandParameters(String message) {
 		String[] splitMessage = message.split(" ");
 
-		if(splitMessage.length - 1 < numberOfParameters) {
+		if(numberOfParameters == 999) numberOfParameters = splitMessage.length - 1;
+
+		if(splitMessage.length - 1 < numberOfParameters || (splitMessage.length - 1 > numberOfParameters && !hasMessageParameter)) {
 			return null;
 		}
 
@@ -61,7 +80,7 @@ abstract public class Command {
 			params[i] = splitMessage[i];
 		}
 
-		if(splitMessage.length - 1 > numberOfParameters) {
+		if(hasMessageParameter) {
 			String longParam = "";
 			for(int i = numberOfParameters; i < splitMessage.length; i++) {
 				longParam = longParam + " " + splitMessage[i];
@@ -89,4 +108,13 @@ abstract public class Command {
 	protected void setNumberOfParameters(int numberOfParameters) {
 		this.numberOfParameters = numberOfParameters;
 	}
+
+	protected boolean hasMessageParameter() {
+		return hasMessageParameter;
+	}
+
+	protected void setHasMessageParameter(boolean hasMessageParameter) {
+		this.hasMessageParameter = hasMessageParameter;
+	}
+
 }

@@ -7,7 +7,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 
 import hera.discordClient.ClientManager;
-import hera.events.AutoAssignRole;
+import hera.events.commands.AutoAssignRole;
 import hera.events.MessageReceivedEventHandler;
 import hera.instanceManagement.SingletonInstancer;
 import hera.propertyHandling.ProjectInitalizer;

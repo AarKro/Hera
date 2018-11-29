@@ -43,7 +43,8 @@ public class ClientManager {
         
         try {
         	LOG.info("Creating client instance and loging it in");
-            return clientBuilder.login(); // Creates the client instance and logs the client in
+            IDiscordClient dc = clientBuilder.login();
+        	return dc; // Creates the client instance and logs the client in
         } catch (DiscordException e) { // This is thrown if there was a problem building the client
         	LOG.error("There was a problem building the client");
         	LOG.error(e.getMessage() + " : " + e.getCause());
