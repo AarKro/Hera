@@ -4,7 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import hera.enums.BotSettings;
-import hera.eventSupplements.MessageSender;
+import hera.events.eventSupplements.MessageSender;
 
 public class GuildMusicManager {
   

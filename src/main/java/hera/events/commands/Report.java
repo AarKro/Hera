@@ -2,6 +2,7 @@ package hera.events.commands;
 
 import hera.enums.BoundChannel;
 import hera.events.Command;
+import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -19,12 +20,12 @@ public class Report extends Command {
         return instance;
     }
 
-    private hera.eventSupplements.MessageSender ms;
+    private MessageSender ms;
 
     // constructor
     private Report() {
         super(null, 2, true);
-        this.ms = hera.eventSupplements.MessageSender.getInstance();
+        this.ms = MessageSender.getInstance();
     }
 
     @Override

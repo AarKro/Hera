@@ -2,6 +2,8 @@ package hera.events.commands;
 
 import hera.enums.BotSettings;
 import hera.events.Command;
+import hera.events.eventSupplements.MessageSender;
+import hera.events.eventSupplements.VoteManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -19,14 +21,14 @@ public class Vote extends Command {
         return instance;
     }
 
-    private hera.eventSupplements.MessageSender ms;
-    private hera.eventSupplements.VoteManager vm;
+    private MessageSender ms;
+    private VoteManager vm;
 
     // default constructor
     public Vote() {
         super(null, 1, true);
-        this.ms = hera.eventSupplements.MessageSender.getInstance();
-        this.vm = hera.eventSupplements.VoteManager.getInstance();
+        this.ms = MessageSender.getInstance();
+        this.vm = VoteManager.getInstance();
     }
 
     @Override

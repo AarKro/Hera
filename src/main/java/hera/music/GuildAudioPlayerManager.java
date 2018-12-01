@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
-import hera.eventSupplements.MessageSender;
+import hera.events.eventSupplements.MessageSender;
 import hera.instanceManagement.SingletonInstancer;
 import sx.blah.discord.handle.obj.IGuild;
 

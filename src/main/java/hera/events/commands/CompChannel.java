@@ -1,7 +1,7 @@
 package hera.events.commands;
 
-import hera.eventSupplements.CompChannelManager;
-import hera.eventSupplements.MessageSender;
+import hera.events.eventSupplements.CompChannelManager;
+import hera.events.eventSupplements.MessageSender;
 import hera.events.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

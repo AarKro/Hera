@@ -1,8 +1,8 @@
 package hera.events.commands;
 
-import hera.eventSupplements.MessageOfTheDayManager;
-import hera.eventSupplements.MessageSender;
 import hera.events.Command;
+import hera.events.eventSupplements.MessageOfTheDayManager;
+import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;

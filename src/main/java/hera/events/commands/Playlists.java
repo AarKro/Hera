@@ -2,6 +2,7 @@ package hera.events.commands;
 
 import hera.constants.BotConstants;
 import hera.events.Command;
+import hera.events.eventSupplements.MessageSender;
 import hera.propertyHandling.PropertiesHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,11 @@ public class Playlists extends Command {
         return instance;
     }
 
-    private hera.eventSupplements.MessageSender ms;
+    private MessageSender ms;
 
     private Playlists() {
         super(null, 0, false);
-        this.ms = hera.eventSupplements.MessageSender.getInstance();
+        this.ms = MessageSender.getInstance();
     }
 
     @Override

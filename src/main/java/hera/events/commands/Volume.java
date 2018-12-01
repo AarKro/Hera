@@ -3,6 +3,7 @@ package hera.events.commands;
 import hera.enums.BotSettings;
 import hera.enums.BoundChannel;
 import hera.events.Command;
+import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +24,13 @@ public class Volume extends Command {
         return instance;
     }
 
-    private hera.eventSupplements.MessageSender ms;
+    private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
     // constructor
     public Volume() {
         super(Arrays.asList("ADMINISTRATOR"), 1, false);
-        this.ms = hera.eventSupplements.MessageSender.getInstance();
+        this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();
     }
 

@@ -2,6 +2,7 @@ package hera.events.commands;
 
 import hera.enums.BotSettings;
 import hera.events.Command;
+import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -19,11 +20,11 @@ public class Version extends Command {
         return instance;
     }
 
-    private hera.eventSupplements.MessageSender ms;
+    private MessageSender ms;
 
     private Version() {
         super(null, 0, false);
-        this.ms = hera.eventSupplements.MessageSender.getInstance();
+        this.ms = MessageSender.getInstance();
     }
 
     @Override

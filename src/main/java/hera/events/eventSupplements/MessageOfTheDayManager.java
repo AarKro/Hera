@@ -1,4 +1,4 @@
-package hera.eventSupplements;
+package hera.events.eventSupplements;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

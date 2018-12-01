@@ -1,7 +1,6 @@
 package hera.events;
 
-import hera.eventSupplements.MessageSender;
-import hera.events.commands.DeleteMessages;
+import hera.events.eventSupplements.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;

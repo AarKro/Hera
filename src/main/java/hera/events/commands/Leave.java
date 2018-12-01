@@ -1,7 +1,7 @@
 package hera.events.commands;
 
 import hera.enums.BoundChannel;
-import hera.eventSupplements.MessageSender;
+import hera.events.eventSupplements.MessageSender;
 import hera.events.Command;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;

@@ -1,7 +1,7 @@
 package hera.events.commands;
 
 import hera.constants.BotConstants;
-import hera.eventSupplements.MessageSender;
+import hera.events.eventSupplements.MessageSender;
 import hera.events.Command;
 import hera.propertyHandling.PropertiesHandler;
 import org.slf4j.Logger;

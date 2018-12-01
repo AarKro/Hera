@@ -4,8 +4,8 @@ import hera.events.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import hera.eventSupplements.MessageSender;
-import hera.eventSupplements.VoteManager;
+import hera.events.eventSupplements.MessageSender;
+import hera.events.eventSupplements.VoteManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
