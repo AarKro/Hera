@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import hera.constants.BotConstants;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import hera.propertyHandling.PropertiesHandler;
@@ -14,18 +13,10 @@ public class SaveToPlaylist extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(SaveToPlaylist.class);
 
-    private static SaveToPlaylist instance;
-
-    public static SaveToPlaylist getInstance() {
-        if (instance == null)
-            instance = new SaveToPlaylist();
-        return instance;
-    }
-
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
-    private SaveToPlaylist() {
+    SaveToPlaylist() {
         super(null, 1, true);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

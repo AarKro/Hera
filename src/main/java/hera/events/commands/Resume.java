@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
@@ -15,16 +14,8 @@ public class Resume extends Command {
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
-    private static Resume instance;
-
-    public static Resume getInstance() {
-        if (instance == null)
-            instance = new Resume();
-        return instance;
-    }
-
     // constructor
-    private Resume() {
+    Resume() {
         super(null, 0, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

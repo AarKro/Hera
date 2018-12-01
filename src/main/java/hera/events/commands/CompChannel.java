@@ -2,7 +2,7 @@ package hera.events.commands;
 
 import hera.events.eventSupplements.CompChannelManager;
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -16,21 +16,13 @@ public class CompChannel extends Command {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CompChannel.class);
 	
-	private static CompChannel instance;
 	private MessageSender ms;
 	private CompChannelManager ccm;
 	private IGuild g;
-	
 	private List<IVoiceChannel> channels;
 	private List<ICategory> categories;
 	
-	public static CompChannel getInstance() {
-		if (instance == null)
-			instance = new CompChannel();
-		return instance;
-	}
-
-	private CompChannel() {
+	CompChannel() {
 		super(null, 3, false);
 		this.ms = MessageSender.getInstance();
 		this.ccm = CompChannelManager.getInstance();

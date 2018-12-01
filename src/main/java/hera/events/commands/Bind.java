@@ -2,7 +2,7 @@ package hera.events.commands;
 
 import hera.enums.BoundChannel;
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -13,18 +13,10 @@ public class Bind extends Command {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Bind.class);
 	
-	private static Bind instance;
-
-	public static Bind getInstance() {
-		if (instance == null)
-			instance = new Bind();
-		return instance;
-	}
-
 	private MessageSender ms;
 
 	// default constructor
-	private Bind() {
+	Bind() {
 		super(Arrays.asList("ADMINISTRATOR"), 1, false);
 		this.ms = MessageSender.getInstance();
 	}

@@ -1,6 +1,5 @@
 package hera.events.commands;
 
-import hera.events.Command;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +11,8 @@ public class Replay extends Command {
 
     private GuildAudioPlayerManager gapm;
 
-    private static Replay instance;
-
-    public static Replay getInstance() {
-        if (instance == null)
-            instance = new Replay();
-        return instance;
-    }
-
     // constructor
-    private Replay() {
+    Replay() {
         super(null, 0, false);
         this.gapm = GuildAudioPlayerManager.getInstance();
     }

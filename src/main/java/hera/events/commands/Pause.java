@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
@@ -15,16 +14,8 @@ public class Pause extends Command {
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
-    private static Pause instance;
-
-    public static Pause getInstance() {
-        if (instance == null)
-            instance = new Pause();
-        return instance;
-    }
-
     // constructor
-    private Pause() {
+    Pause() {
         super(null, 0, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

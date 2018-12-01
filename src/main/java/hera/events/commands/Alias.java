@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import hera.constants.BotConstants;
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
 import hera.propertyHandling.PropertiesHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +13,10 @@ public class Alias extends Command {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Alias.class);
 	
-	private static Alias instance;
-
-	public static Alias getInstance() {
-		if (instance == null)
-			instance = new Alias();
-		return instance;
-	}
-
 	private MessageSender ms;
 
 	// default constructor
-	private Alias() {
+	Alias() {
 		super(Arrays.asList("ADMINISTRATOR"), 2, false);
 		this.ms = MessageSender.getInstance();
 	}

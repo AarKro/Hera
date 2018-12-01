@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import hera.constants.BotConstants;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.instanceManagement.SingletonInstancer;
 import hera.music.AudioLoadResultManager;
@@ -17,19 +16,11 @@ public class StartPlaylist extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(StartPlaylist.class);
 
-    private static StartPlaylist instance;
-
-    public static StartPlaylist getInstance() {
-        if (instance == null)
-            instance = new StartPlaylist();
-        return instance;
-    }
-
     private MessageSender ms;
     private AudioPlayerManager apm;
     private GuildAudioPlayerManager gapm;
 
-    private StartPlaylist() {
+    StartPlaylist() {
         super(null, 1, true);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

@@ -2,24 +2,15 @@ package hera.events.commands;
 
 import hera.enums.BoundChannel;
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
 public class Leave extends Command {
 
-	private static Leave instance;
-
-	public static Leave getInstance() {
-		if (instance == null)
-			instance = new Leave();
-		return instance;
-	}
-
 	private MessageSender ms;
 	
 	// constructor
-	private Leave() {
+	Leave() {
 		super(null, 0, false);
 		ms = MessageSender.getInstance();
 	}

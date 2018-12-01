@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import hera.enums.BotSettings;
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
@@ -15,20 +14,11 @@ public class Volume extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Volume.class);
 
-    private static Volume instance;
-
-    public static Volume getInstance() {
-        if (instance == null) {
-            instance = new Volume();
-        }
-        return instance;
-    }
-
-    private MessageSender ms;
+    protected MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
     // constructor
-    public Volume() {
+    Volume() {
         super(Arrays.asList("ADMINISTRATOR"), 1, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

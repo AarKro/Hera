@@ -2,22 +2,13 @@ package hera.events.commands;
 
 import hera.enums.BotCommands;
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Help extends Command {
 
-	private static Help instance;
-
-	public static Help getInstance() {
-		if (instance == null)
-			instance = new Help();
-		return instance;
-	}
-
 	private MessageSender ms;
 
-	private Help() {
+	Help() {
 		super(null, 0, false);
 		this.ms = MessageSender.getInstance();
 	}

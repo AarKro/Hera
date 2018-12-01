@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BotSettings;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.events.eventSupplements.VoteManager;
 import org.slf4j.Logger;
@@ -12,20 +11,11 @@ public class Vote extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Vote.class);
 
-    private static Vote instance;
-
-    public static Vote getInstance() {
-        if (instance == null) {
-            instance = new Vote();
-        }
-        return instance;
-    }
-
     private MessageSender ms;
     private VoteManager vm;
 
     // default constructor
-    public Vote() {
+    Vote() {
         super(null, 1, true);
         this.ms = MessageSender.getInstance();
         this.vm = VoteManager.getInstance();

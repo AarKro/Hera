@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BotSettings;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,19 +12,10 @@ public class Prefix extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Prefix.class);
 
-    private static Prefix instance;
-
-    public static Prefix getInstance() {
-        if (instance == null) {
-            instance = new Prefix();
-        }
-        return instance;
-    }
-
     private MessageSender ms;
 
     // constructor
-    public Prefix() {
+    Prefix() {
         super(Arrays.asList("ADMINISTRATOR"), 1, false);
         this.ms = MessageSender.getInstance();
     }

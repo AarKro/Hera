@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BotSettings;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,18 +10,9 @@ public class Version extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Version.class);
 
-    private static Version instance;
-
-    public static Version getInstance() {
-        if (instance == null) {
-            instance = new Version();
-        }
-        return instance;
-    }
-
     private MessageSender ms;
 
-    private Version() {
+    Version() {
         super(null, 0, false);
         this.ms = MessageSender.getInstance();
     }

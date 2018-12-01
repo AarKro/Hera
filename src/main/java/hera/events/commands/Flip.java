@@ -1,7 +1,7 @@
 package hera.events.commands;
 
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -12,18 +12,10 @@ public class Flip extends Command {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Flip.class);
 	
-	private static Flip instance;
-
-	public static Flip getInstance() {
-		if (instance == null)
-			instance = new Flip();
-		return instance;
-	}
-
 	private MessageSender ms;
 
 	// default constructor
-	private Flip() {
+	Flip() {
 		super(null, 0, false);
 		this.ms = MessageSender.getInstance();
 	}

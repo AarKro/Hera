@@ -1,4 +1,9 @@
-package hera.events;
+package hera.events.commands;
+
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import hera.events.eventSupplements.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -6,19 +11,21 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.Permissions;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-
 abstract public class Command {
 
-	private static Map<String, Command> instances;
+	private static final Map<String, Command> instances = new HashMap<>();
 
 	public static Command getInstance(String className) {
 		if (!instances.containsKey(className)) {
 			try {
-				instances.put(className, (Command) ((Object) Class.forName(className)));
+				instances.put(className, (Command) Class.forName(className).newInstance());
 			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -75,8 +82,8 @@ abstract public class Command {
 
 		String[] params = new String[numberOfParameters];
 
-		for(int i = 1; i < numberOfParameters; i++) {
-			params[i] = splitMessage[i];
+		for(int i = 0; i < numberOfParameters; i++) {
+			params[i] = splitMessage[i+1];
 		}
 
 		if(hasMessageParameter) {

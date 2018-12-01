@@ -1,7 +1,7 @@
 package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import hera.events.Command;
+
 import hera.events.eventSupplements.MessageSender;
 import hera.instanceManagement.SingletonInstancer;
 import hera.music.AudioLoadResultManager;
@@ -16,20 +16,12 @@ public class Play extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Play.class);
 
-    private static Play instance;
-
-    public static Play getInstance() {
-        if (instance == null)
-            instance = new Play();
-        return instance;
-    }
-
     private MessageSender ms;
     private AudioPlayerManager apm;
     private GuildAudioPlayerManager gapm;
 
     // constructor
-    private Play() {
+    Play() {
         super(null, 1, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

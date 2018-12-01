@@ -1,6 +1,5 @@
 package hera.events.commands;
 
-import hera.events.Command;
 import hera.events.eventSupplements.MessageOfTheDayManager;
 import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
@@ -13,18 +12,10 @@ public class MessageOfTheDay extends Command {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MessageOfTheDay.class);
 	
-	private static MessageOfTheDay instance;
-
-	public static MessageOfTheDay getInstance() {
-		if (instance == null)
-			instance = new MessageOfTheDay();
-		return instance;
-	}
-
 	private MessageSender ms;
 	private MessageOfTheDayManager motdm;
 
-	private MessageOfTheDay() {
+	MessageOfTheDay() {
 		super(Arrays.asList("ADMINISTRATOR"), 1, true);
 		this.ms = MessageSender.getInstance();
 		this.motdm = MessageOfTheDayManager.getInstance();

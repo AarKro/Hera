@@ -1,6 +1,5 @@
 package hera.events.commands;
 
-import hera.events.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,18 +12,10 @@ public class End extends Command {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(End.class);
 	
-	private static End instance;
-
-	public static End getInstance() {
-		if (instance == null)
-			instance = new End();
-		return instance;
-	}
-
 	private MessageSender ms;
 	private VoteManager vm;
 
-	private End() {
+	End() {
 		super(null, 0, false);
 		this.ms = MessageSender.getInstance();
 		this.vm = VoteManager.getInstance();

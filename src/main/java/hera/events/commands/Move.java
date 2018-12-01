@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.apache.commons.lang3.ArrayUtils;
@@ -14,19 +13,11 @@ public class Move extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(hera.events.commands.Move.class);
 
-    private static Move instance;
-
-    public static Move getInstance() {
-        if (instance == null)
-            instance = new Move();
-        return instance;
-    }
-
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
     // constructor
-    private Move() {
+    Move() {
         super(null, 2, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

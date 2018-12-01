@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
@@ -13,19 +12,11 @@ public class NowPlaying extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(NowPlaying.class);
 
-    private static NowPlaying instance;
-
-    public static NowPlaying getInstance() {
-        if (instance == null)
-            instance = new NowPlaying();
-        return instance;
-    }
-
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
     // constructor
-    private NowPlaying() {
+    NowPlaying() {
         super(null, 0, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

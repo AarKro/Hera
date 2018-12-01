@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BotSettings;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +16,9 @@ public class Shame extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Shame.class);
 
-    private static Shame instance;
-
-    public static Shame getInstance() {
-        if (instance == null)
-            instance = new Shame();
-        return instance;
-    }
-
     private MessageSender ms;
 
-    private Shame() {
+    Shame() {
         super(Arrays.asList("ADMINISTRATOR"), 1, false);
         this.ms = MessageSender.getInstance();
     }

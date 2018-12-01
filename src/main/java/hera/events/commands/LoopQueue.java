@@ -2,25 +2,16 @@ package hera.events.commands;
 
 import hera.enums.BoundChannel;
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
 import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class LoopQueue extends Command {
 
-	private static LoopQueue instance;
-
-	public static LoopQueue getInstance() {
-		if (instance == null)
-			instance = new LoopQueue();
-		return instance;
-	}
-
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;
 
 	// constructor
-	private LoopQueue() {
+	LoopQueue() {
 		super(null, 0, false);
 		this.ms = MessageSender.getInstance();
 		this.gapm = GuildAudioPlayerManager.getInstance();

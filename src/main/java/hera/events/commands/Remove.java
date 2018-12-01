@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
@@ -13,19 +12,11 @@ public class Remove extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Remove.class);
 
-    private static Remove instance;
-
-    public static Remove getInstance() {
-        if (instance == null)
-            instance = new Remove();
-        return instance;
-    }
-
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
     // constructor
-    private Remove() {
+    Remove() {
         super(null, 1, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();

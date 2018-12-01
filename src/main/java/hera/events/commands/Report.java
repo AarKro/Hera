@@ -1,7 +1,6 @@
 package hera.events.commands;
 
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,19 +10,10 @@ public class Report extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Report.class);
 
-    private static Report instance;
-
-    public static Report getInstance() {
-        if (instance == null) {
-            instance = new Report();
-        }
-        return instance;
-    }
-
     private MessageSender ms;
 
     // constructor
-    private Report() {
+    Report() {
         super(null, 2, true);
         this.ms = MessageSender.getInstance();
     }

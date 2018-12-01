@@ -1,6 +1,5 @@
 package hera.events.commands;
 
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,19 +13,10 @@ public class Teams extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Teams.class);
 
-    private static Teams instance;
-
-    public static Teams getInstance() {
-        if (instance == null) {
-            instance = new Teams();
-        }
-        return instance;
-    }
-
     private MessageSender ms;
 
     // constructor
-    private Teams() {
+    Teams() {
         super(null, 999, false);
         this.ms = MessageSender.getInstance();
     }

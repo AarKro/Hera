@@ -1,7 +1,7 @@
 package hera.events.commands;
 
 import hera.events.eventSupplements.MessageSender;
-import hera.events.Command;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -17,17 +17,9 @@ public class Begone extends Command {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Begone.class);
 	
-	private static Begone instance;
-
-	public static Begone getInstance() {
-		if (instance == null)
-			instance = new Begone();
-		return instance;
-	}
-
 	private MessageSender ms;
 
-	private Begone() {
+	Begone() {
 		super(Arrays.asList("ADMINISTRATOR", "BeGone"), 1, false);
 		this.ms = MessageSender.getInstance();
 	}

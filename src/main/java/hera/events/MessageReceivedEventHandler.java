@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import hera.constants.BotConstants;
 import hera.enums.BotCommands;
 import hera.enums.BotSettings;
+import hera.events.commands.Command;
 import hera.propertyHandling.PropertiesHandler;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;

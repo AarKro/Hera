@@ -1,6 +1,5 @@
 package hera.events.commands;
 
-import hera.events.Command;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +11,8 @@ public class Skip extends Command {
 
     private GuildAudioPlayerManager gapm;
 
-    private static Skip instance;
-
-    public static Skip getInstance() {
-        if (instance == null)
-            instance = new Skip();
-        return instance;
-    }
-
     // constructor
-    private Skip() {
+    Skip() {
         super(null, 0, true);
         this.gapm = GuildAudioPlayerManager.getInstance();
     }

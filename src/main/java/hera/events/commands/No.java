@@ -1,6 +1,5 @@
 package hera.events.commands;
 
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.events.eventSupplements.VoteManager;
 import org.slf4j.Logger;
@@ -11,19 +10,11 @@ public class No extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(No.class);
 
-    private static No instance;
-
-    public static No getInstance() {
-        if (instance == null)
-            instance = new No();
-        return instance;
-    }
-
     private MessageSender ms;
     private VoteManager vm;
 
     // default constructor
-    private No() {
+    No() {
         super(null, 0, false);
         this.ms = MessageSender.getInstance();
         this.vm = VoteManager.getInstance();

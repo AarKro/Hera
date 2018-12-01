@@ -2,7 +2,6 @@ package hera.events.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import hera.enums.BoundChannel;
-import hera.events.Command;
 import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import org.slf4j.Logger;
@@ -13,19 +12,11 @@ public class Queue extends Command {
 
     private static final Logger LOG = LoggerFactory.getLogger(Queue.class);
 
-    private static Queue instance;
-
-    public static Queue getInstance() {
-        if (instance == null)
-            instance = new Queue();
-        return instance;
-    }
-
     private MessageSender ms;
     private GuildAudioPlayerManager gapm;
 
     // constructor
-    private Queue() {
+    Queue() {
         super(null, 0, false);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();
