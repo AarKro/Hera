@@ -6,27 +6,24 @@ import java.util.List;
 import java.util.Map;
 
 import hera.events.eventSupplements.MessageSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.Permissions;
 
 abstract public class Command {
-
+	private static final Logger LOG = LoggerFactory.getLogger(Command.class);
 	private static final Map<String, Command> instances = new HashMap<>();
 
 	public static Command getInstance(String className) {
 		if (!instances.containsKey(className)) {
 			try {
 				instances.put(className, (Command) Class.forName(className).newInstance());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOG.error("Creating instance of " + className + " failed");
+				LOG.error(e.getMessage() + " : " + e.getCause());
 			}
 		}
 		return instances.get(className);
@@ -47,7 +44,7 @@ abstract public class Command {
 			String[] params = extractCommandParameters(e.getMessage().getContent());
 
 			if(params != null) commandBody(params, e);
-			else MessageSender.getInstance().sendMessage(e.getChannel(), "Invalid usage", "Expected " + numberOfParameters + " parameters");
+			else MessageSender.getInstance().sendMessage(e.getChannel(), "Invalid usage", "Expected " + numberOfParameters + " parameter(s)");
 
 		} else MessageSender.getInstance().sendMessage(e.getChannel(), "Permission denied", "You don't possess the rights to execute this command");
 	}
