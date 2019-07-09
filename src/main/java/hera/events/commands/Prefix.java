@@ -8,7 +8,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 import java.util.Arrays;
 
-public class Prefix extends Command {
+public class Prefix extends AbstractCommand {
 
     private static final Logger LOG = LoggerFactory.getLogger(Prefix.class);
 

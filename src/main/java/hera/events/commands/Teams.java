@@ -1,45 +1,57 @@
 package hera.events.commands;
 
-import hera.events.eventSupplements.MessageSender;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Teams extends Command {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private static final Logger LOG = LoggerFactory.getLogger(Teams.class);
+import hera.events.eventSupplements.MessageSender;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-    private MessageSender ms;
+public class Teams extends AbstractCommand {
 
-    // constructor
-    Teams() {
-        super(null, 999, false);
-        this.ms = MessageSender.getInstance();
-    }
+	private static final Logger LOG = LoggerFactory.getLogger(Teams.class);
 
-    @Override
-    protected void commandBody(String[] params, MessageReceivedEvent e) {
-        LOG.debug("Start of: Teams.execute");
-        List<String> list = Arrays.asList(e.getMessage().getContent().split(" "));
+	private MessageSender ms;
 
-        Collections.shuffle(list);
+	// constructor
+	Teams() {
+		super(null, 999, false);
+		this.ms = MessageSender.getInstance();
+	}
 
-        String team1 = "";
-        String team2 = "";
-        boolean teamSwitch = true;
+	@Override
+	protected void commandBody(String[] params, MessageReceivedEvent e) {
+		//TODO: error messages
+		LOG.debug("Start of: Teams.execute");
+		int teamNumber = Integer.parseInt(params[0]);
+		List<String> players = new ArrayList<>();
+		for (int x = 1; x < params.length; x++)
+			players.add(params[x]);
 
-        for (String s : list) {
-            if (teamSwitch) team1 += s + " ";
-            else team2 += s + " ";
-            teamSwitch = !teamSwitch;
-        }
+		Collections.shuffle(players);
 
-        ms.sendMessage(e.getChannel(), "Teams:", "Team 1: " + team1 + "\nTeam 2: " + team2);
-        LOG.info("Team1: " + team1 + ", Team2: " + team2);
-        LOG.debug("End of: Teams.execute");
-    }
+		List<String> teams = new ArrayList<String>();
+		int teamToAdd = 0;
+		for (int x = 0; x < teamNumber; x++)
+			teams.add("");
+		for (String player : players) {
+			teams.set(teamToAdd, teams.get(teamToAdd) + player + " ");
+			teamToAdd++;
+			if (teamToAdd >= teamNumber)
+				teamToAdd = 0;
+		}
+		StringBuffer sb = new StringBuffer();
+		int team = 1;
+		for (String str : teams) {
+			sb.append("Team " + team + ": " + str + "\n");
+			team++;
+		}
+		ms.sendMessage(e.getChannel(), "Teams:", sb.toString());
+		LOG.info(sb.toString());
+		LOG.debug("End of: Teams.execute");
+	}
 }

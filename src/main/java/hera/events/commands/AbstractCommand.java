@@ -13,14 +13,14 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.Permissions;
 
-abstract public class Command {
-	private static final Logger LOG = LoggerFactory.getLogger(Command.class);
-	private static final Map<String, Command> instances = new HashMap<>();
+abstract public class AbstractCommand {
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractCommand.class);
+	private static final Map<String, AbstractCommand> instances = new HashMap<>();
 
-	public static Command getInstance(String className) {
+	public static AbstractCommand getInstance(String className) {
 		if (!instances.containsKey(className)) {
 			try {
-				instances.put(className, (Command) Class.forName(className).newInstance());
+				instances.put(className, (AbstractCommand) Class.forName(className).newInstance());
 			} catch (Exception e) {
 				LOG.error("Creating instance of " + className + " failed");
 				LOG.error(e.getMessage() + " : " + e.getCause());
@@ -33,7 +33,7 @@ abstract public class Command {
 	private int numberOfParameters;
 	private boolean hasMessageParameter;
 
-	protected Command(List<String> permissions, int numberOfParameters, boolean hasMessageParameter) {
+	protected AbstractCommand(List<String> permissions, int numberOfParameters, boolean hasMessageParameter) {
 		this.permissions = permissions;
 		this.numberOfParameters = numberOfParameters;
 		this.hasMessageParameter = hasMessageParameter;
@@ -73,9 +73,7 @@ abstract public class Command {
 
 		if(numberOfParameters == 999) numberOfParameters = splitMessage.length - 1;
 
-		if(splitMessage.length - 1 < numberOfParameters || (splitMessage.length - 1 > numberOfParameters && !hasMessageParameter)) {
-			return null;
-		}
+		if((splitMessage.length - 1 < numberOfParameters) || (splitMessage.length - 1 > numberOfParameters && !hasMessageParameter)) return null;
 
 		String[] params = new String[numberOfParameters];
 

@@ -5,7 +5,7 @@ import hera.events.eventSupplements.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
-public class Leave extends Command {
+public class Leave extends AbstractCommand {
 
 	private MessageSender ms;
 	

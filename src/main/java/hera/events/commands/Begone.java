@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Begone extends Command {
+public class Begone extends AbstractCommand {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Begone.class);
 	

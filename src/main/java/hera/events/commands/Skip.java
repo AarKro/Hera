@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Skip extends Command {
+public class Skip extends AbstractCommand {
 
     private static final Logger LOG = LoggerFactory.getLogger(Skip.class);
 

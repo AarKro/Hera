@@ -12,7 +12,7 @@ import sx.blah.discord.handle.obj.IVoiceChannel;
 import java.util.Arrays;
 import java.util.List;
 
-public class Shame extends Command {
+public class Shame extends AbstractCommand {
 
     private static final Logger LOG = LoggerFactory.getLogger(Shame.class);
 

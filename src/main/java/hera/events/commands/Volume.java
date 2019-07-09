@@ -10,7 +10,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 import java.util.Arrays;
 
-public class Volume extends Command {
+public class Volume extends AbstractCommand {
 
     private static final Logger LOG = LoggerFactory.getLogger(Volume.class);
 

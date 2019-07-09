@@ -8,7 +8,7 @@ import hera.events.eventSupplements.VoteManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class End extends Command {
+public class End extends AbstractCommand {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(End.class);
 	

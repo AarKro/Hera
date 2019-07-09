@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Play extends Command {
+public class Play extends AbstractCommand {
 
     private static final Logger LOG = LoggerFactory.getLogger(Play.class);
 
@@ -22,7 +22,7 @@ public class Play extends Command {
 
     // constructor
     Play() {
-        super(null, 1, false);
+        super(null, 1, true);
         this.ms = MessageSender.getInstance();
         this.gapm = GuildAudioPlayerManager.getInstance();
         this.apm = SingletonInstancer.getAPMInstance();

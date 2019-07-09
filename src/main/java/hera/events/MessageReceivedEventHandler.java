@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import hera.constants.BotConstants;
 import hera.enums.BotCommands;
 import hera.enums.BotSettings;
-import hera.events.commands.Command;
+import hera.events.commands.AbstractCommand;
 import hera.propertyHandling.PropertiesHandler;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -24,7 +24,7 @@ public class MessageReceivedEventHandler {
 			LOG.debug(e.getAuthor() + " has typed a message starting with Heras command prefix");
 			
 			String message = e.getMessage().getContent().substring(BotSettings.BOT_PREFIX.getPropertyValue().length());
-			HashMap<String, Command> hashmap = convertEnumToHashmap();
+			HashMap<String, AbstractCommand> hashmap = convertEnumToHashmap();
 			String command = message.split(" ")[0];
 			if (hashmap.containsKey(command)) {
 				LOG.info(e.getAuthor() + " has issued the command " + command);
@@ -37,11 +37,11 @@ public class MessageReceivedEventHandler {
 		LOG.debug("End of: MessageReceivedEventHandler.onMessageReceivedEvent");
 	}
 	
-	private HashMap<String, Command> convertEnumToHashmap() {
+	private HashMap<String, AbstractCommand> convertEnumToHashmap() {
 
 		BotCommands[] values = BotCommands.values();
 
-		HashMap<String, Command> hashmap = new HashMap<>();
+		HashMap<String, AbstractCommand> hashmap = new HashMap<>();
 		for (BotCommands value : values) {
 			if (isEnabled(value.getCommandName())) {
 				String[] aliases = getAliases(value.getCommandName());

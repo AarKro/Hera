@@ -4,7 +4,7 @@ import hera.enums.BotCommands;
 import hera.events.eventSupplements.MessageSender;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Help extends Command {
+public class Help extends AbstractCommand {
 
 	private MessageSender ms;
 

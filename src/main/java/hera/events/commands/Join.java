@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Join extends Command {
+public class Join extends AbstractCommand {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Join.class);
 

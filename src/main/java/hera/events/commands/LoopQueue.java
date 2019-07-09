@@ -5,7 +5,7 @@ import hera.events.eventSupplements.MessageSender;
 import hera.music.GuildAudioPlayerManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class LoopQueue extends Command {
+public class LoopQueue extends AbstractCommand {
 
 	private MessageSender ms;
 	private GuildAudioPlayerManager gapm;

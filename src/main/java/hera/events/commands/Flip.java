@@ -8,7 +8,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 import java.util.Random;
 
-public class Flip extends Command {
+public class Flip extends AbstractCommand {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Flip.class);
 	
