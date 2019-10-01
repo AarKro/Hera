@@ -25,8 +25,8 @@ Feature branch | feature/few-descriptive-words
 {group} can be one of the following: bugfix, feature, enhancement, maintenance or management.  
 {number} corresponds to the issue number the branch is for. Usually the group name can be taken from the Issue labels.  
 
-Preface every commit with the issue number it is for (#number), this way GitHub can automatically link commits to their corresponding issues.
-Do the same when creating pull requests. Pull requests for feature branches must include the respective issue numbers at the beginning of their description.  
+Preface every commit and pull request with the issue number they are for (#number), this way GitHub can automatically link them to their corresponding issues. Since feature branches don't have a dedicated issue, they don't need to be prefaced with a number.
+In addition to this, pull request bodies, both feature and normal issue ones, need to start with a list of their respective issues.
 
 Don’t forget to put a # in front of the issue number!  
 
