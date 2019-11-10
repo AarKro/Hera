@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>hera</groupId>
+	<artifactId>old</artifactId>
+	<version>DEPRECATED</version>
+
+	<repositories>
+		<repository> <!-- This repo fixes issues with transitive dependencies -->
+			<id>jcenter</id>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>bintray</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-youtube</artifactId>
+			<version>v3-rev191-1.23.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.austinv11</groupId>
+			<artifactId>Discord4J</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sedmelluq</groupId>
+			<artifactId>lavaplayer</artifactId>
+			<version>1.2.64</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+	</dependencies>
+</project>
