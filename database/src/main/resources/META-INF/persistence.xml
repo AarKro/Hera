@@ -1,0 +1,39 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="HERA">
+        <description> Hibernate JPA Configuration. DB connection properties have to be overwritten by the application during runtime </description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>hera.entity.persistence.BindingPO</class>
+        <class>hera.entity.persistence.BindingTypePO</class>
+        <class>hera.entity.persistence.CommandPO</class>
+        <class>hera.entity.persistence.CommandMetricsPO</class>
+        <class>hera.entity.persistence.DefaultRolePO</class>
+        <class>hera.entity.persistence.GlobalSettingsPO</class>
+        <class>hera.entity.persistence.GuildPO</class>
+        <class>hera.entity.persistence.GuildSettingsPO</class>
+        <class>hera.entity.persistence.LocalisationPO</class>
+        <class>hera.entity.persistence.ModuleSettingsPO</class>
+        <class>hera.entity.persistence.OwnerPO</class>
+        <class>hera.entity.persistence.RolePO</class>
+        <class>hera.entity.persistence.RoleMemberPO</class>
+        <class>hera.entity.persistence.SnowflakeTypePO</class>
+        <class>hera.entity.persistence.TokenPO</class>
+        <class>hera.entity.persistence.UserPO</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="HERA_JDBC_URL" />
+            <property name="javax.persistence.jdbc.user" value="HERA_JDBC_USER" />
+            <property name="javax.persistence.jdbc.password" value="HERA_JDBC_PWD" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+        </properties>
+
+    </persistence-unit>
+
+</persistence>

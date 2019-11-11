@@ -8,7 +8,7 @@
     <artifactId>hera</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>hera</name>
     <url>http://maven.apache.org</url>
@@ -24,6 +24,7 @@
         <module>old</module>
         <module>database</module>
         <module>statistics</module>
+        <module>store</module>
     </modules>
 
 
