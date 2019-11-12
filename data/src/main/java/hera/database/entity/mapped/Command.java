@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class Command implements IMappedEntity {
+import hera.database.entity.persistence.CommandPO;
+
+public class Command implements IMappedEntity<CommandPO> {
 
 	public static final String NAME = "Command";
 
@@ -26,6 +28,16 @@ public class Command implements IMappedEntity {
 		this.paramCount = paramCount;
 		this.infiniteParam = infiniteParam;
 		this.admin = admin;
+	}
+
+	public CommandPO mapToPO() {
+		return new CommandPO(
+				this.name,
+				this.description,
+				this.paramCount,
+				this.infiniteParam,
+				this.admin
+		);
 	}
 
 	public int getId() {

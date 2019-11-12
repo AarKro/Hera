@@ -7,13 +7,25 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity> {
+public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 	private static final String READ_ALL = "SELECT * FROM :entityName";
 
 	private String entityName;
 
 	public DAO(String entityName) {
 		this.entityName = entityName;
+	}
+
+	public List<T> query(String customQuery) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		Query query = entityManager.createQuery(customQuery);
+
+		@SuppressWarnings("unchecked")
+		List<T> results = query.getResultList();
+
+		return results;
 	}
 
 	public List<T> readAll() {
@@ -32,7 +44,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity> {
 		return results;
 	}
 
-	public void create(T object) {
+	public void insert(T object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 

@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class Token implements IMappedEntity {
+import hera.database.entity.persistence.TokenPO;
+
+public class Token implements IMappedEntity<TokenPO> {
 
 	public static final String NAME = "Token";
 
@@ -20,6 +22,14 @@ public class Token implements IMappedEntity {
 		this.token = token;
 		this.name = name;
 		this.description = description;
+	}
+
+	public TokenPO mapToPO() {
+		return new TokenPO(
+				this.token,
+				this.name,
+				this.description
+		);
 	}
 
 	public int getId() {

@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class GlobalSettings implements IMappedEntity {
+import hera.database.entity.persistence.GlobalSettingsPO;
+
+public class GlobalSettings implements IMappedEntity<GlobalSettingsPO> {
 
 	public static final String NAME = "GlobalSettings";
 
@@ -17,6 +19,13 @@ public class GlobalSettings implements IMappedEntity {
 		this.id = id;
 		this.name = name;
 		this.value = value;
+	}
+
+	public GlobalSettingsPO mapToPO() {
+		return new GlobalSettingsPO(
+				this.name,
+				this.value
+		);
 	}
 
 	public int getId() {

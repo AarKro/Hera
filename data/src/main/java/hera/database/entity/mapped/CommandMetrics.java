@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class CommandMetrics implements IMappedEntity {
+import hera.database.entity.persistence.CommandMetricsPO;
+
+public class CommandMetrics implements IMappedEntity<CommandMetricsPO> {
 
 	public static final String NAME = "CommandMetrics";
 
@@ -20,6 +22,15 @@ public class CommandMetrics implements IMappedEntity {
 		this.guild = guild;
 		this.user = user;
 		this.callCount = callCount;
+	}
+
+	public CommandMetricsPO mapToPO() {
+		return new CommandMetricsPO(
+				this.command,
+				this.guild,
+				this.user,
+				this.callCount
+		);
 	}
 
 	public int getCommand() {

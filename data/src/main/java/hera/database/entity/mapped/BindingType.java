@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class BindingType implements IMappedEntity {
+import hera.database.entity.persistence.BindingTypePO;
+
+public class BindingType implements IMappedEntity<BindingTypePO> {
 
 	public static final String NAME = "BindingType";
 
@@ -14,6 +16,12 @@ public class BindingType implements IMappedEntity {
 	public BindingType(int id, String type) {
 		this.id = id;
 		this.type = type;
+	}
+
+	public BindingTypePO mapToPO() {
+		return new BindingTypePO(
+				this.type
+		);
 	}
 
 	public int getId() {

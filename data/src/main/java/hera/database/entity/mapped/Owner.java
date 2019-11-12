@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class Owner implements IMappedEntity {
+import hera.database.entity.persistence.OwnerPO;
+
+public class Owner implements IMappedEntity<OwnerPO> {
 
 	public static final String NAME = "Owner";
 
@@ -11,6 +13,12 @@ public class Owner implements IMappedEntity {
 
 	public Owner(Long user) {
 		this.user = user;
+	}
+
+	public OwnerPO mapToPO() {
+		return new OwnerPO(
+				this.user
+		);
 	}
 
 	public Long getUser() {

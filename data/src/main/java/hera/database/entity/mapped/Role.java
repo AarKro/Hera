@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class Role implements IMappedEntity{
+import hera.database.entity.persistence.RolePO;
+
+public class Role implements IMappedEntity<RolePO> {
 
 	public static final String NAME = "Role";
 
@@ -23,6 +25,15 @@ public class Role implements IMappedEntity{
 		this.parent = parent;
 		this.name = name;
 		this.description = description;
+	}
+
+	public RolePO mapToPO() {
+		return new RolePO(
+				this.guild,
+				this.parent,
+				this.name,
+				this.description
+		);
 	}
 
 	public int getId() {

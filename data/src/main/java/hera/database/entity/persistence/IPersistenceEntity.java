@@ -1,6 +1,8 @@
 package hera.database.entity.persistence;
 
-public interface IPersistenceEntity<T> {
+import hera.database.entity.mapped.IMappedEntity;
+
+public interface IPersistenceEntity<T extends IMappedEntity> {
 
 	T mapToNonePO();
 }

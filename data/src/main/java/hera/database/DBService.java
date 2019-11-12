@@ -6,26 +6,44 @@ import hera.database.entity.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DBService<T extends IPersistenceEntity<M>, M extends IMappedEntity> {
+public class DBService<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 	private DAO<T, M> dao;
 
 	public DBService(String entityName) {
 		this.dao = new DAO<>(entityName);
 	}
 
+	public List<M> query(String query) {
+		List<T> results = dao.query(query);
+
+		if(results != null) {
+			return results.stream().map(T::mapToNonePO).collect(Collectors.toList());
+		}
+		else {
+			return null;
+		}
+	}
+
 	public List<M> readAll() {
-		return dao.readAll().stream().map(T::mapToNonePO).collect(Collectors.toList());
+		List<T> results = dao.readAll();
+
+		if(results != null) {
+			return results.stream().map(T::mapToNonePO).collect(Collectors.toList());
+		}
+		else {
+			return null;
+		}
 	}
 
-	public void create(T object) {
-		dao.create(object);
+	public void insert(M object) {
+		dao.insert(object.mapToPO());
 	}
 
-	public void delete(T object) {
-		dao.delete(object);
+	public void delete(M object) {
+		dao.delete(object.mapToPO());
 	}
 
-	public void update(T object) {
-		dao.update(object);
+	public void update(M object) {
+		dao.update(object.mapToPO());
 	}
 }

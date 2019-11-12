@@ -1,12 +1,20 @@
 package hera.database.entity.mapped;
 
-public class Guild implements IMappedEntity {
+import hera.database.entity.persistence.GuildPO;
+
+public class Guild implements IMappedEntity<GuildPO> {
 
 	public static final String NAME = "Guild";
 
 	private Long snowflake;
 
 	public Guild() {
+	}
+
+	public GuildPO mapToPO() {
+		return new GuildPO(
+				this.snowflake
+		);
 	}
 
 	public Guild(Long snowflake) {

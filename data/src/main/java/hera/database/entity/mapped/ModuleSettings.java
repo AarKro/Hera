@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class ModuleSettings implements IMappedEntity {
+import hera.database.entity.persistence.ModuleSettingsPO;
+
+public class ModuleSettings implements IMappedEntity<ModuleSettingsPO> {
 
 	public static final String NAME = "ModuleSettings";
 
@@ -20,6 +22,15 @@ public class ModuleSettings implements IMappedEntity {
 		this.command = command;
 		this.enabled = enabled;
 		this.role = role;
+	}
+
+	public ModuleSettingsPO mapToPO() {
+		return new ModuleSettingsPO(
+				this.guild,
+				this.command,
+				this.enabled,
+				this.role
+		);
 	}
 
 	public Long getGuild() {

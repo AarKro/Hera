@@ -1,4 +1,8 @@
 package hera.database.entity.mapped;
 
-public interface IMappedEntity {
+import hera.database.entity.persistence.IPersistenceEntity;
+
+public interface IMappedEntity<T extends IPersistenceEntity> {
+
+	T mapToPO();
 }

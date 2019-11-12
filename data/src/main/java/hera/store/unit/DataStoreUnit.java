@@ -1,4 +1,4 @@
-package hera.store;
+package hera.store.unit;
 
 import hera.database.DBService;
 import hera.database.entity.mapped.IMappedEntity;
@@ -6,11 +6,14 @@ import hera.database.entity.persistence.IPersistenceEntity;
 
 import java.util.List;
 
-public class DataStoreUnit<T extends IPersistenceEntity<M>, M extends IMappedEntity> {
+public class DataStoreUnit<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 
-	private DBService<T, M> DB;
+	DBService<T, M> DB;
 
-	private List<M> data;
+	List<M> data;
+
+	public DataStoreUnit() {
+	}
 
 	public DataStoreUnit(String entityName) {
 		DB = new DBService<>(entityName);
@@ -23,5 +26,14 @@ public class DataStoreUnit<T extends IPersistenceEntity<M>, M extends IMappedEnt
 
 	public List<M> getAll() {
 		return data;
+	}
+
+	public void add(M object) {
+		try {
+			DB.insert(object);
+			data.add(object);
+		} catch(Exception e) {
+
+		}
 	}
 }

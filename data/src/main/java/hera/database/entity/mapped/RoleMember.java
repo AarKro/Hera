@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class RoleMember implements IMappedEntity {
+import hera.database.entity.persistence.RoleMemberPO;
+
+public class RoleMember implements IMappedEntity<RoleMemberPO> {
 
 	public static final String NAME = "RoleMember";
 
@@ -17,6 +19,14 @@ public class RoleMember implements IMappedEntity {
 		this.snowflake = snowflake;
 		this.role = role;
 		this.snowflakeType = snowflakeType;
+	}
+
+	public RoleMemberPO mapToPO() {
+		return new RoleMemberPO(
+				this.snowflake,
+				this.role,
+				this.snowflakeType
+		);
 	}
 
 	public Long getSnowflake() {

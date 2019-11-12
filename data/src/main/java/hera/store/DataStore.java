@@ -2,45 +2,60 @@ package hera.store;
 
 import hera.database.entity.mapped.*;
 import hera.database.entity.persistence.*;
+import hera.store.unit.CommandMetricsStoreUnit;
+import hera.store.unit.DataStoreUnit;
 
 public class DataStore {
 
-	private static DataStoreUnit<BindingPO, Binding> bindings;
+	private static DataStore instance;
 
-	private static DataStoreUnit<BindingTypePO, BindingType> bindingTypes;
+	private DataStoreUnit<BindingPO, Binding> bindings;
 
-	private static DataStoreUnit<CommandMetricsPO, CommandMetrics> commandMetrics;
+	private DataStoreUnit<BindingTypePO, BindingType> bindingTypes;
 
-	private static DataStoreUnit<CommandPO, Command> commands;
+	private CommandMetricsStoreUnit commandMetrics;
 
-	private static DataStoreUnit<DefaultRolePO, DefaultRole> defaultRoles;
+	private DataStoreUnit<CommandPO, Command> commands;
 
-	private static DataStoreUnit<GlobalSettingsPO, GlobalSettings> globalSettings;
+	private DataStoreUnit<DefaultRolePO, DefaultRole> defaultRoles;
 
-	private static DataStoreUnit<GuildPO, Guild> guilds;
+	private DataStoreUnit<GlobalSettingsPO, GlobalSettings> globalSettings;
 
-	private static DataStoreUnit<GuildSettingsPO, GuildSettings> guildSettings;
+	private DataStoreUnit<GuildPO, Guild> guilds;
 
-	private static DataStoreUnit<LocalisationPO, Localisation> localisations;
+	private DataStoreUnit<GuildSettingsPO, GuildSettings> guildSettings;
 
-	private static DataStoreUnit<ModuleSettingsPO, ModuleSettings> moduleSettings;
+	private DataStoreUnit<LocalisationPO, Localisation> localisations;
 
-	private static DataStoreUnit<OwnerPO, Owner> owners;
+	private DataStoreUnit<ModuleSettingsPO, ModuleSettings> moduleSettings;
 
-	private static DataStoreUnit<RoleMemberPO, RoleMember> roleMembers;
+	private DataStoreUnit<OwnerPO, Owner> owners;
 
-	private static DataStoreUnit<RolePO, Role> roles;
+	private DataStoreUnit<RoleMemberPO, RoleMember> roleMembers;
 
-	private static DataStoreUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes;
+	private DataStoreUnit<RolePO, Role> roles;
 
-	private static DataStoreUnit<TokenPO, Token> tokens;
+	private DataStoreUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes;
 
-	private static DataStoreUnit<UserPO, User> users;
+	private DataStoreUnit<TokenPO, Token> tokens;
 
-	public static void initialize() {
+	private DataStoreUnit<UserPO, User> users;
+
+	private DataStore() {
+	}
+
+	public static DataStore getInstance() {
+		if(instance == null) {
+			instance = new DataStore();
+		}
+
+		return instance;
+	}
+
+	public void initialize() {
 		bindings = new DataStoreUnit<>(BindingPO.ENTITY_NAME);
 		bindingTypes = new DataStoreUnit<>(BindingTypePO.ENTITY_NAME);
-		commandMetrics = new DataStoreUnit<>(CommandMetricsPO.ENTITY_NAME);
+		commandMetrics = new CommandMetricsStoreUnit(CommandMetricsPO.ENTITY_NAME);
 		commands = new DataStoreUnit<>(CommandPO.ENTITY_NAME);
 		defaultRoles = new DataStoreUnit<>(DefaultRolePO.ENTITY_NAME);
 		globalSettings = new DataStoreUnit<>(GlobalSettingsPO.ENTITY_NAME);
@@ -56,67 +71,67 @@ public class DataStore {
 		users = new DataStoreUnit<>(UserPO.ENTITY_NAME);
 	}
 
-	public static DataStoreUnit<BindingPO, Binding> bindings() {
+	public DataStoreUnit<BindingPO, Binding> bindings() {
 		return bindings;
 	}
 
-	public static DataStoreUnit<BindingTypePO, BindingType> bindingTypes() {
+	public DataStoreUnit<BindingTypePO, BindingType> bindingTypes() {
 		return bindingTypes;
 	}
 
-	public static DataStoreUnit<CommandMetricsPO, CommandMetrics> commandMetrics() {
+	public CommandMetricsStoreUnit commandMetrics() {
 		return commandMetrics;
 	}
 
-	public static DataStoreUnit<CommandPO, Command> commands() {
+	public DataStoreUnit<CommandPO, Command> commands() {
 		return commands;
 	}
 
-	public static DataStoreUnit<DefaultRolePO, DefaultRole> defaultRoles() {
+	public DataStoreUnit<DefaultRolePO, DefaultRole> defaultRoles() {
 		return defaultRoles;
 	}
 
-	public static DataStoreUnit<GlobalSettingsPO, GlobalSettings> globalSettings() {
+	public DataStoreUnit<GlobalSettingsPO, GlobalSettings> globalSettings() {
 		return globalSettings;
 	}
 
-	public static DataStoreUnit<GuildPO, Guild> guilds() {
+	public DataStoreUnit<GuildPO, Guild> guilds() {
 		return guilds;
 	}
 
-	public static DataStoreUnit<GuildSettingsPO, GuildSettings> guildSettings() {
+	public DataStoreUnit<GuildSettingsPO, GuildSettings> guildSettings() {
 		return guildSettings;
 	}
 
-	public static DataStoreUnit<LocalisationPO, Localisation> localisations() {
+	public DataStoreUnit<LocalisationPO, Localisation> localisations() {
 		return localisations;
 	}
 
-	public static DataStoreUnit<ModuleSettingsPO, ModuleSettings> moduleSettings() {
+	public DataStoreUnit<ModuleSettingsPO, ModuleSettings> moduleSettings() {
 		return moduleSettings;
 	}
 
-	public static DataStoreUnit<OwnerPO, Owner> owners() {
+	public DataStoreUnit<OwnerPO, Owner> owners() {
 		return owners;
 	}
 
-	public static DataStoreUnit<RoleMemberPO, RoleMember> roleMembers() {
+	public DataStoreUnit<RoleMemberPO, RoleMember> roleMembers() {
 		return roleMembers;
 	}
 
-	public static DataStoreUnit<RolePO, Role> roles() {
+	public DataStoreUnit<RolePO, Role> roles() {
 		return roles;
 	}
 
-	public static DataStoreUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes() {
+	public DataStoreUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes() {
 		return snowflakeTypes;
 	}
 
-	public static DataStoreUnit<TokenPO, Token> tokens() {
+	public DataStoreUnit<TokenPO, Token> tokens() {
 		return tokens;
 	}
 
-	public static DataStoreUnit<UserPO, User> users() {
+	public DataStoreUnit<UserPO, User> users() {
 		return users;
 	}
 }

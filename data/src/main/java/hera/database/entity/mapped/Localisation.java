@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class Localisation implements IMappedEntity {
+import hera.database.entity.persistence.LocalisationPO;
+
+public class Localisation implements IMappedEntity<LocalisationPO>{
 
 	public static final String NAME = "Localisation";
 
@@ -19,6 +21,13 @@ public class Localisation implements IMappedEntity {
 		this.value = value;
 	}
 
+	public LocalisationPO mapToPO() {
+		return new LocalisationPO(
+				this.language,
+				this.key,
+				this.value
+		);
+	}
 	public String getLanguage() {
 		return language;
 	}

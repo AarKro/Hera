@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class DefaultRole implements IMappedEntity {
+import hera.database.entity.persistence.DefaultRolePO;
+
+public class DefaultRole implements IMappedEntity<DefaultRolePO> {
 
 	public static final String NAME = "DefaultRole";
 
@@ -14,6 +16,13 @@ public class DefaultRole implements IMappedEntity {
 	public DefaultRole(Long guild, int role) {
 		this.guild = guild;
 		this.role = role;
+	}
+
+	public DefaultRolePO mapToPO() {
+		return new DefaultRolePO(
+				this.guild,
+				this.role
+		);
 	}
 
 	public Long getGuild() {

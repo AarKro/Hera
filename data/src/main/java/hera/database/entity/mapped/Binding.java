@@ -1,6 +1,8 @@
 package hera.database.entity.mapped;
 
-public class Binding implements IMappedEntity {
+import hera.database.entity.persistence.BindingPO;
+
+public class Binding implements IMappedEntity<BindingPO> {
 
 	public static final String NAME = "Binding";
 
@@ -17,6 +19,14 @@ public class Binding implements IMappedEntity {
 		this.guild = guild;
 		this.bindingType = bindingType;
 		this.channelSnowflake = channelSnowflake;
+	}
+
+	public BindingPO mapToPO() {
+		return new BindingPO(
+			this.guild,
+			this.bindingType,
+			this.channelSnowflake
+		);
 	}
 
 	public Long getGuild() {
