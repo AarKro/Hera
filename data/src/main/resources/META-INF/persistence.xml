@@ -27,9 +27,9 @@
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="HERA_JDBC_URL" />
-            <property name="javax.persistence.jdbc.user" value="HERA_JDBC_USER" />
-            <property name="javax.persistence.jdbc.password" value="HERA_JDBC_PWD" />
+            <property name="javax.persistence.jdbc.url" value="HERA_DB_URL" />
+            <property name="javax.persistence.jdbc.user" value="HERA_DB_USER" />
+            <property name="javax.persistence.jdbc.password" value="HERA_DB_PWD" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>
