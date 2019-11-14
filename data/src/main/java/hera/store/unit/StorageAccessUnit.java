@@ -1,27 +1,27 @@
 package hera.store.unit;
 
-import hera.database.DBService;
+import hera.database.DAO;
 import hera.database.entity.mapped.IMappedEntity;
 import hera.database.entity.persistence.IPersistenceEntity;
 
 import java.util.List;
 
-public class DataStoreUnit<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
+public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 
-	DBService<T, M> DB;
+	DAO<T, M> DAO;
 
 	List<M> data;
 
-	public DataStoreUnit() {
+	public StorageAccessUnit() {
 	}
 
-	public DataStoreUnit(String entityName) {
-		DB = new DBService<>(entityName);
-		data = DB.readAll();
+	public StorageAccessUnit(String entityName) {
+		DAO = new DAO<>(entityName);
+		data = DAO.readAll();
 	}
 
 	public void updateStore() {
-		data = DB.readAll();
+		data = DAO.readAll();
 	}
 
 	public List<M> getAll() {
@@ -30,7 +30,7 @@ public class DataStoreUnit<T extends IPersistenceEntity<M>, M extends IMappedEnt
 
 	public void add(M object) {
 		try {
-			DB.insert(object);
+			DAO.insert(object);
 			data.add(object);
 		} catch(Exception e) {
 

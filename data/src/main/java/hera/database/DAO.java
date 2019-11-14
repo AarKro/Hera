@@ -6,6 +6,7 @@ import hera.database.entity.persistence.IPersistenceEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 	private static final String READ_ALL = "SELECT * FROM :entityName";
@@ -16,7 +17,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		this.entityName = entityName;
 	}
 
-	public List<T> query(String customQuery) {
+	public List<M> query(String customQuery) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
@@ -25,10 +26,18 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		@SuppressWarnings("unchecked")
 		List<T> results = query.getResultList();
 
-		return results;
+		entityManager.getTransaction().commit();
+		entityManager.close();
+
+		if(results != null) {
+			return results.stream().map(T::mapToNonePO).collect(Collectors.toList());
+		}
+		else {
+			return null;
+		}
 	}
 
-	public List<T> readAll() {
+	public List<M> readAll() {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
@@ -41,34 +50,39 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.getTransaction().commit();
 		entityManager.close();
 
-		return results;
+		if(results != null) {
+			return results.stream().map(T::mapToNonePO).collect(Collectors.toList());
+		}
+		else {
+			return null;
+		}
 	}
 
-	public void insert(T object) {
+	public void insert(M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.persist(object);
+		entityManager.persist(object.mapToPO());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
 	}
 
-	public void delete(T object) {
+	public void delete(M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.remove(object);
+		entityManager.remove(object.mapToPO());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
 	}
 
-	public void update(T object) {
+	public void update(M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.merge(object);
+		entityManager.merge(object.mapToPO());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();

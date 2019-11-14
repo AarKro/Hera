@@ -2,44 +2,44 @@ package hera.store;
 
 import hera.database.entity.mapped.*;
 import hera.database.entity.persistence.*;
-import hera.store.unit.CommandMetricsStoreUnit;
-import hera.store.unit.DataStoreUnit;
+import hera.store.unit.CommandMetricsAccessUnit;
+import hera.store.unit.StorageAccessUnit;
 
 public class DataStore {
 
 	private static DataStore instance;
 
-	private DataStoreUnit<BindingPO, Binding> bindings;
+	private StorageAccessUnit<BindingPO, Binding> bindings;
 
-	private DataStoreUnit<BindingTypePO, BindingType> bindingTypes;
+	private StorageAccessUnit<BindingTypePO, BindingType> bindingTypes;
 
-	private CommandMetricsStoreUnit commandMetrics;
+	private CommandMetricsAccessUnit commandMetrics;
 
-	private DataStoreUnit<CommandPO, Command> commands;
+	private StorageAccessUnit<CommandPO, Command> commands;
 
-	private DataStoreUnit<DefaultRolePO, DefaultRole> defaultRoles;
+	private StorageAccessUnit<DefaultRolePO, DefaultRole> defaultRoles;
 
-	private DataStoreUnit<GlobalSettingsPO, GlobalSettings> globalSettings;
+	private StorageAccessUnit<GlobalSettingsPO, GlobalSettings> globalSettings;
 
-	private DataStoreUnit<GuildPO, Guild> guilds;
+	private StorageAccessUnit<GuildPO, Guild> guilds;
 
-	private DataStoreUnit<GuildSettingsPO, GuildSettings> guildSettings;
+	private StorageAccessUnit<GuildSettingsPO, GuildSettings> guildSettings;
 
-	private DataStoreUnit<LocalisationPO, Localisation> localisations;
+	private StorageAccessUnit<LocalisationPO, Localisation> localisations;
 
-	private DataStoreUnit<ModuleSettingsPO, ModuleSettings> moduleSettings;
+	private StorageAccessUnit<ModuleSettingsPO, ModuleSettings> moduleSettings;
 
-	private DataStoreUnit<OwnerPO, Owner> owners;
+	private StorageAccessUnit<OwnerPO, Owner> owners;
 
-	private DataStoreUnit<RoleMemberPO, RoleMember> roleMembers;
+	private StorageAccessUnit<RoleMemberPO, RoleMember> roleMembers;
 
-	private DataStoreUnit<RolePO, Role> roles;
+	private StorageAccessUnit<RolePO, Role> roles;
 
-	private DataStoreUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes;
+	private StorageAccessUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes;
 
-	private DataStoreUnit<TokenPO, Token> tokens;
+	private StorageAccessUnit<TokenPO, Token> tokens;
 
-	private DataStoreUnit<UserPO, User> users;
+	private StorageAccessUnit<UserPO, User> users;
 
 	private DataStore() {
 	}
@@ -53,85 +53,85 @@ public class DataStore {
 	}
 
 	public void initialize() {
-		bindings = new DataStoreUnit<>(BindingPO.ENTITY_NAME);
-		bindingTypes = new DataStoreUnit<>(BindingTypePO.ENTITY_NAME);
-		commandMetrics = new CommandMetricsStoreUnit(CommandMetricsPO.ENTITY_NAME);
-		commands = new DataStoreUnit<>(CommandPO.ENTITY_NAME);
-		defaultRoles = new DataStoreUnit<>(DefaultRolePO.ENTITY_NAME);
-		globalSettings = new DataStoreUnit<>(GlobalSettingsPO.ENTITY_NAME);
-		guilds = new DataStoreUnit<>(GuildPO.ENTITY_NAME);
-		guildSettings = new DataStoreUnit<>(GuildSettingsPO.ENTITY_NAME);
-		localisations = new DataStoreUnit<>(LocalisationPO.ENTITY_NAME);
-		moduleSettings = new DataStoreUnit<>(ModuleSettingsPO.ENTITY_NAME);
-		owners = new DataStoreUnit<>(OwnerPO.ENTITY_NAME);
-		roleMembers = new DataStoreUnit<>(RoleMemberPO.ENTITY_NAME);
-		roles = new DataStoreUnit<>(RolePO.ENTITY_NAME);
-		snowflakeTypes = new DataStoreUnit<>(SnowflakeTypePO.ENTITY_NAME);
-		tokens = new DataStoreUnit<>(TokenPO.ENTITY_NAME);
-		users = new DataStoreUnit<>(UserPO.ENTITY_NAME);
+		bindings = new StorageAccessUnit<>(BindingPO.ENTITY_NAME);
+		bindingTypes = new StorageAccessUnit<>(BindingTypePO.ENTITY_NAME);
+		commandMetrics = new CommandMetricsAccessUnit(CommandMetricsPO.ENTITY_NAME);
+		commands = new StorageAccessUnit<>(CommandPO.ENTITY_NAME);
+		defaultRoles = new StorageAccessUnit<>(DefaultRolePO.ENTITY_NAME);
+		globalSettings = new StorageAccessUnit<>(GlobalSettingsPO.ENTITY_NAME);
+		guilds = new StorageAccessUnit<>(GuildPO.ENTITY_NAME);
+		guildSettings = new StorageAccessUnit<>(GuildSettingsPO.ENTITY_NAME);
+		localisations = new StorageAccessUnit<>(LocalisationPO.ENTITY_NAME);
+		moduleSettings = new StorageAccessUnit<>(ModuleSettingsPO.ENTITY_NAME);
+		owners = new StorageAccessUnit<>(OwnerPO.ENTITY_NAME);
+		roleMembers = new StorageAccessUnit<>(RoleMemberPO.ENTITY_NAME);
+		roles = new StorageAccessUnit<>(RolePO.ENTITY_NAME);
+		snowflakeTypes = new StorageAccessUnit<>(SnowflakeTypePO.ENTITY_NAME);
+		tokens = new StorageAccessUnit<>(TokenPO.ENTITY_NAME);
+		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
 	}
 
-	public DataStoreUnit<BindingPO, Binding> bindings() {
+	public StorageAccessUnit<BindingPO, Binding> bindings() {
 		return bindings;
 	}
 
-	public DataStoreUnit<BindingTypePO, BindingType> bindingTypes() {
+	public StorageAccessUnit<BindingTypePO, BindingType> bindingTypes() {
 		return bindingTypes;
 	}
 
-	public CommandMetricsStoreUnit commandMetrics() {
+	public CommandMetricsAccessUnit commandMetrics() {
 		return commandMetrics;
 	}
 
-	public DataStoreUnit<CommandPO, Command> commands() {
+	public StorageAccessUnit<CommandPO, Command> commands() {
 		return commands;
 	}
 
-	public DataStoreUnit<DefaultRolePO, DefaultRole> defaultRoles() {
+	public StorageAccessUnit<DefaultRolePO, DefaultRole> defaultRoles() {
 		return defaultRoles;
 	}
 
-	public DataStoreUnit<GlobalSettingsPO, GlobalSettings> globalSettings() {
+	public StorageAccessUnit<GlobalSettingsPO, GlobalSettings> globalSettings() {
 		return globalSettings;
 	}
 
-	public DataStoreUnit<GuildPO, Guild> guilds() {
+	public StorageAccessUnit<GuildPO, Guild> guilds() {
 		return guilds;
 	}
 
-	public DataStoreUnit<GuildSettingsPO, GuildSettings> guildSettings() {
+	public StorageAccessUnit<GuildSettingsPO, GuildSettings> guildSettings() {
 		return guildSettings;
 	}
 
-	public DataStoreUnit<LocalisationPO, Localisation> localisations() {
+	public StorageAccessUnit<LocalisationPO, Localisation> localisations() {
 		return localisations;
 	}
 
-	public DataStoreUnit<ModuleSettingsPO, ModuleSettings> moduleSettings() {
+	public StorageAccessUnit<ModuleSettingsPO, ModuleSettings> moduleSettings() {
 		return moduleSettings;
 	}
 
-	public DataStoreUnit<OwnerPO, Owner> owners() {
+	public StorageAccessUnit<OwnerPO, Owner> owners() {
 		return owners;
 	}
 
-	public DataStoreUnit<RoleMemberPO, RoleMember> roleMembers() {
+	public StorageAccessUnit<RoleMemberPO, RoleMember> roleMembers() {
 		return roleMembers;
 	}
 
-	public DataStoreUnit<RolePO, Role> roles() {
+	public StorageAccessUnit<RolePO, Role> roles() {
 		return roles;
 	}
 
-	public DataStoreUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes() {
+	public StorageAccessUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes() {
 		return snowflakeTypes;
 	}
 
-	public DataStoreUnit<TokenPO, Token> tokens() {
+	public StorageAccessUnit<TokenPO, Token> tokens() {
 		return tokens;
 	}
 
-	public DataStoreUnit<UserPO, User> users() {
+	public StorageAccessUnit<UserPO, User> users() {
 		return users;
 	}
 }
