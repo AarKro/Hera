@@ -17,6 +17,12 @@ public class GuildSettings implements IMappedEntity<GuildSettingsPO> {
 	public GuildSettings() {
 	}
 
+	public GuildSettings(Long guild, String name, String value) {
+		this.guild = guild;
+		this.name = name;
+		this.value = value;
+	}
+
 	public GuildSettings(int id, Long guild, String name, String value) {
 		this.id = id;
 		this.guild = guild;

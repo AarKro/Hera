@@ -2,9 +2,8 @@ package hera.database.entity.persistence;
 
 import hera.database.entity.mapped.CommandMetrics;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "command_metrics")
@@ -23,14 +22,19 @@ public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics> {
 
 	private int callCount;
 
+	@Id
+	@Temporal(TemporalType.DATE)
+	private LocalDate date;
+
 	public CommandMetricsPO() {
 	}
 
-	public CommandMetricsPO(int commandFK, Long guildFK, Long userFK, int callCount) {
+	public CommandMetricsPO(int commandFK, Long guildFK, Long userFK, int callCount, LocalDate date) {
 		this.commandFK = commandFK;
 		this.guildFK = guildFK;
 		this.userFK = userFK;
 		this.callCount = callCount;
+		this.date = date;
 	}
 
 	public CommandMetrics mapToNonePO() {
@@ -38,7 +42,8 @@ public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics> {
 				this.commandFK,
 				this.guildFK,
 				this.userFK,
-				this.callCount
+				this.callCount,
+				this.date
 		);
 	}
 
@@ -72,5 +77,13 @@ public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics> {
 
 	public void setCallCount(int callCount) {
 		this.callCount = callCount;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 }

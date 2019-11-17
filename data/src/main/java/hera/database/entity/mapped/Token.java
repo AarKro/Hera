@@ -17,6 +17,12 @@ public class Token implements IMappedEntity<TokenPO> {
 	public Token() {
 	}
 
+	public Token(String token, String name, String description) {
+		this.token = token;
+		this.name = name;
+		this.description = description;
+	}
+
 	public Token(int id, String token, String name, String description) {
 		this.id = id;
 		this.token = token;

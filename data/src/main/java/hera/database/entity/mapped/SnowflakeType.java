@@ -13,6 +13,10 @@ public class SnowflakeType implements IMappedEntity<SnowflakeTypePO> {
 	public SnowflakeType() {
 	}
 
+	public SnowflakeType(String type) {
+		this.type = type;
+	}
+
 	public SnowflakeType(int id, String type) {
 		this.id = id;
 		this.type = type;

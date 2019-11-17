@@ -15,6 +15,11 @@ public class GlobalSettings implements IMappedEntity<GlobalSettingsPO> {
 	public GlobalSettings() {
 	}
 
+	public GlobalSettings(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
+
 	public GlobalSettings(int id, String name, String value) {
 		this.id = id;
 		this.name = name;

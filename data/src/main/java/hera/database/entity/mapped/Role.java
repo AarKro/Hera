@@ -19,6 +19,13 @@ public class Role implements IMappedEntity<RolePO> {
 	public Role() {
 	}
 
+	public Role(Long guild, int parent, String name, String description) {
+		this.guild = guild;
+		this.parent = parent;
+		this.name = name;
+		this.description = description;
+	}
+
 	public Role(int id, Long guild, int parent, String name, String description) {
 		this.id = id;
 		this.guild = guild;

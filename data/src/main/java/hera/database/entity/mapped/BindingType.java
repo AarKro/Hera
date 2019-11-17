@@ -13,6 +13,10 @@ public class BindingType implements IMappedEntity<BindingTypePO> {
 	public BindingType() {
 	}
 
+	public BindingType(String type) {
+		this.type = type;
+	}
+
 	public BindingType(int id, String type) {
 		this.id = id;
 		this.type = type;

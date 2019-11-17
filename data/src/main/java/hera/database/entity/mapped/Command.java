@@ -21,6 +21,14 @@ public class Command implements IMappedEntity<CommandPO> {
 	public Command() {
 	}
 
+	public Command(String name, String description, int paramCount, boolean infiniteParam, boolean admin) {
+		this.name = name;
+		this.description = description;
+		this.paramCount = paramCount;
+		this.infiniteParam = infiniteParam;
+		this.admin = admin;
+	}
+
 	public Command(int id, String name, String description, int paramCount, boolean infiniteParam, boolean admin) {
 		this.id = id;
 		this.name = name;
