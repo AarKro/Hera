@@ -24,12 +24,7 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 		// create new command metric entry if it not already exists
 		if(matches.size() < 1) {
 			CommandMetrics cm = new CommandMetrics(command, guild, user, 1, today);
-			try {
-				DAO.insert(cm);
-				data.add(cm);
-			} catch(Exception e) {
-
-			}
+			add(cm);
 		} else {
 			CommandMetrics cm = matches.get(0);
 			int newCallCount = cm.getCallCount() + 1;
