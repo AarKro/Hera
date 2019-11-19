@@ -10,12 +10,10 @@ public class Core {
 	private static final DataStore STORE = DataStore.getInstance();
 
 	public static void main(String[] args) {
-		LOG.info("Start");
-		LOG.debug("Start");
+		LOG.info("Starting Hera...");
 
 		STORE.initialize();
 
-		LOG.info("End");
-		LOG.debug("End");
+		LOG.info("...Hera is now ready to use!");
 	}
 }

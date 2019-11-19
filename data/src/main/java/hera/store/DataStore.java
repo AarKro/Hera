@@ -57,8 +57,7 @@ public class DataStore {
 	}
 
 	public void initialize() {
-		LOG.info("initialize store");
-		LOG.debug("initialize store");
+		LOG.info("Initializing DataStore");
 		bindings = new StorageAccessUnit<>(BindingPO.ENTITY_NAME);
 		bindingTypes = new StorageAccessUnit<>(BindingTypePO.ENTITY_NAME);
 		commandMetrics = new CommandMetricsAccessUnit(CommandMetricsPO.ENTITY_NAME);
@@ -75,8 +74,7 @@ public class DataStore {
 		snowflakeTypes = new StorageAccessUnit<>(SnowflakeTypePO.ENTITY_NAME);
 		tokens = new StorageAccessUnit<>(TokenPO.ENTITY_NAME);
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
-		LOG.info("end initialize store");
-		LOG.debug("end initialize store");
+		LOG.info("DataStore initialized");
 	}
 
 	public StorageAccessUnit<BindingPO, Binding> bindings() {
