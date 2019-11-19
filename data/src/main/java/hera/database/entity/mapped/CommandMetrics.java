@@ -2,7 +2,7 @@ package hera.database.entity.mapped;
 
 import hera.database.entity.persistence.CommandMetricsPO;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class CommandMetrics implements IMappedEntity<CommandMetricsPO> {
 
@@ -16,12 +16,12 @@ public class CommandMetrics implements IMappedEntity<CommandMetricsPO> {
 
 	private int callCount;
 
-	private LocalDate date;
+	private Date date;
 
 	public CommandMetrics() {
 	}
 
-	public CommandMetrics(int command, Long guild, Long user, int callCount, LocalDate date) {
+	public CommandMetrics(int command, Long guild, Long user, int callCount, Date date) {
 		this.command = command;
 		this.guild = guild;
 		this.user = user;
@@ -71,11 +71,11 @@ public class CommandMetrics implements IMappedEntity<CommandMetricsPO> {
 		this.callCount = callCount;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 }

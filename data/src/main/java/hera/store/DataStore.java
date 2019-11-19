@@ -4,8 +4,12 @@ import hera.database.entity.mapped.*;
 import hera.database.entity.persistence.*;
 import hera.store.unit.CommandMetricsAccessUnit;
 import hera.store.unit.StorageAccessUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DataStore {
+
+	private static final Logger LOG = LoggerFactory.getLogger(DataStore.class);
 
 	private static DataStore instance;
 
@@ -53,6 +57,8 @@ public class DataStore {
 	}
 
 	public void initialize() {
+		LOG.info("initialize store");
+		LOG.debug("initialize store");
 		bindings = new StorageAccessUnit<>(BindingPO.ENTITY_NAME);
 		bindingTypes = new StorageAccessUnit<>(BindingTypePO.ENTITY_NAME);
 		commandMetrics = new CommandMetricsAccessUnit(CommandMetricsPO.ENTITY_NAME);
@@ -69,6 +75,8 @@ public class DataStore {
 		snowflakeTypes = new StorageAccessUnit<>(SnowflakeTypePO.ENTITY_NAME);
 		tokens = new StorageAccessUnit<>(TokenPO.ENTITY_NAME);
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
+		LOG.info("end initialize store");
+		LOG.debug("end initialize store");
 	}
 
 	public StorageAccessUnit<BindingPO, Binding> bindings() {

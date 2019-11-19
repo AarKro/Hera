@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
-	private static final String READ_ALL = "SELECT * FROM :entityName";
+	private static final String READ_ALL = "SELECT t FROM %s t";
 
 	private String entityName;
 
@@ -41,8 +41,8 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		Query query = entityManager.createQuery(READ_ALL)
-				.setParameter("entityName", entityName);
+		String stringQuery = String.format(READ_ALL, entityName);
+		Query query = entityManager.createQuery(stringQuery);
 
 		@SuppressWarnings("unchecked")
 		List<T> results = query.getResultList();

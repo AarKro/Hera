@@ -5,10 +5,11 @@ import hera.database.entity.mapped.DefaultRole;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "default_role")
-public class DefaultRolePO implements IPersistenceEntity<DefaultRole> {
+public class DefaultRolePO implements IPersistenceEntity<DefaultRole>, Serializable {
 
 	public static final String ENTITY_NAME = "DefaultRolePO";
 

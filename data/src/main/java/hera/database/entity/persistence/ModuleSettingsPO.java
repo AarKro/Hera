@@ -5,10 +5,11 @@ import hera.database.entity.mapped.ModuleSettings;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "module_settings")
-public class ModuleSettingsPO implements IPersistenceEntity<ModuleSettings> {
+public class ModuleSettingsPO implements IPersistenceEntity<ModuleSettings>, Serializable {
 
 	public static final String ENTITY_NAME = "ModuleSettingsPO";
 

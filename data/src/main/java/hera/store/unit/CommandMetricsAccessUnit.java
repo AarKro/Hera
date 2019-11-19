@@ -3,7 +3,8 @@ package hera.store.unit;
 import hera.database.entity.mapped.CommandMetrics;
 import hera.database.entity.persistence.CommandMetricsPO;
 
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 	}
 
 	public void incrementOrCreate(int command, Long guild, Long user) {
-		LocalDate today = LocalDate.now();
+		Date today = new Date();
 
 		List<CommandMetrics> matches = data.stream()
 				.filter((cm) -> cm.getCommand() == command && cm.getGuild().equals(guild) && cm.getUser().equals(user) && cm.getDate().equals(today))
@@ -29,7 +30,10 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 			CommandMetrics cm = matches.get(0);
 			int newCallCount = cm.getCallCount() + 1;
 
-			String query = String.format(INCREMENT_CALL_COUNT, newCallCount, command, guild, user, today);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String todayString = sdf.format(today);
+
+			String query = String.format(INCREMENT_CALL_COUNT, newCallCount, command, guild, user, todayString);
 			try {
 				DAO.query(query);
 				cm.setCallCount(newCallCount);

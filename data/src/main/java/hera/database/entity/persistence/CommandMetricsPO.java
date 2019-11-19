@@ -3,11 +3,12 @@ package hera.database.entity.persistence;
 import hera.database.entity.mapped.CommandMetrics;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "command_metrics")
-public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics> {
+public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics>, Serializable {
 
 	public static final String ENTITY_NAME = "CommandMetricsPO";
 
@@ -24,12 +25,12 @@ public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics> {
 
 	@Id
 	@Temporal(TemporalType.DATE)
-	private LocalDate date;
+	private Date date;
 
 	public CommandMetricsPO() {
 	}
 
-	public CommandMetricsPO(int commandFK, Long guildFK, Long userFK, int callCount, LocalDate date) {
+	public CommandMetricsPO(int commandFK, Long guildFK, Long userFK, int callCount, Date date) {
 		this.commandFK = commandFK;
 		this.guildFK = guildFK;
 		this.userFK = userFK;
@@ -79,11 +80,11 @@ public class CommandMetricsPO implements IPersistenceEntity<CommandMetrics> {
 		this.callCount = callCount;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 }

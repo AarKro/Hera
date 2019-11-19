@@ -5,10 +5,11 @@ import hera.database.entity.mapped.Localisation;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "localisation")
-public class LocalisationPO implements IPersistenceEntity<Localisation> {
+public class LocalisationPO implements IPersistenceEntity<Localisation>, Serializable {
 
 	public static final String ENTITY_NAME = "LocalisationPO";
 

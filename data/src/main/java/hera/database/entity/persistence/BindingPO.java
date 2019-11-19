@@ -5,10 +5,11 @@ import hera.database.entity.mapped.Binding;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "binding")
-public class BindingPO implements IPersistenceEntity<Binding> {
+public class BindingPO implements IPersistenceEntity<Binding>, Serializable {
 
 	public static final String ENTITY_NAME = "BindingPO";
 
