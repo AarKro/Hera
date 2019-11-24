@@ -22,7 +22,7 @@
     <modules>
         <module>core</module>
         <module>old</module>
-        <module>database</module>
+        <module>data</module>
         <module>statistics</module>
     </modules>
 
