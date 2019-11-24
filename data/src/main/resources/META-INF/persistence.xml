@@ -30,8 +30,6 @@
             <property name="javax.persistence.jdbc.url" value="HERA_DB_URL" />
             <property name="javax.persistence.jdbc.user" value="HERA_DB_USER" />
             <property name="javax.persistence.jdbc.password" value="HERA_DB_PWD" />
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>
 
     </persistence-unit>
