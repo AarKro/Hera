@@ -14,16 +14,34 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 
 	private static final String INCREMENT_CALL_COUNT = "UPDATE " + CommandMetricsPO.ENTITY_NAME + " c SET c.callCount = %s WHERE c.commandFK = %s AND c.guildFK = %s AND c.userFK = %s AND c.date = %s";
 
-	public CommandMetricsAccessUnit(String entityName) {
-		super(entityName);
+	public CommandMetricsAccessUnit() {
+		super(CommandMetricsPO.ENTITY_NAME);
+	}
+
+	public List<CommandMetrics> forGuild(Long guild) {
+		return data.stream().filter((c) -> c.getGuild().equals(guild)).collect(Collectors.toList());
+	}
+
+	public List<CommandMetrics> forCommand(int command) {
+		return data.stream().filter((c) -> c.getCommand() == command).collect(Collectors.toList());
+	}
+
+	public List<CommandMetrics> forUser(Long user) {
+		return data.stream().filter((c) -> c.getUser().equals(user)).collect(Collectors.toList());
+	}
+
+	public List<CommandMetrics> forDate(LocalDate date) {
+		return data.stream().filter((c) -> c.getDate().equals(date)).collect(Collectors.toList());
+	}
+
+	public List<CommandMetrics> forUserModulePerDay(Long guild, int command, Long user, LocalDate date) {
+		return data.stream().filter((c) -> c.getGuild().equals(guild) && c.getCommand() == command && c.getUser().equals(user) && c.getDate().equals(date)).collect(Collectors.toList());
 	}
 
 	public void incrementOrCreate(int command, Long guild, Long user) {
 		LocalDate today = LocalDate.now();
 
-		List<CommandMetrics> matches = data.stream()
-				.filter((cm) -> cm.getCommand() == command && cm.getGuild().equals(guild) && cm.getUser().equals(user) && cm.getDate().equals(today))
-				.collect(Collectors.toList());
+		List<CommandMetrics> matches = forUserModulePerDay(guild, command, user, today);
 
 		// create new command metric entry if it not already exists
 		if(matches.size() < 1) {
@@ -35,7 +53,7 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 
 			String query = String.format(INCREMENT_CALL_COUNT, newCallCount, command, guild, user, today.toString());
 			try {
-				DAO.query(query);
+				dao.query(query);
 				cm.setCallCount(newCallCount);
 			} catch(Exception e) {
 				LOG.error("Error while trying to increment command metric");

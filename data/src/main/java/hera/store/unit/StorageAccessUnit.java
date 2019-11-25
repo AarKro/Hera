@@ -11,7 +11,7 @@ import java.util.List;
 public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 	private static final Logger LOG = LoggerFactory.getLogger(StorageAccessUnit.class);
 
-	DAO<T, M> DAO;
+	DAO<T, M> dao;
 
 	List<M> data;
 
@@ -21,8 +21,8 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 	}
 
 	public StorageAccessUnit(String entityName) {
-		DAO = new DAO<>(entityName);
-		data = DAO.readAll();
+		dao = new DAO<>(entityName);
+		data = dao.readAll();
 		this.entityName = entityName;
 
 		LOG.info("StorageAccessUnit for entity {} created and initialized", entityName);
@@ -30,7 +30,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 
 	public void updateStore() {
 		LOG.info("Updating store of entity {}", entityName);
-		data = DAO.readAll();
+		data = dao.readAll();
 		LOG.info("Store of entity {} updated", entityName);
 	}
 
@@ -41,7 +41,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 	public void add(M object) {
 		try {
 			LOG.info("Persisting new entity of type {}", entityName);
-			DAO.insert(object);
+			dao.insert(object);
 			data.add(object);
 		} catch(Exception e) {
 			LOG.error("Error while trying to add entity of type {}", entityName);

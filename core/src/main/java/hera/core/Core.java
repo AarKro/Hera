@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Core {
 	private static final Logger LOG = LoggerFactory.getLogger(Core.class);
@@ -33,7 +32,7 @@ public class Core {
 		STORE.initialize();
 
 		LOG.info("Get discord login token from store");
-		Token loginToken = STORE.tokens().getAll().stream().filter((t) -> t.getName().equals("discord_login")).collect(Collectors.toList()).get(0);
+		Token loginToken = STORE.tokens().forName("discord_login").get(0);
 		if (loginToken == null) {
 			LOG.error("No discord login token found in store");
 			LOG.error("Terminating startup procedure");
@@ -45,8 +44,7 @@ public class Core {
 		// Main event stream. Commands are triggered here
 		client.getEventDispatcher().on(MessageCreateEvent.class)
 				.flatMap(event -> event.getGuild()
-						.flatMap(guild -> Flux.fromIterable(STORE.guildSettings().getAll())
-								.filter(setting -> setting.getGuild() == guild.getId().asLong() && setting.getName().equals("command_prefix"))
+						.flatMap(guild -> Flux.fromIterable(STORE.guildSettings().forGuildAndName(guild.getId().asLong(), "command_prefix"))
 								.flatMap(settings -> Mono.justOrEmpty(settings.getValue()))
 								.defaultIfEmpty("$")
 								.flatMap(commandPrefix -> Mono.justOrEmpty(event.getMessage().getContent())

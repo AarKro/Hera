@@ -47,7 +47,7 @@ public class Uptime implements Command {
 			}
 		}
 
-		Localisation message = STORE.localisations().getAll().stream().filter((l) -> l.getLanguage().equals("en") && l.getKey().equals("command_uptime")).collect(Collectors.toList()).get(0);
+		Localisation message = STORE.localisations().forLanguageAndKey("en", "command_uptime").get(0);
 		return String.format(message.getValue(), builder.toString().trim());
 	}
 }
