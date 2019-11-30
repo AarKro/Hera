@@ -2,6 +2,7 @@ package hera.database.entity.mapped;
 
 import hera.database.entity.persistence.CommandMetricsPO;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class CommandMetrics implements IMappedEntity<CommandMetricsPO> {
@@ -35,7 +36,7 @@ public class CommandMetrics implements IMappedEntity<CommandMetricsPO> {
 				this.guild,
 				this.user,
 				this.callCount,
-				this.date
+				Date.valueOf(this.date)
 		);
 	}
 

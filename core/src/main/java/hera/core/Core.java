@@ -6,7 +6,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import hera.core.command.Command;
 import hera.core.command.Uptime;
 import hera.database.entity.mapped.Token;
-import hera.store.DataStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -14,11 +13,13 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import static hera.metrics.MetricsLogger.STATS;
+import static hera.store.DataStore.STORE;
 
 public class Core {
 	private static final Logger LOG = LoggerFactory.getLogger(Core.class);
-
-	private static final DataStore STORE = DataStore.getInstance();
 
 	private static final Map<String, Command> commands = new HashMap<>();
 
@@ -50,7 +51,23 @@ public class Core {
 								.flatMap(commandPrefix -> Mono.justOrEmpty(event.getMessage().getContent())
 										.flatMap(content -> Flux.fromIterable(commands.entrySet())
 												.filter(entry -> content.startsWith(commandPrefix + entry.getKey()))
-												.flatMap(entry -> entry.getValue().execute(event))
+												.flatMap(entry -> {
+													// log command call
+													event.getMember()
+															.flatMap(member -> Optional.of(member.getId().asLong()))
+															.flatMap(memberId -> {
+																STATS.logCallCount(
+																		STORE.commands().forName(entry.getKey()).get(0).getId(),
+																		guild.getId().asLong(),
+																		memberId
+																);
+
+																return Optional.empty();
+															});
+
+													// execute command
+													return entry.getValue().execute(event);
+												})
 												.next()
 										)
 								)

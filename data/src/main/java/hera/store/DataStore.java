@@ -10,7 +10,7 @@ public class DataStore {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DataStore.class);
 
-	private static DataStore instance;
+	public static final DataStore STORE = new DataStore();
 
 	private BindingAccessUnit bindings;
 
@@ -45,14 +45,6 @@ public class DataStore {
 	private StorageAccessUnit<UserPO, User> users;
 
 	private DataStore() {
-	}
-
-	public static DataStore getInstance() {
-		if(instance == null) {
-			instance = new DataStore();
-		}
-
-		return instance;
 	}
 
 	public void initialize() {

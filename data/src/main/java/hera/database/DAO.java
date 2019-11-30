@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,27 +25,51 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		LOG.debug("DAO for entity {} created", entityName);
 	}
 
-	public List<M> query(String customQuery) {
+	/**
+	@param customQuery A JPA query. In order to process it in a generic way, variables should just be
+	 the word 'value' followed by a number starting from 0 and incrementing by 1 at a time. (value0, value1, ...)
+	 */
+	public List<M> query(String customQuery, Object ...params) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		Query query = entityManager.createQuery(customQuery);
-		LOG.info("Executing custom query: {}", customQuery);
 
-		@SuppressWarnings("unchecked")
-		List<T> results = query.getResultList();
+		for (int i = 0; i < params.length; i++) {
+			if (params[i] instanceof LocalDate) query.setParameter("value" + i, Date.valueOf(((LocalDate) params[i])), TemporalType.DATE);
+			else query.setParameter("value" + i, params[i]);
+		}
+
+		LOG.info("Executing custom query: {}", query.toString());
+
+		List<T> result;
+		if (customQuery.startsWith("UPDATE")) result = executeCustomUpdateQuery(query);
+		else result = executeCustomSelectQuery(query);
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
 
+		if (result != null) return result.stream().map(T::mapToNonePO).collect(Collectors.toList());
+		else return null;
+	}
+
+	private List<T> executeCustomSelectQuery(Query query) {
+		@SuppressWarnings("unchecked")
+		List<T> results = query.getResultList();
+
 		if(results != null) {
 			LOG.info("{} results found", results.size());
-			return results.stream().map(T::mapToNonePO).collect(Collectors.toList());
+			return results;
 		}
 		else {
 			LOG.info("No results found");
 			return null;
 		}
+	}
+
+	private List<T> executeCustomUpdateQuery(Query query) {
+		query.executeUpdate();
+		return null;
 	}
 
 	public List<M> readAll() {

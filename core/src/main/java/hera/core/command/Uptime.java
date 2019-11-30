@@ -2,15 +2,13 @@ package hera.core.command;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import hera.database.entity.mapped.Localisation;
-import hera.store.DataStore;
 import reactor.core.publisher.Mono;
 
 import java.lang.management.ManagementFactory;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
+import static hera.store.DataStore.STORE;
 
 public class Uptime implements Command {
-	private static final DataStore STORE = DataStore.getInstance();
 
 	private static Uptime instance;
 
