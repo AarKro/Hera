@@ -44,7 +44,7 @@ public class Queue extends AbstractCommand {
 
         } else {
             queue = "There are no songs in the queue!";
-            LOG.debug(e.getAuthor() + " used command queue although there were no songs in the queue");
+            LOG.debug(e.getAuthor() + " used commands queue although there were no songs in the queue");
         }
 
 
@@ -78,7 +78,7 @@ public class Queue extends AbstractCommand {
             ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Queue:", queue);
             LOG.info("Compact view still exeeds discord character limit");
         } finally {
-            LOG.info(e.getAuthor() + " used command Queue. Total songs: " + tracks.length + " | Total duration: " + getFormattedTime(totalLength));
+            LOG.info(e.getAuthor() + " used commands Queue. Total songs: " + tracks.length + " | Total duration: " + getFormattedTime(totalLength));
         }
         LOG.debug("End of: Queue.execute");
     }

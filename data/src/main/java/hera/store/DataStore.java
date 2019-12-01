@@ -1,7 +1,7 @@
 package hera.store;
 
-import hera.database.entity.mapped.*;
-import hera.database.entity.persistence.*;
+import hera.database.entities.mapped.*;
+import hera.database.entities.persistence.*;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +36,7 @@ public class DataStore {
 
 	private StorageAccessUnit<GuildPO, Guild> guilds;
 
-	private StorageAccessUnit<BindingTypePO, BindingType> bindingTypes;
-
 	private StorageAccessUnit<OwnerPO, Owner> owners;
-
-	private StorageAccessUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes;
 
 	private StorageAccessUnit<UserPO, User> users;
 
@@ -60,10 +56,8 @@ public class DataStore {
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
-		bindingTypes = new StorageAccessUnit<>(BindingTypePO.ENTITY_NAME);
 		guilds = new StorageAccessUnit<>(GuildPO.ENTITY_NAME);
 		owners = new StorageAccessUnit<>(OwnerPO.ENTITY_NAME);
-		snowflakeTypes = new StorageAccessUnit<>(SnowflakeTypePO.ENTITY_NAME);
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
 		LOG.info("DataStore initialized");
 	}
@@ -112,20 +106,12 @@ public class DataStore {
 		return tokens;
 	}
 
-	public StorageAccessUnit<BindingTypePO, BindingType> bindingTypes() {
-		return bindingTypes;
-	}
-
 	public StorageAccessUnit<GuildPO, Guild> guilds() {
 		return guilds;
 	}
 
 	public StorageAccessUnit<OwnerPO, Owner> owners() {
 		return owners;
-	}
-
-	public StorageAccessUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes() {
-		return snowflakeTypes;
 	}
 
 	public StorageAccessUnit<UserPO, User> users() {

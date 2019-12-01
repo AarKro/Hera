@@ -42,7 +42,7 @@ public class Bind extends AbstractCommand {
 				break;
 			default:
 				ms.sendMessage(e.getChannel(), "", "Invalid usage of $bind.\nSyntax: $bind <report/music>");
-				LOG.debug("User " + e.getAuthor() + " used command bind wrong");
+				LOG.debug("User " + e.getAuthor() + " used commands bind wrong");
 		}
 		LOG.debug("End of: Bind.execute");
 	}

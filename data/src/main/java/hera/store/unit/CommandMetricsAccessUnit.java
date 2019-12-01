@@ -1,7 +1,7 @@
 package hera.store.unit;
 
-import hera.database.entity.mapped.CommandMetrics;
-import hera.database.entity.persistence.CommandMetricsPO;
+import hera.database.entities.mapped.CommandMetrics;
+import hera.database.entities.persistence.CommandMetricsPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,7 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 
 		List<CommandMetrics> matches = forUserModulePerDay(guild, command, user, today);
 
-		// create new command metric entry if it not already exists
+		// create new commands metric entry if it not already exists
 		if(matches.size() < 1) {
 			CommandMetrics cm = new CommandMetrics(command, guild, user, 1, today);
 			add(cm);
@@ -55,7 +55,7 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 				dao.query(INCREMENT_CALL_COUNT, newCallCount, command, guild, user, today);
 				cm.setCallCount(newCallCount);
 			} catch(Exception e) {
-				LOG.error("Error while trying to increment command metric");
+				LOG.error("Error while trying to increment commands metric");
 				LOG.error("Command: {}, Guild: {}, User: {}, Date: {}", command, guild, user, today.toString());
 				LOG.debug("Stacktrace:", e);
 			}

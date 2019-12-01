@@ -1,7 +1,8 @@
 package hera.store.unit;
 
-import hera.database.entity.mapped.Localisation;
-import hera.database.entity.persistence.LocalisationPO;
+import hera.database.entities.mapped.Localisation;
+import hera.database.entities.persistence.LocalisationPO;
+import hera.database.types.LocalisationKey;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,11 +17,11 @@ public class LocalisationAccessUnit extends StorageAccessUnit<LocalisationPO, Lo
 		return data.stream().filter((l) -> l.getLanguage().equals(language)).collect(Collectors.toList());
 	}
 
-	public List<Localisation> forKey(String key) {
+	public List<Localisation> forKey(LocalisationKey key) {
 		return data.stream().filter((l) -> l.getKey().equals(key)).collect(Collectors.toList());
 	}
 
-	public List<Localisation> forLanguageAndKey(String language, String key) {
+	public List<Localisation> forLanguageAndKey(String language, LocalisationKey key) {
 		return data.stream().filter((l) -> l.getLanguage().equals(language) && l.getKey().equals(key)).collect(Collectors.toList());
 	}
 }

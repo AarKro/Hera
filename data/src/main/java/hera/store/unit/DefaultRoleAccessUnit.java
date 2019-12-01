@@ -1,7 +1,7 @@
 package hera.store.unit;
 
-import hera.database.entity.mapped.DefaultRole;
-import hera.database.entity.persistence.DefaultRolePO;
+import hera.database.entities.mapped.DefaultRole;
+import hera.database.entities.persistence.DefaultRolePO;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,7 +1,7 @@
 package hera.store.unit;
 
-import hera.database.entity.mapped.ModuleSettings;
-import hera.database.entity.persistence.ModuleSettingsPO;
+import hera.database.entities.mapped.ModuleSettings;
+import hera.database.entities.persistence.ModuleSettingsPO;
 
 import java.util.List;
 import java.util.stream.Collectors;

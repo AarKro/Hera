@@ -1,7 +1,7 @@
 package hera.database;
 
-import hera.database.entity.mapped.IMappedEntity;
-import hera.database.entity.persistence.IPersistenceEntity;
+import hera.database.entities.mapped.IMappedEntity;
+import hera.database.entities.persistence.IPersistenceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 
 	public DAO(String entityName) {
 		this.entityName = entityName;
-		LOG.debug("DAO for entity {} created", entityName);
+		LOG.debug("DAO for entities {} created", entityName);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 
 		String stringQuery = String.format(READ_ALL, entityName);
 		Query query = entityManager.createQuery(stringQuery);
-		LOG.info("Read all for entity {}", entityName);
+		LOG.info("Read all for entities {}", entityName);
 
 		@SuppressWarnings("unchecked")
 		List<T> results = query.getResultList();
@@ -101,7 +101,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.getTransaction().begin();
 
 		entityManager.persist(object.mapToPO());
-		LOG.info("Persisted entity of type {}", object.getClass().getName());
+		LOG.info("Persisted entities of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
@@ -112,7 +112,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.getTransaction().begin();
 
 		entityManager.remove(object.mapToPO());
-		LOG.info("Deleted entity of type {}", object.getClass().getName());
+		LOG.info("Deleted entities of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
@@ -123,7 +123,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.getTransaction().begin();
 
 		entityManager.merge(object.mapToPO());
-		LOG.info("Merged entity of type {}", object.getClass().getName());
+		LOG.info("Merged entities of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();

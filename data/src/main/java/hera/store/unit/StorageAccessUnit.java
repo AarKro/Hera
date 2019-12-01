@@ -1,8 +1,8 @@
 package hera.store.unit;
 
 import hera.database.DAO;
-import hera.database.entity.mapped.IMappedEntity;
-import hera.database.entity.persistence.IPersistenceEntity;
+import hera.database.entities.mapped.IMappedEntity;
+import hera.database.entities.persistence.IPersistenceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +25,13 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 		data = dao.readAll();
 		this.entityName = entityName;
 
-		LOG.info("StorageAccessUnit for entity {} created and initialized", entityName);
+		LOG.info("StorageAccessUnit for entities {} created and initialized", entityName);
 	}
 
 	public void updateStore() {
-		LOG.info("Updating store of entity {}", entityName);
+		LOG.info("Updating store of entities {}", entityName);
 		data = dao.readAll();
-		LOG.info("Store of entity {} updated", entityName);
+		LOG.info("Store of entities {} updated", entityName);
 	}
 
 	public List<M> getAll() {
@@ -40,11 +40,11 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 
 	public void add(M object) {
 		try {
-			LOG.info("Persisting new entity of type {}", entityName);
+			LOG.info("Persisting new entities of type {}", entityName);
 			dao.insert(object);
 			data.add(object);
 		} catch(Exception e) {
-			LOG.error("Error while trying to add entity of type {}", entityName);
+			LOG.error("Error while trying to add entities of type {}", entityName);
 			LOG.debug("Stacktrace:", e);
 		}
 	}
