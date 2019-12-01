@@ -40,11 +40,10 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 
 	public void add(M object) {
 		try {
-			LOG.info("Persisting new entities of type {}", entityName);
 			dao.insert(object);
 			data.add(object);
 		} catch(Exception e) {
-			LOG.error("Error while trying to add entities of type {}", entityName);
+			LOG.error("Error while trying to add entity of type {}", entityName);
 			LOG.debug("Stacktrace:", e);
 		}
 	}

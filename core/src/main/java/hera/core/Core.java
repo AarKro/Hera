@@ -15,8 +15,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static hera.metrics.MetricsLogger.STATS;
 import static hera.store.DataStore.STORE;
@@ -32,8 +32,8 @@ public class Core {
 		STORE.initialize();
 
 		LOG.info("Get discord login token from store");
-		Token loginToken = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN).get(0);
-		if (loginToken == null) {
+		List<Token> loginTokens = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN);
+		if (loginTokens.isEmpty()) {
 			LOG.error("No discord login token found in store");
 			LOG.error("Terminating startup procedure");
 			return;
@@ -42,7 +42,7 @@ public class Core {
 		LOG.info("Creating command mappings");
 		commands.put(CommandName.UPTIME, Uptime::execute);
 
-		final DiscordClient client = new DiscordClientBuilder(loginToken.getToken()).build();
+		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
 		// Main event stream. Commands are triggered here
 		client.getEventDispatcher().on(MessageCreateEvent.class)
@@ -52,23 +52,22 @@ public class Core {
 								.defaultIfEmpty("$")
 								.flatMap(commandPrefix -> Mono.justOrEmpty(event.getMessage().getContent())
 										.filter(content -> content.startsWith(commandPrefix))
-										.flatMap(content -> Flux.fromIterable(HeraUtil.getCommandsFromMessage(content, commandPrefix))
-												.flatMap(command -> {
-													// log commands call
-													event.getMember()
-															.flatMap(member -> Optional.of(member.getId().asLong()))
-															.flatMap(memberId -> {
-																STATS.logCallCount(command.getId(), guild.getId().asLong(), memberId);
-																return Optional.empty();
-															});
+										.flatMap(content -> Mono.justOrEmpty(HeraUtil.getCommandFromMessage(content, commandPrefix))
+												.flatMap(command -> Mono.justOrEmpty(event.getMember())
+														.filterWhen(member -> HeraUtil.checkPermissions(command, member, guild))
+														.filterWhen(member -> HeraUtil.checkParameters(content, command))
+														.flatMap(member -> Mono.just(HeraUtil.extractParameters(content, command))
+																.flatMap(params -> {
+																	// log commands call
+																	STATS.logCallCount(command.getId(), guild.getId().asLong(), member.getId().asLong());
 
-													// execute commands
-													return commands.get(command.getName()).execute(event);
-												})
-												.next()
+																	// execute commands
+																	return commands.get(command.getName()).execute(event, guild, member, params);
+																})
+														)
+												)
 										)
-								)
-								.next()
+								).next()
 						)
 				)
 				.subscribe();

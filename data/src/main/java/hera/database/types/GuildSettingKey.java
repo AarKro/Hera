@@ -1,5 +1,6 @@
 package hera.database.types;
 
 public enum GuildSettingKey {
-	COMMAND_PREFIX;
+	COMMAND_PREFIX,
+	LANGUAGE;
 }
