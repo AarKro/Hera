@@ -25,13 +25,13 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 		data = dao.readAll();
 		this.entityName = entityName;
 
-		LOG.info("StorageAccessUnit for entities {} created and initialized", entityName);
+		LOG.info("StorageAccessUnit for entity {} created and initialized", entityName);
 	}
 
 	public void updateStore() {
-		LOG.info("Updating store of entities {}", entityName);
+		LOG.info("Updating store of entity {}", entityName);
 		data = dao.readAll();
-		LOG.info("Store of entities {} updated", entityName);
+		LOG.info("Store of entity {} updated", entityName);
 	}
 
 	public List<M> getAll() {

@@ -3,6 +3,7 @@ package hera.core;
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.gateway.json.dispatch.MessageCreate;
 import hera.core.commands.Command;
 import hera.core.commands.Uptime;
 import hera.database.entities.mapped.Token;
@@ -44,6 +45,25 @@ public class Core {
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
+		DiscordChannelConnector dcc = new DiscordChannelConnector(client);
+		dcc.startupConnector();
+
+		client.getEventDispatcher().on(MessageCreateEvent.class)
+				.flatMap(event -> event.getGuild()
+						.flatMap(guild -> event.getMessage().getChannel()
+								.filter(channel -> {
+									if (dcc.getActiveChannel() != null) return channel.getId().asLong() == dcc.getActiveChannel().getId().asLong();
+									else return false;
+								})
+								.flatMap(channel -> Mono.justOrEmpty(event.getMessage().getContent())
+										.flatMap(content -> Mono.justOrEmpty(event.getMember())
+												.doOnNext(member -> dcc.updateMessageDisplay(member, content))
+										)
+								)
+
+						)
+				).subscribe();
+
 		// Main event stream. Commands are triggered here
 		client.getEventDispatcher().on(MessageCreateEvent.class)
 				.flatMap(event -> event.getGuild()
@@ -54,16 +74,17 @@ public class Core {
 										.filter(content -> content.startsWith(commandPrefix))
 										.flatMap(content -> Mono.justOrEmpty(HeraUtil.getCommandFromMessage(content, commandPrefix))
 												.flatMap(command -> Mono.justOrEmpty(event.getMember())
-														.filterWhen(member -> HeraUtil.checkPermissions(command, member, guild))
-														.filterWhen(member -> HeraUtil.checkParameters(content, command))
-														.flatMap(member -> Mono.just(HeraUtil.extractParameters(content, command))
-																.flatMap(params -> {
-																	// log commands call
-																	STATS.logCallCount(command.getId(), guild.getId().asLong(), member.getId().asLong());
-
-																	// execute commands
-																	return commands.get(command.getName()).execute(event, guild, member, params);
-																})
+														.flatMap(member -> event.getMessage().getChannel()
+																.filterWhen(channel -> HeraUtil.checkPermissions(command, member, guild, channel))
+																.filterWhen(channel -> HeraUtil.checkParameters(content, command, channel))
+																.flatMap(channel -> Mono.just(HeraUtil.extractParameters(content, command))
+																		.flatMap(params -> {
+																			// log commands call
+																			STATS.logCallCount(command.getId(), guild.getId().asLong(), member.getId().asLong());
+																			// execute commands
+																			return commands.get(command.getName()).execute(event, guild, member, channel, params);
+																		})
+																)
 														)
 												)
 										)
