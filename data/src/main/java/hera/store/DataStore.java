@@ -43,8 +43,8 @@ public class DataStore {
 	private DataStore() {
 	}
 
-	public void initialize() {
-		LOG.info("Initializing DataStore");
+	public void initialise() {
+		LOG.info("Initialising DataStore");
 		bindings = new BindingAccessUnit();
 		commandMetrics = new CommandMetricsAccessUnit();
 		commands = new CommandAccessUnit();
@@ -59,7 +59,7 @@ public class DataStore {
 		guilds = new StorageAccessUnit<>(GuildPO.ENTITY_NAME);
 		owners = new StorageAccessUnit<>(OwnerPO.ENTITY_NAME);
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
-		LOG.info("DataStore initialized");
+		LOG.info("DataStore initialised");
 	}
 
 	public BindingAccessUnit bindings() {

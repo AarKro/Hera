@@ -3,7 +3,6 @@ package hera.core;
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.gateway.json.dispatch.MessageCreate;
 import hera.core.commands.Command;
 import hera.core.commands.Uptime;
 import hera.database.entities.mapped.Token;
@@ -30,7 +29,7 @@ public class Core {
 	public static void main(String[] args) {
 		LOG.info("Starting Hera...");
 
-		STORE.initialize();
+		STORE.initialise();
 
 		LOG.info("Get discord login token from store");
 		List<Token> loginTokens = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN);
@@ -45,24 +44,8 @@ public class Core {
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
-		DiscordChannelConnector dcc = new DiscordChannelConnector(client);
-		dcc.startupConnector();
-
-		client.getEventDispatcher().on(MessageCreateEvent.class)
-				.flatMap(event -> event.getGuild()
-						.flatMap(guild -> event.getMessage().getChannel()
-								.filter(channel -> {
-									if (dcc.getActiveChannel() != null) return channel.getId().asLong() == dcc.getActiveChannel().getId().asLong();
-									else return false;
-								})
-								.flatMap(channel -> Mono.justOrEmpty(event.getMessage().getContent())
-										.flatMap(content -> Mono.justOrEmpty(event.getMember())
-												.doOnNext(member -> dcc.updateMessageDisplay(member, content))
-										)
-								)
-
-						)
-				).subscribe();
+		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
+		hci.startupHCI();
 
 		// Main event stream. Commands are triggered here
 		client.getEventDispatcher().on(MessageCreateEvent.class)
