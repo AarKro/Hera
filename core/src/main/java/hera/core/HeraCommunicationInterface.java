@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class HeraCommunicationInterface {
@@ -75,8 +78,14 @@ public class HeraCommunicationInterface {
 					case "showChannels":
 						if (activeGuild != null) showChannels();
 						break;
+					case "dc":
+					case "disconnect":
+						System.out.println("> disconnect from active guild and channel");
+						activeGuild = null;
+						activeChannel = null;
+						break;
 					default:
-						if (activeChannel != null) ((GuildMessageChannel) activeChannel).createMessage(input).block();
+						if (activeChannel != null && !input.equals("")) ((GuildMessageChannel) activeChannel).createMessage(input).block();
 				}
 			});
 		});
@@ -84,10 +93,10 @@ public class HeraCommunicationInterface {
 		thread.start();
 	}
 
-	public void updateMessageDisplay(Member member, String message, boolean includeSelf) {
+	private void updateMessageDisplay(Member member, String message, boolean includeSelf) {
 		Mono.justOrEmpty(client.getSelfId())
 				.filter(id -> includeSelf || id.asLong() != member.getId().asLong())
-				.subscribe(id -> System.out.println(member.getDisplayName() + " >>> " + message));
+				.subscribe(id -> System.out.println("> " + member.getDisplayName() + ": " + message));
 	}
 
 	private void selectGuild(String input) {
