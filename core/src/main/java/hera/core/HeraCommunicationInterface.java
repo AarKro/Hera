@@ -56,36 +56,44 @@ public class HeraCommunicationInterface {
 			})
 			.subscribe(obj -> {
 				String input = (String) obj;
-				int index = input.indexOf(" ");
-				if (index == -1) index = input.length();
-				String command = input.substring(0, index).trim();
-				String body = input.substring(index).trim();
+				String command = "";
+				String body = "";
+				if (input.startsWith(">")) {
+					String[] parts = input.split(" ");
+					if (parts.length > 1) {
+						command = parts[1];
+						for (int i = 2; i < parts.length; i++) {
+							body += parts[i] + " ";
+						}
+						body = body.trim();
+					}
 
-				switch (command) {
-					case "u":
-					case "use":
-						selectGuild(body);
-						break;
-					case "ct":
-					case "connectTo":
-						if (activeGuild != null) selectChannel(body);
-						break;
-					case "sg":
-					case "showGuilds":
-						showGuilds();
-						break;
-					case "sc":
-					case "showChannels":
-						if (activeGuild != null) showChannels();
-						break;
-					case "dc":
-					case "disconnect":
-						System.out.println("> disconnect from active guild and channel");
-						activeGuild = null;
-						activeChannel = null;
-						break;
-					default:
-						if (activeChannel != null && !input.equals("")) ((GuildMessageChannel) activeChannel).createMessage(input).block();
+					switch (command) {
+						case "u":
+						case "use":
+							selectGuild(body);
+							break;
+						case "ct":
+						case "connectTo":
+							if (activeGuild != null) selectChannel(body);
+							break;
+						case "sg":
+						case "showGuilds":
+							showGuilds();
+							break;
+						case "sc":
+						case "showChannels":
+							if (activeGuild != null) showChannels();
+							break;
+						case "dc":
+						case "disconnect":
+							System.out.println("> disconnect from active guild and channel");
+							activeGuild = null;
+							activeChannel = null;
+							break;
+					}
+				} else if (activeChannel != null && !input.equals("")) {
+					((GuildMessageChannel) activeChannel).createMessage(input).subscribe();
 				}
 			});
 		});
@@ -96,12 +104,12 @@ public class HeraCommunicationInterface {
 	private void updateMessageDisplay(Member member, String message, boolean includeSelf) {
 		Mono.justOrEmpty(client.getSelfId())
 				.filter(id -> includeSelf || id.asLong() != member.getId().asLong())
-				.subscribe(id -> System.out.println("> " + member.getDisplayName() + ": " + message));
+				.subscribe(id -> System.out.println(member.getDisplayName() + " < " + message));
 	}
 
 	private void selectGuild(String input) {
 		getGuild(input).doOnNext(guild -> {
-			System.out.println("> selecting guild " + guild.getName());
+			System.out.println("< selecting guild " + guild.getName());
 			setActiveGuild(guild);
 		}).subscribe();
 	}
@@ -110,19 +118,19 @@ public class HeraCommunicationInterface {
 		getChannel(input)
 				.filter((guildChannel -> guildChannel.getType() == Channel.Type.GUILD_TEXT))
 				.doOnNext(guildChannel -> {
-					System.out.println("> selecting channel " + guildChannel.getName());
+					System.out.println("< selecting channel " + guildChannel.getName());
 					setActiveChannel(guildChannel);
 				}).subscribe();
 	}
 
 	private void showGuilds() {
-		client.getGuilds().doOnNext(guild -> System.out.println("> " + guild.getName())).subscribe();
+		client.getGuilds().doOnNext(guild -> System.out.println("< " + guild.getName())).subscribe();
 	}
 
 	private void showChannels() {
 		activeGuild.getChannels()
 				.filter(channel -> channel.getType() == Channel.Type.GUILD_TEXT)
-				.doOnNext(channel -> System.out.println("> " + channel.getName()))
+				.doOnNext(channel -> System.out.println("< " + channel.getName()))
 				.subscribe();
 	}
 
