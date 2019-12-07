@@ -105,12 +105,17 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.close();
 	}
 
-	public void delete(M object) {
+	public void delete(Class<T> cl, Long pk) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.remove(object.mapToPO());
-		LOG.info("Deleted entity of type {}", object.getClass().getName());
+		T entity = entityManager.find(cl, pk);
+		if (entity != null) {
+			entityManager.remove(entity);
+			LOG.info("Deleted entity of type {}", cl.getName());
+		} else {
+			LOG.error("No entity found for type {} and primary key {}", cl.getName(), pk);
+		}
 
 		entityManager.getTransaction().commit();
 		entityManager.close();

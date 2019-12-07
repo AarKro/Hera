@@ -24,7 +24,8 @@ public class HeraUtil {
 	private static final Localisation LOCALISATION_PERMISSION_ERROR = new Localisation("en", LocalisationKey.ERROR, "You do not have the necessary permissions to use this command");
 	private static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
 
-	public static Command getCommandFromMessage(String message, String prefix) {
+	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
+		if (message.length() < prefix.length()) return null;
 		// Add alias stuff here
 		// message is a complete discord command. (prefix + command + parameters)
 		List<Command> commands = STORE.commands().forName(message.split(" ")[0].substring(prefix.length()));

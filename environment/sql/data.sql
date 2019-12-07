@@ -20,9 +20,6 @@ INSERT INTO `user` (`snowflake`) VALUES
 (248116143020048384),
 (442711068737929216);
 
-INSERT INTO `guild` (`snowflake`) VALUES
-(248138776965021696);
-
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `admin`) VALUES
 (1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 1);
 

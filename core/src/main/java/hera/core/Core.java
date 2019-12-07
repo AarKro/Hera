@@ -2,10 +2,15 @@ package hera.core;
 
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
+import discord4j.core.event.domain.guild.GuildCreateEvent;
+import discord4j.core.event.domain.guild.GuildDeleteEvent;
+import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import hera.core.commands.Command;
 import hera.core.commands.Uptime;
+import hera.database.entities.mapped.Guild;
 import hera.database.entities.mapped.Token;
+import hera.database.entities.mapped.User;
 import hera.database.types.CommandName;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.TokenKey;
@@ -47,6 +52,47 @@ public class Core {
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
 		hci.startupHCI();
 
+		// on guild join -> Add guild to store if we don't have it already
+		client.getEventDispatcher().on(GuildCreateEvent.class)
+				.flatMap(event -> Flux.fromIterable(STORE.guilds().getAll())
+						.filter(sg -> sg.getSnowflake().equals(event.getGuild().getId().asLong()))
+						.hasElements()
+						.filter(guildExists -> !guildExists)
+						.flatMap(guildExists -> {
+							STORE.guilds().add(new Guild(event.getGuild().getId().asLong()));
+							return Mono.empty();
+						})
+				)
+				.subscribe();
+
+		// on guild join -> Add members of guild to store if we don't have them already
+		client.getEventDispatcher().on(GuildCreateEvent.class)
+				.flatMap(event -> event.getGuild().getMembers()
+						.flatMap(member -> Flux.fromIterable(STORE.users().getAll())
+								.filter(su -> su.getSnowflake().equals(member.getId().asLong()))
+								.hasElements()
+								.filter(memberExists -> !memberExists)
+								.flatMap(memberExists -> {
+									STORE.users().add(new User(member.getId().asLong()));
+									return Mono.empty();
+								})
+						).next()
+				)
+				.subscribe();
+
+		// on user joins guild  -> Add new member to store if we don't have him already
+		client.getEventDispatcher().on(MemberJoinEvent.class)
+				.flatMap(event -> Flux.fromIterable(STORE.users().getAll())
+						.filter(su -> su.getSnowflake().equals(event.getMember().getId().asLong()))
+						.hasElements()
+						.filter(memberExists -> !memberExists)
+						.flatMap(memberExists -> {
+							STORE.users().add(new User(event.getMember().getId().asLong()));
+							return Mono.empty();
+						})
+				)
+				.subscribe();
+
 		// Main event stream. Commands are triggered here
 		client.getEventDispatcher().on(MessageCreateEvent.class)
 				.flatMap(event -> event.getGuild()
@@ -55,7 +101,7 @@ public class Core {
 								.defaultIfEmpty("$")
 								.flatMap(commandPrefix -> Mono.justOrEmpty(event.getMessage().getContent())
 										.filter(content -> content.startsWith(commandPrefix))
-										.flatMap(content -> Mono.justOrEmpty(HeraUtil.getCommandFromMessage(content, commandPrefix))
+										.flatMap(content -> Mono.justOrEmpty(HeraUtil.getCommandFromMessage(content, commandPrefix, guild))
 												.flatMap(command -> Mono.justOrEmpty(event.getMember())
 														.flatMap(member -> event.getMessage().getChannel()
 																.filterWhen(channel -> HeraUtil.checkPermissions(command, member, guild, channel))

@@ -87,7 +87,7 @@ public class HeraCommunicationInterface {
 							break;
 						case "dc":
 						case "disconnect":
-							System.out.println("> disconnect from active guild and channel");
+							System.out.println("< disconnect from active guild and channel");
 							activeGuild = null;
 							activeChannel = null;
 							break;
@@ -104,7 +104,8 @@ public class HeraCommunicationInterface {
 	private void updateMessageDisplay(Member member, String message, boolean includeSelf) {
 		Mono.justOrEmpty(client.getSelfId())
 				.filter(id -> includeSelf || id.asLong() != member.getId().asLong())
-				.subscribe(id -> System.out.println(member.getDisplayName() + " < " + message));
+				.doOnNext(id -> System.out.println(member.getDisplayName() + " < " + message))
+				.subscribe();
 	}
 
 	private void selectGuild(String input) {

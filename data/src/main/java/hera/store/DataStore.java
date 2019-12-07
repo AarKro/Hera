@@ -34,7 +34,7 @@ public class DataStore {
 
 	private TokenAccessUnit tokens;
 
-	private StorageAccessUnit<GuildPO, Guild> guilds;
+	private GuildAccessUnit guilds;
 
 	private StorageAccessUnit<OwnerPO, Owner> owners;
 
@@ -56,7 +56,7 @@ public class DataStore {
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
-		guilds = new StorageAccessUnit<>(GuildPO.ENTITY_NAME);
+		guilds = new GuildAccessUnit();
 		owners = new StorageAccessUnit<>(OwnerPO.ENTITY_NAME);
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
 		LOG.info("DataStore initialised");
@@ -106,7 +106,7 @@ public class DataStore {
 		return tokens;
 	}
 
-	public StorageAccessUnit<GuildPO, Guild> guilds() {
+	public GuildAccessUnit guilds() {
 		return guilds;
 	}
 
