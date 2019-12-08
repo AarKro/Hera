@@ -29,12 +29,12 @@ public class NowPlaying extends AbstractCommand {
         if (track != null) {
             ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "Now playing:", track.getInfo().title + " by "
                     + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
-            LOG.info(e.getAuthor() + " used command np, receiving the following information: Now playing: " + track.getInfo().title + " by "
+            LOG.info(e.getAuthor() + " used commands np, receiving the following information: Now playing: " + track.getInfo().title + " by "
                     + track.getInfo().author + " | " + getFormattedTime(track.getDuration()));
         }
         else {
             ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "No song is playing right now");
-            LOG.debug(e.getAuthor() + " used command np although there was no song playing");
+            LOG.debug(e.getAuthor() + " used commands np although there was no song playing");
         }
         LOG.debug("End of: NowPlaying.execute");
     }

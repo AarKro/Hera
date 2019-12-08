@@ -21,13 +21,13 @@ public class MessageReceivedEventHandler {
 	public void onMessageReceivedEvent(MessageReceivedEvent e) {
 		LOG.debug("Start of: MessageReceivedEventHandler.onMessageReceivedEvent");
 		if (e.getMessage().getContent().startsWith(BotSettings.BOT_PREFIX.getPropertyValue())) {
-			LOG.debug(e.getAuthor() + " has typed a message starting with Heras command prefix");
+			LOG.debug(e.getAuthor() + " has typed a message starting with Heras commands prefix");
 			
 			String message = e.getMessage().getContent().substring(BotSettings.BOT_PREFIX.getPropertyValue().length());
 			HashMap<String, AbstractCommand> hashmap = convertEnumToHashmap();
 			String command = message.split(" ")[0];
 			if (hashmap.containsKey(command)) {
-				LOG.info(e.getAuthor() + " has issued the command " + command);
+				LOG.info(e.getAuthor() + " has issued the commands " + command);
 				LOG.info("Starting execution of \"" + command + "\"");
 				hashmap.get(command).execute(e);
 				LOG.info("Ended execution of \"" + command + "\"");

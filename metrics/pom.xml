@@ -9,7 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>database</artifactId>
-
-
+    <artifactId>metrics</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>hera</groupId>
+            <artifactId>data</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

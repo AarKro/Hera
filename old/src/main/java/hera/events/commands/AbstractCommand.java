@@ -46,7 +46,7 @@ abstract public class AbstractCommand {
 			if(params != null) commandBody(params, e);
 			else MessageSender.getInstance().sendMessage(e.getChannel(), "Invalid usage", "Expected " + numberOfParameters + " parameter(s)");
 
-		} else MessageSender.getInstance().sendMessage(e.getChannel(), "Permission denied", "You don't possess the rights to execute this command");
+		} else MessageSender.getInstance().sendMessage(e.getChannel(), "Permission denied", "You don't possess the rights to execute this commands");
 	}
 
 	private boolean checkUserPermissions(EnumSet<Permissions> userPermissions, List<IRole> userRoles, IGuild guild) {

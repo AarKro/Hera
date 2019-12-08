@@ -30,7 +30,7 @@ public class Resume extends AbstractCommand {
             LOG.info(e.getAuthor() + " resumed the audio player");
         } else {
             ms.sendMessage(BoundChannel.MUSIC.getBoundChannel(), "", "Player is not paused.");
-            LOG.debug(e.getAuthor() + " used command resume although the player is not paused");
+            LOG.debug(e.getAuthor() + " used commands resume although the player is not paused");
         }
         LOG.debug("End of: Resume.execute");
     }

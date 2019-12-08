@@ -31,7 +31,7 @@ public class Move extends AbstractCommand {
             int position = Integer.parseInt(params[1]);
             int queueLength = gapm.getGuildAudioPlayer(e.getGuild()).scheduler.getQueue().length;
 
-            LOG.debug("Relevant parameters for command move: songToMove: " + songToMove + ", position: " + position + ", queueLength: " + queueLength);
+            LOG.debug("Relevant parameters for commands move: songToMove: " + songToMove + ", position: " + position + ", queueLength: " + queueLength);
 
             if (songToMove <= queueLength && songToMove > 0 && position <= queueLength && position > 0) {
 
