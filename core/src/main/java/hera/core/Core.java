@@ -3,15 +3,13 @@ package hera.core;
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
-import discord4j.core.event.domain.guild.GuildDeleteEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import hera.core.commands.Command;
-import hera.core.commands.Uptime;
+import hera.core.commands.Commands;
 import hera.database.entities.mapped.Guild;
 import hera.database.entities.mapped.Token;
 import hera.database.entities.mapped.User;
-import hera.database.types.CommandName;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.TokenKey;
 import org.slf4j.Logger;
@@ -19,9 +17,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static hera.metrics.MetricsLogger.STATS;
 import static hera.store.DataStore.STORE;
@@ -29,12 +25,8 @@ import static hera.store.DataStore.STORE;
 public class Core {
 	private static final Logger LOG = LoggerFactory.getLogger(Core.class);
 
-	private static final Map<CommandName, Command> commands = new HashMap<>();
-
 	public static void main(String[] args) {
 		LOG.info("Starting Hera...");
-
-		STORE.initialise();
 
 		LOG.info("Get discord login token from store");
 		List<Token> loginTokens = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN);
@@ -44,8 +36,10 @@ public class Core {
 			return;
 		}
 
-		LOG.info("Creating command mappings");
-		commands.put(CommandName.UPTIME, Uptime::execute);
+		STORE.initialise();
+
+		LOG.info("Initialising command mappings");
+		Commands.initialise();
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
@@ -111,7 +105,7 @@ public class Core {
 																			// log commands call
 																			STATS.logCallCount(command.getId(), guild.getId().asLong(), member.getId().asLong());
 																			// execute commands
-																			return commands.get(command.getName()).execute(event, guild, member, channel, params);
+																			return Commands.COMMANDS.get(command.getName()).execute(event, guild, member, channel, params);
 																		})
 																)
 														)
