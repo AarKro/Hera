@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Uptime {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return channel.createMessage(getTime(guild)).flatMap(c -> Mono.empty());
+		return channel.createMessage(getTime(guild)).then();
 	}
 
 	private static String getTime(Guild guild) {
