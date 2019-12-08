@@ -6,11 +6,10 @@ import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import hera.core.commands.Command;
-import hera.core.commands.Uptime;
+import hera.core.commands.Commands;
 import hera.database.entities.mapped.Guild;
 import hera.database.entities.mapped.Token;
 import hera.database.entities.mapped.User;
-import hera.database.types.CommandName;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.TokenKey;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class Core {
 		}
 
 		LOG.info("Initialising command mappings");
-		Command.initialise();
+		Commands.initialise();
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
@@ -106,7 +105,7 @@ public class Core {
 																			// log commands call
 																			STATS.logCallCount(command.getId(), guild.getId().asLong(), member.getId().asLong());
 																			// execute commands
-																			return Command.COMMANDS.get(command.getName()).execute(event, guild, member, channel, params);
+																			return Commands.COMMANDS.get(command.getName()).execute(event, guild, member, channel, params);
 																		})
 																)
 														)

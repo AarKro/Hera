@@ -13,12 +13,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface Command {
-
-    Map<CommandName, Command> COMMANDS = new HashMap<>();
-
-    static void initialise() {
-        COMMANDS.put(CommandName.UPTIME, Uptime::execute);
-    }
-
     Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params);
 }
