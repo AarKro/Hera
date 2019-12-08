@@ -21,10 +21,10 @@ INSERT INTO `user` (`snowflake`) VALUES
 (442711068737929216);
 
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `admin`) VALUES
-(1, 'uptime', 'Checks how long Hera has been up and running', 0, 0, 1);
+(1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 1);
 
-INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
-(1, '#DISCORD_LOGIN_TOKEN', 'discord_login', 'Discord bot token for Hera login');
+INSERT INTO `token` (`id`, `token`, `key`, `description`) VALUES
+(1, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
 
 INSERT INTO `localisation` (`language`, `key`, `value`) VALUES
-('en', 'command_uptime', 'I am up and running since the last %s');
+('en', 'COMMAND_UPTIME', 'I am up and running for the last %s');

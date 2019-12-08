@@ -41,7 +41,7 @@ public class Alias extends AbstractCommand {
 			aliasProperties.setProperty(params[0], params[1]);
 		}
 		aliasProperties.save("alias created");
-		LOG.info(e.getAuthor() + " has created alias " + params[1] + " for command " + params[0]);
+		LOG.info(e.getAuthor() + " has created alias " + params[1] + " for commands " + params[0]);
 
 		LOG.debug("End of: Bind.execute");
 	}

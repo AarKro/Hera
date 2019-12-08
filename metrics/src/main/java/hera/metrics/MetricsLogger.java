@@ -1,22 +1,12 @@
 package hera.metrics;
 
-import hera.store.DataStore;
+import static hera.store.DataStore.STORE;
 
 public class MetricsLogger {
 
-	private static final DataStore STORE = DataStore.getInstance();
-
-	private static MetricsLogger instance;
+	public static final MetricsLogger STATS = new MetricsLogger();
 
 	private MetricsLogger() {
-	}
-
-	public static MetricsLogger getInstance() {
-		if (instance == null) {
-			instance = new MetricsLogger();
-		}
-
-		return instance;
 	}
 
 	public void logCallCount(int command, Long user, Long guild) {

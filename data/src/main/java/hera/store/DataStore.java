@@ -1,9 +1,8 @@
 package hera.store;
 
-import hera.database.entity.mapped.*;
-import hera.database.entity.persistence.*;
-import hera.store.unit.CommandMetricsAccessUnit;
-import hera.store.unit.StorageAccessUnit;
+import hera.database.entities.mapped.*;
+import hera.database.entities.persistence.*;
+import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,130 +10,108 @@ public class DataStore {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DataStore.class);
 
-	private static DataStore instance;
+	public static final DataStore STORE = new DataStore();
 
-	private StorageAccessUnit<BindingPO, Binding> bindings;
-
-	private StorageAccessUnit<BindingTypePO, BindingType> bindingTypes;
+	private BindingAccessUnit bindings;
 
 	private CommandMetricsAccessUnit commandMetrics;
 
-	private StorageAccessUnit<CommandPO, Command> commands;
+	private CommandAccessUnit commands;
 
-	private StorageAccessUnit<DefaultRolePO, DefaultRole> defaultRoles;
+	private DefaultRoleAccessUnit defaultRoles;
 
-	private StorageAccessUnit<GlobalSettingsPO, GlobalSettings> globalSettings;
+	private GlobalSettingsAccessUnit globalSettings;
 
-	private StorageAccessUnit<GuildPO, Guild> guilds;
+	private GuildSettingsAccessUnit guildSettings;
 
-	private StorageAccessUnit<GuildSettingsPO, GuildSettings> guildSettings;
+	private LocalisationAccessUnit localisations;
 
-	private StorageAccessUnit<LocalisationPO, Localisation> localisations;
+	private ModuleSettingsAccessUnit moduleSettings;
 
-	private StorageAccessUnit<ModuleSettingsPO, ModuleSettings> moduleSettings;
+	private RoleMemberAccessUnit roleMembers;
+
+	private RoleAccessUnit roles;
+
+	private TokenAccessUnit tokens;
+
+	private GuildAccessUnit guilds;
 
 	private StorageAccessUnit<OwnerPO, Owner> owners;
-
-	private StorageAccessUnit<RoleMemberPO, RoleMember> roleMembers;
-
-	private StorageAccessUnit<RolePO, Role> roles;
-
-	private StorageAccessUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes;
-
-	private StorageAccessUnit<TokenPO, Token> tokens;
 
 	private StorageAccessUnit<UserPO, User> users;
 
 	private DataStore() {
 	}
 
-	public static DataStore getInstance() {
-		if(instance == null) {
-			instance = new DataStore();
-		}
-
-		return instance;
-	}
-
-	public void initialize() {
-		LOG.info("Initializing DataStore");
-		bindings = new StorageAccessUnit<>(BindingPO.ENTITY_NAME);
-		bindingTypes = new StorageAccessUnit<>(BindingTypePO.ENTITY_NAME);
-		commandMetrics = new CommandMetricsAccessUnit(CommandMetricsPO.ENTITY_NAME);
-		commands = new StorageAccessUnit<>(CommandPO.ENTITY_NAME);
-		defaultRoles = new StorageAccessUnit<>(DefaultRolePO.ENTITY_NAME);
-		globalSettings = new StorageAccessUnit<>(GlobalSettingsPO.ENTITY_NAME);
-		guilds = new StorageAccessUnit<>(GuildPO.ENTITY_NAME);
-		guildSettings = new StorageAccessUnit<>(GuildSettingsPO.ENTITY_NAME);
-		localisations = new StorageAccessUnit<>(LocalisationPO.ENTITY_NAME);
-		moduleSettings = new StorageAccessUnit<>(ModuleSettingsPO.ENTITY_NAME);
+	public void initialise() {
+		LOG.info("Initialising DataStore");
+		bindings = new BindingAccessUnit();
+		commandMetrics = new CommandMetricsAccessUnit();
+		commands = new CommandAccessUnit();
+		defaultRoles = new DefaultRoleAccessUnit();
+		globalSettings = new GlobalSettingsAccessUnit();
+		guildSettings = new GuildSettingsAccessUnit();
+		localisations = new LocalisationAccessUnit();
+		moduleSettings = new ModuleSettingsAccessUnit();
+		roleMembers = new RoleMemberAccessUnit();
+		roles = new RoleAccessUnit();
+		tokens = new TokenAccessUnit();
+		guilds = new GuildAccessUnit();
 		owners = new StorageAccessUnit<>(OwnerPO.ENTITY_NAME);
-		roleMembers = new StorageAccessUnit<>(RoleMemberPO.ENTITY_NAME);
-		roles = new StorageAccessUnit<>(RolePO.ENTITY_NAME);
-		snowflakeTypes = new StorageAccessUnit<>(SnowflakeTypePO.ENTITY_NAME);
-		tokens = new StorageAccessUnit<>(TokenPO.ENTITY_NAME);
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
-		LOG.info("DataStore initialized");
+		LOG.info("DataStore initialised");
 	}
 
-	public StorageAccessUnit<BindingPO, Binding> bindings() {
+	public BindingAccessUnit bindings() {
 		return bindings;
-	}
-
-	public StorageAccessUnit<BindingTypePO, BindingType> bindingTypes() {
-		return bindingTypes;
 	}
 
 	public CommandMetricsAccessUnit commandMetrics() {
 		return commandMetrics;
 	}
 
-	public StorageAccessUnit<CommandPO, Command> commands() {
+	public CommandAccessUnit commands() {
 		return commands;
 	}
 
-	public StorageAccessUnit<DefaultRolePO, DefaultRole> defaultRoles() {
+	public DefaultRoleAccessUnit defaultRoles() {
 		return defaultRoles;
 	}
 
-	public StorageAccessUnit<GlobalSettingsPO, GlobalSettings> globalSettings() {
+	public GlobalSettingsAccessUnit globalSettings() {
 		return globalSettings;
 	}
 
-	public StorageAccessUnit<GuildPO, Guild> guilds() {
-		return guilds;
-	}
-
-	public StorageAccessUnit<GuildSettingsPO, GuildSettings> guildSettings() {
+	public GuildSettingsAccessUnit guildSettings() {
 		return guildSettings;
 	}
 
-	public StorageAccessUnit<LocalisationPO, Localisation> localisations() {
+	public LocalisationAccessUnit localisations() {
 		return localisations;
 	}
 
-	public StorageAccessUnit<ModuleSettingsPO, ModuleSettings> moduleSettings() {
+	public ModuleSettingsAccessUnit moduleSettings() {
 		return moduleSettings;
+	}
+
+	public RoleMemberAccessUnit roleMembers() {
+		return roleMembers;
+	}
+
+	public RoleAccessUnit roles() {
+		return roles;
+	}
+
+	public TokenAccessUnit tokens() {
+		return tokens;
+	}
+
+	public GuildAccessUnit guilds() {
+		return guilds;
 	}
 
 	public StorageAccessUnit<OwnerPO, Owner> owners() {
 		return owners;
-	}
-
-	public StorageAccessUnit<RoleMemberPO, RoleMember> roleMembers() {
-		return roleMembers;
-	}
-
-	public StorageAccessUnit<RolePO, Role> roles() {
-		return roles;
-	}
-
-	public StorageAccessUnit<SnowflakeTypePO, SnowflakeType> snowflakeTypes() {
-		return snowflakeTypes;
-	}
-
-	public StorageAccessUnit<TokenPO, Token> tokens() {
-		return tokens;
 	}
 
 	public StorageAccessUnit<UserPO, User> users() {

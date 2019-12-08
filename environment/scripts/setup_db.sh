@@ -3,6 +3,10 @@
 start=$PWD
 script=`dirname "$BASH_SOURCE"`
 cd $script
+
+# set environment variables
+source env_var.sh
+
 cd ../sql
 
 commands=$(mktemp)
