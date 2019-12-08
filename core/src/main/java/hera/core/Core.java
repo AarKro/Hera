@@ -28,8 +28,6 @@ public class Core {
 	public static void main(String[] args) {
 		LOG.info("Starting Hera...");
 
-		STORE.initialise();
-
 		LOG.info("Get discord login token from store");
 		List<Token> loginTokens = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN);
 		if (loginTokens.isEmpty()) {
@@ -37,6 +35,8 @@ public class Core {
 			LOG.error("Terminating startup procedure");
 			return;
 		}
+
+		STORE.initialise();
 
 		LOG.info("Initialising command mappings");
 		Commands.initialise();
