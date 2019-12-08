@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO, CommandMetrics> {
 	private static final Logger LOG = LoggerFactory.getLogger(CommandMetricsAccessUnit.class);
 
-	private static final String INCREMENT_CALL_COUNT = "UPDATE " + CommandMetricsPO.ENTITY_NAME + " c SET c.callCount = :value0 WHERE c.commandFK = :value1 AND c.guildFK = :value2 AND c.userFK = :value3 AND c.date = :value4";
-
 	public CommandMetricsAccessUnit() {
 		super(CommandMetricsPO.ENTITY_NAME);
 	}
@@ -49,11 +47,10 @@ public class CommandMetricsAccessUnit extends StorageAccessUnit<CommandMetricsPO
 			add(cm);
 		} else {
 			CommandMetrics cm = matches.get(0);
-			int newCallCount = cm.getCallCount() + 1;
+			cm.setCallCount(cm.getCallCount() + 1);
 
 			try {
-				dao.query(INCREMENT_CALL_COUNT, newCallCount, command, guild, user, today);
-				cm.setCallCount(newCallCount);
+				dao.update(CommandMetricsPO.class, cm);
 			} catch(Exception e) {
 				LOG.error("Error while trying to increment commands metric");
 				LOG.error("Command: {}, Guild: {}, User: {}, Date: {}", command, guild, user, today.toString());

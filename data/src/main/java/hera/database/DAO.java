@@ -36,7 +36,7 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		Query query = entityManager.createQuery(customQuery);
 
 		for (int i = 0; i < params.length; i++) {
-			if (params[i] instanceof LocalDate) query.setParameter("value" + i, Date.valueOf(((LocalDate) params[i])), TemporalType.DATE);
+			if (params[i] instanceof LocalDate) query.setParameter("value" + i, Date.valueOf((LocalDate) params[i]), TemporalType.DATE);
 			else query.setParameter("value" + i, params[i]);
 		}
 
@@ -105,28 +105,33 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.close();
 	}
 
-	public void delete(Class<T> cl, Long pk) {
+	public void delete(Class<T> cl, M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		T entity = entityManager.find(cl, pk);
+		T entity = entityManager.find(cl, object.mapToPO());
 		if (entity != null) {
 			entityManager.remove(entity);
 			LOG.info("Deleted entity of type {}", cl.getName());
 		} else {
-			LOG.error("No entity found for type {} and primary key {}", cl.getName(), pk);
+			LOG.error("No entity found for type {}", cl.getName());
 		}
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
 	}
 
-	public void update(M object) {
+	public void update(Class<T> cl, M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.merge(object.mapToPO());
-		LOG.info("Merged entity of type {}", object.getClass().getName());
+		T entity = entityManager.find(cl, object.mapToPO());
+		if (entity != null) {
+			entityManager.merge(object.mapToPO());
+			LOG.info("Merged entity of type {}", object.getClass().getName());
+		} else {
+			LOG.error("No entity found for type {}", cl.getName());
+		}
 
 		entityManager.getTransaction().commit();
 		entityManager.close();

@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static hera.store.DataStore.STORE;
 
@@ -25,7 +27,6 @@ public class HeraUtil {
 	private static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
 
 	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
-		if (message.length() < prefix.length()) return null;
 		// Add alias stuff here
 		// message is a complete discord command. (prefix + command + parameters)
 		List<Command> commands = STORE.commands().forName(message.split(" ")[0].substring(prefix.length()));
@@ -35,6 +36,13 @@ public class HeraUtil {
 
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
 		// add modularisation stuff here (get module for guild + command from STORE and check permission for it)
+
+		boolean isOwner = !STORE.owners().getAll().stream()
+			.filter(owner -> owner.getUser().equals(member.getId().asLong()))
+			.collect(Collectors.toList()).isEmpty();
+
+		if (isOwner) return Mono.just(true);
+
 		if (command.isAdmin()) {
 			return member.getBasePermissions()
 					.filter(permissions -> permissions.contains(Permission.ADMINISTRATOR))
@@ -61,17 +69,16 @@ public class HeraUtil {
 		String[] parts = message.split("");
 		List<String> params = new ArrayList<>();
 
-		int i = 1; // start at index 1 so we skip the perfix + command
-		while(i <= command.getParamCount()) {
+		// start at index 1 so we skip the perfix + command
+		for(int i = 1 ; i <= command.getParamCount(); i++) {
 			params.add(parts[i]);
-			i++;
 		}
 
 		if (command.isInfiniteParam()) {
 			StringBuilder multiPartParam = new StringBuilder();
-			for (int j = i; j < parts.length; j++) {
+			for (int i = command.getParamCount() + 1; i < parts.length; i++) {
 				multiPartParam.append(" ");
-				multiPartParam.append(parts[j]);
+				multiPartParam.append(parts[i]);
 			}
 
 			params.add(multiPartParam.toString().trim());
