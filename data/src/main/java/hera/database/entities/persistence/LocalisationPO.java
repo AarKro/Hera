@@ -17,6 +17,7 @@ public class LocalisationPO implements IPersistenceEntity<Localisation>, Seriali
 
 	@Id
 	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private LocalisationKey key;
 
 	private String value;

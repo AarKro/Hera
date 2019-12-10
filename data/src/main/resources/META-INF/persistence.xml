@@ -10,7 +10,7 @@
 
         <class>hera.database.entities.persistence.BindingPO</class>
         <class>hera.database.entities.persistence.CommandPO</class>
-        <class>hera.database.entities.persistence.CommandMetricsPO</class>
+        <class>hera.database.entities.persistence.MetricPO</class>
         <class>hera.database.entities.persistence.DefaultRolePO</class>
         <class>hera.database.entities.persistence.GlobalSettingsPO</class>
         <class>hera.database.entities.persistence.GuildPO</class>

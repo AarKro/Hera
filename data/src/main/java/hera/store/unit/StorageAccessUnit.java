@@ -22,16 +22,14 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 
 	public StorageAccessUnit(String entityName) {
 		dao = new DAO<>(entityName);
-		data = dao.readAll();
 		this.entityName = entityName;
+		updateStore();
 
 		LOG.info("StorageAccessUnit for entity {} created and initialized", entityName);
 	}
 
 	public void updateStore() {
-		LOG.info("Updating store of entity {}", entityName);
 		data = dao.readAll();
-		LOG.info("Store of entity {} updated", entityName);
 	}
 
 	public List<M> getAll() {

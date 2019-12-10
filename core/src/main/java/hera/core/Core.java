@@ -5,7 +5,6 @@ import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import hera.core.commands.Command;
 import hera.core.commands.Commands;
 import hera.database.entities.mapped.Guild;
 import hera.database.entities.mapped.Token;
@@ -28,6 +27,8 @@ public class Core {
 	public static void main(String[] args) {
 		LOG.info("Starting Hera...");
 
+		STORE.initialise();
+
 		LOG.info("Get discord login token from store");
 		List<Token> loginTokens = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN);
 		if (loginTokens.isEmpty()) {
@@ -35,8 +36,6 @@ public class Core {
 			LOG.error("Terminating startup procedure");
 			return;
 		}
-
-		STORE.initialise();
 
 		LOG.info("Initialising command mappings");
 		Commands.initialise();
@@ -87,6 +86,21 @@ public class Core {
 				)
 				.subscribe();
 
+		// log when message is written
+		client.getEventDispatcher().on(MessageCreateEvent.class)
+				.flatMap(event -> event.getGuild()
+						.flatMap(guild -> Mono.justOrEmpty(event.getMember())
+								.flatMap(member -> Mono.justOrEmpty(client.getSelfId())
+										.filter(selfId -> selfId.asLong() != member.getId().asLong())
+										.flatMap(selfId -> {
+											STATS.logMessage(member.getId().asLong(), guild.getId().asLong());
+											return Mono.empty();
+										})
+								)
+						)
+				)
+				.subscribe();
+
 		// Main event stream. Commands are triggered here
 		client.getEventDispatcher().on(MessageCreateEvent.class)
 				.flatMap(event -> event.getGuild()
@@ -103,7 +117,7 @@ public class Core {
 																.flatMap(channel -> Mono.just(HeraUtil.extractParameters(content, command))
 																		.flatMap(params -> {
 																			// log commands call
-																			STATS.logCallCount(command.getId(), guild.getId().asLong(), member.getId().asLong());
+																			STATS.logCommand(command.getId(), member.getId().asLong(), guild.getId().asLong());
 																			// execute commands
 																			return Commands.COMMANDS.get(command.getName()).execute(event, guild, member, channel, params);
 																		})

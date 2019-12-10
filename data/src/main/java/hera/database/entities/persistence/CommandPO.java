@@ -12,7 +12,6 @@ public class CommandPO implements IPersistenceEntity<Command> {
 	public static final String ENTITY_NAME = "CommandPO";
 
 	@Id
-	@GeneratedValue
 	private int id;
 
 	@Enumerated(EnumType.STRING)

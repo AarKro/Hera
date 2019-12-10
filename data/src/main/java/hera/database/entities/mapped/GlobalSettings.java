@@ -29,6 +29,7 @@ public class GlobalSettings implements IMappedEntity<GlobalSettingsPO> {
 
 	public GlobalSettingsPO mapToPO() {
 		return new GlobalSettingsPO(
+				this.id,
 				this.key,
 				this.value
 		);

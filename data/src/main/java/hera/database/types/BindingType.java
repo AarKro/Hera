@@ -1,9 +1,9 @@
 package hera.database.types;
 
 public enum BindingType {
-	MUSIC(1),
-	ANNOUNCEMENT(2),
-	REPORT(3);
+	MUSIC(0),
+	ANNOUNCEMENT(1),
+	REPORT(2);
 
 	private int value;
 
