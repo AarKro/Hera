@@ -12,12 +12,12 @@ public class TokenPO implements IPersistenceEntity<Token> {
 	public static final String ENTITY_NAME = "TokenPO";
 
 	@Id
-	@GeneratedValue
 	private int id;
 
 	private String token;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private TokenKey key;
 
 	private String description;

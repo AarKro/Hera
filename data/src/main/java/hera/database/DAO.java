@@ -2,6 +2,7 @@ package hera.database;
 
 import hera.database.entities.mapped.IMappedEntity;
 import hera.database.entities.persistence.IPersistenceEntity;
+import hera.database.entities.persistence.MetricPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,12 +95,27 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		}
 	}
 
+	public M get(Class<T> cl, M object) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		T entity = entityManager.find(cl, object.mapToPO());
+
+		entityManager.getTransaction().commit();
+		entityManager.close();
+
+		if (entity != null) return entity.mapToNonePO();
+		return null;
+	}
+
 	public void insert(M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		entityManager.persist(object.mapToPO());
-		LOG.info("Persisted entity of type {}", object.getClass().getName());
+		// only log if its not about metrics, else we would just spam our logs
+
+		if (!entityName.equals(MetricPO.ENTITY_NAME)) LOG.info("Persisted entity of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
@@ -131,6 +147,23 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 			LOG.info("Merged entity of type {}", object.getClass().getName());
 		} else {
 			LOG.error("No entity found for type {}", cl.getName());
+		}
+
+		entityManager.getTransaction().commit();
+		entityManager.close();
+	}
+
+	public void upsert(Class<T> cl, M object) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		T entity = entityManager.find(cl, object.mapToPO());
+		if (entity != null) {
+			entityManager.merge(object.mapToPO());
+			LOG.info("Merged entity of type {}", object.getClass().getName());
+		} else {
+			entityManager.persist(object.mapToPO());
+			LOG.info("Persisted entity of type {}", object.getClass().getName());
 		}
 
 		entityManager.getTransaction().commit();

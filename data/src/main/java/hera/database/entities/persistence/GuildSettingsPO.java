@@ -12,12 +12,13 @@ public class GuildSettingsPO implements IPersistenceEntity<GuildSettings> {
 	public static final String ENTITY_NAME = "GuildSettingsPO";
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private Long guildFK;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private GuildSettingKey key;
 
 	private String value;
@@ -25,7 +26,8 @@ public class GuildSettingsPO implements IPersistenceEntity<GuildSettings> {
 	public GuildSettingsPO() {
 	}
 
-	public GuildSettingsPO(Long guildFK, GuildSettingKey key, String value) {
+	public GuildSettingsPO(int id, Long guildFK, GuildSettingKey key, String value) {
+		this.id = id;
 		this.guildFK = guildFK;
 		this.key = key;
 		this.value = value;

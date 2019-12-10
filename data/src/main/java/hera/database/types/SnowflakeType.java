@@ -1,9 +1,9 @@
 package hera.database.types;
 
 public enum SnowflakeType {
-	GUILD(1),
-	CHANNEL(2),
-	USER(3);
+	GUILD(0),
+	CHANNEL(1),
+	USER(2);
 
 	private int value;
 

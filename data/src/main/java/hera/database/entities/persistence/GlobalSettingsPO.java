@@ -12,10 +12,11 @@ public class GlobalSettingsPO  implements IPersistenceEntity<GlobalSettings> {
 	public static final String ENTITY_NAME = "GlobalSettingsPO";
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private GlobalSettingKey key;
 
 	private String value;
@@ -23,7 +24,8 @@ public class GlobalSettingsPO  implements IPersistenceEntity<GlobalSettings> {
 	public GlobalSettingsPO() {
 	}
 
-	public GlobalSettingsPO(GlobalSettingKey key, String value) {
+	public GlobalSettingsPO(int id, GlobalSettingKey key, String value) {
+		this.id = id;
 		this.key = key;
 		this.value = value;
 	}

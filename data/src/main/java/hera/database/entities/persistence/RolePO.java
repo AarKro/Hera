@@ -2,10 +2,7 @@ package hera.database.entities.persistence;
 
 import hera.database.entities.mapped.Role;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "role")
@@ -14,7 +11,7 @@ public class RolePO implements IPersistenceEntity<Role>{
 	public static final String ENTITY_NAME = "RolePO";
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private Long guildFK;

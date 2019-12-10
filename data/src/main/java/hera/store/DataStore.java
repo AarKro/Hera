@@ -14,7 +14,7 @@ public class DataStore {
 
 	private BindingAccessUnit bindings;
 
-	private CommandMetricsAccessUnit commandMetrics;
+	private MetricAccessUnit metrics;
 
 	private CommandAccessUnit commands;
 
@@ -46,7 +46,7 @@ public class DataStore {
 	public void initialise() {
 		LOG.info("Initialising DataStore");
 		bindings = new BindingAccessUnit();
-		commandMetrics = new CommandMetricsAccessUnit();
+		metrics = new MetricAccessUnit();
 		commands = new CommandAccessUnit();
 		defaultRoles = new DefaultRoleAccessUnit();
 		globalSettings = new GlobalSettingsAccessUnit();
@@ -66,8 +66,8 @@ public class DataStore {
 		return bindings;
 	}
 
-	public CommandMetricsAccessUnit commandMetrics() {
-		return commandMetrics;
+	public MetricAccessUnit metrics() {
+		return metrics;
 	}
 
 	public CommandAccessUnit commands() {

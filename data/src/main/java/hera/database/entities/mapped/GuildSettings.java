@@ -33,6 +33,7 @@ public class GuildSettings implements IMappedEntity<GuildSettingsPO> {
 
 	public GuildSettingsPO mapToPO() {
 		return new GuildSettingsPO(
+				this.id,
 				this.guild,
 				this.key,
 				this.value

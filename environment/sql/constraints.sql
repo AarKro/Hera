@@ -2,10 +2,10 @@ ALTER TABLE `binding`
   ADD CONSTRAINT `binding_ibfk_1` FOREIGN KEY (`guildFK`) REFERENCES `guild` (`snowflake`) ON DELETE CASCADE,
   ADD CONSTRAINT `binding_ibfk_2` FOREIGN KEY (`bindingTypeFK`) REFERENCES `binding_type` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `command_metrics`
-  ADD CONSTRAINT `command_metrics_ibfk_1` FOREIGN KEY (`commandFK`) REFERENCES `command` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `command_metrics_ibfk_2` FOREIGN KEY (`guildFK`) REFERENCES `guild` (`snowflake`) ON DELETE CASCADE,
-  ADD CONSTRAINT `command_metrics_ibfk_3` FOREIGN KEY (`userFK`) REFERENCES `user` (`snowflake`) ON DELETE CASCADE;
+ALTER TABLE `metric`
+  ADD CONSTRAINT `metric_ibfk_1` FOREIGN KEY (`commandFK`) REFERENCES `command` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `metric_ibfk_2` FOREIGN KEY (`guildFK`) REFERENCES `guild` (`snowflake`) ON DELETE CASCADE,
+  ADD CONSTRAINT `metric_ibfk_3` FOREIGN KEY (`userFK`) REFERENCES `user` (`snowflake`) ON DELETE CASCADE;
 
 ALTER TABLE `default_role`
   ADD CONSTRAINT `default_role_ibfk_1` FOREIGN KEY (`roleFK`) REFERENCES `role` (`id`) ON DELETE CASCADE,
