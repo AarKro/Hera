@@ -27,6 +27,13 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (3, 'DELETEMESSAGES', 'Deletes the newest channel messages.', 1, 0, 1),
 (4, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
 (5, 'PREFIX', 'Sets command prefix.', 1, 0, 1);
+(6, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
+(7, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
+(8, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
+(9, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 0, 0),
+(10, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
+(11, 'SKIP', 'Skip the current song', 0, 0, 0);
+-- TODO: Change paramCount of PLAY command so it can accept multiple keywords when YouTube integration is implemented
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');

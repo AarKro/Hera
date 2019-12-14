@@ -20,5 +20,10 @@ public class Commands {
 		COMMANDS.put(CommandName.DELETEMESSAGES, DeleteMessages::execute);
 		COMMANDS.put(CommandName.ALIAS, Alias::execute);
 		COMMANDS.put(CommandName.PREFIX, Prefix::execute);
+		COMMANDS.put(CommandName.JOIN, Join::execute);
+		COMMANDS.put(CommandName.PLAY, Play::execute);
+		COMMANDS.put(CommandName.LEAVE, Leave::execute);
+		COMMANDS.put(CommandName.QUEUE, Queue::execute);
+		COMMANDS.put(CommandName.SKIP, Skip::execute);
 	}
 }

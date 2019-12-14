@@ -6,6 +6,7 @@ import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import hera.core.commands.Commands;
+import hera.core.music.HeraAudioManager;
 import hera.database.entities.mapped.Guild;
 import hera.database.entities.mapped.Token;
 import hera.database.entities.mapped.User;
@@ -39,6 +40,9 @@ public class Core {
 
 		LOG.info("Initialising command mappings");
 		Commands.initialise();
+
+		LOG.info("Initialise Hera Audio Player");
+		HeraAudioManager.initialise();
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
