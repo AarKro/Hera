@@ -17,6 +17,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private boolean loopQueue = false;
 
+	private long currentQueueMessageId = 0;
+
 	void queue(AudioPlayer player, AudioTrack track) {
 		queue.add(track);
 
@@ -28,7 +30,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void skip(AudioPlayer player) {
-		// simulate the track ending;
+		// simulate the track ending
 		onTrackEnd(player, player.getPlayingTrack(), AudioTrackEndReason.FINISHED);
 	}
 
@@ -95,5 +97,13 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	public void toggleLoopQueue() {
 		this.loopQueue = !this.loopQueue;
+	}
+
+	public long getCurrentQueueMessageId() {
+		return currentQueueMessageId;
+	}
+
+	public void setCurrentQueueMessageId(long currentQueueMessageId) {
+		this.currentQueueMessageId = currentQueueMessageId;
 	}
 }

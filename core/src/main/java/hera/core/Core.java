@@ -5,7 +5,9 @@ import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.event.domain.message.ReactionAddEvent;
 import hera.core.commands.Commands;
+import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.mapped.Guild;
 import hera.database.entities.mapped.Token;
@@ -102,6 +104,23 @@ public class Core {
 										})
 								)
 						)
+				)
+				.subscribe();
+
+		// Reaction emoji event stream
+		client.getEventDispatcher().on(ReactionAddEvent.class)
+				.flatMap(event -> Mono.justOrEmpty(client.getSelfId())
+					.filter(selfId -> event.getUserId().asLong() != selfId.asLong())
+					.filter(selfId -> event.getMessageId().asLong() == HeraAudioManager.getScheduler().getCurrentQueueMessageId())
+					.flatMap(selfId -> event.getChannel()
+							.flatMap(channel -> event.getMessage()
+									.flatMap(message -> Mono.justOrEmpty(message.getEmbeds().get(0).getFooter())
+											.flatMap(footer -> Mono.justOrEmpty(event.getEmoji().asUnicodeEmoji())
+													.flatMap(unicode -> Queue.executeFromReaction(event, channel, footer.getText(), unicode.getRaw()))
+											)
+									)
+							)
+					)
 				)
 				.subscribe();
 
