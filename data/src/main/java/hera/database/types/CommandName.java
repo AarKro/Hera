@@ -11,5 +11,7 @@ public enum CommandName {
 	PLAY,
 	LEAVE,
 	QUEUE,
-	SKIP;
+	SKIP,
+	LOOPQUEUE,
+	NOWPLAYING;
 }

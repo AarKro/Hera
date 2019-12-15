@@ -33,6 +33,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (9, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 0, 0),
 (10, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
 (11, 'SKIP', 'Skip the current song', 0, 0, 0);
+(12, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
+(13, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0);
 -- TODO: Change paramCount of PLAY command so it can accept multiple keywords when YouTube integration is implemented
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES

@@ -15,6 +15,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private int queueIndex = 0;
 
+	private boolean loopQueue = false;
+
 	void queue(AudioPlayer player, AudioTrack track) {
 		queue.add(track);
 
@@ -26,10 +28,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void skip(AudioPlayer player) {
-		queueIndex++;
-		if (queue.get(queueIndex) != null) {
-			player.playTrack(queue.get(queueIndex));
-		}
+		// simulate the track ending;
+		onTrackEnd(player, player.getPlayingTrack(), AudioTrackEndReason.FINISHED);
 	}
 
 	@Override
@@ -50,10 +50,16 @@ public class TrackScheduler extends AudioEventAdapter {
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
-			queueIndex++;
-			AudioTrack nextTrack = queue.get(queueIndex);
-			if (nextTrack != null) {
-				player.playTrack(nextTrack);
+			if (queue.size() > queueIndex) {
+				queue.set(queueIndex, queue.get(queueIndex).makeClone());
+			}
+
+			if (queue.size() > queueIndex + 1) {
+				queueIndex++;
+				player.playTrack(queue.get(queueIndex));
+			} else if (loopQueue && queue.size() > 0) {
+				queueIndex = 0;
+				player.playTrack(queue.get(queueIndex));
 			}
 		}
 
@@ -81,5 +87,13 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	public int getQueueIndex() {
 		return queueIndex;
+	}
+
+	public boolean isLoopQueue() {
+		return loopQueue;
+	}
+
+	public void toggleLoopQueue() {
+		this.loopQueue = !this.loopQueue;
 	}
 }

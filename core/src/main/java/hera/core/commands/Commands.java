@@ -25,5 +25,7 @@ public class Commands {
 		COMMANDS.put(CommandName.LEAVE, Leave::execute);
 		COMMANDS.put(CommandName.QUEUE, Queue::execute);
 		COMMANDS.put(CommandName.SKIP, Skip::execute);
+		COMMANDS.put(CommandName.LOOPQUEUE, LoopQueue::execute);
+		COMMANDS.put(CommandName.NOWPLAYING, NowPlaying::execute);
 	}
 }

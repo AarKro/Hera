@@ -17,7 +17,7 @@ public class Queue {
 	}
 
 	private static Mono<String> getQueueString() {
-		StringBuilder queueString = new StringBuilder("__Current Queue:__\n\n");
+		StringBuilder queueString = new StringBuilder("> __Current Queue:__\n\n");
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler().getQueue();
 		int queueIndex = HeraAudioManager.getScheduler().getQueueIndex();
 
@@ -43,11 +43,12 @@ public class Queue {
 			queueString.append("*... looks like it's empty ...*\n");
 		}
 
-		queueString.append("\nTotal songs: `");
+		queueString.append("\n> Total songs: `");
 		queueString.append(tracks.size());
 		queueString.append("` | Total duration: `");
 		queueString.append(HeraUtil.getFormattedTime(totalDuration));
-		queueString.append("`");
+		queueString.append("` | Loop queue: ");
+		queueString.append(HeraAudioManager.getScheduler().isLoopQueue() ? "`enabled`" : "`disabled`");
 
 		return Mono.just(queueString.toString());
 	}
