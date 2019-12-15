@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TrackScheduler extends AudioEventAdapter {
 
-	private final List<AudioTrack> queue = new ArrayList<>();
+	private List<AudioTrack> queue = new ArrayList<>();
 
 	private int queueIndex = 0;
 
@@ -32,6 +32,10 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void skip(AudioPlayer player) {
 		// simulate the track ending
 		onTrackEnd(player, player.getPlayingTrack(), AudioTrackEndReason.FINISHED);
+	}
+
+	public void clearQueue() {
+		queue = new ArrayList<>();
 	}
 
 	@Override

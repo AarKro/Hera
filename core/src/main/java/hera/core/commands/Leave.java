@@ -12,6 +12,7 @@ import java.util.List;
 public class Leave {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		HeraAudioManager.dcFromVc(guild);
+		HeraAudioManager.getScheduler().clearQueue();
 		return Mono.empty();
 	}
 }
