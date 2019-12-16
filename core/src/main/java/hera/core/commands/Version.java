@@ -26,7 +26,7 @@ public class Version {
 		List<GlobalSettings> globalSettings = STORE.globalSettings().forKey(GlobalSettingKey.VERSION);
 
 		if (globalSettings.isEmpty()) {
-			return HeraUtil.getLocalisation(HeraUtil.LOCALISATION_GENERAL_ERROR.getKey(), guild).getValue();
+			return HeraUtil.LOCALISATION_GENERAL_ERROR.getValue();
 		}
 
 		return String.format(message.getValue(), globalSettings.get(0).getValue());
