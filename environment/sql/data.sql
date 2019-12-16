@@ -28,3 +28,6 @@ INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_UPTIME', 'I am up and running for the last %s');
+
+INSERT INTO `global_settings` (`id`, `name`, `value`) VALUES
+(0, 'version', '2.0.0-alpha.0');
