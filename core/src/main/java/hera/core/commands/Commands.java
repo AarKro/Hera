@@ -15,5 +15,6 @@ public class Commands {
 	// don't like this
 	public static void initialise() {
 		COMMANDS.put(CommandName.UPTIME, Uptime::execute);
+		COMMANDS.put(CommandName.VERSION, Version::execute);
 	}
 }
