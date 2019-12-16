@@ -1,7 +1,6 @@
 package hera.core.commands;
 
 import hera.database.types.CommandName;
-import hera.database.types.GlobalSettingKey;
 
 import java.util.HashMap;
 import java.util.Map;
