@@ -22,7 +22,8 @@ INSERT INTO `user` (`snowflake`) VALUES
 
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `admin`) VALUES
 (0, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 1),
-(1, 'VERSION', 'Displays current version number', 0, 0, 0);
+(1, 'VERSION', 'Displays current version number', 0, 0, 0),
+(2, 'DELETEMESSAGES', 'Deletes the newest channel messages.', 1, 0, 1);
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
