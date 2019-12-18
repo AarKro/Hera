@@ -36,3 +36,6 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 
 INSERT INTO `global_settings` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');
+
+INSERT INTO `alias` (`id`, `commandFK`, `alias`) VALUES
+(0, 1, 'vers');

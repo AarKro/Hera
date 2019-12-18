@@ -29,3 +29,7 @@ ALTER TABLE `role`
 ALTER TABLE `role_member`
   ADD CONSTRAINT `role_member_ibfk_1` FOREIGN KEY (`roleFK`) REFERENCES `role` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_member_ibfk_2` FOREIGN KEY (`snowflakeTypeFK`) REFERENCES `snowflake_type` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `alias`
+ ADD CONSTRAINT `alias_ibfk_1` FOREIGN KEY (`commandFK`) REFERENCES `command` (`id`) ON DELETE CASCADE,
+ Add CONSTRAINT `alias_ibfk_2` FOREIGN KEY (`guildFK`) REFERENCES `guild` (`snowflake`) ON DELETE CASCADE;
