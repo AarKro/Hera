@@ -5,5 +5,6 @@ public enum CommandName {
 	HELP,
 	VERSION,
 	DELETEMESSAGES,
-	ALIAS;
+	ALIAS,
+    PREFIX;
 }

@@ -19,5 +19,6 @@ public class Commands {
 		COMMANDS.put(CommandName.HELP, Help::execute);
 		COMMANDS.put(CommandName.DELETEMESSAGES, DeleteMessages::execute);
 		COMMANDS.put(CommandName.ALIAS, Alias::execute);
+		COMMANDS.put(CommandName.PREFIX, Prefix::execute);
 	}
 }

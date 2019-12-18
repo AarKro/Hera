@@ -4,10 +4,11 @@ import hera.database.entities.mapped.GuildSettings;
 import hera.database.types.GuildSettingKey;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "guild_settings")
-public class GuildSettingsPO implements IPersistenceEntity<GuildSettings> {
+public class GuildSettingsPO implements IPersistenceEntity<GuildSettings>, Serializable {
 
 	public static final String ENTITY_NAME = "GuildSettingsPO";
 
