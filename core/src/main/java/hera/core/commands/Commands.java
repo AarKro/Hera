@@ -16,5 +16,6 @@ public class Commands {
 	public static void initialise() {
 		COMMANDS.put(CommandName.UPTIME, Uptime::execute);
 		COMMANDS.put(CommandName.VERSION, Version::execute);
+		COMMANDS.put(CommandName.DELETEMESSAGES, DeleteMessages::execute);
 	}
 }

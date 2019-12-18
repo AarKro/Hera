@@ -65,7 +65,7 @@ public class HeraUtil {
 	}
 
 	public static List<String> extractParameters(String message, Command command) {
-		String[] parts = message.split("");
+		String[] parts = message.split( " ");
 		List<String> params = new ArrayList<>();
 
 		// start at index 1 so we skip the perfix + command
