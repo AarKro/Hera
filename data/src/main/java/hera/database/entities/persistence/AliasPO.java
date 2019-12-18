@@ -23,8 +23,7 @@ public class AliasPO implements IPersistenceEntity<Alias> {
     public AliasPO() {
     }
 
-    public AliasPO(int id, int commandFK, String alias, Long guildFK) {
-        this.id = id;
+    public AliasPO(int commandFK, String alias, Long guildFK) {
         this.commandFK = commandFK;
         this.alias = alias;
         this.guildFK = guildFK;
@@ -33,7 +32,6 @@ public class AliasPO implements IPersistenceEntity<Alias> {
     @Override
     public Alias mapToNonePO() {
         return new Alias(
-                this.id,
                 this.commandFK,
                 this.alias,
                 this.guildFK

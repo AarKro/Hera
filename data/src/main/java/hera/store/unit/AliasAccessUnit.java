@@ -12,7 +12,19 @@ public class AliasAccessUnit extends StorageAccessUnit<AliasPO, Alias>{
 		super(AliasPO.ENTITY_NAME);
 	}
 
-	public List<Object> forGuild(Long guild) {
-		return data.stream().filter((b) -> b.getGuild() == null || b.getGuild().equals(guild)).collect(Collectors.toList());
+	public List<Alias> forGuildAndAlias(Long guild, String alias) {
+		return data.stream().filter((a) -> a.getGuild() == null || a.getGuild().equals(guild))
+				.filter((a) -> a.getAlias().equalsIgnoreCase(alias)).collect(Collectors.toList());
+	}
+
+	public List<Alias> forGuild(Long guild) {
+		return data.stream().filter((a) -> a.getGuild() == null || a.getGuild().equals(guild)).collect(Collectors.toList());
+	}
+
+	public boolean exists(int command, String alias, Long guild) {
+		return data.stream().filter((a) -> a.getGuild() == null || a.getGuild().equals(guild))
+				.filter((a) -> a.getCommand() == command)
+				.filter((a) -> a.getAlias().equalsIgnoreCase(alias))
+				.collect(Collectors.toList()).size() > 0;
 	}
 }

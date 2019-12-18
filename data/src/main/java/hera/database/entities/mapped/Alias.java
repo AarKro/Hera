@@ -6,8 +6,6 @@ public class Alias implements  IMappedEntity<AliasPO> {
 
     public static final String NAME = "Alias";
 
-    private int id;
-
     private int command;
 
     private String alias;
@@ -17,8 +15,7 @@ public class Alias implements  IMappedEntity<AliasPO> {
     public Alias() {
     }
 
-    public Alias(int id, int command, String alias, Long guild) {
-        this.id = id;
+    public Alias(int command, String alias, Long guild) {
         this.command = command;
         this.alias = alias;
         this.guild = guild;
@@ -27,19 +24,10 @@ public class Alias implements  IMappedEntity<AliasPO> {
     @Override
     public AliasPO mapToPO() {
         return new AliasPO(
-                this.id,
                 this.command,
                 this.alias,
                 this.guild
         );
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getCommand() {

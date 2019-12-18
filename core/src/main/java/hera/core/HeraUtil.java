@@ -2,6 +2,7 @@ package hera.core;
 
 import discord4j.core.object.entity.*;
 import discord4j.core.object.util.Permission;
+import hera.database.entities.mapped.Alias;
 import hera.database.entities.mapped.Command;
 import hera.database.entities.mapped.GuildSettings;
 import hera.database.entities.mapped.Localisation;
@@ -26,11 +27,19 @@ public class HeraUtil {
 	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
 
 	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
-		// Add alias stuff here
 		// message is a complete discord command. (prefix + command + parameters)
-		List<Command> commands = STORE.commands().forName(message.split(" ")[0].substring(prefix.length()));
-		if (commands.isEmpty()) return null;
-		else return commands.get(0);
+		String commandName = message.split(" ")[0].substring(prefix.length());
+		List<Command> commands = STORE.commands().forName(commandName);
+		if (commands.isEmpty()) {
+			List<Alias> aliases = STORE.alias().forGuildAndAlias(guild.getId().asLong(), commandName);
+			if (aliases.isEmpty()) {
+				return null;
+			} else {
+				return STORE.commands().forId(aliases.get(0).getCommand()).get(0);
+			}
+		} else {
+			return commands.get(0);
+		}
 	}
 
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
