@@ -10,9 +10,12 @@ import reactor.core.publisher.Mono;
 import java.awt.*;
 import java.util.List;
 
-public class Skip {
+public class Clear {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		HeraAudioManager.getScheduler(guild).skip(HeraAudioManager.getPlayer(guild));
-		return Mono.empty();
+		HeraAudioManager.getScheduler(guild).clearQueue();
+		return channel.createMessage(spec -> spec.setEmbed(embed -> {
+			embed.setColor(Color.ORANGE);
+			embed.setDescription("Queue cleared");
+		})).then();
 	}
 }

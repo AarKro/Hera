@@ -1,6 +1,7 @@
 package hera.store.unit;
 
 import hera.database.entities.mapped.GuildSettings;
+import hera.database.entities.mapped.Metric;
 import hera.database.entities.persistence.GuildSettingsPO;
 import hera.database.types.GuildSettingKey;
 import org.slf4j.Logger;

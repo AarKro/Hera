@@ -14,7 +14,7 @@ import java.util.List;
 
 public class NowPlaying {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return getNowPlayingString().flatMap(nowPlayingStringParts -> channel.createMessage(spec -> spec.setEmbed(embed -> {
+		return getNowPlayingString(guild).flatMap(nowPlayingStringParts -> channel.createMessage(spec -> spec.setEmbed(embed -> {
 			embed.setColor(Color.ORANGE);
 			embed.setTitle(nowPlayingStringParts[0]);
 			embed.setDescription(nowPlayingStringParts[1]);
@@ -22,9 +22,9 @@ public class NowPlaying {
 		.then();
 	}
 
-	private static Mono<String[]> getNowPlayingString () {
+	private static Mono<String[]> getNowPlayingString(Guild guild) {
 		String title = "Now Playing";
-		AudioTrack track = HeraAudioManager.getPlayer().getPlayingTrack();
+		AudioTrack track = HeraAudioManager.getPlayer(guild).getPlayingTrack();
 		StringBuilder nowPlayingString = new StringBuilder();
 		if (track != null) {
 			nowPlayingString.append("Author: ");

@@ -5,24 +5,28 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import discord4j.core.object.entity.Guild;
 
 public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler {
 
 	private AudioPlayer player;
 
-	HeraAudioLoadResultHandler(AudioPlayer player) {
+	private Guild guild;
+
+	HeraAudioLoadResultHandler(AudioPlayer player, Guild guild) {
 		this.player = player;
+		this.guild = guild;
 	}
 
 	@Override
 	public void trackLoaded(AudioTrack track) {
-		HeraAudioManager.getScheduler().queue(player, track);
+		HeraAudioManager.getScheduler(guild).queue(player, track);
 	}
 
 	@Override
 	public void playlistLoaded(AudioPlaylist playlist) {
 		for (AudioTrack track : playlist.getTracks()) {
-			HeraAudioManager.getScheduler().queue(player, track);
+			HeraAudioManager.getScheduler(guild).queue(player, track);
 		}
 	}
 

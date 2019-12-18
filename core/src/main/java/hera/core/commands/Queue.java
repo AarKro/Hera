@@ -19,21 +19,21 @@ import java.util.List;
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		// show the queue starting from the page where the currently playing song is in
-		int currentQueueIndex = HeraAudioManager.getScheduler().getQueueIndex() + 1;
+		int currentQueueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex() + 1;
 		int currentPageIndex = currentQueueIndex % 10 == 0 ? currentQueueIndex / 10 : currentQueueIndex / 10 + 1;
 		currentPageIndex = currentPageIndex == 0 ? currentPageIndex : currentPageIndex - 1;
 
-		List<AudioTrack> tracks = HeraAudioManager.getScheduler().getQueue();
+		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
 		List<String> emojis = getEmojis(currentPageIndex, maxPage);
 
-		return writeMessage(currentPageIndex, channel, emojis);
+		return writeMessage(currentPageIndex, channel, emojis, guild);
 	}
 
-	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel channel, String message, String unicode) {
+	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel channel, String message, String unicode, Guild guild) {
 		int currentPageIndex = Integer.parseInt(message.substring(message.indexOf("Page: ") + 6, message.indexOf(" of")));
 		currentPageIndex--;
-		List<AudioTrack> tracks = HeraAudioManager.getScheduler().getQueue();
+		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
 
 		switch(unicode) {
@@ -49,14 +49,14 @@ public class Queue {
 
 		List<String> emojis = getEmojis(currentPageIndex, maxPage);
 
-		return writeMessage(currentPageIndex, channel, emojis);
+		return writeMessage(currentPageIndex, channel, emojis, guild);
 	}
 
-	private static Mono<String[]> getQueueString(int page) {
+	private static Mono<String[]> getQueueString(int page, Guild guild) {
 		String title = "Current Queue";
 
-		List<AudioTrack> tracks = HeraAudioManager.getScheduler().getQueue();
-		int queueIndex = HeraAudioManager.getScheduler().getQueueIndex();
+		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
+		int queueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex();
 
 		StringBuilder queueString = new StringBuilder();
 		for (int i = (10 * page); i < tracks.size() && i < (10 * page + 10); i++) {
@@ -97,7 +97,7 @@ public class Queue {
 		footer.append(" | Total duration: ");
 		footer.append(HeraUtil.getFormattedTime(totalDuration));
 		footer.append(" | Loop queue: ");
-		footer.append(HeraAudioManager.getScheduler().isLoopQueue() ? "enabled" : "disabled");
+		footer.append(HeraAudioManager.getScheduler(guild).isLoopQueue() ? "enabled" : "disabled");
 
 		return Mono.just(new String[]{title, queueString.toString(), footer.toString()});
 	}
@@ -116,15 +116,15 @@ public class Queue {
 		return emojis;
 	}
 
-	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis) {
-		return getQueueString(pageIndex)
+	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
+		return getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> channel.createMessage(spec -> spec.setEmbed(embed -> {
 							embed.setColor(Color.ORANGE);
 							embed.setTitle(queueStringParts[0]);
 							embed.setDescription(queueStringParts[1]);
 							embed.setFooter(queueStringParts[2], null);
 						}))
-						.doOnNext(message -> HeraAudioManager.getScheduler().setCurrentQueueMessageId(message.getId().asLong()))
+						.doOnNext(message -> HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(message.getId().asLong()))
 						.flatMap(m -> Flux.fromIterable(emojis)
 								.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
 								.next()

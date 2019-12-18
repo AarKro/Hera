@@ -35,6 +35,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void clearQueue() {
+		queueIndex = 0;
 		queue = new ArrayList<>();
 	}
 

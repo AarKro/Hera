@@ -8,7 +8,6 @@ import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBu
 import discord4j.core.object.entity.Guild;
 import discord4j.voice.AudioProvider;
 import discord4j.voice.VoiceConnection;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,13 +15,13 @@ public class HeraAudioManager {
 
 	private static final Map<Long, VoiceConnection> CONNECTIONS = new HashMap<>();
 
-	private static AudioProvider provider;
+	private static final Map<Long, TrackScheduler> SCHEDULERS = new HashMap<>();
 
-	private static AudioPlayerManager playerManager;
+	private static final Map<Long, AudioProvider> PROVIDERS = new HashMap<>();
 
-	private static AudioPlayer player;
+	private static final Map<Long, AudioPlayer> PLAYERS = new HashMap<>();
 
-	private static TrackScheduler scheduler;
+	public static AudioPlayerManager playerManager;
 
 	HeraAudioManager() {
 	}
@@ -35,17 +34,53 @@ public class HeraAudioManager {
 		// Allow playerManager to parse remote sources like YouTube links
 		AudioSourceManagers.registerRemoteSources(playerManager);
 		// Create an AudioPlayer so Discord4J can receive audio data
-		player = playerManager.createPlayer();
-
-		provider = new HeraAudioProvider(player);
-
-		scheduler = new TrackScheduler();
-
-		player.addListener(scheduler);
 	}
 
-	public static HeraAudioLoadResultHandler getLoadResultHandler() {
-		return new HeraAudioLoadResultHandler(player);
+	private static TrackScheduler createSchedulerForGuild(Guild guild) {
+		TrackScheduler scheduler = new TrackScheduler();
+		getPlayer(guild).addListener(scheduler);
+		SCHEDULERS.put(guild.getId().asLong(), scheduler);
+		return scheduler;
+	}
+
+	public static TrackScheduler getScheduler(Guild guild) {
+		TrackScheduler scheduler = SCHEDULERS.get(guild.getId().asLong());
+		if (scheduler == null) {
+			scheduler = createSchedulerForGuild(guild);
+		}
+		return scheduler;
+	}
+
+	private static AudioProvider createProviderForGuild(Guild guild) {
+		AudioProvider provider = new HeraAudioProvider(getPlayer(guild));
+		PROVIDERS.put(guild.getId().asLong(), provider);
+		return provider;
+	}
+
+	public static AudioProvider getProvider(Guild guild) {
+		AudioProvider provider = PROVIDERS.get(guild.getId().asLong());
+		if (provider == null) {
+			provider = createProviderForGuild(guild);
+		}
+		return provider;
+	}
+
+	private static AudioPlayer createPlayerForGuild(Guild guild) {
+		AudioPlayer player = playerManager.createPlayer();
+		PLAYERS.put(guild.getId().asLong(), player);
+		return player;
+	}
+
+	public static AudioPlayer getPlayer(Guild guild) {
+		AudioPlayer player = PLAYERS.get(guild.getId().asLong());
+		if (player == null) {
+			player = createPlayerForGuild(guild);
+		}
+		return player;
+	}
+
+	public static HeraAudioLoadResultHandler getLoadResultHandler(Guild guild) {
+		return new HeraAudioLoadResultHandler(getPlayer(guild), guild);
 	}
 
 	public static void addVC(Guild guild, VoiceConnection vc) {
@@ -62,21 +97,5 @@ public class HeraAudioManager {
 
 	public static VoiceConnection getVC(Guild guild) {
 		return CONNECTIONS.get(guild.getId().asLong());
-	}
-
-	public static AudioProvider getProvider() {
-		return provider;
-	}
-
-	public static AudioPlayerManager getPlayerManager() {
-		return playerManager;
-	}
-
-	public static AudioPlayer getPlayer() {
-		return player;
-	}
-
-	public static TrackScheduler getScheduler() {
-		return scheduler;
 	}
 }
