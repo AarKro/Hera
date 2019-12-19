@@ -25,6 +25,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (1, 'VERSION', 'Displays current version number', 0, 0, 0),
 (2, 'HELP', 'Shows this Help page.', 0, 0, 0);
 (3, 'DELETEMESSAGES', 'Deletes the newest channel messages.', 1, 0, 1);
+(4, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1);
+>>>>>>> Added alias to command table
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
