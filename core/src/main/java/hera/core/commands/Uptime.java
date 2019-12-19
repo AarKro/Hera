@@ -18,24 +18,9 @@ public class Uptime {
 	}
 
 	private static String getTime(Guild guild) {
-		Long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-		Long days = uptime / 1000 / 60 / 60 / 24;
-		Long hours = uptime / 1000 / 60 / 60 - (days * 24);
-		Long minutes = uptime / 1000 / 60 - (hours * 60 + (days * 24 * 60));
-		Long seconds = uptime / 1000 - (minutes * 60 + (hours * 60 * 60 + (days * 24 * 60 * 60)));
-
-		String formatted = String.format("%sd %sh %sm %ss", days, hours, minutes, seconds);
-		String[] parts = formatted.split(" ");
-
-		StringBuilder builder = new StringBuilder();
-		for (String part : parts) {
-			if (builder.length() > 0 || part.charAt(0) != '0') {
-				builder.append(part);
-				builder.append(" ");
-			}
-		}
+		String time = HeraUtil.getFormattedTime(ManagementFactory.getRuntimeMXBean().getUptime());
 
 		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_UPTIME, guild);
-		return String.format(message.getValue(), builder.toString().trim());
+		return String.format(message.getValue(), time);
 	}
 }

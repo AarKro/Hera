@@ -20,7 +20,6 @@
 
     <modules>
         <module>core</module>
-        <module>old</module>
         <module>data</module>
         <module>metrics</module>
     </modules>

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,7 +75,7 @@ public class HeraUtil {
 	}
 
 	public static List<String> extractParameters(String message, Command command) {
-		String[] parts = message.split( " ");
+		String[] parts = message.split(" ");
 		List<String> params = new ArrayList<>();
 
 		// start at index 1 so we skip the perfix + command
@@ -128,5 +129,27 @@ public class HeraUtil {
 
 	public static Flux<Member> getDiscordUser(Guild guild, Long user) {
 		return guild.getMembers().filter(member -> user.equals(member.getId().asLong()));
+	}
+
+	public static String getFormattedTime(long time) {
+		long days = time / 1000 / 60 / 60 / 24;
+		long hours = time / 1000 / 60 / 60 - (days * 24);
+		long minutes = time / 1000 / 60 - (hours * 60 + (days * 24 * 60));
+		long seconds = time / 1000 - (minutes * 60 + (hours * 60 * 60 + (days * 24 * 60 * 60)));
+
+		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return "0";
+
+		String formatted = String.format("%sd %sh %sm %ss", days, hours, minutes, seconds);
+		String[] parts = formatted.split(" ");
+
+		StringBuilder builder = new StringBuilder();
+		for (String part : parts) {
+			if (builder.length() > 0 || part.charAt(0) != '0') {
+				builder.append(part);
+				builder.append(" ");
+			}
+		}
+
+		return builder.toString().trim();
 	}
 }
