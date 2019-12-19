@@ -4,5 +4,6 @@ public enum LocalisationKey {
 	COMMAND_UPTIME,
 	COMMAND_VERSION,
 	COMMAND_HELP,
-	ERROR
+	COMMAND_PREFIX,
+	ERROR;
 }

@@ -108,17 +108,20 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		return null;
 	}
 
-	public void insert(M object) {
+	public M insert(M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.persist(object.mapToPO());
+		T po = object.mapToPO();
+		entityManager.persist(po);
 		// only log if its not about metrics, else we would just spam our logs
 
 		if (!entityName.equals(MetricPO.ENTITY_NAME)) LOG.info("Persisted entity of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
+
+		return po.mapToNonePO();
 	}
 
 	public void delete(Class<T> cl, M object) {
@@ -137,11 +140,11 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.close();
 	}
 
-	public void update(Class<T> cl, M object) {
+	public void update(Class<T> cl, M object, int id) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		T entity = entityManager.find(cl, object.mapToPO());
+		T entity = entityManager.find(cl, id);
 		if (entity != null) {
 			entityManager.merge(object.mapToPO());
 			LOG.info("Merged entity of type {}", object.getClass().getName());
