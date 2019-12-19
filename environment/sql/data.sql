@@ -32,7 +32,7 @@ INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_UPTIME', 'I am up and running for the last %s'),
 ('en', 'COMMAND_VERSION', 'I am running on version %s'),
-('en', 'COMMAND_HELP', 'Commands:');
+('en', 'COMMAND_HELP', 'Commands');
 
 INSERT INTO `global_settings` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');
