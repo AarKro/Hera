@@ -4,5 +4,6 @@ public enum CommandName {
 	UPTIME,
 	HELP,
 	VERSION,
-	DELETEMESSAGES;
+	DELETEMESSAGES,
+	ALIAS;
 }

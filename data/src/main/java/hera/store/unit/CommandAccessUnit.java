@@ -20,4 +20,8 @@ public class CommandAccessUnit extends StorageAccessUnit<CommandPO, Command> {
 	public List<Command> forName(String name) {
 		return data.stream().filter((c) -> c.getName().name().equals(name.toUpperCase())).collect(Collectors.toList());
 	}
+
+	public List<Command> forId(int id) {
+		return data.stream().filter((c) -> c.getId() == id).collect(Collectors.toList());
+	}
 }

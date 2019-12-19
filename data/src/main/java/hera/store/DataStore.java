@@ -12,6 +12,8 @@ public class DataStore {
 
 	public static final DataStore STORE = new DataStore();
 
+	private AliasAccessUnit alias;
+
 	private BindingAccessUnit bindings;
 
 	private MetricAccessUnit metrics;
@@ -45,6 +47,7 @@ public class DataStore {
 
 	public void initialise() {
 		LOG.info("Initialising DataStore");
+		alias = new AliasAccessUnit();
 		bindings = new BindingAccessUnit();
 		metrics = new MetricAccessUnit();
 		commands = new CommandAccessUnit();
@@ -61,6 +64,8 @@ public class DataStore {
 		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
 		LOG.info("DataStore initialised");
 	}
+
+	public AliasAccessUnit alias() { return alias;}
 
 	public BindingAccessUnit bindings() {
 		return bindings;
