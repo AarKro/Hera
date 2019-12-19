@@ -26,7 +26,7 @@ public class Alias {
         int commandId = STORE.commands().forName(params.get(0)).get(0).getId();
         String alias = params.get(1);
 
-        if (!STORE.alias().exists(commandId, alias, guild.getId().asLong())) {
+        if (!STORE.alias().exists(alias, guild.getId().asLong())) {
             STORE.alias().add(new hera.database.entities.mapped.Alias(commandId, alias, guild.getId().asLong()));
         }
 
