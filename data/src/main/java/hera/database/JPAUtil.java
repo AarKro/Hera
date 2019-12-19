@@ -29,7 +29,7 @@ public class JPAUtil {
 						configOverrides.put("javax.persistence.jdbc.password", env.get(envName));
 						break;
 					case "HERA_DB_URL":
-						configOverrides.put("javax.persistence.jdbc.url", env.get(envName));
+						configOverrides.put("javax.persistence.jdbc.url", env.get(envName) + "?serverTimezone=UTC");
 						break;
 				}
 			}
