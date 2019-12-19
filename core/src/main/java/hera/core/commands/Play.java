@@ -11,6 +11,6 @@ import java.util.List;
 
 public class Play {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return Mono.justOrEmpty(HeraAudioManager.playerManager.loadItem(params.get(0), HeraAudioManager.getLoadResultHandler(guild))).then();
+		return Mono.justOrEmpty(HeraAudioManager.playerManager.loadItem(params.get(0), HeraAudioManager.getLoadResultHandler(guild, channel))).then();
 	}
 }

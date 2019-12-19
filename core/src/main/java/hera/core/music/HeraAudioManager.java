@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.MessageChannel;
 import discord4j.voice.AudioProvider;
 import discord4j.voice.VoiceConnection;
 import java.util.HashMap;
@@ -33,7 +34,6 @@ public class HeraAudioManager {
 		playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
 		// Allow playerManager to parse remote sources like YouTube links
 		AudioSourceManagers.registerRemoteSources(playerManager);
-		// Create an AudioPlayer so Discord4J can receive audio data
 	}
 
 	private static TrackScheduler createSchedulerForGuild(Guild guild) {
@@ -79,8 +79,8 @@ public class HeraAudioManager {
 		return player;
 	}
 
-	public static HeraAudioLoadResultHandler getLoadResultHandler(Guild guild) {
-		return new HeraAudioLoadResultHandler(getPlayer(guild), guild);
+	public static HeraAudioLoadResultHandler getLoadResultHandler(Guild guild, MessageChannel channel) {
+		return new HeraAudioLoadResultHandler(getPlayer(guild), guild, channel);
 	}
 
 	public static void addVC(Guild guild, VoiceConnection vc) {

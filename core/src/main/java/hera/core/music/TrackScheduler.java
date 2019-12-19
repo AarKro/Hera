@@ -11,13 +11,20 @@ import java.util.List;
 
 public class TrackScheduler extends AudioEventAdapter {
 
-	private List<AudioTrack> queue = new ArrayList<>();
+	private List<AudioTrack> queue;
 
-	private int queueIndex = 0;
+	private int queueIndex;
 
-	private boolean loopQueue = false;
+	private boolean loopQueue;
 
-	private long currentQueueMessageId = 0;
+	private long currentQueueMessageId;
+
+	TrackScheduler() {
+		this.queue = new ArrayList<>();
+		this.queueIndex = 0;
+		this.loopQueue = false;
+		this.currentQueueMessageId = 0;
+	}
 
 	void queue(AudioPlayer player, AudioTrack track) {
 		queue.add(track);
