@@ -28,7 +28,7 @@
             <property name="javax.persistence.jdbc.url" value="HERA_DB_URL" />
             <property name="javax.persistence.jdbc.user" value="HERA_DB_USER" />
             <property name="javax.persistence.jdbc.password" value="HERA_DB_PWD" />
-            <property name = "hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
         </properties>
 
     </persistence-unit>
