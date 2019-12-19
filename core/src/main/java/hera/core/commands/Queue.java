@@ -19,9 +19,8 @@ import java.util.List;
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		// show the queue starting from the page where the currently playing song is in
-		int currentQueueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex() + 1;
-		int currentPageIndex = currentQueueIndex % 10 == 0 ? currentQueueIndex / 10 : currentQueueIndex / 10 + 1;
-		currentPageIndex = currentPageIndex == 0 ? currentPageIndex : currentPageIndex - 1;
+		int currentQueueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex() ;
+		int currentPageIndex = currentQueueIndex / 10;
 
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
