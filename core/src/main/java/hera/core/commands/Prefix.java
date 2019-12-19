@@ -12,6 +12,7 @@ import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 import static hera.store.DataStore.STORE;
 
+import java.awt.*;
 import java.util.List;
 
 public class Prefix {
@@ -19,6 +20,9 @@ public class Prefix {
 		GuildSettings guildSettings = new GuildSettings(guild.getId().asLong(), GuildSettingKey.COMMAND_PREFIX, params.get(0));
 		STORE.guildSettings().upsert(guildSettings);
 		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PREFIX, guild);
-		return channel.createMessage(String.format(message.getValue(), guildSettings.getValue())).then();
+		return channel.createMessage(spec -> spec.setEmbed(embed -> {
+			embed.setColor(Color.ORANGE);
+			embed.setDescription(String.format(message.getValue(), guildSettings.getValue()));
+		})).then();
 	}
 }
