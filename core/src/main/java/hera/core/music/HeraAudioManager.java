@@ -24,7 +24,7 @@ public class HeraAudioManager {
 
 	public static AudioPlayerManager playerManager;
 
-	HeraAudioManager() {
+	private HeraAudioManager() {
 	}
 
 	public static void initialise() {
