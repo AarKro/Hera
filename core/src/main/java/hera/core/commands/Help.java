@@ -31,12 +31,11 @@ public class Help {
 
 	private static String getHelp(Guild guild) {
 
-		List<GlobalSettings> globalSettings = STORE.globalSettings().forKey(GlobalSettingKey.VERSION);
 		List<Integer> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream().filter(ms -> !ms.isEnabled()).map(ModuleSettings::getCommand).collect(Collectors.toList());
 		List<Command> command = STORE.commands().getAll();
 
 		//NOTE this might be a problem later on (Integer compare)
-		List<String> commandStrings = command.stream().filter(cmd -> !disabledCommands.contains(cmd.getId())).map(cmd -> String.format("-%s", cmd.getName().name().toLowerCase())).collect(Collectors.toList());
+		List<String> commandStrings = command.stream().filter(cmd -> !disabledCommands.contains(cmd.getId())).map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase())).collect(Collectors.toList());
 
 		StringBuilder helpStringBuilder = new StringBuilder();
 		for (String commandString : commandStrings) {
