@@ -22,7 +22,6 @@ public class Version {
 
 	private static String getVersion(Guild guild) {
 		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VERSION, guild);
-
 		List<GlobalSettings> globalSettings = STORE.globalSettings().forKey(GlobalSettingKey.VERSION);
 
 		if (globalSettings.isEmpty()) {
