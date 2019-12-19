@@ -108,17 +108,20 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		return null;
 	}
 
-	public void insert(M object) {
+	public M insert(M object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		entityManager.persist(object.mapToPO());
+		T po = object.mapToPO();
+		entityManager.persist(po);
 		// only log if its not about metrics, else we would just spam our logs
 
 		if (!entityName.equals(MetricPO.ENTITY_NAME)) LOG.info("Persisted entity of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
+
+		return po.mapToNonePO();
 	}
 
 	public void delete(Class<T> cl, M object) {

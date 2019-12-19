@@ -30,14 +30,11 @@ public class GuildSettingsAccessUnit extends StorageAccessUnit<GuildSettingsPO, 
 
 	public void upsert(GuildSettings guildSettings) {
 		try {
-			List<GuildSettings> foundGuildSettings = this.forGuildAndKey(guildSettings.getGuild(), guildSettings.getKey());
+			List<GuildSettings> foundGuildSettings = forGuildAndKey(guildSettings.getGuild(), guildSettings.getKey());
 
 			if (foundGuildSettings.isEmpty()) {
-				dao.insert(guildSettings);
-				List<GuildSettings> newGuildSettings = this.forGuildAndKey(guildSettings.getGuild(), guildSettings.getKey());
-
-				//TODO problem, entity is added to list without id
-				data.add(guildSettings);
+				GuildSettings gs = dao.insert(guildSettings);
+				data.add(gs);
 			} else {
 				foundGuildSettings.get(0).setValue(guildSettings.getValue());
 				dao.update(GuildSettingsPO.class, foundGuildSettings.get(0), foundGuildSettings.get(0).getId());
