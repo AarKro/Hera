@@ -42,7 +42,6 @@ public class HeraUtil {
 	}
 
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
-		// add modularisation stuff here (get module for guild + command from STORE and check permission for it)
 
 		boolean isOwner = !STORE.owners().getAll().stream()
 				.filter(owner -> owner.getUser().equals(member.getId().asLong()))
@@ -51,7 +50,7 @@ public class HeraUtil {
 		if (isOwner) return Mono.just(true);
 
 		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command.getId());
-		ModuleSettings ms = msList.size() > 0 ? msList.get(0) : null;
+		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
 		if (ms == null || ms.isEnabled()) {
 			if (command.isAdmin()) {
 				return member.getBasePermissions()

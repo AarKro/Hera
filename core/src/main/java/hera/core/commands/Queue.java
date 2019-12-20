@@ -11,7 +11,6 @@ import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.mapped.Localisation;
 import hera.database.types.LocalisationKey;
-import net.bytebuddy.asm.Advice;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -94,9 +93,9 @@ public class Queue {
 
 		LocalisationKey enabledDisabled;
 		if (HeraAudioManager.getScheduler(guild).isLoopQueue()) {
-			enabledDisabled = LocalisationKey.ENABLED;
+			enabledDisabled = LocalisationKey.COMMON_ENABLED;
 		} else {
-			enabledDisabled = LocalisationKey.DISABLED;
+			enabledDisabled = LocalisationKey.COMMON_DISABLED;
 		}
 
 		Localisation loopQueue = HeraUtil.getLocalisation(enabledDisabled, guild);
