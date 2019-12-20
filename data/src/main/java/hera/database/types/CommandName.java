@@ -16,5 +16,6 @@ public enum CommandName {
 	NOWPLAYING,
 	CLEAR,
 	RESUME,
-	PAUSE;
+	PAUSE,
+	TOGGLECOMMAND;
 }

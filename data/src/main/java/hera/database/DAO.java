@@ -140,6 +140,22 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		entityManager.close();
 	}
 
+	public void update(Class<T> cl, M object) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		T entity = entityManager.find(cl, object.mapToPO());
+		if (entity != null) {
+			entityManager.merge(object.mapToPO());
+			LOG.info("Merged entity of type {}", object.getClass().getName());
+		} else {
+			LOG.error("No entity found for type {}", cl.getName());
+		}
+
+		entityManager.getTransaction().commit();
+		entityManager.close();
+	}
+
 	public void update(Class<T> cl, M object, int id) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();

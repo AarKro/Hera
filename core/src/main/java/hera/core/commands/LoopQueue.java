@@ -19,9 +19,9 @@ public class LoopQueue {
 
 		LocalisationKey enabledDisabled;
 		if (HeraAudioManager.getScheduler(guild).isLoopQueue()) {
-			enabledDisabled = LocalisationKey.ENABLED;
+			enabledDisabled = LocalisationKey.COMMON_ENABLED;
 		} else {
-			enabledDisabled = LocalisationKey.DISABLED;
+			enabledDisabled = LocalisationKey.COMMON_DISABLED;
 		}
 		Localisation loopQueue = HeraUtil.getLocalisation(LocalisationKey.COMMAND_LOOPQUEUE, guild);
 		Localisation state = HeraUtil.getLocalisation(enabledDisabled, guild);

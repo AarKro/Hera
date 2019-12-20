@@ -30,5 +30,6 @@ public class Commands {
 		COMMANDS.put(CommandName.CLEAR, Clear::execute);
 		COMMANDS.put(CommandName.RESUME, Resume::execute);
 		COMMANDS.put(CommandName.PAUSE, Pause::execute);
+		COMMANDS.put(CommandName.TOGGLECOMMAND, ToggleCommand::execute);
 	}
 }
