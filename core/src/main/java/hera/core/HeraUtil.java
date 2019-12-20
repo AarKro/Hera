@@ -48,7 +48,7 @@ public class HeraUtil {
 				.filter(owner -> owner.getUser().equals(member.getId().asLong()))
 				.collect(Collectors.toList()).isEmpty();
 
-		//if (isOwner) return Mono.just(true);
+		if (isOwner) return Mono.just(true);
 
 		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command.getId());
 		ModuleSettings ms = msList.size() > 0 ? msList.get(0) : null;
