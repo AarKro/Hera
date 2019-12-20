@@ -8,6 +8,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.database.entities.mapped.Localisation;
+import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
 
 import java.awt.*;
@@ -28,10 +30,12 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 
 	@Override
 	public void trackLoaded(AudioTrack track) {
+		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
+
 		HeraAudioManager.getScheduler(guild).queue(player, track);
 		channel.createMessage(spec -> spec.setEmbed(embed -> {
 			embed.setColor(Color.ORANGE);
-			embed.setTitle("Added to queue");
+			embed.setTitle(local.getValue());
 			embed.setDescription(
 					track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
 					+ track.getInfo().title + "](" + track.getInfo().uri + ")"
@@ -42,16 +46,19 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 
 	@Override
 	public void playlistLoaded(AudioPlaylist playlist) {
+		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
+		Localisation desc = HeraUtil.getLocalisation(LocalisationKey.PLAYLIST_LOADED, guild);
+
 		Flux.fromIterable(playlist.getTracks())
 				.doOnNext(track -> HeraAudioManager.getScheduler(guild).queue(player, track))
 				.map(AudioTrack::getDuration)
 				.reduce(((accumulation, duration) -> accumulation + duration))
 				.flatMap(totalDuration -> channel.createMessage(spec -> spec.setEmbed(embed -> {
 					embed.setColor(Color.ORANGE);
-					embed.setTitle("Added to queue");
+					embed.setTitle(title.getValue());
 					embed.setDescription(
-							playlist.getName() + "\nTotal songs: `" + playlist.getTracks().size()
-									+ "` | Total duration: `" + HeraUtil.getFormattedTime(totalDuration) + "`"
+							playlist.getName() + "\n" +
+							String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`")
 					);
 				})))
 				.subscribe();

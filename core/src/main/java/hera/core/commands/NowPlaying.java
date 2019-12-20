@@ -7,6 +7,8 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
+import hera.database.entities.mapped.Localisation;
+import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
@@ -23,11 +25,11 @@ public class NowPlaying {
 	}
 
 	private static Mono<String[]> getNowPlayingString(Guild guild) {
-		String title = "Now Playing";
+		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_NOWPLAYING_TITLE, guild);
 		AudioTrack track = HeraAudioManager.getPlayer(guild).getPlayingTrack();
 		StringBuilder nowPlayingString = new StringBuilder();
+		String message;
 		if (track != null) {
-			nowPlayingString.append("Author: ");
 			nowPlayingString.append(track.getInfo().author);
 			nowPlayingString.append("\n[");
 			nowPlayingString.append(track.getInfo().title);
@@ -48,10 +50,13 @@ public class NowPlaying {
 			nowPlayingString.append("`**|** `");
 			nowPlayingString.append(HeraUtil.getFormattedTime(track.getDuration()));
 			nowPlayingString.append("`");
+
+			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_NOWPLAYING, guild);
+			message = String.format(local.getValue(), nowPlayingString.toString());
 		} else {
-			nowPlayingString.append("No song is playing right now...");
+			message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_NOWPLAYING_NO_SONG, guild).getValue();
 		}
 
-		return Mono.just(new String[] {title, nowPlayingString.toString()});
+		return Mono.just(new String[] {title.getValue(), message});
 	}
 }

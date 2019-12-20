@@ -4,7 +4,10 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
+import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
+import hera.database.entities.mapped.Localisation;
+import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
@@ -21,11 +24,12 @@ public class Resume {
 	}
 
 	private static Mono<String> resumePlayer(Guild guild) {
-		String message = "Player resumed";
+		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_RESUMED, guild);
+		String message = local.getValue();
 		if (HeraAudioManager.getPlayer(guild).isPaused()) {
 			HeraAudioManager.getPlayer(guild).setPaused(false);
 		} else {
-			message = "Player is already resumed";
+			message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_RESUMED_ERROR, guild).getValue();
 		}
 
 		return Mono.just(message);

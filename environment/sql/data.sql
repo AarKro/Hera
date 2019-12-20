@@ -46,7 +46,24 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_UPTIME', 'I am up and running for the last %s'),
 ('en', 'COMMAND_VERSION', 'I am running on version %s'),
 ('en', 'COMMAND_HELP', 'Commands'),
-('en', 'COMMAND_PREFIX', 'Prefix set to: %s');
+('en', 'COMMAND_PREFIX', 'Prefix set to: %s'),
+('en', 'COMMAND_PLAY_TITLE', 'Add to queue'),
+('en', 'COMMAND_RESUMED', 'Player resumed'),
+('en', 'COMMAND_RESUMED_ERROR', 'Player is already resumed'),
+('en', 'COMMAND_PAUSED', 'Player paused'),
+('en', 'COMMAND_PAUSED_ERROR', 'Player is already paused'),
+('en', 'COMMAND_QUEUE_TITLE', 'Current queue'),
+('en', 'COMMAND_QUEUE_EMPTY', 'looks like it\'s empty'),
+('en', 'COMMAND_QUEUE_FOOTER', 'Page: %s of %s | Total songs: %s | Total duration: %s | Loop queue: %s'),
+('en', 'ENABLED', 'enabled'),
+('en', 'DISABLED', 'disabled'),
+('en', 'COMMAND_NOWPLAYING', 'Author: %s'),
+('en', 'COMMAND_NOWPLAYING_NO_SONG', 'No song is playing right now...'),
+('en', 'COMMAND_NOWPLAYING_TITLE', 'Now playing'),
+('en', 'COMMAND_JOIN', 'You need to be in a voice channel to use this command'),
+('en', 'COMMAND_LOOPQUEUE', 'Loop queue %s'),
+('en', 'PLAYLIST_LOADED', 'Total songs: %s | Total duration: %s'),
+('en', 'COMMAND_CLEAR', 'Queue cleared');
 
 INSERT INTO `global_settings` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');

@@ -4,7 +4,10 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
+import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
+import hera.database.entities.mapped.Localisation;
+import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
@@ -21,11 +24,12 @@ public class Pause {
 	}
 
 	private static Mono<String> pausePlayer(Guild guild) {
-		String message = "Player paused";
+		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PAUSED, guild);
+		String message = local.getValue();
 		if (!HeraAudioManager.getPlayer(guild).isPaused()) {
 			HeraAudioManager.getPlayer(guild).setPaused(true);
 		} else {
-			message = "Player is already paused";
+			message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PAUSED_ERROR, guild).getValue();
 		}
 
 		return Mono.just(message);

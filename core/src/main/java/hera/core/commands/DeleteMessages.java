@@ -3,6 +3,7 @@ package hera.core.commands;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
+import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import reactor.core.publisher.Mono;
@@ -19,7 +20,7 @@ public class DeleteMessages {
 			return channel.getLastMessage()
 					.flatMap(message -> channel.getMessagesBefore(message.getId())
 							.take(deleteAmount)
-							.flatMap(msg -> msg.delete())
+							.flatMap(Message::delete)
 							.next()
 							.then(message.delete())
 					).then();
