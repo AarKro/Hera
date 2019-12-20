@@ -31,5 +31,6 @@ public class Commands {
 		COMMANDS.put(CommandName.RESUME, Resume::execute);
 		COMMANDS.put(CommandName.PAUSE, Pause::execute);
 		COMMANDS.put(CommandName.TOGGLECOMMAND, ToggleCommand::execute);
+		COMMANDS.put(CommandName.VOLUME, Volume::execute);
 	}
 }

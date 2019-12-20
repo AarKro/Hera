@@ -9,8 +9,14 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.voice.AudioProvider;
 import discord4j.voice.VoiceConnection;
+import hera.database.entities.mapped.GuildSettings;
+import hera.database.types.GuildSettingKey;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static hera.store.DataStore.STORE;
 
 public class HeraAudioManager {
 
@@ -67,6 +73,11 @@ public class HeraAudioManager {
 
 	private static AudioPlayer createPlayerForGuild(Guild guild) {
 		AudioPlayer player = playerManager.createPlayer();
+		List<GuildSettings> guildSettings = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.VOLUME);
+		if (!guildSettings.isEmpty()) {
+			Integer volume = Integer.parseInt(guildSettings.get(0).getValue());
+			player.setVolume(volume);
+		}
 		PLAYERS.put(guild.getId().asLong(), player);
 		return player;
 	}
