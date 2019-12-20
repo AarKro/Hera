@@ -75,4 +75,9 @@ INSERT INTO `global_settings` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');
 
 INSERT INTO `alias` (`id`, `commandFK`, `alias`) VALUES
-(0, 1, 'vers');
+(1, 8, 'p'),
+(2, 9, 'q'),
+(3, 12, 'np'),
+(4, 11, 'lq'),
+(5, 13, 'clr'),
+(6, 3, 'delmsg');
