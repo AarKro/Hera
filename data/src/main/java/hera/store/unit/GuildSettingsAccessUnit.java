@@ -15,7 +15,7 @@ public class GuildSettingsAccessUnit extends StorageAccessUnit<GuildSettingsPO, 
 	public GuildSettingsAccessUnit() {
 		super(GuildSettingsPO.ENTITY_NAME);
 	}
-	private static final Logger LOG = LoggerFactory.getLogger(StorageAccessUnit.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GuildSettingsAccessUnit.class);
 
 	public List<GuildSettings> forGuild(Long guild) {
 		return data.stream().filter((g) -> g.getGuild().equals(guild)).collect(Collectors.toList());

@@ -12,12 +12,12 @@ public class ModuleSettings implements IMappedEntity<ModuleSettingsPO> {
 
 	private boolean enabled;
 
-	private int role;
+	private Integer role;
 
 	public ModuleSettings() {
 	}
 
-	public ModuleSettings(Long guild, int command, boolean enabled, int role) {
+	public ModuleSettings(Long guild, int command, boolean enabled, Integer role) {
 		this.guild = guild;
 		this.command = command;
 		this.enabled = enabled;
@@ -57,11 +57,11 @@ public class ModuleSettings implements IMappedEntity<ModuleSettingsPO> {
 		this.enabled = enabled;
 	}
 
-	public int getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 }

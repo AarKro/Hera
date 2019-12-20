@@ -36,7 +36,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (12, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0),
 (13, 'CLEAR', 'Clear the music queue', 0, 0, 0),
 (14, 'RESUME', 'Resume the music player', 0, 0, 0),
-(15, 'PAUSE', 'Pause the music player', 0, 0, 0);
+(15, 'PAUSE', 'Pause the music player', 0, 0, 0),
+(16, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1);
 -- TODO: Change paramCount of PLAY command so it can accept multiple keywords when YouTube integration is implemented
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
@@ -64,6 +65,8 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_LOOPQUEUE', 'Loop queue %s'),
 ('en', 'PLAYLIST_LOADED', 'Total songs: %s | Total duration: %s'),
 ('en', 'COMMAND_CLEAR', 'Queue cleared');
+('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on.'),
+('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off.');
 
 INSERT INTO `global_settings` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');

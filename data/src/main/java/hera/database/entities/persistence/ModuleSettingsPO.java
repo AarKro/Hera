@@ -21,7 +21,7 @@ public class ModuleSettingsPO implements IPersistenceEntity<ModuleSettings>, Ser
 
 	private boolean enabled;
 
-	private int roleFK;
+	private Integer roleFK;
 
 	public ModuleSettingsPO() {
 	}
@@ -32,7 +32,7 @@ public class ModuleSettingsPO implements IPersistenceEntity<ModuleSettings>, Ser
 		this.enabled = enabled;
 	}
 
-	public ModuleSettingsPO(Long guildFK, int commandFK, boolean enabled, int roleFK) {
+	public ModuleSettingsPO(Long guildFK, int commandFK, boolean enabled, Integer roleFK) {
 		this.guildFK = guildFK;
 		this.commandFK = commandFK;
 		this.enabled = enabled;
@@ -72,11 +72,11 @@ public class ModuleSettingsPO implements IPersistenceEntity<ModuleSettings>, Ser
 		this.enabled = enabled;
 	}
 
-	public int getRoleFK() {
+	public Integer getRoleFK() {
 		return roleFK;
 	}
 
-	public void setRoleFK(int roleFK) {
+	public void setRoleFK(Integer roleFK) {
 		this.roleFK = roleFK;
 	}
 }

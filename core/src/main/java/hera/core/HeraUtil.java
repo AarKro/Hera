@@ -1,11 +1,9 @@
 package hera.core;
 
 import discord4j.core.object.entity.*;
+import discord4j.core.object.entity.Guild;
 import discord4j.core.object.util.Permission;
-import hera.database.entities.mapped.Alias;
-import hera.database.entities.mapped.Command;
-import hera.database.entities.mapped.GuildSettings;
-import hera.database.entities.mapped.Localisation;
+import hera.database.entities.mapped.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
 import org.slf4j.Logger;
@@ -47,23 +45,30 @@ public class HeraUtil {
 		// add modularisation stuff here (get module for guild + command from STORE and check permission for it)
 
 		boolean isOwner = !STORE.owners().getAll().stream()
-			.filter(owner -> owner.getUser().equals(member.getId().asLong()))
-			.collect(Collectors.toList()).isEmpty();
+				.filter(owner -> owner.getUser().equals(member.getId().asLong()))
+				.collect(Collectors.toList()).isEmpty();
 
-		if (isOwner) return Mono.just(true);
+		//if (isOwner) return Mono.just(true);
 
-		if (command.isAdmin()) {
-			return member.getBasePermissions()
-					.filter(permissions -> permissions.contains(Permission.ADMINISTRATOR))
-					.hasElement()
-					.flatMap(exist -> {
-						if (exist) return Mono.just(true);
-						return channel.createMessage(LOCALISATION_PERMISSION_ERROR.getValue()).flatMap(c ->  Mono.just(false));
-					});
+		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command.getId());
+		ModuleSettings ms = msList.size() > 0 ? msList.get(0) : null;
+		if (ms == null || ms.isEnabled()) {
+			if (command.isAdmin()) {
+				return member.getBasePermissions()
+						.filter(permissions -> permissions.contains(Permission.ADMINISTRATOR))
+						.hasElement()
+						.flatMap(exist -> {
+							if (exist) return Mono.just(true);
+							return channel.createMessage(LOCALISATION_PERMISSION_ERROR.getValue()).flatMap(c -> Mono.just(false));
+						});
+			} else {
+				return Mono.just(true);
+			}
+		} else {
+			return Mono.just(false);
 		}
-		else {
-			return Mono.just(true);
-		}
+
+
 	}
 
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
