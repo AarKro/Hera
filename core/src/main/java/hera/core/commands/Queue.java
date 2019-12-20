@@ -9,6 +9,9 @@ import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
+import hera.database.entities.mapped.Localisation;
+import hera.database.types.LocalisationKey;
+import net.bytebuddy.asm.Advice;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -52,7 +55,7 @@ public class Queue {
 	}
 
 	private static Mono<String[]> getQueueString(int page, Guild guild) {
-		String title = "Current Queue";
+		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_TITLE, guild);
 
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int queueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex();
@@ -77,7 +80,10 @@ public class Queue {
 		long totalDuration = (long) 0;
 		int maxPage = 1;
 		if (tracks.isEmpty()) {
-			queueString.append("*... looks like it's empty ...*");
+			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild);
+			queueString.append("*... ");
+			queueString.append(local.getValue());
+			queueString.append(" ...*");
 		} else {
 			totalDuration = tracks.stream()
 					.map(AudioTrack::getDuration)
@@ -86,19 +92,18 @@ public class Queue {
 			maxPage = getMaxPage(tracks);
 		}
 
-		StringBuilder footer = new StringBuilder();
-		footer.append("Page: ");
-		footer.append(page + 1);
-		footer.append(" of ");
-		footer.append(maxPage);
-		footer.append(" | Total songs: ");
-		footer.append(tracks.size());
-		footer.append(" | Total duration: ");
-		footer.append(HeraUtil.getFormattedTime(totalDuration));
-		footer.append(" | Loop queue: ");
-		footer.append(HeraAudioManager.getScheduler(guild).isLoopQueue() ? "enabled" : "disabled");
+		LocalisationKey enabledDisabled;
+		if (HeraAudioManager.getScheduler(guild).isLoopQueue()) {
+			enabledDisabled = LocalisationKey.ENABLED;
+		} else {
+			enabledDisabled = LocalisationKey.DISABLED;
+		}
 
-		return Mono.just(new String[]{title, queueString.toString(), footer.toString()});
+		Localisation loopQueue = HeraUtil.getLocalisation(enabledDisabled, guild);
+		Localisation footerLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_FOOTER, guild);
+		String footer = String.format(footerLocal.getValue(), page + 1, maxPage, tracks.size(), HeraUtil.getFormattedTime(totalDuration), loopQueue.getValue());
+
+		return Mono.just(new String[]{title.getValue(), queueString.toString(), footer});
 	}
 
 	private static List<String> getEmojis(int currentPageIndex, int maxPage) {

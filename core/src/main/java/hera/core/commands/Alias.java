@@ -29,6 +29,5 @@ public class Alias {
         if (!STORE.alias().exists(alias, guild.getId().asLong())) {
             STORE.alias().add(new hera.database.entities.mapped.Alias(commandId, alias, guild.getId().asLong()));
         }
-
     }
 }
