@@ -1,4 +1,4 @@
-CREATE TABLE `guild_settings` (
+CREATE TABLE `guild_setting` (
   `id` int(11) PRIMARY KEY AUTO_INCREMENT,
   `guildFK` bigint(11) NOT NULL,
   `name` varchar(50) NOT NULL,
