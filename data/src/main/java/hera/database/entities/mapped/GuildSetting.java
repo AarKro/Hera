@@ -5,7 +5,7 @@ import hera.database.types.GuildSettingKey;
 
 public class GuildSettings implements IMappedEntity<GuildSettingPO> {
 
-	public static final String NAME = "GuildSettings";
+	public static final String NAME = "GuildSetting";
 
 	private int id;
 
