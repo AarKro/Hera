@@ -3,7 +3,7 @@ package hera.database.entities.mapped;
 import hera.database.entities.persistence.GuildSettingPO;
 import hera.database.types.GuildSettingKey;
 
-public class GuildSettings implements IMappedEntity<GuildSettingPO> {
+public class GuildSetting implements IMappedEntity<GuildSettingPO> {
 
 	public static final String NAME = "GuildSetting";
 
@@ -15,16 +15,16 @@ public class GuildSettings implements IMappedEntity<GuildSettingPO> {
 
 	private String value;
 
-	public GuildSettings() {
+	public GuildSetting() {
 	}
 
-	public GuildSettings(Long guild, GuildSettingKey key, String value) {
+	public GuildSetting(Long guild, GuildSettingKey key, String value) {
 		this.guild = guild;
 		this.key = key;
 		this.value = value;
 	}
 
-	public GuildSettings(int id, Long guild, GuildSettingKey key, String value) {
+	public GuildSetting(int id, Long guild, GuildSettingKey key, String value) {
 		this.id = id;
 		this.guild = guild;
 		this.key = key;

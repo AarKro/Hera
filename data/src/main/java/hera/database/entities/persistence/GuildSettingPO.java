@@ -1,16 +1,16 @@
 package hera.database.entities.persistence;
 
-import hera.database.entities.mapped.GuildSettings;
+import hera.database.entities.mapped.GuildSetting;
 import hera.database.types.GuildSettingKey;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "guild_settings")
-public class GuildSettingPO implements IPersistenceEntity<GuildSettings>, Serializable {
+@Table(name = "guild_setting")
+public class GuildSettingPO implements IPersistenceEntity<GuildSetting>, Serializable {
 
-	public static final String ENTITY_NAME = "GuildSettingsPO";
+	public static final String ENTITY_NAME = "GuildSettingPO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +34,8 @@ public class GuildSettingPO implements IPersistenceEntity<GuildSettings>, Serial
 		this.value = value;
 	}
 
-	public GuildSettings mapToNonePO() {
-		return new GuildSettings(
+	public GuildSetting mapToNonePO() {
+		return new GuildSetting(
 				this.id,
 				this.guildFK,
 				this.key,
