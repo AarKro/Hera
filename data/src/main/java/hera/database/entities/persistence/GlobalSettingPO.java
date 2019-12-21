@@ -1,13 +1,13 @@
 package hera.database.entities.persistence;
 
-import hera.database.entities.mapped.GlobalSettings;
+import hera.database.entities.mapped.GlobalSetting;
 import hera.database.types.GlobalSettingKey;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "global_settings")
-public class GlobalSettingsPO  implements IPersistenceEntity<GlobalSettings> {
+public class GlobalSettingPO implements IPersistenceEntity<GlobalSetting> {
 
 	public static final String ENTITY_NAME = "GlobalSettingsPO";
 
@@ -21,17 +21,17 @@ public class GlobalSettingsPO  implements IPersistenceEntity<GlobalSettings> {
 
 	private String value;
 
-	public GlobalSettingsPO() {
+	public GlobalSettingPO() {
 	}
 
-	public GlobalSettingsPO(int id, GlobalSettingKey key, String value) {
+	public GlobalSettingPO(int id, GlobalSettingKey key, String value) {
 		this.id = id;
 		this.key = key;
 		this.value = value;
 	}
 
-	public GlobalSettings mapToNonePO() {
-		return new GlobalSettings(
+	public GlobalSetting mapToNonePO() {
+		return new GlobalSetting(
 				this.id,
 				this.key,
 				this.value

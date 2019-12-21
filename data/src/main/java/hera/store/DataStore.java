@@ -1,7 +1,9 @@
 package hera.store;
 
-import hera.database.entities.mapped.*;
-import hera.database.entities.persistence.*;
+import hera.database.entities.mapped.Owner;
+import hera.database.entities.mapped.User;
+import hera.database.entities.persistence.OwnerPO;
+import hera.database.entities.persistence.UserPO;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,7 @@ public class DataStore {
 
 	public static final DataStore STORE = new DataStore();
 
-	private AliasAccessUnit alias;
+	private AliasAccessUnit aliases;
 
 	private BindingAccessUnit bindings;
 
@@ -22,9 +24,9 @@ public class DataStore {
 
 	private DefaultRoleAccessUnit defaultRoles;
 
-	private GlobalSettingsAccessUnit globalSettings;
+	private GlobalSettingAccessUnit globalSettings;
 
-	private GuildSettingsAccessUnit guildSettings;
+	private GuildSettingAccessUnit guildSettings;
 
 	private LocalisationAccessUnit localisations;
 
@@ -47,13 +49,13 @@ public class DataStore {
 
 	public void initialise() {
 		LOG.info("Initialising DataStore");
-		alias = new AliasAccessUnit();
+		aliases = new AliasAccessUnit();
 		bindings = new BindingAccessUnit();
 		metrics = new MetricAccessUnit();
 		commands = new CommandAccessUnit();
 		defaultRoles = new DefaultRoleAccessUnit();
-		globalSettings = new GlobalSettingsAccessUnit();
-		guildSettings = new GuildSettingsAccessUnit();
+		globalSettings = new GlobalSettingAccessUnit();
+		guildSettings = new GuildSettingAccessUnit();
 		localisations = new LocalisationAccessUnit();
 		moduleSettings = new ModuleSettingsAccessUnit();
 		roleMembers = new RoleMemberAccessUnit();
@@ -65,7 +67,7 @@ public class DataStore {
 		LOG.info("DataStore initialised");
 	}
 
-	public AliasAccessUnit alias() { return alias;}
+	public AliasAccessUnit alias() { return aliases;}
 
 	public BindingAccessUnit bindings() {
 		return bindings;
@@ -83,11 +85,11 @@ public class DataStore {
 		return defaultRoles;
 	}
 
-	public GlobalSettingsAccessUnit globalSettings() {
+	public GlobalSettingAccessUnit globalSettings() {
 		return globalSettings;
 	}
 
-	public GuildSettingsAccessUnit guildSettings() {
+	public GuildSettingAccessUnit guildSettings() {
 		return guildSettings;
 	}
 

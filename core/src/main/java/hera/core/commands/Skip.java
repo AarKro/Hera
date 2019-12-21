@@ -7,7 +7,6 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.music.HeraAudioManager;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 
 public class Skip {

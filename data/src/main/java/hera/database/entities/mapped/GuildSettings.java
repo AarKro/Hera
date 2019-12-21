@@ -1,9 +1,9 @@
 package hera.database.entities.mapped;
 
-import hera.database.entities.persistence.GuildSettingsPO;
+import hera.database.entities.persistence.GuildSettingPO;
 import hera.database.types.GuildSettingKey;
 
-public class GuildSettings implements IMappedEntity<GuildSettingsPO> {
+public class GuildSettings implements IMappedEntity<GuildSettingPO> {
 
 	public static final String NAME = "GuildSettings";
 
@@ -31,8 +31,8 @@ public class GuildSettings implements IMappedEntity<GuildSettingsPO> {
 		this.value = value;
 	}
 
-	public GuildSettingsPO mapToPO() {
-		return new GuildSettingsPO(
+	public GuildSettingPO mapToPO() {
+		return new GuildSettingPO(
 				this.id,
 				this.guild,
 				this.key,
