@@ -5,7 +5,7 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.database.entities.mapped.GlobalSettings;
+import hera.database.entities.mapped.GlobalSetting;
 import hera.database.entities.mapped.Localisation;
 import hera.database.types.GlobalSettingKey;
 import hera.database.types.LocalisationKey;
@@ -22,7 +22,7 @@ public class Version {
 
 	private static String getVersion(Guild guild) {
 		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VERSION, guild);
-		List<GlobalSettings> globalSettings = STORE.globalSettings().forKey(GlobalSettingKey.VERSION);
+		List<GlobalSetting> globalSettings = STORE.globalSettings().forKey(GlobalSettingKey.VERSION);
 
 		if (globalSettings.isEmpty()) {
 			return HeraUtil.LOCALISATION_GENERAL_ERROR.getValue();

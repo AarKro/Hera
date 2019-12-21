@@ -10,10 +10,11 @@ import hera.database.entities.mapped.Localisation;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
-import static hera.store.DataStore.STORE;
 
 import java.awt.*;
 import java.util.List;
+
+import static hera.store.DataStore.STORE;
 
 public class Prefix {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {

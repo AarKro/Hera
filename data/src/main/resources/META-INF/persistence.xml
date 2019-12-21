@@ -12,9 +12,9 @@
         <class>hera.database.entities.persistence.CommandPO</class>
         <class>hera.database.entities.persistence.MetricPO</class>
         <class>hera.database.entities.persistence.DefaultRolePO</class>
-        <class>hera.database.entities.persistence.GlobalSettingsPO</class>
+        <class>hera.database.entities.persistence.GlobalSettingPO</class>
         <class>hera.database.entities.persistence.GuildPO</class>
-        <class>hera.database.entities.persistence.GuildSettingsPO</class>
+        <class>hera.database.entities.persistence.GuildSettingPO</class>
         <class>hera.database.entities.persistence.LocalisationPO</class>
         <class>hera.database.entities.persistence.ModuleSettingsPO</class>
         <class>hera.database.entities.persistence.OwnerPO</class>

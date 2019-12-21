@@ -1,9 +1,9 @@
 package hera.database.entities.mapped;
 
-import hera.database.entities.persistence.GlobalSettingsPO;
+import hera.database.entities.persistence.GlobalSettingPO;
 import hera.database.types.GlobalSettingKey;
 
-public class GlobalSettings implements IMappedEntity<GlobalSettingsPO> {
+public class GlobalSetting implements IMappedEntity<GlobalSettingPO> {
 
 	public static final String NAME = "GlobalSettings";
 
@@ -13,22 +13,22 @@ public class GlobalSettings implements IMappedEntity<GlobalSettingsPO> {
 
 	private String value;
 
-	public GlobalSettings() {
+	public GlobalSetting() {
 	}
 
-	public GlobalSettings(GlobalSettingKey key, String value) {
+	public GlobalSetting(GlobalSettingKey key, String value) {
 		this.key = key;
 		this.value = value;
 	}
 
-	public GlobalSettings(int id, GlobalSettingKey key, String value) {
+	public GlobalSetting(int id, GlobalSettingKey key, String value) {
 		this.id = id;
 		this.key = key;
 		this.value = value;
 	}
 
-	public GlobalSettingsPO mapToPO() {
-		return new GlobalSettingsPO(
+	public GlobalSettingPO mapToPO() {
+		return new GlobalSettingPO(
 				this.id,
 				this.key,
 				this.value

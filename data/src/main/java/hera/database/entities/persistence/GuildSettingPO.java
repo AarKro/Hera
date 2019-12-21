@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "guild_settings")
-public class GuildSettingsPO implements IPersistenceEntity<GuildSettings>, Serializable {
+public class GuildSettingPO implements IPersistenceEntity<GuildSettings>, Serializable {
 
 	public static final String ENTITY_NAME = "GuildSettingsPO";
 
@@ -24,10 +24,10 @@ public class GuildSettingsPO implements IPersistenceEntity<GuildSettings>, Seria
 
 	private String value;
 
-	public GuildSettingsPO() {
+	public GuildSettingPO() {
 	}
 
-	public GuildSettingsPO(int id, Long guildFK, GuildSettingKey key, String value) {
+	public GuildSettingPO(int id, Long guildFK, GuildSettingKey key, String value) {
 		this.id = id;
 		this.guildFK = guildFK;
 		this.key = key;

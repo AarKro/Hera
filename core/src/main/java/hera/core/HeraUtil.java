@@ -1,7 +1,8 @@
 package hera.core;
 
-import discord4j.core.object.entity.*;
 import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
+import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.util.Permission;
 import hera.database.entities.mapped.*;
 import hera.database.types.GuildSettingKey;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
