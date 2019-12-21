@@ -5,7 +5,7 @@ import hera.database.types.GlobalSettingKey;
 
 public class GlobalSetting implements IMappedEntity<GlobalSettingPO> {
 
-	public static final String NAME = "GlobalSettings";
+	public static final String NAME = "GlobalSetting";
 
 	private int id;
 
