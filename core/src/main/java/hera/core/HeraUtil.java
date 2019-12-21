@@ -101,7 +101,7 @@ public class HeraUtil {
 	}
 
 	public static Localisation getLocalisation(LocalisationKey key, Guild guild) {
-		List<GuildSettings> settings = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.LANGUAGE);
+		List<GuildSetting> settings = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.LANGUAGE);
 
 		String language;
 		if (settings.isEmpty()) language = "en";

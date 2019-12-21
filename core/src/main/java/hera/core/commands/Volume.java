@@ -6,7 +6,7 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
-import hera.database.entities.mapped.GuildSettings;
+import hera.database.entities.mapped.GuildSetting;
 import hera.database.entities.mapped.Localisation;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -30,8 +30,8 @@ public class Volume {
 	private static Mono<String> setVolume(Guild guild, List<String> params) {
 		Integer volume = Integer.parseInt(params.get(0));
 
-		GuildSettings guildSettings = new GuildSettings(guild.getId().asLong(), GuildSettingKey.VOLUME, volume.toString());
-		STORE.guildSettings().upsert(guildSettings);
+		GuildSetting guildSetting = new GuildSetting(guild.getId().asLong(), GuildSettingKey.VOLUME, volume.toString());
+		STORE.guildSettings().upsert(guildSetting);
 
 		HeraAudioManager.getPlayer(guild).setVolume(volume);
 

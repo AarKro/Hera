@@ -6,10 +6,10 @@ import hera.database.types.GlobalSettingKey;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "global_settings")
+@Table(name = "global_setting")
 public class GlobalSettingPO implements IPersistenceEntity<GlobalSetting> {
 
-	public static final String ENTITY_NAME = "GlobalSettingsPO";
+	public static final String ENTITY_NAME = "GlobalSettingPO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
