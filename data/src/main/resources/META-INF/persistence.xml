@@ -1,0 +1,37 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="HERA">
+        <description> Hibernate JPA Configuration. DB connection properties have to be overwritten by the application during runtime </description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>hera.database.entities.persistence.BindingPO</class>
+        <class>hera.database.entities.persistence.CommandPO</class>
+        <class>hera.database.entities.persistence.MetricPO</class>
+        <class>hera.database.entities.persistence.DefaultRolePO</class>
+        <class>hera.database.entities.persistence.GlobalSettingPO</class>
+        <class>hera.database.entities.persistence.GuildPO</class>
+        <class>hera.database.entities.persistence.GuildSettingPO</class>
+        <class>hera.database.entities.persistence.LocalisationPO</class>
+        <class>hera.database.entities.persistence.ModuleSettingsPO</class>
+        <class>hera.database.entities.persistence.OwnerPO</class>
+        <class>hera.database.entities.persistence.RolePO</class>
+        <class>hera.database.entities.persistence.RoleMemberPO</class>
+        <class>hera.database.entities.persistence.TokenPO</class>
+        <class>hera.database.entities.persistence.UserPO</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="HERA_DB_URL" />
+            <property name="javax.persistence.jdbc.user" value="HERA_DB_USER" />
+            <property name="javax.persistence.jdbc.password" value="HERA_DB_PWD" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="autoReconnect" value="true"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
