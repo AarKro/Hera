@@ -24,8 +24,6 @@ public class HeraAudioManager {
 
 	private static final Map<Long, TrackScheduler> SCHEDULERS = new HashMap<>();
 
-	private static final Map<Long, AudioProvider> PROVIDERS = new HashMap<>();
-
 	private static final Map<Long, AudioPlayer> PLAYERS = new HashMap<>();
 
 	public static AudioPlayerManager playerManager;
@@ -57,18 +55,8 @@ public class HeraAudioManager {
 		return scheduler;
 	}
 
-	private static AudioProvider createProviderForGuild(Guild guild) {
-		AudioProvider provider = new HeraAudioProvider(getPlayer(guild));
-		PROVIDERS.put(guild.getId().asLong(), provider);
-		return provider;
-	}
-
 	public static AudioProvider getProvider(Guild guild) {
-		AudioProvider provider = PROVIDERS.get(guild.getId().asLong());
-		if (provider == null) {
-			provider = createProviderForGuild(guild);
-		}
-		return provider;
+		return new HeraAudioProvider(getPlayer(guild));
 	}
 
 	private static AudioPlayer createPlayerForGuild(Guild guild) {
