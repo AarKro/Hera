@@ -2,10 +2,13 @@ package hera.core;
 
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
+import discord4j.core.event.domain.VoiceStateUpdateEvent;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
+import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
+import discord4j.gateway.json.VoiceStateUpdate;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
@@ -20,6 +23,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static hera.metrics.MetricsLogger.STATS;
 import static hera.store.DataStore.STORE;
@@ -58,6 +63,7 @@ public class Core {
 						.hasElements()
 						.filter(guildExists -> !guildExists)
 						.flatMap(guildExists -> {
+							if (client.getSelfId().isPresent()) STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
 							STORE.guilds().add(new Guild(event.getGuild().getId().asLong()));
 							return Mono.empty();
 						})
@@ -82,6 +88,7 @@ public class Core {
 		// on user joins guild  -> Add new member to store if we don't have him already
 		client.getEventDispatcher().on(MemberJoinEvent.class)
 				.flatMap(event -> Flux.fromIterable(STORE.users().getAll())
+						.doOnNext(su -> STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong()))
 						.filter(su -> su.getSnowflake().equals(event.getMember().getId().asLong()))
 						.hasElements()
 						.filter(memberExists -> !memberExists)
@@ -90,6 +97,22 @@ public class Core {
 							return Mono.empty();
 						})
 				)
+				.subscribe();
+
+		// log when a user leaves a guild
+		client.getEventDispatcher().on(MemberLeaveEvent.class)
+				.doOnNext(event -> STATS.logUserGuildLeave(event.getUser().getId().asLong(), event.getGuildId().asLong()))
+				.subscribe();
+
+		// log when someone joins or leaves a voice channel
+		client.getEventDispatcher().on(VoiceStateUpdateEvent.class)
+				.doOnNext(event -> {
+					if (event.getCurrent().getChannelId().isPresent()) {
+						STATS.logVcJoin(event.getCurrent().getUserId().asLong(), event.getCurrent().getGuildId().asLong());
+					} else {
+						STATS.logVcLeave(event.getCurrent().getUserId().asLong(), event.getCurrent().getGuildId().asLong());
+					}
+				})
 				.subscribe();
 
 		// log when message is written
