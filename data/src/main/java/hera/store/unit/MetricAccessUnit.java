@@ -22,7 +22,7 @@ public class MetricAccessUnit extends StorageAccessUnit<MetricPO, Metric> {
 	@Override
 	public void add(Metric metric) {
 		try {
-			dao.insert(metric);
+			retryOnFail(() -> dao.insert(metric));
 		} catch(Exception e) {
 			LOG.error("Error while trying to add entity of type MetricPO");
 			LOG.debug("Stacktrace:", e);

@@ -20,7 +20,7 @@ public class GuildAccessUnit extends StorageAccessUnit<GuildPO, Guild> {
 		List<Guild> guilds = data.stream().filter(guild -> guild.getSnowflake().equals(id)).collect(Collectors.toList());
 		if (!guilds.isEmpty()) {
 			try {
-				dao.delete(GuildPO.class, guilds.get(0));
+				retryOnFail(() -> dao.delete(GuildPO.class, guilds.get(0)));
 				data = data.stream().filter(guild -> !guild.getSnowflake().equals(id)).collect(Collectors.toList());
 			} catch(Exception e) {
 				LOG.error("Error while trying to remove guild for id {} ", id);

@@ -33,11 +33,13 @@ public class GuildSettingAccessUnit extends StorageAccessUnit<GuildSettingPO, Gu
 			List<GuildSetting> foundGuildSettings = forGuildAndKey(guildSetting.getGuild(), guildSetting.getKey());
 
 			if (foundGuildSettings.isEmpty()) {
-				GuildSetting gs = dao.insert(guildSetting);
-				data.add(gs);
+				retryOnFail(() -> {
+					GuildSetting gs = dao.insert(guildSetting);
+					data.add(gs);
+				});
 			} else {
 				foundGuildSettings.get(0).setValue(guildSetting.getValue());
-				dao.update(GuildSettingPO.class, foundGuildSettings.get(0), foundGuildSettings.get(0).getId());
+				retryOnFail(() -> dao.update(GuildSettingPO.class, foundGuildSettings.get(0), foundGuildSettings.get(0).getId()));
 			}
 		} catch(Exception e) {
 			LOG.error("Error while trying to add entity of type GuildSettingsPO");

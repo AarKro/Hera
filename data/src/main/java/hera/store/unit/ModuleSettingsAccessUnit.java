@@ -29,10 +29,9 @@ public class ModuleSettingsAccessUnit extends StorageAccessUnit<ModuleSettingsPO
 
 	public void update(ModuleSettings ms) {
 		try {
-			dao.update(ModuleSettingsPO.class, ms);
-
+			retryOnFail(() -> dao.update(ModuleSettingsPO.class, ms));
 		} catch(Exception e) {
-			LOG.error("Error while trying to update a Modulsetting");
+			LOG.error("Error while trying to update a ModuleSetting");
 			LOG.debug("Stacktrace:", e);
 		}
 	}
