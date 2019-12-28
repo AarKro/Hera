@@ -3,6 +3,7 @@ package hera.store.unit;
 import hera.database.entities.mapped.GuildSetting;
 import hera.database.entities.persistence.GuildSettingPO;
 import hera.database.types.GuildSettingKey;
+import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +42,7 @@ public class GuildSettingAccessUnit extends StorageAccessUnit<GuildSettingPO, Gu
 				foundGuildSettings.get(0).setValue(guildSetting.getValue());
 				retryOnFail(() -> dao.update(GuildSettingPO.class, foundGuildSettings.get(0), foundGuildSettings.get(0).getId()));
 			}
-		} catch(Exception e) {
+		} catch(FailedAfterRetriesException e) {
 			LOG.error("Error while trying to add entity of type GuildSettingsPO");
 			LOG.debug("Stacktrace:", e);
 		}

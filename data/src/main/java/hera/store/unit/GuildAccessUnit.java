@@ -2,6 +2,7 @@ package hera.store.unit;
 
 import hera.database.entities.mapped.Guild;
 import hera.database.entities.persistence.GuildPO;
+import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ public class GuildAccessUnit extends StorageAccessUnit<GuildPO, Guild> {
 			try {
 				retryOnFail(() -> dao.delete(GuildPO.class, guilds.get(0)));
 				data = data.stream().filter(guild -> !guild.getSnowflake().equals(id)).collect(Collectors.toList());
-			} catch(Exception e) {
+			} catch(FailedAfterRetriesException e) {
 				LOG.error("Error while trying to remove guild for id {} ", id);
 				LOG.debug("Stacktrace:", e);
 			}

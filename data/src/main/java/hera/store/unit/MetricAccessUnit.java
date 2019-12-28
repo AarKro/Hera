@@ -2,6 +2,7 @@ package hera.store.unit;
 
 import hera.database.entities.mapped.Metric;
 import hera.database.entities.persistence.MetricPO;
+import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,7 @@ public class MetricAccessUnit extends StorageAccessUnit<MetricPO, Metric> {
 	public void add(Metric metric) {
 		try {
 			retryOnFail(() -> dao.insert(metric));
-		} catch(Exception e) {
+		} catch(FailedAfterRetriesException e) {
 			LOG.error("Error while trying to add entity of type MetricPO");
 			LOG.debug("Stacktrace:", e);
 		}

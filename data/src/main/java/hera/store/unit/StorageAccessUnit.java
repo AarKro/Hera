@@ -3,6 +3,7 @@ package hera.store.unit;
 import hera.database.DAO;
 import hera.database.entities.mapped.IMappedEntity;
 import hera.database.entities.persistence.IPersistenceEntity;
+import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +49,13 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 		try {
 			retryOnFail(() -> dao.insert(object));
 			data.add(object);
-		} catch(Exception e) {
+		} catch(FailedAfterRetriesException e) {
 			LOG.error("Error while trying to add entity of type {}", entityName);
 			LOG.debug("Stacktrace:", e);
 		}
 	}
 
-	public void retryOnFail(Runnable runnable) throws Exception {
+	public void retryOnFail(Runnable runnable) throws FailedAfterRetriesException {
 		for(int i = 0; i < 3; i++) {
 			try {
 				runnable.run();
@@ -72,6 +73,6 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 			}
 		}
 
-		throw new Exception();
+		throw new FailedAfterRetriesException("DB modification failed after 3 retries");
 	}
 }
