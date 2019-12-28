@@ -12,6 +12,8 @@ import javax.persistence.TemporalType;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
@@ -114,8 +116,8 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 
 		T po = object.mapToPO();
 		entityManager.persist(po);
-		// only log if its not about metrics, else we would just spam our logs
 
+		// only log if its not about metrics, else we would just spam our logs
 		if (!entityName.equals(MetricPO.ENTITY_NAME)) LOG.info("Persisted entity of type {}", object.getClass().getName());
 
 		entityManager.getTransaction().commit();
