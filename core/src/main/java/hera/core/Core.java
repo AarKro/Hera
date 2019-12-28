@@ -8,7 +8,7 @@ import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
-import discord4j.gateway.json.VoiceStateUpdate;
+import hera.core.api.handler.YouTubeApiHandler;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
@@ -23,8 +23,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import static hera.metrics.MetricsLogger.STATS;
 import static hera.store.DataStore.STORE;
@@ -48,8 +46,11 @@ public class Core {
 		LOG.info("Initialising command mappings");
 		Commands.initialise();
 
-		LOG.info("Initialise Hera Audio Player");
+		LOG.info("Initialising Hera Audio Player");
 		HeraAudioManager.initialise();
+
+		LOG.info("Initialising YouTube API Handler");
+		YouTubeApiHandler.initialise();
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 
@@ -63,8 +64,12 @@ public class Core {
 						.hasElements()
 						.filter(guildExists -> !guildExists)
 						.flatMap(guildExists -> {
-							if (client.getSelfId().isPresent()) STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
 							STORE.guilds().add(new Guild(event.getGuild().getId().asLong()));
+
+							if (client.getSelfId().isPresent()) {
+								STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
+							}
+
 							return Mono.empty();
 						})
 				)

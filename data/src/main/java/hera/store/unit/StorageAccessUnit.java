@@ -62,7 +62,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 				return;
 			} catch (Exception e) {
 				LOG.debug("Stacktrace:", e);
-				LOG.error("Error while on DB modification, retry count: {}", i);
+				LOG.error("Error during DB modification, retry count: {}", i);
 
 				try {
 					Thread.sleep(500);

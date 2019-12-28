@@ -29,7 +29,7 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (5, 'PREFIX', 'Sets command prefix.', 1, 0, 1),
 (6, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
 (7, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
-(8, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 0, 0),
+(8, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
 (9, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
 (10, 'SKIP', 'Skip the current song', 0, 0, 0),
 (11, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
@@ -42,7 +42,9 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 -- TODO: Change paramCount of PLAY command so it can accept multiple keywords when YouTube integration is implemented
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
-(0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
+(0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
+(1, '#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API'),
+(2, '#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
 
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_UPTIME', 'I am up and running for the last %s'),
@@ -72,7 +74,6 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.');
 
 INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
-
 (0, 'VERSION', '2.0.0-alpha.0');
 
 INSERT INTO `alias` (`id`, `commandFK`, `alias`) VALUES
