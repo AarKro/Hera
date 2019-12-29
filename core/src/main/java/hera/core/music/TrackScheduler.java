@@ -47,8 +47,16 @@ public class TrackScheduler extends AudioEventAdapter {
 		queue = new ArrayList<>();
 	}
 
-	public void shuffle() {
+	public void shuffle(AudioPlayer player) {
 		Collections.shuffle(queue);
+		queueIndex = 0;
+
+		AudioTrack currentTrack = player.getPlayingTrack();
+		if (currentTrack != null) {
+			int newIndex = queue.indexOf(currentTrack);
+			AudioTrack track = queue.remove(newIndex);
+			queue.add(0, track);
+		}
 	}
 
 	@Override
