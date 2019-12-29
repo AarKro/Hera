@@ -38,7 +38,7 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (14, 'RESUME', 'Resume the music player', 0, 0, 0),
 (15, 'PAUSE', 'Pause the music player', 0, 0, 0),
 (16, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
-(17, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1);
+(17, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
 (18, 'MOVE', 'Move a song to a new queue index', 2, 0, 0);
 -- TODO: Change paramCount of PLAY command so it can accept multiple keywords when YouTube integration is implemented
 
@@ -74,7 +74,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off.'),
 ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.'),
 ('en', 'COMMAND_MOVE', 'Moved %s to %s'),
-('en', 'COMMAND_MOVE_ERROR', 'There is nothing at queue index %s or %s');
+('en', 'COMMAND_MOVE_ERROR', 'Could not move a song with indexes %s and %s');
 
 INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');
