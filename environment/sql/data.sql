@@ -39,8 +39,9 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (15, 'PAUSE', 'Pause the music player', 0, 0, 0),
 (16, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
 (17, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
-(18, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
-(19 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0);
+(18, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
+(19, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
+(20, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0);
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
@@ -52,7 +53,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_VERSION', 'I am running on version %s'),
 ('en', 'COMMAND_HELP', 'Commands'),
 ('en', 'COMMAND_PREFIX', 'Prefix set to: %s'),
-('en', 'COMMAND_PLAY_TITLE', 'Add to queue'),
+('en', 'COMMAND_PLAY_TITLE', 'Added to queue'),
 ('en', 'COMMAND_RESUMED', 'Player resumed'),
 ('en', 'COMMAND_RESUMED_ERROR', 'Player is already resumed'),
 ('en', 'COMMAND_PAUSED', 'Player paused'),
@@ -73,6 +74,8 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on.'),
 ('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off.'),
 ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.'),
+('en', 'COMMAND_REMOVE', 'Removed from queue'),
+('en', 'COMMAND_REMOVE_ERROR', 'There is nothing at queue index %s'),
 ('en', 'COMMAND_MOVE', 'Moved %s to %s'),
 ('en', 'COMMAND_MOVE_ERROR', 'Could not move a song with indexes %s and %s'),
 ('en', 'COMMAND_JUMPTO', 'Jumped to %s'),

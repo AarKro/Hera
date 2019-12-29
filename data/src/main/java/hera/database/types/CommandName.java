@@ -19,6 +19,7 @@ public enum CommandName {
 	PAUSE,
 	TOGGLECOMMAND,
 	VOLUME,
+	REMOVE,
 	MOVE,
 	JUMPTO;
 }
