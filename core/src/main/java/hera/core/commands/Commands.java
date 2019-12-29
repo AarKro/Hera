@@ -32,6 +32,7 @@ public class Commands {
 		COMMANDS.put(CommandName.PAUSE, Pause::execute);
 		COMMANDS.put(CommandName.TOGGLECOMMAND, ToggleCommand::execute);
 		COMMANDS.put(CommandName.VOLUME, Volume::execute);
+		COMMANDS.put(CommandName.MOVE, Move::execute);
 		COMMANDS.put(CommandName.JUMPTO, JumpTo::execute);
 	}
 }
