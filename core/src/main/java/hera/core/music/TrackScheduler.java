@@ -58,6 +58,19 @@ public class TrackScheduler extends AudioEventAdapter {
 			queue.add(destination, toMove);
 
 			return toMove;
+    }
+
+		return null;
+	}
+  
+	public AudioTrack jumpTo(int trackIndex, AudioPlayer player) {
+		if (trackIndex >= 0 && trackIndex < queue.size() && trackIndex != queueIndex) {
+			queue.set(queueIndex, queue.get(queueIndex).makeClone());
+
+			queueIndex = trackIndex;
+			player.playTrack(queue.get(queueIndex));
+
+			return queue.get(queueIndex);
 		}
 
 		return null;
