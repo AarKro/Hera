@@ -46,6 +46,19 @@ public class TrackScheduler extends AudioEventAdapter {
 		queue = new ArrayList<>();
 	}
 
+	public AudioTrack jumpTo(int trackIndex, AudioPlayer player) {
+		if (trackIndex >= 0 && trackIndex < queue.size() && trackIndex != queueIndex) {
+			queue.set(queueIndex, queue.get(queueIndex).makeClone());
+
+			queueIndex = trackIndex;
+			player.playTrack(queue.get(queueIndex));
+
+			return queue.get(queueIndex);
+		}
+
+		return null;
+	}
+
 	@Override
 	public void onPlayerPause(AudioPlayer player) {
 		// Player was paused
