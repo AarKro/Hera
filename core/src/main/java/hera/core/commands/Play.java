@@ -4,7 +4,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
-import hera.core.api.handler.YouTubeApiHandler;
+import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.music.HeraAudioManager;
 import reactor.core.publisher.Mono;
 

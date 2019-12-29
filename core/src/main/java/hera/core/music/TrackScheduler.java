@@ -46,6 +46,20 @@ public class TrackScheduler extends AudioEventAdapter {
 		queue = new ArrayList<>();
 	}
 
+	public AudioTrack removeTrack(int trackIndex) {
+		if (trackIndex >= 0 && trackIndex < queue.size()) {
+			// we need to set back the queue index by 1 if the removed track already played,
+			// because else we'd skip a song
+			if (trackIndex <= queueIndex) {
+				queueIndex--;
+			}
+
+			return queue.remove(trackIndex);
+		}
+
+		return null;
+	}
+
 	@Override
 	public void onPlayerPause(AudioPlayer player) {
 		// Player was paused
@@ -74,6 +88,10 @@ public class TrackScheduler extends AudioEventAdapter {
 			} else if (loopQueue && queue.size() > 0) {
 				queueIndex = 0;
 				player.playTrack(queue.get(queueIndex));
+			} else {
+				// You get here by trying to skip the last song in the queue when loop queue is disabled
+				// In this case we just want to stop the track, but not pause the player
+				player.stopTrack();
 			}
 		}
 

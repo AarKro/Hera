@@ -8,7 +8,7 @@ import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
-import hera.core.api.handler.YouTubeApiHandler;
+import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
