@@ -9,6 +9,7 @@ import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import hera.core.api.handlers.YouTubeApiHandler;
+import discord4j.core.object.util.Snowflake;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
@@ -101,6 +102,15 @@ public class Core {
 							STORE.users().add(new User(event.getMember().getId().asLong()));
 							return Mono.empty();
 						})
+				)
+				.subscribe();
+
+		//on user joins guild ->
+		client.getEventDispatcher().on(MemberJoinEvent.class)
+				.flatMap(event -> event.getGuild()
+						.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
+								.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
+										flatMap(r -> event.getMember().addRole(r.getId()))).next())
 				)
 				.subscribe();
 

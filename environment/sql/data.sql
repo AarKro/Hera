@@ -42,7 +42,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (18, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0),
 (19, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
 (20, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
-(21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0);
+(21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
+(22, 'ONJOINROLE', 'sets a role to use on join', 1, 0, 1);
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
@@ -81,7 +82,9 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_MOVE', 'Moved %s to %s'),
 ('en', 'COMMAND_MOVE_ERROR', 'Could not move a song with indexes %s and %s'),
 ('en', 'COMMAND_JUMPTO', 'Jumped to %s'),
-('en', 'COMMAND_JUMPTO_ERROR', 'Can not jump to queue index %s');
+('en', 'COMMAND_JUMPTO_ERROR', 'Can not jump to queue index %s'),
+('en', 'COMMAND_ON_JOIN_ROLE', 'On join role set to %s'),
+('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.');
 
 INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.0');

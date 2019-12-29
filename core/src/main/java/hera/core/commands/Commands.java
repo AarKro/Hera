@@ -36,5 +36,6 @@ public class Commands {
 		COMMANDS.put(CommandName.REMOVE, Remove::execute);
 		COMMANDS.put(CommandName.MOVE, Move::execute);
 		COMMANDS.put(CommandName.JUMPTO, JumpTo::execute);
+		COMMANDS.put(CommandName.ONJOINROLE, OnJoinRole::execute);
 	}
 }
