@@ -39,7 +39,7 @@ public class Remove {
 			}
 		} catch (NumberFormatException e) {
 			return channel.createMessage(spec -> spec.setEmbed(embed -> {
-				embed.setDescription(HeraUtil.LOCALISATION_GENERAL_ERROR.getValue());
+				embed.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
 				embed.setColor(Color.ORANGE);
 			})).then();
 		}
