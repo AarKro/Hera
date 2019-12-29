@@ -17,7 +17,7 @@ import java.util.List;
 public class Remove {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		try {
-			int trackIndex = Integer.parseInt(params.get(0));
+			int trackIndex = Integer.parseInt(params.get(0)) - 1;
 
 			AudioTrack track = HeraAudioManager.getScheduler(guild).removeTrack(trackIndex);
 			if (track != null) {

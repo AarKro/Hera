@@ -50,7 +50,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		if (trackIndex >= 0 && trackIndex < queue.size()) {
 			// we need to set back the queue index by 1 if the removed track already played,
 			// because else we'd skip a song
-			if (trackIndex <= queueIndex) {
+			if (trackIndex <= queueIndex && queueIndex != 0) {
 				queueIndex--;
 			}
 
