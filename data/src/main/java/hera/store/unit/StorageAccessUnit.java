@@ -58,6 +58,8 @@ public class StorageAccessUnit<T extends IPersistenceEntity<M>, M extends IMappe
 	public void retryOnFail(Runnable runnable) throws FailedAfterRetriesException {
 		for(int i = 0; i < 3; i++) {
 			try {
+				// We want to have a log message for when we retry after the modification failed
+				if (i > 0) LOG.info("Retrying previously failed DB modification ({})", i);
 				runnable.run();
 				return;
 			} catch (Exception e) {
