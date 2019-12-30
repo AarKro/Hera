@@ -6,7 +6,7 @@ public enum CommandName {
 	VERSION,
 	DELETEMESSAGES,
 	ALIAS,
-    PREFIX,
+  	PREFIX,
 	JOIN,
 	PLAY,
 	LEAVE,
@@ -19,6 +19,7 @@ public enum CommandName {
 	PAUSE,
 	TOGGLECOMMAND,
 	VOLUME,
+	SHUFFLE,
 	REMOVE,
 	MOVE,
 	JUMPTO;
