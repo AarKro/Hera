@@ -6,7 +6,7 @@ public enum CommandName {
 	VERSION,
 	DELETEMESSAGES,
 	ALIAS,
-  PREFIX,
+  	PREFIX,
 	JOIN,
 	PLAY,
 	LEAVE,
