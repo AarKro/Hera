@@ -54,8 +54,10 @@ public class TrackScheduler extends AudioEventAdapter {
 		AudioTrack currentTrack = player.getPlayingTrack();
 		if (currentTrack != null) {
 			int newIndex = queue.indexOf(currentTrack);
-			AudioTrack track = queue.remove(newIndex);
-			queue.add(0, track);
+			if (newIndex > -1) {
+				AudioTrack track = queue.remove(newIndex);
+				queue.add(0, track);
+			}
 		}
 	}
 
