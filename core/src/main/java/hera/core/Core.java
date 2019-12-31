@@ -2,10 +2,14 @@ package hera.core;
 
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
+import discord4j.core.event.domain.VoiceStateUpdateEvent;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
+import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
+import hera.core.api.handlers.YouTubeApiHandler;
+import discord4j.core.object.util.Snowflake;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
@@ -43,10 +47,15 @@ public class Core {
 		LOG.info("Initialising command mappings");
 		Commands.initialise();
 
-		LOG.info("Initialise Hera Audio Player");
+		LOG.info("Initialising Hera Audio Player");
 		HeraAudioManager.initialise();
 
+		LOG.info("Initialising YouTube API Handler");
+		YouTubeApiHandler.initialise();
+
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
+		HeraUtil.setClient(client);
+
 
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
 		hci.startupHCI();
@@ -59,6 +68,11 @@ public class Core {
 						.filter(guildExists -> !guildExists)
 						.flatMap(guildExists -> {
 							STORE.guilds().add(new Guild(event.getGuild().getId().asLong()));
+
+							if (client.getSelfId().isPresent()) {
+								STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
+							}
+
 							return Mono.empty();
 						})
 				)
@@ -82,6 +96,7 @@ public class Core {
 		// on user joins guild  -> Add new member to store if we don't have him already
 		client.getEventDispatcher().on(MemberJoinEvent.class)
 				.flatMap(event -> Flux.fromIterable(STORE.users().getAll())
+						.doOnNext(su -> STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong()))
 						.filter(su -> su.getSnowflake().equals(event.getMember().getId().asLong()))
 						.hasElements()
 						.filter(memberExists -> !memberExists)
@@ -90,6 +105,31 @@ public class Core {
 							return Mono.empty();
 						})
 				)
+				.subscribe();
+
+		//on user joins guild ->
+		client.getEventDispatcher().on(MemberJoinEvent.class)
+				.flatMap(event -> event.getGuild()
+						.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
+								.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
+										flatMap(r -> event.getMember().addRole(r.getId()))).next())
+				)
+				.subscribe();
+
+		// log when a user leaves a guild
+		client.getEventDispatcher().on(MemberLeaveEvent.class)
+				.doOnNext(event -> STATS.logUserGuildLeave(event.getUser().getId().asLong(), event.getGuildId().asLong()))
+				.subscribe();
+
+		// log when someone joins or leaves a voice channel
+		client.getEventDispatcher().on(VoiceStateUpdateEvent.class)
+				.doOnNext(event -> {
+					if (event.getCurrent().getChannelId().isPresent()) {
+						STATS.logVcJoin(event.getCurrent().getUserId().asLong(), event.getCurrent().getGuildId().asLong());
+					} else {
+						STATS.logVcLeave(event.getCurrent().getUserId().asLong(), event.getCurrent().getGuildId().asLong());
+					}
+				})
 				.subscribe();
 
 		// log when message is written
