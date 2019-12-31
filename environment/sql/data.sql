@@ -23,10 +23,10 @@ INSERT INTO `user` (`snowflake`) VALUES
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `admin`) VALUES
 (0, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
 (1, 'VERSION', 'Displays current version number', 0, 0, 0),
-(2, 'HELP', 'Shows this Help page.', 0, 0, 0),
-(3, 'DELETEMESSAGES', 'Deletes the newest channel messages.', 1, 0, 1),
+(2, 'HELP', 'Shows this Help page', 0, 0, 0),
+(3, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1),
 (4, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
-(5, 'PREFIX', 'Sets command prefix.', 1, 0, 1),
+(5, 'PREFIX', 'Sets command prefix', 1, 0, 1),
 (6, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
 (7, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
 (8, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
@@ -43,7 +43,7 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (19, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
 (20, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
 (21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(22, 'ONJOINROLE', 'sets a role to use on join', 1, 0, 1);
+(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),

@@ -36,39 +36,9 @@ public class OnJoinRole {
 					return channel.createMessage(spec -> spec.setEmbed(embed -> {
 						embed.setColor(Color.ORANGE);
 						embed.setDescription(String.format(message.getValue(), r.getMention()));
-					})).then();
-					}).then()
+					}));
+					})
 		).then();
-	}
-
-	public static Mono<Void> executeOld(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		Mono<Role> role = getRoleFromMention(guild, params.get(0));
-		return role.flatMap(r -> {
-			GuildSetting guildSetting = new GuildSetting(guild.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE, r.getId().asString());
-			STORE.guildSettings().upsert(guildSetting);
-			Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE, guild);
-			return channel.createMessage(spec -> spec.setEmbed(embed -> {
-				embed.setColor(Color.ORANGE);
-				embed.setDescription(String.format(message.getValue(), r.getMention()));
-			})).then();
-		}).then();
-	}
-
-
-
-	public static boolean isRoleMention(String string) {
-		return string.matches("<@&\\d{1,50}>");
-	}
-
-	public static Long getIdFromString(String mention) {
-		return Long.parseLong(mention.substring(3, mention.length()-1));
-	}
-
-	public static Mono<Role> getRoleFromMention(Guild guild, String mention) {
-		if (isRoleMention(mention)) {
-			return guild.getRoleById(Snowflake.of(getIdFromString(mention)));
-		}
-		return Mono.empty();
 	}
 
 
