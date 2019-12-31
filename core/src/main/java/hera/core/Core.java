@@ -54,6 +54,8 @@ public class Core {
 		YouTubeApiHandler.initialise();
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
+		HeraUtil.setClient(client);
+
 
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
 		hci.startupHCI();

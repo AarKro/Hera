@@ -1,9 +1,12 @@
 package hera.core;
 
+import discord4j.core.DiscordClient;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
+import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
+import discord4j.core.object.util.Snowflake;
 import hera.database.entities.mapped.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -24,6 +27,8 @@ public class HeraUtil {
 	public static final Localisation LOCALISATION_GENERAL_ERROR = new Localisation("en", LocalisationKey.ERROR, "Seems like something went wrong... please try again");
 	public static final Localisation LOCALISATION_PERMISSION_ERROR = new Localisation("en", LocalisationKey.ERROR, "You do not have the necessary permissions to use this command");
 	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
+
+	private static DiscordClient client;
 
 	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
 		// message is a complete discord command. (prefix + command + parameters)
@@ -155,5 +160,39 @@ public class HeraUtil {
 		}
 
 		return builder.toString().trim();
+	}
+
+	public static void setClient(DiscordClient _client) {
+		client = _client;
+	}
+
+	public static Mono<Boolean> hasRightsToSetRole(Guild guild, Role role) {
+		return hasSetRoleRights(guild).flatMap(hasSetRole -> hasHigherRole(guild, role).flatMap(hasHigherRole -> Mono.just(hasSetRole && hasHigherRole)));
+	}
+
+	public static Mono<Boolean> hasSetRoleRights(Guild guild) {
+		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(m -> m.getRoles().any(p -> p.getPermissions().asEnumSet().contains(Permission.MANAGE_ROLES))));
+	}
+
+	public static Mono<Boolean> hasHigherRole(Guild guild, Role role) {
+		return client.getSelf().flatMap(user -> user.asMember(guild.getId())
+						.flatMap(m -> m.getHighestRole()
+								.filterWhen(r -> Mono.just(r.getRawPosition() > role.getRawPosition())).hasElement()));
+
+	}
+
+	public static boolean isRoleMention(String string) {
+		return string.matches("<@&\\d{1,50}>");
+	}
+
+	public static Long getIdFromString(String mention) {
+		return Long.parseLong(mention.substring(3, mention.length()-1));
+	}
+
+	public static Mono<Role> getRoleFromMention(Guild guild, String mention) {
+		if (isRoleMention(mention)) {
+			return guild.getRoleById(Snowflake.of(getIdFromString(mention)));
+		}
+		return Mono.empty();
 	}
 }
