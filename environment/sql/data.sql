@@ -84,8 +84,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_JUMPTO', 'Jumped to %s'),
 ('en', 'COMMAND_JUMPTO_ERROR', 'Can not jump to queue index %s'),
 ('en', 'COMMAND_ON_JOIN_ROLE', 'On join role set to %s'),
-('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s.'),
-('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.');
+('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s.');
 
 INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.1');
