@@ -88,7 +88,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.');
 
 INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
-(0, 'VERSION', '2.0.0-alpha.0');
+(0, 'VERSION', '2.0.0-alpha.1');
 
 INSERT INTO `alias` (`id`, `commandFK`, `alias`) VALUES
 (1, 8, 'p'),
