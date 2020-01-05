@@ -6,7 +6,7 @@ env_var.sh
 deployment.sql
 
 ##############################
-## Webisite
+## Website
 ##############################
 node_modules/
 
