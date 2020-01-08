@@ -1,0 +1,124 @@
+.app-container {
+    background-color: #c64578;
+    width: 100%;
+    height: 100vh;
+    transition: all .3s;
+    overflow: hidden;
+
+    & > .alternate-animation {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transition: all .6s;
+        background-color: #45b9c6;
+        width: 0;
+        height: 0;
+        border-radius: 100%;
+
+        &.grow {
+            width: 120vw;
+            height: 120vw;
+            top: calc(50% - 60vw);
+            left: calc(50% - 60vw);
+        }
+    }
+
+    &.transition {
+        transform: translateX(-100%);
+    }
+}
+
+.message {
+    color: white;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-constant, &-variable {
+        margin: 0;
+        padding: 5px;
+    }
+
+    &-constant {
+        flex: .8;
+        text-align: right;
+        color: #fb9ac0;
+        font-size: 120px;
+        height: 150px;
+        transition: all .3s;
+
+        &.alternate {
+            color: #acf4fb;
+        }
+    }
+
+    & .bump-border {
+        height: 0;
+        border-radius: 10px;
+        border-left: thick solid #044f57;
+        transition: all .3s;
+
+        &.grow-and-shrink {
+            animation-duration: .8s;
+            animation-name: grow-and-shrink;
+        }
+    }
+
+    &-variable {
+        flex: 1;
+        text-align: left;
+        color: #6a052d;
+        font-size: 120px;
+        height: 145px;
+        overflow: hidden;
+
+        &.alternate {
+            color: #05606a;
+        }
+
+        & > div {
+            transition: all .3s;
+            font-weight: bold;
+
+            &.bump {
+                animation-duration: .5s;
+                animation-name: bump;
+            }
+
+            & > div {
+                height: 150px;
+            }
+        }
+    }
+}
+
+@keyframes bump {
+    0% { transform: translate(0px, -450px) }
+    10% { transform: translate(50px, -450px) }
+    20% { transform: translate(70px, -450px) }
+    30% { transform: translate(85px, -450px) }
+    40% { transform: translate(95px, -450px) }
+    50% { transform: translate(100px, -450px) }
+    60% { transform: translate(95px, -450px) }
+    70% { transform: translate(85px, -450px) }
+    80% { transform: translate(70px, -450px) }
+    90% { transform: translate(50px, -450px) }
+    100% { transform: translate(0px, -450px) }
+}
+
+@keyframes grow-and-shrink {
+    0% { height: 0px }
+    10% { height: 45px }
+    20% { height: 85px }
+    30% { height: 115px }
+    40% { height: 135px }
+    50% { height: 145px }
+    60% { height: 135px }
+    70% { height: 115px }
+    80% { height: 85px }
+    90% { height: 45px }
+    100% { height: 0px }
+}
