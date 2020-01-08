@@ -71,11 +71,13 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_JOIN', 'You need to be in a voice channel to use this command'),
 ('en', 'COMMAND_LOOPQUEUE', 'Loop queue %s'),
 ('en', 'COMMAND_VOLUME', 'Volume set to %d'),
+('en', 'COMMAND_VOLUME_ERROR', 'Volume can only be set to a number between 0 and 100'),
+('en', 'COMMAND_VOLUME_MUTE', 'I am now muted'),
 ('en', 'PLAYLIST_LOADED', 'Total songs: %s | Total duration: %s'),
 ('en', 'COMMAND_CLEAR', 'Queue cleared'),
-('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on.'),
-('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off.'),
-('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist.'),
+('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on'),
+('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off'),
+('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist'),
 ('en', 'COMMAND_SHUFFLE', 'Queue shuffled'),
 ('en', 'COMMAND_REMOVE', 'Removed from queue'),
 ('en', 'COMMAND_REMOVE_ERROR', 'There is nothing at queue index %s'),
@@ -84,7 +86,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_JUMPTO', 'Jumped to %s'),
 ('en', 'COMMAND_JUMPTO_ERROR', 'Can not jump to queue index %s'),
 ('en', 'COMMAND_ON_JOIN_ROLE', 'On join role set to %s'),
-('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s.');
+('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s');
 
 INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
 (0, 'VERSION', '2.0.0-alpha.1');

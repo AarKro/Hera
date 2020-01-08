@@ -19,25 +19,40 @@ import static hera.store.DataStore.STORE;
 
 public class Volume {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return setVolume(guild, params).flatMap(m -> channel.createMessage(spec -> spec.setEmbed(embed -> {
-				embed.setColor(Color.ORANGE);
-				embed.setDescription(m);
-			}))
-		)
-		.then();
-	}
-
-	private static Mono<String> setVolume(Guild guild, List<String> params) {
 		Integer volume = Integer.parseInt(params.get(0));
+
+		if (volume < 0 || volume > 100) {
+			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOLUME_ERROR, guild);
+			String message = String.format(local.getValue(), volume);
+
+			return channel.createMessage(spec ->
+					spec.setEmbed(embed -> {
+						embed.setColor(Color.RED);
+						embed.setDescription(message);
+					})
+			).then();
+		}
 
 		GuildSetting guildSetting = new GuildSetting(guild.getId().asLong(), GuildSettingKey.VOLUME, volume.toString());
 		STORE.guildSettings().upsert(guildSetting);
 
 		HeraAudioManager.getPlayer(guild).setVolume(volume);
 
-		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOLUME, guild);
+		Localisation local;
+		if (volume == 0) {
+			local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOLUME_MUTE, guild);
+		} else {
+			local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOLUME, guild);
+		}
+
 		String message = String.format(local.getValue(), volume);
 
-		return Mono.just(message);
+		return channel.createMessage(spec ->
+				spec.setEmbed(embed -> {
+					embed.setColor(Color.ORANGE);
+					embed.setDescription(message);
+				})
+		).then();
 	}
+
 }
