@@ -17,26 +17,26 @@ public class Command implements IMappedEntity<CommandPO> {
 
 	private boolean infiniteParam;
 
-	private boolean admin;
+	private int level;
 
 	public Command() {
 	}
 
-	public Command(CommandName name, String description, int paramCount, boolean infiniteParam, boolean admin) {
+	public Command(CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
 		this.name = name;
 		this.description = description;
 		this.paramCount = paramCount;
 		this.infiniteParam = infiniteParam;
-		this.admin = admin;
+		this.level = level;
 	}
 
-	public Command(int id, CommandName name, String description, int paramCount, boolean infiniteParam, boolean admin) {
+	public Command(int id, CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.paramCount = paramCount;
 		this.infiniteParam = infiniteParam;
-		this.admin = admin;
+		this.level = level;
 	}
 
 	public CommandPO mapToPO() {
@@ -45,7 +45,7 @@ public class Command implements IMappedEntity<CommandPO> {
 				this.description,
 				this.paramCount,
 				this.infiniteParam,
-				this.admin
+				this.level
 		);
 	}
 
@@ -89,11 +89,11 @@ public class Command implements IMappedEntity<CommandPO> {
 		this.infiniteParam = infiniteParam;
 	}
 
-	public boolean isAdmin() {
-		return admin;
+	public int getLevel() {
+		return level;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setLevel(int level) {
+		this.level = level;
 	}
 }

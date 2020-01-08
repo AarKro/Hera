@@ -67,6 +67,26 @@ public class DataStore {
 		LOG.info("DataStore initialised");
 	}
 
+	public void storeReload() {
+		LOG.info("Updating DataStore");
+		aliases.updateStore();
+		bindings.updateStore();
+		metrics.updateStore();
+		commands.updateStore();
+		defaultRoles.updateStore();
+		globalSettings.updateStore();
+		guildSettings.updateStore();
+		localisations.updateStore();
+		moduleSettings.updateStore();
+		roleMembers.updateStore();
+		roles.updateStore();
+		tokens.updateStore();
+		guilds.updateStore();
+		owners.updateStore();
+		users.updateStore();
+		LOG.info("DataStore updated");
+	}
+
 	public AliasAccessUnit alias() { return aliases;}
 
 	public BindingAccessUnit bindings() {
