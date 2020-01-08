@@ -20,7 +20,7 @@ INSERT INTO `user` (`snowflake`) VALUES
 (248116143020048384),
 (442711068737929216);
 
-INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `admin`) VALUES
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
 (0, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
 (1, 'VERSION', 'Displays current version number', 0, 0, 0),
 (2, 'HELP', 'Shows this Help page', 0, 0, 0),
@@ -43,7 +43,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (19, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
 (20, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
 (21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
+(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
+(23, 'RELOADDATA', 'Refreshes the data in the bot with the data in the database', 0, 0, 2);
 
 INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
 (0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),

@@ -57,7 +57,9 @@ public class HeraUtil {
 		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command.getId());
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
 		if (ms == null || ms.isEnabled()) {
-			if (command.isAdmin()) {
+			if (command.getLevel() > 1) {
+				return Mono.just(false);
+			} else if (command.getLevel() == 1) {
 				return member.getBasePermissions()
 						.filter(permissions -> permissions.contains(Permission.ADMINISTRATOR))
 						.hasElement()
