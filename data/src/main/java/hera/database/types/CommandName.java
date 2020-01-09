@@ -26,5 +26,6 @@ public enum CommandName {
 	TEAMS,
 	ONJOINROLE,
 	VOLUME,
-	RELOADDATA;
+	RELOADDATA,
+	UPDATEYTTOKEN;
 }

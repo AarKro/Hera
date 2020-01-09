@@ -39,5 +39,6 @@ public class Commands {
 		COMMANDS.put(CommandName.ONJOINROLE, OnJoinRole::execute);
 		COMMANDS.put(CommandName.FLIP, Flip::execute);
 		COMMANDS.put(CommandName.TEAMS, Teams::execute);
+		COMMANDS.put(CommandName.UPDATEYTTOKEN, UpdateYtToken::execute);
 	}
 }
