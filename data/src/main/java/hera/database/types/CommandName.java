@@ -24,5 +24,6 @@ public enum CommandName {
 	JUMPTO,
 	ONJOINROLE,
 	VOLUME,
+	TWITCH,
 	RELOADDATA;
 }

@@ -38,5 +38,7 @@ public class Commands {
 		COMMANDS.put(CommandName.JUMPTO, JumpTo::execute);
 		COMMANDS.put(CommandName.ONJOINROLE, OnJoinRole::execute);
 		COMMANDS.put(CommandName.RELOADDATA, ReloadData::execute);
+		COMMANDS.put(CommandName.TWITCH, Twitch::execute);
+
 	}
 }
