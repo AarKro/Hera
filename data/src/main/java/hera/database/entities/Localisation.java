@@ -1,14 +1,23 @@
-package hera.database.entities.mapped;
+package hera.database.entities;
 
-import hera.database.entities.persistence.LocalisationPO;
 import hera.database.types.LocalisationKey;
 
-public class Localisation implements IMappedEntity<LocalisationPO>{
+import javax.persistence.*;
 
-	public static final String NAME = "Localisation";
+@Entity
+@Table(name = "localisation")
+public class Localisation implements PersistenceEntity {
+
+	public static final String ENTITY_NAME = "Localisation";
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private String language;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private LocalisationKey key;
 
 	private String value;
@@ -22,13 +31,21 @@ public class Localisation implements IMappedEntity<LocalisationPO>{
 		this.value = value;
 	}
 
-	public LocalisationPO mapToPO() {
-		return new LocalisationPO(
-				this.language,
-				this.key,
-				this.value
-		);
+	public Localisation(Long id, String language, LocalisationKey key, String value) {
+		this.id = id;
+		this.language = language;
+		this.key = key;
+		this.value = value;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getLanguage() {
 		return language;
 	}

@@ -1,7 +1,7 @@
 CREATE TABLE `module_settings` (
+  `id` bigint(11) PRIMARY KEY AUTO_INCREMENT,
   `guildFK` bigint(11) NOT NULL,
-  `commandFK` int(11) NOT NULL,
+  `commandFK` bigint(11) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
-  `roleFK` int(11) DEFAULT NULL,
-  PRIMARY KEY (`guildFK`, `commandFK`)
+  `roleFK` bigint(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

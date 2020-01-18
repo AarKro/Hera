@@ -13,9 +13,9 @@ import discord4j.core.object.util.Snowflake;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.music.HeraAudioManager;
-import hera.database.entities.mapped.Guild;
-import hera.database.entities.mapped.Token;
-import hera.database.entities.mapped.User;
+import hera.database.entities.Guild;
+import hera.database.entities.Token;
+import hera.database.entities.User;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.TokenKey;
 import org.slf4j.Logger;
@@ -62,57 +62,46 @@ public class Core {
 
 		// on guild join -> Add guild to store if we don't have it already
 		client.getEventDispatcher().on(GuildCreateEvent.class)
-				.flatMap(event -> Flux.fromIterable(STORE.guilds().getAll())
-						.filter(sg -> sg.getSnowflake().equals(event.getGuild().getId().asLong()))
-						.hasElements()
-						.filter(guildExists -> !guildExists)
-						.flatMap(guildExists -> {
-							STORE.guilds().add(new Guild(event.getGuild().getId().asLong()));
+				.flatMap(event-> {
+					STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
 
-							if (client.getSelfId().isPresent()) {
-								STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
-							}
+					if (client.getSelfId().isPresent()) {
+						STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
+					}
 
-							return Mono.empty();
-						})
-				)
+					return Mono.empty();
+				})
 				.subscribe();
 
 		// on guild join -> Add members of guild to store if we don't have them already
 		client.getEventDispatcher().on(GuildCreateEvent.class)
 				.flatMap(event -> event.getGuild().getMembers()
-						.flatMap(member -> Flux.fromIterable(STORE.users().getAll())
-								.filter(su -> su.getSnowflake().equals(member.getId().asLong()))
-								.hasElements()
-								.filter(memberExists -> !memberExists)
-								.flatMap(memberExists -> {
-									STORE.users().add(new User(member.getId().asLong()));
-									return Mono.empty();
-								})
-						).next()
+						.flatMap(member -> {
+							STORE.users().upsert(new User(member.getId().asLong()));
+							return Mono.empty();
+						})
+						.next()
 				)
 				.subscribe();
 
 		// on user joins guild  -> Add new member to store if we don't have him already
 		client.getEventDispatcher().on(MemberJoinEvent.class)
-				.flatMap(event -> Flux.fromIterable(STORE.users().getAll())
-						.doOnNext(su -> STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong()))
-						.filter(su -> su.getSnowflake().equals(event.getMember().getId().asLong()))
-						.hasElements()
-						.filter(memberExists -> !memberExists)
-						.flatMap(memberExists -> {
-							STORE.users().add(new User(event.getMember().getId().asLong()));
-							return Mono.empty();
-						})
-				)
+				.flatMap(event -> {
+					STORE.users().add(new User(event.getMember().getId().asLong()));
+					STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
+					return Mono.empty();
+				})
 				.subscribe();
 
-		//on user joins guild ->
+		// on user joins guild ->
 		client.getEventDispatcher().on(MemberJoinEvent.class)
 				.flatMap(event -> event.getGuild()
 						.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
 								.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
-										flatMap(r -> event.getMember().addRole(r.getId()))).next())
+										flatMap(r -> event.getMember().addRole(r.getId()))
+								)
+								.next()
+						)
 				)
 				.subscribe();
 
@@ -184,7 +173,7 @@ public class Core {
 																.flatMap(channel -> Mono.just(HeraUtil.extractParameters(content, command))
 																		.flatMap(params -> {
 																			// log commands call
-																			STATS.logCommand(command.getId(), member.getId().asLong(), guild.getId().asLong());
+																			STATS.logCommand(command, member.getId().asLong(), guild.getId().asLong());
 																			// execute commands
 																			return Commands.COMMANDS.get(command.getName()).execute(event, guild, member, channel, params);
 																		})

@@ -1,27 +1,30 @@
 package hera.store.unit;
 
-import hera.database.entities.mapped.Command;
-import hera.database.entities.persistence.CommandPO;
+import hera.database.entities.Command;
 import hera.database.types.CommandName;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CommandAccessUnit extends StorageAccessUnit<CommandPO, Command> {
+public class CommandAccessUnit extends StorageAccessUnit<Command> {
 
 	public CommandAccessUnit() {
-		super(CommandPO.ENTITY_NAME);
+		super(Command.class, Command.ENTITY_NAME);
 	}
 
 	public List<Command> forName(CommandName name) {
-		return data.stream().filter((c) -> c.getName().equals(name)).collect(Collectors.toList());
+		return get(Collections.singletonMap("name", name));
 	}
 
 	public List<Command> forName(String name) {
-		return data.stream().filter((c) -> c.getName().name().equals(name.toUpperCase())).collect(Collectors.toList());
-	}
+		List<CommandName> cm = Arrays.stream(CommandName.values())
+				.filter(c -> c.name().equals(name.toUpperCase()))
+				.collect(Collectors.toList());
 
-	public List<Command> forId(int id) {
-		return data.stream().filter((c) -> c.getId() == id).collect(Collectors.toList());
+		if (cm.isEmpty()) return Collections.emptyList();
+
+		return get(Collections.singletonMap("name", cm));
 	}
 }

@@ -1,16 +1,23 @@
-package hera.database.entities.mapped;
+package hera.database.entities;
 
-import hera.database.entities.persistence.TokenPO;
 import hera.database.types.TokenKey;
 
-public class Token implements IMappedEntity<TokenPO> {
+import javax.persistence.*;
 
-	public static final String NAME = "Token";
+@Entity
+@Table(name = "token")
+public class Token implements PersistenceEntity {
 
-	private int id;
+	public static final String ENTITY_NAME = "Token";
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private String token;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private TokenKey key;
 
 	private String description;
@@ -24,26 +31,18 @@ public class Token implements IMappedEntity<TokenPO> {
 		this.description = description;
 	}
 
-	public Token(int id, String token, TokenKey key, String description) {
+	public Token(Long id, String token, TokenKey key, String description) {
 		this.id = id;
 		this.token = token;
 		this.key = key;
 		this.description = description;
 	}
 
-	public TokenPO mapToPO() {
-		return new TokenPO(
-				this.token,
-				this.key,
-				this.description
-		);
-	}
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

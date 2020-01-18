@@ -9,7 +9,7 @@ import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
 import hera.core.music.HeraAudioManager;
-import hera.database.entities.mapped.Localisation;
+import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

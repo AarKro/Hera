@@ -1,16 +1,24 @@
-package hera.database.entities.mapped;
+package hera.database.entities;
 
-import hera.database.entities.persistence.GuildSettingPO;
 import hera.database.types.GuildSettingKey;
 
-public class GuildSetting implements IMappedEntity<GuildSettingPO> {
+import javax.persistence.*;
 
-	public static final String NAME = "GuildSetting";
+@Entity
+@Table(name = "guild_setting")
+public class GuildSetting implements PersistenceEntity {
 
-	private int id;
+	public static final String ENTITY_NAME = "GuildSetting";
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(name = "guildFK")
 	private Long guild;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private GuildSettingKey key;
 
 	private String value;
@@ -24,27 +32,18 @@ public class GuildSetting implements IMappedEntity<GuildSettingPO> {
 		this.value = value;
 	}
 
-	public GuildSetting(int id, Long guild, GuildSettingKey key, String value) {
+	public GuildSetting(Long id, Long guild, GuildSettingKey key, String value) {
 		this.id = id;
 		this.guild = guild;
 		this.key = key;
 		this.value = value;
 	}
 
-	public GuildSettingPO mapToPO() {
-		return new GuildSettingPO(
-				this.id,
-				this.guild,
-				this.key,
-				this.value
-		);
-	}
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -5,7 +5,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
-import hera.database.entities.mapped.Token;
+import hera.database.entities.Token;
 import hera.database.types.TokenKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

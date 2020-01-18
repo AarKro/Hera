@@ -1,27 +1,30 @@
 package hera.store.unit;
 
-import hera.database.entities.mapped.Localisation;
-import hera.database.entities.persistence.LocalisationPO;
+import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class LocalisationAccessUnit extends StorageAccessUnit<LocalisationPO, Localisation>{
+public class LocalisationAccessUnit extends StorageAccessUnit<Localisation>{
 
 	public LocalisationAccessUnit() {
-		super(LocalisationPO.ENTITY_NAME);
+		super(Localisation.class, Localisation.ENTITY_NAME);
 	}
 
 	public List<Localisation> forLanguage(String language) {
-		return data.stream().filter((l) -> l.getLanguage().equals(language)).collect(Collectors.toList());
+		return get(Collections.singletonMap("language", language));
 	}
 
 	public List<Localisation> forKey(LocalisationKey key) {
-		return data.stream().filter((l) -> l.getKey().equals(key)).collect(Collectors.toList());
+		return get(Collections.singletonMap("key", key));
 	}
 
 	public List<Localisation> forLanguageAndKey(String language, LocalisationKey key) {
-		return data.stream().filter((l) -> l.getLanguage().equals(language) && l.getKey().equals(key)).collect(Collectors.toList());
+		return get(new LinkedHashMap<String, Object>() {{
+			put("language", language);
+			put("key", key);
+		}});
 	}
 }

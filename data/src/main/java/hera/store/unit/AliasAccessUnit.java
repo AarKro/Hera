@@ -1,29 +1,29 @@
 package hera.store.unit;
 
-import hera.database.entities.mapped.Alias;
-import hera.database.entities.persistence.AliasPO;
+import hera.database.entities.Alias;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class AliasAccessUnit extends StorageAccessUnit<AliasPO, Alias>{
+public class AliasAccessUnit extends StorageAccessUnit<Alias>{
 
 	public AliasAccessUnit() {
-		super(AliasPO.ENTITY_NAME);
-	}
-
-	public List<Alias> forGuildAndAlias(Long guild, String alias) {
-		return data.stream().filter((a) -> a.getGuild() == null || a.getGuild().equals(guild))
-				.filter((a) -> a.getAlias().equalsIgnoreCase(alias)).collect(Collectors.toList());
+		super(Alias.class, Alias.ENTITY_NAME);
 	}
 
 	public List<Alias> forGuild(Long guild) {
-		return data.stream().filter((a) -> a.getGuild() == null || a.getGuild().equals(guild)).collect(Collectors.toList());
+		return get(Collections.singletonMap("guild", guild));
+	}
+
+	public List<Alias> forGuildAndAlias(Long guild, String alias) {
+		return get(new LinkedHashMap<String, Object>() {{
+			put("guild", guild);
+			put("alias", alias.toUpperCase());
+		}});
 	}
 
 	public boolean exists(String alias, Long guild) {
-		return data.stream().filter((a) -> a.getGuild() == null || a.getGuild().equals(guild))
-				.filter((a) -> a.getAlias().equalsIgnoreCase(alias))
-				.collect(Collectors.toList()).size() > 0;
+		return forGuildAndAlias(guild, alias).size() > 0;
 	}
 }

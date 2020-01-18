@@ -1,103 +1,86 @@
 package hera.database;
 
-import hera.database.entities.mapped.IMappedEntity;
-import hera.database.entities.persistence.IPersistenceEntity;
-import hera.database.entities.persistence.MetricPO;
+import hera.database.entities.Metric;
+import hera.database.entities.PersistenceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
+public class DAO<T extends PersistenceEntity> {
 	private static final Logger LOG = LoggerFactory.getLogger(DAO.class);
 
-	private static final String READ_ALL = "SELECT t FROM %s t";
+	private Class<T> cl;
 
 	private String entityName;
 
-	public DAO(String entityName) {
+	public DAO(Class<T> cl, String entityName) {
+		this.cl = cl;
 		this.entityName = entityName;
-		LOG.debug("DAO for entity {} created", entityName);
+		LOG.debug("DAO for entity {} created", cl.getName());
 	}
 
-	/**
-	@param customQuery A JPA query. In order to process it in a generic way, variables should just be
-	 the word 'value' followed by a number starting from 0 and incrementing by 1 at a time. (value0, value1, ...)
-	 */
-	public List<M> query(String customQuery, Object ...params) {
+	public List<T> getAll() {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		try {
-
-			Query query = entityManager.createQuery(customQuery);
-
-			for (int i = 0; i < params.length; i++) {
-				if (params[i] instanceof LocalDate) query.setParameter("value" + i, Date.valueOf((LocalDate) params[i]), TemporalType.DATE);
-				else query.setParameter("value" + i, params[i]);
-			}
-
-			List<T> result;
-			if (customQuery.startsWith("UPDATE")) result = executeCustomUpdateQuery(query);
-			else result = executeCustomSelectQuery(query);
-
-			if (result != null) return result.stream().map(T::mapToNonePO).collect(Collectors.toList());
-			else return null;
-
-		} finally {
-			entityManager.getTransaction().commit();
-			entityManager.close();
-		}
-	}
-
-	private List<T> executeCustomSelectQuery(Query query) {
-		@SuppressWarnings("unchecked")
-		List<T> results = query.getResultList();
-
-		if(results != null) {
-			LOG.info("{} results found", results.size());
-			return results;
-		}
-		else {
-			LOG.info("No results found");
-			return null;
-		}
-	}
-
-	private List<T> executeCustomUpdateQuery(Query query) {
-		query.executeUpdate();
-		return null;
-	}
-
-	public List<M> readAll() {
-		EntityManager entityManager = JPAUtil.getEntityManager();
-		entityManager.getTransaction().begin();
-
-		try {
-
-			String stringQuery = String.format(READ_ALL, entityName);
-			Query query = entityManager.createQuery(stringQuery);
-			LOG.info("Read all for entity {}", entityName);
+			Query query = entityManager.createQuery("SELECT e FROM " + entityName + " e");
 
 			@SuppressWarnings("unchecked")
 			List<T> results = query.getResultList();
 
-			if(results != null) {
-				LOG.info("{} results found", results.size());
-				return results.stream().map(T::mapToNonePO).collect(Collectors.toList());
+			return results;
+		} finally {
+			entityManager.getTransaction().commit();
+			entityManager.close();
+		}
+	}
+
+	public T get(Long id) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		try {
+			T entity = entityManager.find(cl, id);
+			return entity;
+		} finally {
+			entityManager.getTransaction().commit();
+			entityManager.close();
+		}
+	}
+
+	public List<T> get(Map<String, Object> whereClauses) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		StringBuilder queryString = new StringBuilder("SELECT e FROM " + entityName + " e WHERE ");
+
+		int i = 0;
+		String[] wheres = new String[whereClauses.size()];
+		for (String key : whereClauses.keySet()) {
+			wheres[i] = "e." + key + " = :value" + i;
+			i++;
+		}
+
+		queryString.append(String.join(" AND ", wheres));
+
+		try {
+			Query query = entityManager.createQuery(queryString.toString());
+
+			i = 0;
+			for (Object value : whereClauses.values()) {
+				query.setParameter("value" + i, value);
+				i++;
 			}
-			else {
-				LOG.info("No results found");
-				return null;
-			}
+
+			@SuppressWarnings("unchecked")
+			List<T> results = query.getResultList();
+
+			return results;
 
 		} finally {
 			entityManager.getTransaction().commit();
@@ -105,116 +88,82 @@ public class DAO<T extends IPersistenceEntity<M>, M extends IMappedEntity<T>> {
 		}
 	}
 
-	public M get(Class<T> cl, M object) {
+	public T insert(T object) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		try {
-
-			T entity = entityManager.find(cl, object.mapToPO());
-
-			if (entity != null) return entity.mapToNonePO();
-			return null;
-
-		} finally {
-			entityManager.getTransaction().commit();
-			entityManager.close();
-		}
-	}
-
-	public M insert(M object) {
-		EntityManager entityManager = JPAUtil.getEntityManager();
-		entityManager.getTransaction().begin();
-
-		try {
-
-			T po = object.mapToPO();
-			entityManager.persist(po);
+			entityManager.persist(object);
 
 			// only log if its not about metrics, else we would just spam our logs
-			if (!entityName.equals(MetricPO.ENTITY_NAME)) LOG.info("Persisted entity of type {}", object.getClass().getName());
+			if (!cl.getName().equals(Metric.class.getName())) LOG.info("Persisted entity of type {}", object.getClass().getName());
 
-			return po.mapToNonePO();
-
+			return object;
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
 		}
 	}
 
-	public void delete(Class<T> cl, M object) {
+	public void delete(Long id) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		try {
-
-			T entity = entityManager.find(cl, object.mapToPO());
+			T entity = entityManager.find(cl, id);
 			if (entity != null) {
 				entityManager.remove(entity);
 				LOG.info("Deleted entity of type {}", cl.getName());
 			} else {
 				LOG.error("No entity found for type {}", cl.getName());
 			}
-
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
 		}
 	}
 
-	public void update(Class<T> cl, M object) {
+	public void delete(T entity) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		try {
-
-			T entity = entityManager.find(cl, object.mapToPO());
-			if (entity != null) {
-				entityManager.merge(object.mapToPO());
-				LOG.info("Merged entity of type {}", object.getClass().getName());
-			} else {
-				LOG.error("No entity found for type {}", cl.getName());
-			}
-
+			entityManager.remove(entity);
+			LOG.info("Deleted entity of type {}", entity.getClass().getName());
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
 		}
 	}
 
-	public void update(Class<T> cl, M object, int id) {
+	public void update(T entity) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		try {
-
-			T entity = entityManager.find(cl, id);
-			if (entity != null) {
-				entityManager.merge(object.mapToPO());
-				LOG.info("Merged entity of type {}", object.getClass().getName());
-			} else {
-				LOG.error("No entity found for type {}", cl.getName());
-			}
-
+			entityManager.merge(entity);
+			LOG.info("Merged entity of type {}", entity.getClass().getName());
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
 		}
 	}
 
-	public void upsert(Class<T> cl, M object) {
+	public void upsert(T entity) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
 		try {
+			T persistedEntity = null;
 
-			T entity = entityManager.find(cl, object.mapToPO());
-			if (entity != null) {
-				entityManager.merge(object.mapToPO());
-				LOG.info("Merged entity of type {}", object.getClass().getName());
+			if (entity.getId() != null) persistedEntity = entityManager.find(cl, entity.getId());
+
+			if (persistedEntity != null) {
+				entityManager.merge(entity);
+				LOG.info("Merged entity of type {}", entity.getClass().getName());
 			} else {
-				entityManager.persist(object.mapToPO());
-				LOG.info("Persisted entity of type {}", object.getClass().getName());
+				entityManager.persist(entity);
+				LOG.info("Persisted entity of type {}", entity.getClass().getName());
 			}
 
 		} finally {

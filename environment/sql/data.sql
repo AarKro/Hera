@@ -1,55 +1,56 @@
-INSERT INTO `binding_type` (`id`, `type`) VALUES
-(0, 'Music'),
-(1, 'Announcement'),
-(2, 'Report');
+INSERT INTO `binding_type` (`type`) VALUES
+('Music'),
+('Announcement'),
+('Report');
 
-INSERT INTO `snowflake_type` (`id`, `type`) VALUES
-(0, 'Guild'),
-(1, 'Channel'),
-(2, 'User');
+INSERT INTO `snowflake_type` (`type`) VALUES
+('Guild'),
+('Channel'),
+('User');
 
-INSERT INTO `owner` (`userFK`) VALUES
+INSERT INTO `user` (`id`) VALUES
 (178581372284305409),
 (245597003323670528),
 (248116143020048384),
+(340585395899203585),
 (442711068737929216);
 
-INSERT INTO `user` (`snowflake`) VALUES
+INSERT INTO `owner` (`id`) VALUES
 (178581372284305409),
 (245597003323670528),
 (248116143020048384),
+(340585395899203585),
 (442711068737929216);
 
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
-(0, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
-(1, 'VERSION', 'Displays current version number', 0, 0, 0),
-(2, 'HELP', 'Shows this Help page', 0, 0, 0),
-(3, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1),
-(4, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
-(5, 'PREFIX', 'Sets command prefix', 1, 0, 1),
-(6, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
-(7, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
-(8, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
-(9, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
-(10, 'SKIP', 'Skip the current song', 0, 0, 0),
-(11, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
-(12, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0),
-(13, 'CLEAR', 'Clear the music queue', 0, 0, 0),
-(14, 'RESUME', 'Resume the music player', 0, 0, 0),
-(15, 'PAUSE', 'Pause the music player', 0, 0, 0),
-(16, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
-(17, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
-(18, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0),
-(19, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
-(20, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
-(21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
-(23, 'RELOADDATA', 'Refreshes the data in the bot with the data in the database', 0, 0, 2);
+(1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
+(2, 'VERSION', 'Displays current version number', 0, 0, 0),
+(3, 'HELP', 'Shows this Help page', 0, 0, 0),
+(4, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1),
+(5, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
+(6, 'PREFIX', 'Sets command prefix', 1, 0, 1),
+(7, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
+(8, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
+(9, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
+(10, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
+(11, 'SKIP', 'Skip the current song', 0, 0, 0),
+(12, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
+(13, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0),
+(14, 'CLEAR', 'Clear the music queue', 0, 0, 0),
+(15, 'RESUME', 'Resume the music player', 0, 0, 0),
+(16, 'PAUSE', 'Pause the music player', 0, 0, 0),
+(17, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
+(18, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
+(19, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0),
+(20, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
+(21, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
+(22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
+(23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
 
-INSERT INTO `token` (`id`, `token`, `name`, `description`) VALUES
-(0, '#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
-(1, '#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API'),
-(2, '#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
+INSERT INTO `token` (`token`, `name`, `description`) VALUES
+('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
+('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API'),
+('#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
 
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_UPTIME', 'I am up and running for the last %s'),
@@ -89,13 +90,13 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_ON_JOIN_ROLE', 'On join role set to %s'),
 ('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s');
 
-INSERT INTO `global_setting` (`id`, `name`, `value`) VALUES
-(0, 'VERSION', '2.0.0-alpha.1');
+INSERT INTO `global_setting` (`name`, `value`) VALUES
+('VERSION', '2.0.0-alpha.1');
 
-INSERT INTO `alias` (`id`, `commandFK`, `alias`) VALUES
-(1, 8, 'p'),
-(2, 9, 'q'),
-(3, 12, 'np'),
-(4, 11, 'lq'),
-(5, 13, 'clr'),
-(6, 3, 'delmsg');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES
+(8, 'P'),
+(9, 'Q'),
+(12, 'NP'),
+(11, 'LQ'),
+(13, 'CLR'),
+(3, 'DELMSG');

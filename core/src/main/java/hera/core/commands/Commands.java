@@ -37,6 +37,5 @@ public class Commands {
 		COMMANDS.put(CommandName.MOVE, Move::execute);
 		COMMANDS.put(CommandName.JUMPTO, JumpTo::execute);
 		COMMANDS.put(CommandName.ONJOINROLE, OnJoinRole::execute);
-		COMMANDS.put(CommandName.RELOADDATA, ReloadData::execute);
 	}
 }

@@ -9,7 +9,7 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.voice.AudioProvider;
 import discord4j.voice.VoiceConnection;
-import hera.database.entities.mapped.GuildSetting;
+import hera.database.entities.GuildSetting;
 import hera.database.types.GuildSettingKey;
 
 import java.util.HashMap;

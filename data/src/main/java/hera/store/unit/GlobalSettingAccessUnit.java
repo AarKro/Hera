@@ -1,19 +1,18 @@
 package hera.store.unit;
 
-import hera.database.entities.mapped.GlobalSetting;
-import hera.database.entities.persistence.GlobalSettingPO;
+import hera.database.entities.GlobalSetting;
 import hera.database.types.GlobalSettingKey;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class GlobalSettingAccessUnit extends StorageAccessUnit<GlobalSettingPO, GlobalSetting>{
+public class GlobalSettingAccessUnit extends StorageAccessUnit<GlobalSetting>{
 
 	public GlobalSettingAccessUnit() {
-		super(GlobalSettingPO.ENTITY_NAME);
+		super(GlobalSetting.class, GlobalSetting.ENTITY_NAME);
 	}
 
 	public List<GlobalSetting> forKey(GlobalSettingKey key) {
-		return data.stream().filter((g) -> g.getKey().equals(key)).collect(Collectors.toList());
+		return get(Collections.singletonMap("key", key));
 	}
 }

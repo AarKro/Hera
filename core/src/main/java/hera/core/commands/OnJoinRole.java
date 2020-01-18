@@ -5,10 +5,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
-import discord4j.core.object.util.Snowflake;
 import hera.core.HeraUtil;
-import hera.database.entities.mapped.GuildSetting;
-import hera.database.entities.mapped.Localisation;
+import hera.database.entities.GuildSetting;
+import hera.database.entities.Localisation;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
@@ -24,8 +23,16 @@ public class OnJoinRole {
 		return role.flatMap(r ->
 				HeraUtil.hasRightsToSetRole(guild, r).flatMap(b -> {
 					if(b) {
-						GuildSetting guildSetting = new GuildSetting(guild.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE, r.getId().asString());
-						STORE.guildSettings().upsert(guildSetting);
+						List<GuildSetting> gsList = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE);
+
+						if (gsList.isEmpty()) {
+							STORE.guildSettings().add(new GuildSetting(guild.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE, r.getId().asString()));
+						} else {
+							GuildSetting gs = gsList.get(0);
+							gs.setValue(r.getId().asString());
+							STORE.guildSettings().update(gs);
+						}
+
 						Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE, guild);
 						return channel.createMessage(spec -> spec.setEmbed(embed -> {
 							embed.setColor(Color.ORANGE);
@@ -40,6 +47,4 @@ public class OnJoinRole {
 					})
 		).then();
 	}
-
-
 }

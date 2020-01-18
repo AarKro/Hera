@@ -5,7 +5,7 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.database.entities.mapped.Command;
+import hera.database.entities.Command;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
@@ -23,11 +23,11 @@ public class Alias {
                 embed.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), params.get(0)));
             })).then();
         }
-        int commandId = commands.get(0).getId();
-        String alias = params.get(1);
+        Command command = commands.get(0);
+        String alias = params.get(1).toUpperCase();
 
         if (!STORE.alias().exists(alias, guild.getId().asLong())) {
-            STORE.alias().add(new hera.database.entities.mapped.Alias(commandId, alias, guild.getId().asLong()));
+            STORE.alias().add(new hera.database.entities.Alias(command, alias, guild.getId().asLong()));
         }
         return Mono.empty();
     }

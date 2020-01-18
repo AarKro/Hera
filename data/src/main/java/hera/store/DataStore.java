@@ -1,9 +1,9 @@
 package hera.store;
 
-import hera.database.entities.mapped.Owner;
-import hera.database.entities.mapped.User;
-import hera.database.entities.persistence.OwnerPO;
-import hera.database.entities.persistence.UserPO;
+import hera.database.entities.Guild;
+import hera.database.entities.Metric;
+import hera.database.entities.Owner;
+import hera.database.entities.User;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,6 @@ public class DataStore {
 	private AliasAccessUnit aliases;
 
 	private BindingAccessUnit bindings;
-
-	private MetricAccessUnit metrics;
 
 	private CommandAccessUnit commands;
 
@@ -38,11 +36,13 @@ public class DataStore {
 
 	private TokenAccessUnit tokens;
 
-	private GuildAccessUnit guilds;
+	private StorageAccessUnit<Guild> guilds;
 
-	private StorageAccessUnit<OwnerPO, Owner> owners;
+	private StorageAccessUnit<Owner> owners;
 
-	private StorageAccessUnit<UserPO, User> users;
+	private StorageAccessUnit<Metric> metrics;
+
+	private StorageAccessUnit<User> users;
 
 	private DataStore() {
 	}
@@ -51,7 +51,6 @@ public class DataStore {
 		LOG.info("Initialising DataStore");
 		aliases = new AliasAccessUnit();
 		bindings = new BindingAccessUnit();
-		metrics = new MetricAccessUnit();
 		commands = new CommandAccessUnit();
 		defaultRoles = new DefaultRoleAccessUnit();
 		globalSettings = new GlobalSettingAccessUnit();
@@ -61,40 +60,17 @@ public class DataStore {
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
-		guilds = new GuildAccessUnit();
-		owners = new StorageAccessUnit<>(OwnerPO.ENTITY_NAME);
-		users = new StorageAccessUnit<>(UserPO.ENTITY_NAME);
+		guilds = new StorageAccessUnit<>(Guild.class, Guild.ENTITY_NAME);
+		owners = new StorageAccessUnit<>(Owner.class, Owner.ENTITY_NAME);
+		metrics = new StorageAccessUnit<>(Metric.class, Metric.ENTITY_NAME);
+		users = new StorageAccessUnit<>(User.class, User.ENTITY_NAME);
 		LOG.info("DataStore initialised");
-	}
-
-	public void storeReload() {
-		LOG.info("Updating DataStore");
-		aliases.updateStore();
-		bindings.updateStore();
-		metrics.updateStore();
-		commands.updateStore();
-		defaultRoles.updateStore();
-		globalSettings.updateStore();
-		guildSettings.updateStore();
-		localisations.updateStore();
-		moduleSettings.updateStore();
-		roleMembers.updateStore();
-		roles.updateStore();
-		tokens.updateStore();
-		guilds.updateStore();
-		owners.updateStore();
-		users.updateStore();
-		LOG.info("DataStore updated");
 	}
 
 	public AliasAccessUnit alias() { return aliases;}
 
 	public BindingAccessUnit bindings() {
 		return bindings;
-	}
-
-	public MetricAccessUnit metrics() {
-		return metrics;
 	}
 
 	public CommandAccessUnit commands() {
@@ -133,15 +109,19 @@ public class DataStore {
 		return tokens;
 	}
 
-	public GuildAccessUnit guilds() {
+	public StorageAccessUnit<Guild> guilds() {
 		return guilds;
 	}
 
-	public StorageAccessUnit<OwnerPO, Owner> owners() {
+	public StorageAccessUnit<Owner> owners() {
 		return owners;
 	}
 
-	public StorageAccessUnit<UserPO, User> users() {
+	public StorageAccessUnit<Metric> metrics() {
+		return metrics;
+	}
+
+	public StorageAccessUnit<User> users() {
 		return users;
 	}
 }
