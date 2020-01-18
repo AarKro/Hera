@@ -1,4 +1,4 @@
-INSERT INTO `binding_type` (`id`, `type`) VALUES
+INSERT INTO `binding_type` (`type`) VALUES
 ('Music'),
 ('Announcement'),
 ('Report');
