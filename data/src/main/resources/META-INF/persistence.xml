@@ -8,6 +8,7 @@
         <description> Hibernate JPA Configuration. DB connection properties have to be overwritten by the application during runtime </description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <class>hera.database.entities.Alias</class>
         <class>hera.database.entities.Binding</class>
         <class>hera.database.entities.Command</class>
         <class>hera.database.entities.Metric</class>
