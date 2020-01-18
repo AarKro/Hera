@@ -19,11 +19,11 @@ public class ModuleSettingsAccessUnit extends StorageAccessUnit<ModuleSettings>{
 		return get(Collections.singletonMap("guild", guild));
 	}
 
-	public List<ModuleSettings> forCommand(int command) {
+	public List<ModuleSettings> forCommand(Long command) {
 		return get(Collections.singletonMap("command", command));
 	}
 
-	public List<ModuleSettings> forModule(Long guild, int command) {
+	public List<ModuleSettings> forModule(Long guild, Long command) {
 		return get(new LinkedHashMap<String, Object>() {{
 			put("guild", guild);
 			put("command", command);

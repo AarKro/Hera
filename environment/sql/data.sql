@@ -8,19 +8,19 @@ INSERT INTO `snowflake_type` (`type`) VALUES
 ('Channel'),
 ('User');
 
-INSERT INTO `user` (`snowflake`) VALUES
+INSERT INTO `user` (`id`) VALUES
 (178581372284305409),
 (245597003323670528),
 (248116143020048384),
 (340585395899203585),
 (442711068737929216);
 
-INSERT INTO `owner` (`userFK`) VALUES
-(1),
-(2),
-(3),
-(4),
-(5);
+INSERT INTO `owner` (`id`) VALUES
+(178581372284305409),
+(245597003323670528),
+(248116143020048384),
+(340585395899203585),
+(442711068737929216);
 
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
 (1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
@@ -94,9 +94,9 @@ INSERT INTO `global_setting` (`name`, `value`) VALUES
 ('VERSION', '2.0.0-alpha.1');
 
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES
-(8, 'p'),
-(9, 'q'),
-(12, 'np'),
-(11, 'lq'),
-(13, 'clr'),
-(3, 'delmsg');
+(8, 'P'),
+(9, 'Q'),
+(12, 'NP'),
+(11, 'LQ'),
+(13, 'CLR'),
+(3, 'DELMSG');

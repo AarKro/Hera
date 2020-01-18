@@ -12,7 +12,7 @@ public class Command implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	private CommandName name;
@@ -36,7 +36,7 @@ public class Command implements PersistenceEntity {
 		this.level = level;
 	}
 
-	public Command(int id, CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
+	public Command(Long id, CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -45,11 +45,11 @@ public class Command implements PersistenceEntity {
 		this.level = level;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

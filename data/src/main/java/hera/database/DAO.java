@@ -40,7 +40,7 @@ public class DAO<T extends PersistenceEntity> {
 		}
 	}
 
-	public T get(int id) {
+	public T get(Long id) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
@@ -60,10 +60,13 @@ public class DAO<T extends PersistenceEntity> {
 		StringBuilder queryString = new StringBuilder("SELECT e FROM " + entityName + " e WHERE ");
 
 		int i = 0;
+		String[] wheres = new String[whereClauses.size()];
 		for (String key : whereClauses.keySet()) {
-			queryString.append(key + " = :value" + i + " ");
+			wheres[i] = "e." + key + " = :value" + i;
 			i++;
 		}
+
+		queryString.append(String.join(" AND ", wheres));
 
 		try {
 			Query query = entityManager.createQuery(queryString.toString());
@@ -102,7 +105,7 @@ public class DAO<T extends PersistenceEntity> {
 		}
 	}
 
-	public void delete(int id) {
+	public void delete(Long id) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
@@ -151,7 +154,10 @@ public class DAO<T extends PersistenceEntity> {
 		entityManager.getTransaction().begin();
 
 		try {
-			T persistedEntity = entityManager.find(cl, entity.getId());
+			T persistedEntity = null;
+
+			if (entity.getId() != null) persistedEntity = entityManager.find(cl, entity.getId());
+
 			if (persistedEntity != null) {
 				entityManager.merge(entity);
 				LOG.info("Merged entity of type {}", entity.getClass().getName());

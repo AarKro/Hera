@@ -1,5 +1,5 @@
 CREATE TABLE `command` (
-  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `id` bigint(11) PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `description` varchar(500) NOT NULL,
   `paramCount` int(11) NOT NULL,

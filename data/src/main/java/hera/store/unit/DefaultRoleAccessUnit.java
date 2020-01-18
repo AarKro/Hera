@@ -15,7 +15,7 @@ public class DefaultRoleAccessUnit extends StorageAccessUnit<DefaultRole>{
 		return get(Collections.singletonMap("guild", guild));
 	}
 
-	public List<DefaultRole> forRole(int role) {
+	public List<DefaultRole> forRole(Long role) {
 		return get(Collections.singletonMap("role", role));
 	}
 }

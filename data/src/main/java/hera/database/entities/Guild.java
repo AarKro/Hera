@@ -9,31 +9,20 @@ public class Guild implements PersistenceEntity {
 	public static final String ENTITY_NAME = "Guild";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	private Long snowflake;
+	private Long id;
 
 	public Guild() {
 	}
 
-	public Guild(Long snowflake) {
-		this.snowflake = snowflake;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
+	public Guild(Long id) {
 		this.id = id;
 	}
 
-	public Long getSnowflake() {
-		return snowflake;
+	public Long getId() {
+		return id;
 	}
 
-	public void setSnowflake(Long snowflake) {
-		this.snowflake = snowflake;
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

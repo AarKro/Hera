@@ -18,13 +18,13 @@ public class LocalisationAccessUnit extends StorageAccessUnit<Localisation>{
 	}
 
 	public List<Localisation> forKey(LocalisationKey key) {
-		return get(Collections.singletonMap("key", key.name()));
+		return get(Collections.singletonMap("key", key));
 	}
 
 	public List<Localisation> forLanguageAndKey(String language, LocalisationKey key) {
 		return get(new LinkedHashMap<String, Object>() {{
 			put("language", language);
-			put("key", key.name());
+			put("key", key);
 		}});
 	}
 }

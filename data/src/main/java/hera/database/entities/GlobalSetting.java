@@ -12,7 +12,7 @@ public class GlobalSetting implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "name")
@@ -28,17 +28,17 @@ public class GlobalSetting implements PersistenceEntity {
 		this.value = value;
 	}
 
-	public GlobalSetting(int id, GlobalSettingKey key, String value) {
+	public GlobalSetting(Long id, GlobalSettingKey key, String value) {
 		this.id = id;
 		this.key = key;
 		this.value = value;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

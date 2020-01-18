@@ -9,31 +9,20 @@ public class User implements PersistenceEntity {
 	public static final String ENTITY_NAME = "User";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	private Long snowflake;
+	private Long id;
 
 	public User() {
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
+	public User(Long id) {
 		this.id = id;
 	}
 
-	public User(Long snowflake) {
-		this.snowflake = snowflake;
+	public Long getId() {
+		return id;
 	}
 
-	public Long getSnowflake() {
-		return snowflake;
-	}
-
-	public void setSnowflake(Long snowflake) {
-		this.snowflake = snowflake;
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

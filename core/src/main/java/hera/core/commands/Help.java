@@ -28,7 +28,7 @@ public class Help {
 
 	private static String getHelp(Guild guild) {
 
-		List<Integer> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
+		List<Long> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
 				.filter(ms -> !ms.isEnabled())
 				.map(ms -> ms.getCommand().getId())
 				.collect(Collectors.toList());

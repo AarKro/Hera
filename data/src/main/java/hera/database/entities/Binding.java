@@ -12,7 +12,7 @@ public class Binding implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(name = "guildFK")
 	private Long guild;
@@ -32,18 +32,18 @@ public class Binding implements PersistenceEntity {
 		this.channelSnowflake = channelSnowflake;
 	}
 
-	public Binding(int id, Long guild, BindingType bindingType, Long channelSnowflake) {
+	public Binding(Long id, Long guild, BindingType bindingType, Long channelSnowflake) {
 		this.id = id;
 		this.guild = guild;
 		this.bindingType = bindingType;
 		this.channelSnowflake = channelSnowflake;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

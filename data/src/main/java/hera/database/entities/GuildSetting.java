@@ -12,7 +12,7 @@ public class GuildSetting implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(name = "guildFK")
 	private Long guild;
@@ -32,18 +32,18 @@ public class GuildSetting implements PersistenceEntity {
 		this.value = value;
 	}
 
-	public GuildSetting(int id, Long guild, GuildSettingKey key, String value) {
+	public GuildSetting(Long id, Long guild, GuildSettingKey key, String value) {
 		this.id = id;
 		this.guild = guild;
 		this.key = key;
 		this.value = value;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

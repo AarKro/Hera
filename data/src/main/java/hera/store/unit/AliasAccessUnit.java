@@ -19,7 +19,7 @@ public class AliasAccessUnit extends StorageAccessUnit<Alias>{
 	public List<Alias> forGuildAndAlias(Long guild, String alias) {
 		return get(new LinkedHashMap<String, Object>() {{
 			put("guild", guild);
-			put("alias", alias);
+			put("alias", alias.toUpperCase());
 		}});
 	}
 

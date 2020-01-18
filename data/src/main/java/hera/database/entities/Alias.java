@@ -10,7 +10,7 @@ public class Alias implements PersistenceEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "commandFK")
@@ -30,18 +30,18 @@ public class Alias implements PersistenceEntity{
         this.guild = guild;
     }
 
-    public Alias(int id, Command command, String alias, Long guild) {
+    public Alias(Long id, Command command, String alias, Long guild) {
         this.id = id;
         this.command = command;
         this.alias = alias;
         this.guild = guild;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

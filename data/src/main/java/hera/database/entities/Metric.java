@@ -13,7 +13,7 @@ public class Metric implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "name")
@@ -48,7 +48,7 @@ public class Metric implements PersistenceEntity {
 		this.details = details;
 	}
 
-	public Metric(Integer id, MetricKey key, Timestamp date, Command command, Long guild, Long user, Long value, String details) {
+	public Metric(Long id, MetricKey key, Timestamp date, Command command, Long guild, Long user, Long value, String details) {
 		this.id = id;
 		this.key = key;
 		this.date = date;
@@ -59,11 +59,11 @@ public class Metric implements PersistenceEntity {
 		this.details = details;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

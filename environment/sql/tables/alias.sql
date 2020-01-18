@@ -1,6 +1,6 @@
 CREATE TABLE `alias` (
-  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-  `commandFK` int(11) NOT NULL,
+  `id` bigint(11) PRIMARY KEY AUTO_INCREMENT,
+  `commandFK` bigint(11) NOT NULL,
   `alias` varchar(20) NOT NULL,
-  `guildFK` int(11)
+  `guildFK` bigint(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

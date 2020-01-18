@@ -56,7 +56,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		return null;
 	}
 
-	public T get(int id) {
+	public T get(Long id) {
 		try {
 			// TODO: implement an abstracted way of dealing with DB retries for the get method
 			for(int i = 0; i < 3; i++) {
@@ -134,7 +134,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		}
 	}
 
-	public void delete(int id) {
+	public void delete(Long id) {
 		try {
 			retryOnFail(() -> dao.delete(id));
 		} catch(FailedAfterRetriesException e) {

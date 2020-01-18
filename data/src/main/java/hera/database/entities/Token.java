@@ -12,7 +12,7 @@ public class Token implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	private String token;
 
@@ -31,18 +31,18 @@ public class Token implements PersistenceEntity {
 		this.description = description;
 	}
 
-	public Token(int id, String token, TokenKey key, String description) {
+	public Token(Long id, String token, TokenKey key, String description) {
 		this.id = id;
 		this.token = token;
 		this.key = key;
 		this.description = description;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -20,7 +20,7 @@ ALTER TABLE `module_settings`
   ADD CONSTRAINT `module_settings_ibfk_3` FOREIGN KEY (`roleFK`) REFERENCES `role` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `owner`
-  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`userFK`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `role`
   ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`guildFK`) REFERENCES `guild` (`id`) ON DELETE CASCADE,

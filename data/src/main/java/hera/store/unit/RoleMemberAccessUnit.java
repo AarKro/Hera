@@ -13,14 +13,14 @@ public class RoleMemberAccessUnit extends StorageAccessUnit<RoleMember>{
 		super(RoleMember.class, RoleMember.ENTITY_NAME);
 	}
 
-	public List<RoleMember> forRole(int role) {
+	public List<RoleMember> forRole(Long role) {
 		return get(Collections.singletonMap("role", role));
 	}
 
-	public List<RoleMember> forRoleAndType(int role, SnowflakeType type) {
+	public List<RoleMember> forRoleAndType(Long role, SnowflakeType type) {
 		return get(new LinkedHashMap<String, Object>() {{
 			put("role", role);
-			put("snowflakeType", type.name());
+			put("snowflakeType", type);
 		}});
 	}
 }

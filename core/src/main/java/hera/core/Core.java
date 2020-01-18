@@ -88,6 +88,7 @@ public class Core {
 		client.getEventDispatcher().on(MemberJoinEvent.class)
 				.flatMap(event -> {
 					STORE.users().add(new User(event.getMember().getId().asLong()));
+					STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
 					return Mono.empty();
 				})
 				.subscribe();

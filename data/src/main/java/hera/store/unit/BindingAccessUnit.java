@@ -20,7 +20,7 @@ public class BindingAccessUnit extends StorageAccessUnit<Binding>{
 	public List<Binding> forGuildAndType(Long guild, BindingType type) {
 		return get(new LinkedHashMap<String, Object>() {{
 			put("guild", guild);
-			put("bindingType", type.name());
+			put("bindingType", type);
 		}});
 	}
 }

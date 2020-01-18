@@ -10,7 +10,7 @@ public class DefaultRole implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(name = "guildFK")
 	private Long guild;
@@ -27,17 +27,17 @@ public class DefaultRole implements PersistenceEntity {
 		this.role = role;
 	}
 
-	public DefaultRole(int id, Long guild, Role role) {
+	public DefaultRole(Long id, Long guild, Role role) {
 		this.id = id;
 		this.guild = guild;
 		this.role = role;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

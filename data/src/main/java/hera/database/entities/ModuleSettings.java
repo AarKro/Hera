@@ -10,7 +10,7 @@ public class ModuleSettings implements PersistenceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(name = "guildFK")
 	private Long guild;
@@ -35,7 +35,7 @@ public class ModuleSettings implements PersistenceEntity {
 		this.role = role;
 	}
 
-	public ModuleSettings(int id, Long guild, Command command, boolean enabled, Role role) {
+	public ModuleSettings(Long id, Long guild, Command command, boolean enabled, Role role) {
 		this.id = id;
 		this.guild = guild;
 		this.command = command;
@@ -43,11 +43,11 @@ public class ModuleSettings implements PersistenceEntity {
 		this.role = role;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
