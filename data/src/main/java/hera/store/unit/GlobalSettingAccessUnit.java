@@ -13,6 +13,6 @@ public class GlobalSettingAccessUnit extends StorageAccessUnit<GlobalSetting>{
 	}
 
 	public List<GlobalSetting> forKey(GlobalSettingKey key) {
-		return get(Collections.singletonMap("name", key.name()));
+		return get(Collections.singletonMap("key", key.name()));
 	}
 }

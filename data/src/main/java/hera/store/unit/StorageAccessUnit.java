@@ -6,7 +6,6 @@ import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +24,36 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		this.cl = cl;
 
 		LOG.info("StorageAccessUnit for entity {} created and initialized", cl.getName());
+	}
+
+	public List<T> getAll() {
+		try {
+			// TODO: implement an abstracted way of dealing with DB retries for the get method
+			for(int i = 0; i < 3; i++) {
+				try {
+					// We want to have a log message for when we retry after the modification failed
+					if (i > 0) LOG.info("Retrying previously failed DB modification ({})", i);
+					return dao.getAll();
+				} catch (Exception e) {
+					LOG.debug("Stacktrace:", e);
+					LOG.error("Error during DB modification, retry count: {}", i);
+
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e1) {
+						LOG.debug("Stacktrace:", e);
+						LOG.error("Error while trying to delay the retry function call on failed DB modification");
+					}
+				}
+			}
+
+			throw new FailedAfterRetriesException("DB modification failed after 3 retries");
+		} catch(FailedAfterRetriesException e) {
+			LOG.error("Error while trying to get entity of type {}", cl.getName());
+			LOG.debug("Stacktrace:", e);
+		}
+
+		return null;
 	}
 
 	public T get(int id) {
@@ -132,7 +161,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		}
 	}
 
-	public void retryOnFail(Runnable runnable) throws FailedAfterRetriesException {
+	protected void retryOnFail(Runnable runnable) throws FailedAfterRetriesException {
 		for(int i = 0; i < 3; i++) {
 			try {
 				// We want to have a log message for when we retry after the modification failed

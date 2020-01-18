@@ -14,17 +14,17 @@ public class GuildSettingAccessUnit extends StorageAccessUnit<GuildSetting>{
 	}
 
 	public List<GuildSetting> forGuild(Long guild) {
-		return get(Collections.singletonMap("guildFK", guild));
+		return get(Collections.singletonMap("guild", guild));
 	}
 
 	public List<GuildSetting> forKey(GuildSettingKey key) {
-		return get(Collections.singletonMap("name", key.name()));
+		return get(Collections.singletonMap("key", key.name()));
 	}
 
 	public List<GuildSetting> forGuildAndKey(Long guild, GuildSettingKey key) {
 		return get(new LinkedHashMap<String, Object>() {{
-			put("guildFK", guild);
-			put("name", key.name());
+			put("guild", guild);
+			put("key", key.name());
 		}});
 	}
 }

@@ -13,7 +13,7 @@ public class RoleAccessUnit extends StorageAccessUnit<Role>{
 	}
 
 	public List<Role> forGuild(Long guild) {
-		return get(Collections.singletonMap("guildFK", guild));
+		return get(Collections.singletonMap("guild", guild));
 	}
 
 	public List<Role> forName(String name) {
@@ -22,7 +22,7 @@ public class RoleAccessUnit extends StorageAccessUnit<Role>{
 
 	public List<Role> forGuildAndName(Long guild, String name) {
 		return get(new LinkedHashMap<String, Object>() {{
-			put("guildFK", guild);
+			put("guild", guild);
 			put("name", name);
 		}});
 	}

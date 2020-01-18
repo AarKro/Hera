@@ -13,12 +13,12 @@ public class AliasAccessUnit extends StorageAccessUnit<Alias>{
 	}
 
 	public List<Alias> forGuild(Long guild) {
-		return get(Collections.singletonMap("guildFK", guild));
+		return get(Collections.singletonMap("guild", guild));
 	}
 
 	public List<Alias> forGuildAndAlias(Long guild, String alias) {
 		return get(new LinkedHashMap<String, Object>() {{
-			put("guildFK", guild);
+			put("guild", guild);
 			put("alias", alias);
 		}});
 	}

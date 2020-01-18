@@ -7,7 +7,7 @@ import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
 import discord4j.core.object.util.Snowflake;
-import hera.database.entities.mapped.*;
+import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class HeraUtil {
 			if (aliases.isEmpty()) {
 				return null;
 			} else {
-				return STORE.commands().forId(aliases.get(0).getCommand()).get(0);
+				return STORE.commands().get(aliases.get(0).getCommand().getId());
 			}
 		} else {
 			return commands.get(0);
@@ -48,9 +48,7 @@ public class HeraUtil {
 
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
 
-		boolean isOwner = !STORE.owners().getAll().stream()
-				.filter(owner -> owner.getUser().equals(member.getId().asLong()))
-				.collect(Collectors.toList()).isEmpty();
+		boolean isOwner = !STORE.owners().forUser(member.getId().asLong()).isEmpty();
 
 		if (isOwner) return Mono.just(true);
 

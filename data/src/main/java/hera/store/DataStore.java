@@ -2,7 +2,6 @@ package hera.store;
 
 import hera.database.entities.Guild;
 import hera.database.entities.Metric;
-import hera.database.entities.Owner;
 import hera.database.entities.User;
 import hera.store.unit.*;
 import org.slf4j.Logger;
@@ -30,6 +29,8 @@ public class DataStore {
 
 	private ModuleSettingsAccessUnit moduleSettings;
 
+	private OwnerAccessUnit owners;
+
 	private RoleMemberAccessUnit roleMembers;
 
 	private RoleAccessUnit roles;
@@ -39,8 +40,6 @@ public class DataStore {
 	private StorageAccessUnit<Guild> guilds;
 
 	private StorageAccessUnit<Metric> metrics;
-
-	private StorageAccessUnit<Owner> owners;
 
 	private StorageAccessUnit<User> users;
 
@@ -57,12 +56,12 @@ public class DataStore {
 		guildSettings = new GuildSettingAccessUnit();
 		localisations = new LocalisationAccessUnit();
 		moduleSettings = new ModuleSettingsAccessUnit();
+		owners = new OwnerAccessUnit();
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
 		guilds = new StorageAccessUnit<>(Guild.class, Guild.ENTITY_NAME);
 		metrics = new StorageAccessUnit<>(Metric.class, Metric.ENTITY_NAME);
-		owners = new StorageAccessUnit<>(Owner.class, Owner.ENTITY_NAME);
 		users = new StorageAccessUnit<>(User.class, User.ENTITY_NAME);
 		LOG.info("DataStore initialised");
 	}
@@ -97,6 +96,10 @@ public class DataStore {
 		return moduleSettings;
 	}
 
+	public OwnerAccessUnit owners() {
+		return owners;
+	}
+
 	public RoleMemberAccessUnit roleMembers() {
 		return roleMembers;
 	}
@@ -115,10 +118,6 @@ public class DataStore {
 
 	public StorageAccessUnit<Metric> metrics() {
 		return metrics;
-	}
-
-	public StorageAccessUnit<Owner> owners() {
-		return owners;
 	}
 
 	public StorageAccessUnit<User> users() {

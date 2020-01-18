@@ -5,9 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.database.entities.mapped.Command;
-import hera.database.entities.mapped.Localisation;
-import hera.database.entities.mapped.ModuleSettings;
+import hera.database.entities.Command;
+import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
@@ -29,11 +28,18 @@ public class Help {
 
 	private static String getHelp(Guild guild) {
 
-		List<Integer> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream().filter(ms -> !ms.isEnabled()).map(ModuleSettings::getCommand).collect(Collectors.toList());
+		List<Integer> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
+				.filter(ms -> !ms.isEnabled())
+				.map(ms -> ms.getCommand().getId())
+				.collect(Collectors.toList());
+
 		List<Command> command = STORE.commands().getAll();
 
-		//NOTE this might be a problem later on (Integer compare)
-		List<String> commandStrings = command.stream().filter(cmd -> !disabledCommands.contains(cmd.getId())).map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase())).collect(Collectors.toList());
+		// NOTE this might be a problem later on (Integer compare)
+		List<String> commandStrings = command.stream()
+				.filter(cmd -> !disabledCommands.contains(cmd.getId()))
+				.map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase()))
+				.collect(Collectors.toList());
 
 		StringBuilder helpStringBuilder = new StringBuilder();
 		for (String commandString : commandStrings) {

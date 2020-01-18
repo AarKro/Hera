@@ -13,6 +13,6 @@ public class TokenAccessUnit extends StorageAccessUnit<Token>{
 	}
 
 	public List<Token> forKey(TokenKey key) {
-		return get(Collections.singletonMap("name", key.name()));
+		return get(Collections.singletonMap("key", key.name()));
 	}
 }

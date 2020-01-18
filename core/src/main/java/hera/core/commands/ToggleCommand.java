@@ -5,9 +5,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.database.entities.mapped.Command;
-import hera.database.entities.mapped.Localisation;
-import hera.database.entities.mapped.ModuleSettings;
+import hera.database.entities.Command;
+import hera.database.entities.Localisation;
+import hera.database.entities.ModuleSettings;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
@@ -30,7 +30,7 @@ public class ToggleCommand {
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
 
 		if (ms == null) {
-			ms = new ModuleSettings(guild.getId().asLong(), cmd.getId(), false, null);
+			ms = new ModuleSettings(guild.getId().asLong(), cmd, false, null);
 			STORE.moduleSettings().add(ms);
 		} else {
 			ms.setEnabled(!ms.isEnabled());

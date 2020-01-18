@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +21,23 @@ public class DAO<T extends PersistenceEntity> {
 		this.cl = cl;
 		this.entityName = entityName;
 		LOG.debug("DAO for entity {} created", cl.getName());
+	}
+
+	public List<T> getAll() {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		try {
+			Query query = entityManager.createQuery("SELECT e FROM " + entityName + " e");
+
+			@SuppressWarnings("unchecked")
+			List<T> results = query.getResultList();
+
+			return results;
+		} finally {
+			entityManager.getTransaction().commit();
+			entityManager.close();
+		}
 	}
 
 	public T get(int id) {

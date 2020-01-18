@@ -43,8 +43,7 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (19, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
 (20, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
 (21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
-(23, 'RELOADDATA', 'Refreshes the data in the bot with the data in the database', 0, 0, 2);
+(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES
 ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),

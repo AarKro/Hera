@@ -4,7 +4,6 @@ import hera.database.entities.DefaultRole;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DefaultRoleAccessUnit extends StorageAccessUnit<DefaultRole>{
 
@@ -13,10 +12,10 @@ public class DefaultRoleAccessUnit extends StorageAccessUnit<DefaultRole>{
 	}
 
 	public List<DefaultRole> forGuild(Long guild) {
-		return get(Collections.singletonMap("guildFK", guild));
+		return get(Collections.singletonMap("guild", guild));
 	}
 
 	public List<DefaultRole> forRole(int role) {
-		return get(Collections.singletonMap("roleFK", role));
+		return get(Collections.singletonMap("role", role));
 	}
 }

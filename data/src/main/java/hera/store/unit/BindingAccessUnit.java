@@ -14,13 +14,13 @@ public class BindingAccessUnit extends StorageAccessUnit<Binding>{
 	}
 
 	public List<Binding> forGuild(Long guild) {
-		return get(Collections.singletonMap("guildFK", guild));
+		return get(Collections.singletonMap("guild", guild));
 	}
 
 	public List<Binding> forGuildAndType(Long guild, BindingType type) {
 		return get(new LinkedHashMap<String, Object>() {{
-			put("guildFK", guild);
-			put("bindingTypeFK", type.name());
+			put("guild", guild);
+			put("bindingType", type.name());
 		}});
 	}
 }
