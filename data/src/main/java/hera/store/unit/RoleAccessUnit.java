@@ -1,26 +1,29 @@
 package hera.store.unit;
 
-import hera.database.entities.mapped.Role;
-import hera.database.entities.persistence.RolePO;
+import hera.database.entities.Role;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class RoleAccessUnit extends StorageAccessUnit<RolePO, Role>{
+public class RoleAccessUnit extends StorageAccessUnit<Role>{
 
 	public RoleAccessUnit() {
-		super(RolePO.ENTITY_NAME);
+		super(Role.class, Role.ENTITY_NAME);
 	}
 
 	public List<Role> forGuild(Long guild) {
-		return data.stream().filter((g) -> g.getGuild().equals(guild)).collect(Collectors.toList());
+		return get(Collections.singletonMap("guildFK", guild));
 	}
 
 	public List<Role> forName(String name) {
-		return data.stream().filter((g) -> g.getName().equals(name)).collect(Collectors.toList());
+		return get(Collections.singletonMap("name", name));
 	}
 
 	public List<Role> forGuildAndName(Long guild, String name) {
-		return data.stream().filter((g) -> g.getGuild().equals(guild) && g.getName().equals(name)).collect(Collectors.toList());
+		return get(new LinkedHashMap<String, Object>() {{
+			put("guildFK", guild);
+			put("name", name);
+		}});
 	}
 }

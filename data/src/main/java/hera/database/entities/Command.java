@@ -1,17 +1,17 @@
-package hera.database.entities.persistence;
+package hera.database.entities;
 
-import hera.database.entities.mapped.Command;
 import hera.database.types.CommandName;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "command")
-public class CommandPO implements IPersistenceEntity<Command> {
+public class Command implements PersistenceEntity {
 
-	public static final String ENTITY_NAME = "CommandPO";
+	public static final String ENTITY_NAME = "Command";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Enumerated(EnumType.STRING)
@@ -25,10 +25,10 @@ public class CommandPO implements IPersistenceEntity<Command> {
 
 	private int level;
 
-	public CommandPO() {
+	public Command() {
 	}
 
-	public CommandPO(CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
+	public Command(CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
 		this.name = name;
 		this.description = description;
 		this.paramCount = paramCount;
@@ -36,15 +36,13 @@ public class CommandPO implements IPersistenceEntity<Command> {
 		this.level = level;
 	}
 
-	public Command mapToNonePO() {
-		return new Command(
-				this.id,
-				this.name,
-				this.description,
-				this.paramCount,
-				this.infiniteParam,
-				this.level
-		);
+	public Command(int id, CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.paramCount = paramCount;
+		this.infiniteParam = infiniteParam;
+		this.level = level;
 	}
 
 	public int getId() {

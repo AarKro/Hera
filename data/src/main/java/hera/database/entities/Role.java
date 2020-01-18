@@ -1,16 +1,23 @@
-package hera.database.entities.mapped;
+package hera.database.entities;
 
-import hera.database.entities.persistence.RolePO;
+import javax.persistence.*;
 
-public class Role implements IMappedEntity<RolePO> {
+@Entity
+@Table(name = "role")
+public class Role implements PersistenceEntity {
 
-	public static final String NAME = "Role";
+	public static final String ENTITY_NAME = "Role";
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name = "guildFK")
 	private Long guild;
 
-	private int parent;
+	@ManyToOne
+	@JoinColumn(name = "parent")
+	private Role parent;
 
 	private String name;
 
@@ -19,28 +26,19 @@ public class Role implements IMappedEntity<RolePO> {
 	public Role() {
 	}
 
-	public Role(Long guild, int parent, String name, String description) {
+	public Role(Long guild, Role parent, String name, String description) {
 		this.guild = guild;
 		this.parent = parent;
 		this.name = name;
 		this.description = description;
 	}
 
-	public Role(int id, Long guild, int parent, String name, String description) {
+	public Role(int id, Long guild, Role parent, String name, String description) {
 		this.id = id;
 		this.guild = guild;
 		this.parent = parent;
 		this.name = name;
 		this.description = description;
-	}
-
-	public RolePO mapToPO() {
-		return new RolePO(
-				this.guild,
-				this.parent,
-				this.name,
-				this.description
-		);
 	}
 
 	public int getId() {
@@ -59,11 +57,11 @@ public class Role implements IMappedEntity<RolePO> {
 		this.guild = guild;
 	}
 
-	public int getParent() {
+	public Role getParent() {
 		return parent;
 	}
 
-	public void setParent(int parent) {
+	public void setParent(Role parent) {
 		this.parent = parent;
 	}
 

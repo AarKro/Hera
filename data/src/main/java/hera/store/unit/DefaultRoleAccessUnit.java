@@ -1,22 +1,22 @@
 package hera.store.unit;
 
-import hera.database.entities.mapped.DefaultRole;
-import hera.database.entities.persistence.DefaultRolePO;
+import hera.database.entities.DefaultRole;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DefaultRoleAccessUnit extends StorageAccessUnit<DefaultRolePO, DefaultRole>{
+public class DefaultRoleAccessUnit extends StorageAccessUnit<DefaultRole>{
 
 	public DefaultRoleAccessUnit() {
-		super(DefaultRolePO.ENTITY_NAME);
+		super(DefaultRole.class, DefaultRole.ENTITY_NAME);
 	}
 
 	public List<DefaultRole> forGuild(Long guild) {
-		return data.stream().filter((d) -> d.getGuild().equals(guild)).collect(Collectors.toList());
+		return get(Collections.singletonMap("guildFK", guild));
 	}
 
 	public List<DefaultRole> forRole(int role) {
-		return data.stream().filter((d) -> d.getRole() == role).collect(Collectors.toList());
+		return get(Collections.singletonMap("roleFK", role));
 	}
 }

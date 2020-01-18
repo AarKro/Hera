@@ -1,3 +1,4 @@
 CREATE TABLE `guild` (
-  `snowflake` bigint(11) PRIMARY KEY
+  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `snowflake` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

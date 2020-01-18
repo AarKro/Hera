@@ -1,15 +1,14 @@
-package hera.database.entities.persistence;
+package hera.database.entities;
 
-import hera.database.entities.mapped.GlobalSetting;
 import hera.database.types.GlobalSettingKey;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "global_setting")
-public class GlobalSettingPO implements IPersistenceEntity<GlobalSetting> {
+public class GlobalSetting implements PersistenceEntity {
 
-	public static final String ENTITY_NAME = "GlobalSettingPO";
+	public static final String ENTITY_NAME = "GlobalSetting";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,21 +20,18 @@ public class GlobalSettingPO implements IPersistenceEntity<GlobalSetting> {
 
 	private String value;
 
-	public GlobalSettingPO() {
+	public GlobalSetting() {
 	}
 
-	public GlobalSettingPO(int id, GlobalSettingKey key, String value) {
-		this.id = id;
+	public GlobalSetting(GlobalSettingKey key, String value) {
 		this.key = key;
 		this.value = value;
 	}
 
-	public GlobalSetting mapToNonePO() {
-		return new GlobalSetting(
-				this.id,
-				this.key,
-				this.value
-		);
+	public GlobalSetting(int id, GlobalSettingKey key, String value) {
+		this.id = id;
+		this.key = key;
+		this.value = value;
 	}
 
 	public int getId() {

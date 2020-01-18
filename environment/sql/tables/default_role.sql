@@ -1,5 +1,5 @@
 CREATE TABLE `default_role` (
-  `guildFK` bigint(11) NOT NULL,
-  `roleFK` int(11) NOT NULL,
-   PRIMARY KEY (`guildFK`, `roleFK`)
+  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `guildFK` int(11) NOT NULL,
+  `roleFK` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -1,25 +1,34 @@
-package hera.database.entities.mapped;
+package hera.database.entities;
 
-import hera.database.entities.persistence.MetricPO;
 import hera.database.types.MetricKey;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
-public class Metric implements IMappedEntity<MetricPO> {
+@Entity
+@Table(name = "metric")
+public class Metric implements PersistenceEntity {
 
-	public static final String NAME = "CommandMetrics";
+	public static final String ENTITY_NAME = "Metric";
 
-	private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "name")
 	private MetricKey key;
 
-	private LocalDateTime date;
+	private Timestamp date;
 
-	private Integer command;
+	@ManyToOne
+	@JoinColumn(name = "commandFK")
+	private Command command;
 
+	@Column(name = "guildFK")
 	private Long guild;
 
+	@Column(name = "userFK")
 	private Long user;
 
 	private Long value;
@@ -29,7 +38,17 @@ public class Metric implements IMappedEntity<MetricPO> {
 	public Metric() {
 	}
 
-	public Metric(Integer id, MetricKey key, LocalDateTime date, Integer command, Long guild, Long user, Long value, String details) {
+	public Metric(MetricKey key, Timestamp date, Command command, Long guild, Long user, Long value, String details) {
+		this.key = key;
+		this.date = date;
+		this.command = command;
+		this.guild = guild;
+		this.user = user;
+		this.value = value;
+		this.details = details;
+	}
+
+	public Metric(Integer id, MetricKey key, Timestamp date, Command command, Long guild, Long user, Long value, String details) {
 		this.id = id;
 		this.key = key;
 		this.date = date;
@@ -40,34 +59,11 @@ public class Metric implements IMappedEntity<MetricPO> {
 		this.details = details;
 	}
 
-	public Metric(MetricKey key, LocalDateTime date, Integer command, Long guild, Long user, Long value, String details) {
-		this.key = key;
-		this.date = date;
-		this.command = command;
-		this.guild = guild;
-		this.user = user;
-		this.value = value;
-		this.details = details;
-	}
-
-	public MetricPO mapToPO() {
-		return new MetricPO(
-				this.id,
-				this.key,
-				Timestamp.valueOf(this.date),
-				this.command,
-				this.guild,
-				this.user,
-				this.value,
-				this.details
-		);
-	}
-
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -79,19 +75,19 @@ public class Metric implements IMappedEntity<MetricPO> {
 		this.key = key;
 	}
 
-	public LocalDateTime getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
-	public Integer getCommand() {
+	public Command getCommand() {
 		return command;
 	}
 
-	public void setCommand(Integer command) {
+	public void setCommand(Command command) {
 		this.command = command;
 	}
 
