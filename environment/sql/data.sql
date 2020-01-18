@@ -8,42 +8,44 @@ INSERT INTO `snowflake_type` (`type`) VALUES
 ('Channel'),
 ('User');
 
-INSERT INTO `owner` (`userFK`) VALUES
-(178581372284305409),
-(245597003323670528),
-(248116143020048384),
-(442711068737929216);
-
 INSERT INTO `user` (`snowflake`) VALUES
 (178581372284305409),
 (245597003323670528),
 (248116143020048384),
+(340585395899203585),
 (442711068737929216);
 
+INSERT INTO `owner` (`userFK`) VALUES
+(1),
+(2),
+(3),
+(4),
+(5);
+
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
-(0, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
-(1, 'VERSION', 'Displays current version number', 0, 0, 0),
-(2, 'HELP', 'Shows this Help page', 0, 0, 0),
-(3, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1),
-(4, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
-(5, 'PREFIX', 'Sets command prefix', 1, 0, 1),
-(6, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
-(7, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
-(8, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
-(9, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
-(10, 'SKIP', 'Skip the current song', 0, 0, 0),
-(11, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
-(12, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0),
-(13, 'CLEAR', 'Clear the music queue', 0, 0, 0),
-(14, 'RESUME', 'Resume the music player', 0, 0, 0),
-(15, 'PAUSE', 'Pause the music player', 0, 0, 0),
-(16, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
-(17, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
-(18, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0),
-(19, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
-(20, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
-(21, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(22, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
+(1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
+(2, 'VERSION', 'Displays current version number', 0, 0, 0),
+(3, 'HELP', 'Shows this Help page', 0, 0, 0),
+(4, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1),
+(5, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
+(6, 'PREFIX', 'Sets command prefix', 1, 0, 1),
+(7, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
+(8, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
+(9, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
+(10, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
+(11, 'SKIP', 'Skip the current song', 0, 0, 0),
+(12, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
+(13, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0),
+(14, 'CLEAR', 'Clear the music queue', 0, 0, 0),
+(15, 'RESUME', 'Resume the music player', 0, 0, 0),
+(16, 'PAUSE', 'Pause the music player', 0, 0, 0),
+(17, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
+(18, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
+(19, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0),
+(20, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
+(21, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
+(22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
+(23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES
 ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
