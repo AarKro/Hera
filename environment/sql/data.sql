@@ -46,7 +46,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (21, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
 (22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
 (23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
-(24, 'FLIP', 'Flips a coin', 0, 0, 0);
+(24, 'FLIP', 'Flips a coin', 0, 0, 0),
+(25, 'TEAMS', 'Makes teams from the specified parameters', 3, 1, 0);
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES
 ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
@@ -84,6 +85,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_FLIP_TAILS', 'Tails'),
 ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist'),
 ('en', 'COMMAND_SHUFFLE', 'Queue shuffled'),
+('en', 'COMMAND_TEAM_TEAM', 'Team'),
 ('en', 'COMMAND_REMOVE', 'Removed from queue'),
 ('en', 'COMMAND_REMOVE_ERROR', 'There is nothing at queue index %s'),
 ('en', 'COMMAND_MOVE', 'Moved %s to %s'),
