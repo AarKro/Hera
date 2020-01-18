@@ -70,7 +70,7 @@ public class DAO<T extends PersistenceEntity> {
 
 			i = 0;
 			for (Object value : whereClauses.values()) {
-				query.setParameter("value" + 1, value);
+				query.setParameter("value" + i, value);
 				i++;
 			}
 
