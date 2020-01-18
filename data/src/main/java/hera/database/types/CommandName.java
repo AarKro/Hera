@@ -10,6 +10,7 @@ public enum CommandName {
 	JOIN,
 	PLAY,
 	LEAVE,
+	FLIP,
 	QUEUE,
 	SKIP,
 	LOOPQUEUE,

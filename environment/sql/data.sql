@@ -23,6 +23,7 @@ INSERT INTO `owner` (`id`) VALUES
 (442711068737929216);
 
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
+<<<<<<< HEAD
 (1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
 (2, 'VERSION', 'Displays current version number', 0, 0, 0),
 (3, 'HELP', 'Shows this Help page', 0, 0, 0),
@@ -45,7 +46,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (20, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
 (21, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
 (22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
+(23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
+(24, 'FLIP', 'Flips a coin', 0, 0, 0);
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES
 ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
@@ -79,6 +81,8 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_CLEAR', 'Queue cleared'),
 ('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on'),
 ('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off'),
+('en', 'COMMAND_FLIP_HEADS', 'Heads'),
+('en', 'COMMAND_FLIP_TAILS', 'Tails'),
 ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist'),
 ('en', 'COMMAND_SHUFFLE', 'Queue shuffled'),
 ('en', 'COMMAND_REMOVE', 'Removed from queue'),
