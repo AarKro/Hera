@@ -87,7 +87,7 @@ public class Core {
 		// on user joins guild  -> Add new member to store if we don't have him already
 		client.getEventDispatcher().on(MemberJoinEvent.class)
 				.flatMap(event -> {
-					STORE.users().add(new User(event.getMember().getId().asLong()));
+					STORE.users().upsert(new User(event.getMember().getId().asLong()));
 					STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
 					return Mono.empty();
 				})
