@@ -19,17 +19,4 @@ public class TokenAccessUnit extends StorageAccessUnit<Token>{
 	public List<Token> forKey(TokenKey key) {
 		return get(Collections.singletonMap("key", key));
 	}
-
-	public void update(Token token) {
-		try {
-			List<Token> foundTokens = forKey(token.getKey());
-
-			foundTokens.get(0).setToken(token.getToken());
-			retryOnFail(() -> dao.update(TokenPO.class, foundTokens.get(0), foundTokens.get(0).getId()));
-
-		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to add entity of type GuildSettingsPO");
-			LOG.debug("Stacktrace:", e);
-		}
-	}
 }
