@@ -87,19 +87,16 @@ public class HeraUtil {
 		String[] parts = message.split(" ");
 		List<String> params = new ArrayList<>();
 
-		// start at index 1 so we skip the perfix + command
+		// start at index 1 so we skip the prefix + command
 		for(int i = 1 ; i <= command.getParamCount(); i++) {
 			params.add(parts[i]);
 		}
 
+		//TODO make this better when doing optional parameters
 		if (command.isInfiniteParam()) {
-			StringBuilder multiPartParam = new StringBuilder();
 			for (int i = command.getParamCount() + 1; i < parts.length; i++) {
-				multiPartParam.append(" ");
-				multiPartParam.append(parts[i]);
+				params.add(parts[i]);
 			}
-
-			params.add(multiPartParam.toString().trim());
 		}
 
 		return params;
