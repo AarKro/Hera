@@ -67,7 +67,7 @@ public class DataStore {
 		LOG.info("DataStore initialised");
 	}
 
-	public AliasAccessUnit alias() { return aliases;}
+	public AliasAccessUnit aliases() { return aliases;}
 
 	public BindingAccessUnit bindings() {
 		return bindings;

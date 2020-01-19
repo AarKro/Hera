@@ -100,9 +100,9 @@ INSERT INTO `global_setting` (`name`, `value`) VALUES
 ('VERSION', '2.0.0-alpha.1');
 
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES
-(8, 'P'),
-(9, 'Q'),
-(12, 'NP'),
-(11, 'LQ'),
-(13, 'CLR'),
-(3, 'DELMSG');
+(9, 'P'),
+(10, 'Q'),
+(13, 'NP'),
+(12, 'LQ'),
+(14, 'CLR'),
+(4, 'DELMSG');

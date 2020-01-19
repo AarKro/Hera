@@ -17,7 +17,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static hera.store.DataStore.STORE;
 
@@ -35,7 +34,7 @@ public class HeraUtil {
 		String commandName = message.split(" ")[0].substring(prefix.length());
 		List<Command> commands = STORE.commands().forName(commandName);
 		if (commands.isEmpty()) {
-			List<Alias> aliases = STORE.alias().forGuildAndAlias(guild.getId().asLong(), commandName);
+			List<Alias> aliases = STORE.aliases().forGuildAndAlias(guild.getId().asLong(), commandName);
 			if (aliases.isEmpty()) {
 				return null;
 			} else {

@@ -26,8 +26,8 @@ public class Alias {
         Command command = commands.get(0);
         String alias = params.get(1).toUpperCase();
 
-        if (!STORE.alias().exists(alias, guild.getId().asLong())) {
-            STORE.alias().add(new hera.database.entities.Alias(command, alias, guild.getId().asLong()));
+        if (!STORE.aliases().exists(alias, guild.getId().asLong())) {
+            STORE.aliases().add(new hera.database.entities.Alias(command, alias, guild.getId().asLong()));
         }
         return Mono.empty();
     }
