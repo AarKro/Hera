@@ -23,7 +23,6 @@ INSERT INTO `owner` (`id`) VALUES
 (442711068737929216);
 
 INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
-<<<<<<< HEAD
 (1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
 (2, 'VERSION', 'Displays current version number', 0, 0, 0),
 (3, 'HELP', 'Shows this Help page', 0, 0, 0),
