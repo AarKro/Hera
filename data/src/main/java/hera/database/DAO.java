@@ -62,7 +62,11 @@ public class DAO<T extends PersistenceEntity> {
 		int i = 0;
 		String[] wheres = new String[whereClauses.size()];
 		for (String key : whereClauses.keySet()) {
-			wheres[i] = "e." + key + " = :value" + i;
+			if (whereClauses.get(key) != null) {
+				wheres[i] = "e." + key + " = :value" + i;
+			} else {
+				wheres[i] = "e." + key + " IS NULL";
+			}
 			i++;
 		}
 
@@ -73,7 +77,9 @@ public class DAO<T extends PersistenceEntity> {
 
 			i = 0;
 			for (Object value : whereClauses.values()) {
-				query.setParameter("value" + i, value);
+				if (value != null) {
+					query.setParameter("value" + i, value);
+				}
 				i++;
 			}
 

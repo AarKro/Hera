@@ -47,7 +47,8 @@ INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam
 (22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
 (23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
 (24, 'FLIP', 'Flips a coin', 0, 0, 0),
-(25, 'TEAMS', 'Makes teams from the specified parameters', 3, 1, 0);
+(25, 'TEAMS', 'Makes teams from the specified parameters', 3, 1, 0),
+(26, 'UPDATEYTTOKEN', 'Sets the youtube tokens to a new value', 2, 0, 2);
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES
 ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
@@ -99,9 +100,9 @@ INSERT INTO `global_setting` (`name`, `value`) VALUES
 ('VERSION', '2.0.0-alpha.1');
 
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES
-(8, 'P'),
-(9, 'Q'),
-(12, 'NP'),
-(11, 'LQ'),
-(13, 'CLR'),
-(3, 'DELMSG');
+(9, 'P'),
+(10, 'Q'),
+(13, 'NP'),
+(12, 'LQ'),
+(14, 'CLR'),
+(4, 'DELMSG');
