@@ -97,7 +97,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
 ('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s');
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES
-('VERSION', '2.0.0-alpha.1');
+('VERSION', '2.0.0-alpha.2');
 
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES
 (9, 'P'),

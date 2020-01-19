@@ -2,7 +2,6 @@ package hera.store.unit;
 
 import hera.database.entities.Token;
 import hera.database.types.TokenKey;
-import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
