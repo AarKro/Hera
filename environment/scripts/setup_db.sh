@@ -4,24 +4,64 @@ start=$PWD
 script=`dirname "$BASH_SOURCE"`
 cd $script
 
-# set environment variables
+command="mysql --login-path=local"
+
+echo "---------- START HERA DATABASE SETUP SCRIPT ----------"
+
+echo "Set environment variables"
 source env_var.sh
 
 cd ../sql
 
-commands=$(mktemp)
-trap "rm -f $commands" 0 2 3 15
+echo "Drop DATABASE $HERA_DB_NAME if exists"
+$command <<< "DROP DATABASE IF EXISTS $HERA_DB_NAME;"
+echo "Create DATABASE $HERA_DB_NAME"
+$command <<< "CREATE DATABASE $HERA_DB_NAME;"
 
-echo "DROP DATABASE IF EXISTS $HERA_DB_NAME;" > $commands
-echo "CREATE DATABASE $HERA_DB_NAME;" >> $commands
-echo "USE $HERA_DB_NAME;" >> $commands
-cat tables/* >> $commands
-cat data.sql >> $commands
-sed -i -e "s/\#DISCORD_LOGIN_TOKEN/$HERA_LOGIN_TOKEN/g" $commands
-sed -i -e "s/\#YOUTUBE_API_TOKEN/$HERA_YOUTUBE_TOKEN/g" $commands
-sed -i -e "s/\#YOUTUBE_API_APP_NAME/$HERA_YOUTUBE_APP_NAME/g" $commands
-cat constraints.sql >> $commands
+command="mysql --login-path=local $HERA_DB_NAME"
 
-mysql -u $HERA_DB_USER -p$HERA_DB_PWD < $commands
+cd tables
+for file in *; do
+  echo "Create TABLE from $file"
+  $command < $file
+done
+cd ..
+
+echo "Insert data from data.sql"
+$command < data.sql
+
+echo "Update token DISCORD_LOGIN_TOKEN"
+$command <<< "UPDATE token SET token = '$HERA_LOGIN_TOKEN' WHERE name = 'DISCORD_LOGIN';"
+echo "Update token YOUTUBE_API_TOKEN"
+$command <<< "UPDATE token SET token = '$HERA_YOUTUBE_TOKEN' WHERE name = 'YOUTUBE_API_TOKEN';"
+echo "Update token YOUTUBE_API_APP_NAME"
+$command <<< "UPDATE token SET token = '$HERA_YOUTUBE_APP_NAME' WHERE name = 'YOUTUBE_API_APP_NAME';"
+
+echo "Create CONSTRAINTS"
+$command < constraints.sql
+
+echo
+echo
+echo "⡆⣐⢕⢕⢕⢕⢕⢕⢕⢕⠅⢗⢕⢕⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕"
+echo "⢐⢕⢕⢕⢕⢕⣕⢕⢕⠕⠁⢕⢕⢕⢕⢕⢕⢕⢕⠅⡄⢕⢕⢕⢕⢕⢕⢕⢕⢕"
+echo "⢕⢕⢕⢕⢕⠅⢗⢕⠕⣠⠄⣗⢕⢕⠕⢕⢕⢕⠕⢠⣿⠐⢕⢕⢕⠑⢕⢕⠵⢕"
+echo "⢕⢕⢕⢕⠁⢜⠕⢁⣴⣿⡇⢓⢕⢵⢐⢕⢕⠕⢁⣾⢿⣧⠑⢕⢕⠄⢑⢕⠅⢕"
+echo "⢕⢕⠵⢁⠔⢁⣤⣤⣶⣶⣶⡐⣕⢽⠐⢕⠕⣡⣾⣶⣶⣶⣤⡁⢓⢕⠄⢑⢅⢑"
+echo "⠍⣧⠄⣶⣾⣿⣿⣿⣿⣿⣿⣷⣔⢕⢄⢡⣾⣿⣿⣿⣿⣿⣿⣿⣦⡑⢕⢤⠱⢐"
+echo "⢠⢕⠅⣾⣿⠋⢿⣿⣿⣿⠉⣿⣿⣷⣦⣶⣽⣿⣿⠈⣿⣿⣿⣿⠏⢹⣷⣷⡅⢐"
+echo "⣔⢕⢥⢻⣿⡀⠈⠛⠛⠁⢠⣿⣿⣿⣿⣿⣿⣿⣿⡀⠈⠛⠛⠁⠄⣼⣿⣿⡇⢔"
+echo "⢕⢕⢽⢸⢟⢟⢖⢖⢤⣶⡟⢻⣿⡿⠻⣿⣿⡟⢀⣿⣦⢤⢤⢔⢞⢿⢿⣿⠁⢕"
+echo "⢕⢕⠅⣐⢕⢕⢕⢕⢕⣿⣿⡄⠛⢀⣦⠈⠛⢁⣼⣿⢗⢕⢕⢕⢕⢕⢕⡏⣘⢕"
+echo "⢕⢕⠅⢓⣕⣕⣕⣕⣵⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣷⣕⢕⢕⢕⢕⡵⢀⢕⢕"
+echo "⢑⢕⠃⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⢕⢕⢕"
+echo "⣆⢕⠄⢱⣄⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢁⢕⢕⠕⢁"
+echo "⣿⣦⡀⣿⣿⣷⣶⣬⣍⣛⣛⣛⡛⠿⠿⠿⠛⠛⢛⣛⣉⣭⣤⣂⢜⠕⢑⣡⣴⣿"
+echo "⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕"
+echo "⢕DATABASE IS NOW READY TO USE⢕"
+echo "⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕"
+echo
+echo
+
+echo "---------- END HERA DATABASE SETUP SCRIPT ----------"
 
 cd $start
