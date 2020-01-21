@@ -1,108 +1,98 @@
-INSERT INTO `binding_type` (`type`) VALUES
-('Music'),
-('Announcement'),
-('Report');
+INSERT INTO `binding_type` (`type`) VALUES ('Music');
+INSERT INTO `binding_type` (`type`) VALUES ('Announcement');
+INSERT INTO `binding_type` (`type`) VALUES ('Report');
 
-INSERT INTO `snowflake_type` (`type`) VALUES
-('Guild'),
-('Channel'),
-('User');
+INSERT INTO `snowflake_type` (`type`) VALUES ('Guild');
+INSERT INTO `snowflake_type` (`type`) VALUES ('Channel');
+INSERT INTO `snowflake_type` (`type`) VALUES ('User');
 
-INSERT INTO `user` (`id`) VALUES
-(178581372284305409),
-(245597003323670528),
-(248116143020048384),
-(340585395899203585),
-(442711068737929216);
+INSERT INTO `user` (`id`) VALUES (178581372284305409);
+INSERT INTO `user` (`id`) VALUES (245597003323670528);
+INSERT INTO `user` (`id`) VALUES (248116143020048384);
+INSERT INTO `user` (`id`) VALUES (340585395899203585);
+INSERT INTO `user` (`id`) VALUES (442711068737929216);
 
-INSERT INTO `owner` (`id`) VALUES
-(178581372284305409),
-(245597003323670528),
-(248116143020048384),
-(340585395899203585),
-(442711068737929216);
+INSERT INTO `owner` (`id`) VALUES (178581372284305409);
+INSERT INTO `owner` (`id`) VALUES (245597003323670528);
+INSERT INTO `owner` (`id`) VALUES (248116143020048384);
+INSERT INTO `owner` (`id`) VALUES (340585395899203585);
+INSERT INTO `owner` (`id`) VALUES (442711068737929216);
 
-INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES
-(1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0),
-(2, 'VERSION', 'Displays current version number', 0, 0, 0),
-(3, 'HELP', 'Shows this Help page', 0, 0, 0),
-(4, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1),
-(5, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1),
-(6, 'PREFIX', 'Sets command prefix', 1, 0, 1),
-(7, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0),
-(8, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0),
-(9, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0),
-(10, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0),
-(11, 'SKIP', 'Skip the current song', 0, 0, 0),
-(12, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0),
-(13, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0),
-(14, 'CLEAR', 'Clear the music queue', 0, 0, 0),
-(15, 'RESUME', 'Resume the music player', 0, 0, 0),
-(16, 'PAUSE', 'Pause the music player', 0, 0, 0),
-(17, 'VOLUME', 'Sets volume for music player', 1, 0, 1),
-(18, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1),
-(19, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0),
-(20, 'REMOVE', 'Removes a song from the queue', 1, 0, 0),
-(21, 'MOVE', 'Move a song to a new queue index', 2, 0, 0),
-(22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0),
-(23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1),
-(24, 'FLIP', 'Flips a coin', 0, 0, 0),
-(25, 'TEAMS', 'Makes teams from the specified parameters', 3, 1, 0),
-(26, 'UPDATEYTTOKEN', 'Sets the youtube tokens to a new value', 2, 0, 2);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (1, 'UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (2, 'VERSION', 'Displays current version number', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (3, 'HELP', 'Shows this Help page', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (4, 'DELETEMESSAGES', 'Deletes the newest channel messages', 1, 0, 1);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (5, 'ALIAS', 'Creates an alias for a command that works in only the current guild.', 2, 0, 1);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (6, 'PREFIX', 'Sets command prefix', 1, 0, 1);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (7, 'JOIN', 'Makes Hera join the voice channel you are currently connected to', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (8, 'LEAVE', 'Makes Hera leave the voice channel she is currently connected to', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (9, 'PLAY', 'Plays/Queues a song from a link / a few keywords to search on YouTube', 1, 1, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (10, 'QUEUE', 'Display the songs currently in the queue', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (11, 'SKIP', 'Skip the current song', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (12, 'LOOPQUEUE', 'Toggle loop queue mode', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (13, 'NOWPLAYING', 'Display the currently playing song', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (14, 'CLEAR', 'Clear the music queue', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (15, 'RESUME', 'Resume the music player', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (16, 'PAUSE', 'Pause the music player', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (17, 'VOLUME', 'Sets volume for music player', 1, 0, 1);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (18, 'TOGGLECOMMAND', 'Toggles if a command is enabled or not', 1, 0, 1);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (19, 'SHUFFLE', 'Shuffles the queue', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (20, 'REMOVE', 'Removes a song from the queue', 1, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (21, 'MOVE', 'Move a song to a new queue index', 2, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (22, 'JUMPTO', 'Jump to an index of the queue', 1, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (23, 'ONJOINROLE', 'Sets a role to use on join', 1, 0, 1);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (24, 'FLIP', 'Flips a coin', 0, 0, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (25, 'TEAMS', 'Makes teams from the specified parameters', 3, 1, 0);
+INSERT INTO `command` (`id`, `name`, `description`, `paramCount`, `infiniteParam`, `level`) VALUES (26, 'UPDATEYTTOKEN', 'Sets the youtube tokens to a new value', 2, 0, 2);
 
-INSERT INTO `token` (`token`, `name`, `description`) VALUES
-('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login'),
-('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API'),
-('#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
+INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
+INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API');
+INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
 
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES
-('en', 'COMMAND_UPTIME', 'I am up and running for the last %s'),
-('en', 'COMMAND_VERSION', 'I am running on version %s'),
-('en', 'COMMAND_HELP', 'Commands'),
-('en', 'COMMAND_PREFIX', 'Prefix set to: %s'),
-('en', 'COMMAND_PLAY_TITLE', 'Added to queue'),
-('en', 'COMMAND_RESUMED', 'Player resumed'),
-('en', 'COMMAND_RESUMED_ERROR', 'Player is already resumed'),
-('en', 'COMMAND_PAUSED', 'Player paused'),
-('en', 'COMMAND_PAUSED_ERROR', 'Player is already paused'),
-('en', 'COMMAND_QUEUE_TITLE', 'Current queue'),
-('en', 'COMMAND_QUEUE_EMPTY', 'looks like it\'s empty'),
-('en', 'COMMAND_QUEUE_FOOTER', 'Page: %s of %s | Total songs: %s | Total duration: %s | Loop queue: %s'),
-('en', 'COMMON_ENABLED', 'enabled'),
-('en', 'COMMON_DISABLED', 'disabled'),
-('en', 'COMMAND_NOWPLAYING', 'Author: %s'),
-('en', 'COMMAND_NOWPLAYING_NO_SONG', 'No song is playing right now...'),
-('en', 'COMMAND_NOWPLAYING_TITLE', 'Now playing'),
-('en', 'COMMAND_JOIN', 'You need to be in a voice channel to use this command'),
-('en', 'COMMAND_LOOPQUEUE', 'Loop queue %s'),
-('en', 'COMMAND_VOLUME', 'Volume set to %d'),
-('en', 'COMMAND_VOLUME_ERROR', 'Volume can only be set to a number between 0 and 100'),
-('en', 'COMMAND_VOLUME_MUTE', 'I am now muted'),
-('en', 'PLAYLIST_LOADED', 'Total songs: %s | Total duration: %s'),
-('en', 'COMMAND_CLEAR', 'Queue cleared'),
-('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on'),
-('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off'),
-('en', 'COMMAND_FLIP_HEADS', 'Heads'),
-('en', 'COMMAND_FLIP_TAILS', 'Tails'),
-('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist'),
-('en', 'COMMAND_SHUFFLE', 'Queue shuffled'),
-('en', 'COMMAND_TEAM_TEAM', 'Team'),
-('en', 'COMMAND_REMOVE', 'Removed from queue'),
-('en', 'COMMAND_REMOVE_ERROR', 'There is nothing at queue index %s'),
-('en', 'COMMAND_MOVE', 'Moved %s to %s'),
-('en', 'COMMAND_MOVE_ERROR', 'Could not move a song with indexes %s and %s'),
-('en', 'COMMAND_JUMPTO', 'Jumped to %s'),
-('en', 'COMMAND_JUMPTO_ERROR', 'Can not jump to queue index %s'),
-('en', 'COMMAND_ON_JOIN_ROLE', 'On join role set to %s'),
-('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VERSION', 'I am running on version %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_HELP', 'Commands');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PREFIX', 'Prefix set to: %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PLAY_TITLE', 'Added to queue');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_RESUMED', 'Player resumed');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_RESUMED_ERROR', 'Player is already resumed');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PAUSED', 'Player paused');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PAUSED_ERROR', 'Player is already paused');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_QUEUE_TITLE', 'Current queue');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_QUEUE_EMPTY', 'looks like it\'s empty');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_QUEUE_FOOTER', 'Page: %s of %s | Total songs: %s | Total duration: %s | Loop queue: %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMON_ENABLED', 'enabled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMON_DISABLED', 'disabled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_NOWPLAYING', 'Author: %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_NOWPLAYING_NO_SONG', 'No song is playing right now...');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_NOWPLAYING_TITLE', 'Now playing');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_JOIN', 'You need to be in a voice channel to use this command');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_LOOPQUEUE', 'Loop queue %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOLUME', 'Volume set to %d');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOLUME_ERROR', 'Volume can only be set to a number between 0 and 100');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOLUME_MUTE', 'I am now muted');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'PLAYLIST_LOADED', 'Total songs: %s | Total duration: %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_CLEAR', 'Queue cleared');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_TOGGLE_ON', 'Command %s is now on');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_TOGGLE_OFF', 'Command %s is now off');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FLIP_HEADS', 'Heads');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FLIP_TAILS', 'Tails');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_NOT_REAL_COMMAND', 'Command %s doesn\'t exist');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_SHUFFLE', 'Queue shuffled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_TEAM_TEAM', 'Team');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_REMOVE', 'Removed from queue');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_REMOVE_ERROR', 'There is nothing at queue index %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MOVE', 'Moved %s to %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MOVE_ERROR', 'Could not move a song with indexes %s and %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_JUMPTO', 'Jumped to %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_JUMPTO_ERROR', 'Can not jump to queue index %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ON_JOIN_ROLE', 'On join role set to %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s');
 
-INSERT INTO `global_setting` (`name`, `value`) VALUES
-('VERSION', '2.0.0-alpha.2');
+INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.2');
 
-INSERT INTO `alias` (`commandFK`, `alias`) VALUES
-(9, 'P'),
-(10, 'Q'),
-(13, 'NP'),
-(12, 'LQ'),
-(14, 'CLR'),
-(4, 'DELMSG');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES (9, 'P');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES (10, 'Q');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES (13, 'NP');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES (12, 'LQ');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES (14, 'CLR');
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES (4, 'DELMSG');
