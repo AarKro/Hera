@@ -5,6 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
@@ -14,7 +16,7 @@ import java.util.Random;
 
 public class Flip {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return channel.createMessage(flipCoin(guild)).then();
+		return MessageSender.send(new HeraMsgSpec(channel).setDescription(flipCoin(guild))).then();
 	}
 
 	private static String flipCoin(Guild guild) {

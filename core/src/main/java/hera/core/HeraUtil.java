@@ -7,6 +7,9 @@ import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
 import discord4j.core.object.util.Snowflake;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
+import hera.core.messages.MessageType;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -62,7 +65,10 @@ public class HeraUtil {
 						.hasElement()
 						.flatMap(exist -> {
 							if (exist) return Mono.just(true);
-							return channel.createMessage(LOCALISATION_PERMISSION_ERROR.getValue()).flatMap(c -> Mono.just(false));
+							return MessageSender.send(new HeraMsgSpec(channel) {{
+								setDescription(LOCALISATION_PERMISSION_ERROR.getValue());
+								setMessageType(MessageType.ERROR);
+							}}).flatMap(message -> Mono.just(false));
 						});
 			} else {
 				return Mono.just(true);
@@ -70,15 +76,16 @@ public class HeraUtil {
 		} else {
 			return Mono.just(false);
 		}
-
-
 	}
 
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
 		return Mono.just(message.split(" ").length - 1 >= command.getParamCount())
 		.flatMap(valid -> {
 			if (valid) return Mono.just(true);
-			else return channel.createMessage(LOCALISATION_PARAM_ERROR.getValue()).flatMap(c -> Mono.just(false));
+			else return MessageSender.send(new HeraMsgSpec(channel) {{
+				setDescription(LOCALISATION_PARAM_ERROR.getValue());
+				setMessageType(MessageType.ERROR);
+			}}).flatMap(c -> Mono.just(false));
 		});
 	}
 
@@ -163,18 +170,27 @@ public class HeraUtil {
 	}
 
 	public static Mono<Boolean> hasRightsToSetRole(Guild guild, Role role) {
-		return hasSetRoleRights(guild).flatMap(hasSetRole -> hasHigherRole(guild, role).flatMap(hasHigherRole -> Mono.just(hasSetRole && hasHigherRole)));
+		return hasSetRoleRights(guild)
+				.flatMap(hasSetRole -> hasHigherRole(guild, role)
+						.flatMap(hasHigherRole -> Mono.just(hasSetRole && hasHigherRole))
+				);
 	}
 
 	public static Mono<Boolean> hasSetRoleRights(Guild guild) {
-		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(m -> m.getRoles().any(p -> p.getPermissions().asEnumSet().contains(Permission.MANAGE_ROLES))));
+		return client.getSelf()
+				.flatMap(user -> user.asMember(guild.getId())
+						.flatMap(m -> m.getRoles().any(p -> p.getPermissions().asEnumSet().contains(Permission.MANAGE_ROLES)))
+				);
 	}
 
 	public static Mono<Boolean> hasHigherRole(Guild guild, Role role) {
-		return client.getSelf().flatMap(user -> user.asMember(guild.getId())
+		return client.getSelf()
+				.flatMap(user -> user.asMember(guild.getId())
 						.flatMap(m -> m.getHighestRole()
-								.filterWhen(r -> Mono.just(r.getRawPosition() > role.getRawPosition())).hasElement()));
-
+								.filterWhen(r -> Mono.just(r.getRawPosition() > role.getRawPosition()))
+								.hasElement()
+						)
+				);
 	}
 
 	public static boolean isRoleMention(String string) {

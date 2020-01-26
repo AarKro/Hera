@@ -6,6 +6,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -16,11 +18,10 @@ import java.util.List;
 
 public class NowPlaying {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return getNowPlayingString(guild).flatMap(nowPlayingStringParts -> channel.createMessage(spec -> spec.setEmbed(embed -> {
-			embed.setColor(Color.ORANGE);
-			embed.setTitle(nowPlayingStringParts[0]);
-			embed.setDescription(nowPlayingStringParts[1]);
-		})))
+		return getNowPlayingString(guild).flatMap(nowPlayingStringParts -> MessageSender.send(new HeraMsgSpec(channel) {{
+			setTitle(nowPlayingStringParts[0]);
+			setDescription(nowPlayingStringParts[1]);
+		}}))
 		.then();
 	}
 
