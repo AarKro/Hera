@@ -18,7 +18,28 @@ import java.util.stream.Collectors;
 import static hera.store.DataStore.STORE;
 
 public class Help {
+
+
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
+		Mono<String> message;
+		String title;
+		String commandName = params.get(0);
+		if (commandName.isEmpty()) {
+			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
+			message = getHelpFromCommandList(getEnabledCommands(member, guild));
+		} else if (commandName.equals("all")) {
+			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
+			List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
+			message = getHelpFromCommandList(Mono.just(commands));
+		} else {
+			Command cmd = getHelp(commandName);
+			if (cmd == null) {
+				
+			}
+
+		}
+
+
 		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild);
 		return channel.createMessage(spec -> spec.setEmbed(embed -> {
 			embed.setColor(Color.ORANGE);
@@ -27,22 +48,26 @@ public class Help {
 		})).then();
 	}
 
-	private static String getHelp(Guild guild) {
-
-
-
-		// NOTE this might be a problem later on (Integer compare)
-
-
-		StringBuilder helpStringBuilder = new StringBuilder();
-		for (String commandString : commandStrings) {
-			helpStringBuilder.append(commandString + "\n");
-		}
-
-		return helpStringBuilder.toString();
+	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands) {
+		return commands.flatMap(cmnds -> {
+			StringBuilder helpStringBuilder = new StringBuilder();
+			for (Command cmd : cmnds) {
+				helpStringBuilder.append(cmd.getName() + "\n");
+			}
+			return Mono.just(helpStringBuilder.toString());
+		});
 	}
 
-	private static Mono<Void> getEnabledCommands(Member member, Guild guild) {
+	private static Command getHelp(String commandName) {
+		List<Command> commands =  STORE.commands().forName(commandName).stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
+		if (commands.isEmpty()) {
+			return null;
+		} else {
+			return commands.get(0);
+		}
+	}
+
+	private static Mono<List<Command>> getEnabledCommands(Member member, Guild guild) {
 		List<Long> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
 				.filter(ms -> !ms.isEnabled())
 				.map(ms -> ms.getCommand().getId())
@@ -56,16 +81,10 @@ public class Help {
 				.collect(Collectors.toList());
 
 		return member.getBasePermissions()
-				.doOnNext(permissions -> {
-					List<Command> usableCommands = enabledCommands.stream()
+				.flatMap(permissions -> {
+						return Mono.just(enabledCommands.stream()
 						.filter(command -> HeraUtil.checkPermissions(command, permissions))
-						.collect(Collectors.toList());
-
-					// do whatever you want with these commands in here
-				}).then();
-
-		.map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase()))
-
-		member.getBasePermissions().flatMap(p );
+						.collect(Collectors.toList()));
+				});
 }
 }
