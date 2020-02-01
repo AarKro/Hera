@@ -6,6 +6,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
+import hera.core.messages.MessageType;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -23,26 +26,25 @@ public class Move {
 			AudioTrack track = HeraAudioManager.getScheduler(guild).moveTrack(trackIndex, destination);
 			if (track != null) {
 				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MOVE, guild);
-				return channel.createMessage(spec -> spec.setEmbed(embed -> {
-					embed.setColor(Color.ORANGE);
-					embed.setTitle(String.format(local.getValue(), trackIndex + 1, destination + 1));
-					embed.setDescription(
-							track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
-									+ track.getInfo().title + "](" + track.getInfo().uri + ")"
-					);
-				})).then();
+				String message = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
+						+ track.getInfo().title + "](" + track.getInfo().uri + ")";
+
+				return MessageSender.send(new HeraMsgSpec(channel) {{
+					setTitle(String.format(local.getValue(), trackIndex + 1, destination + 1));
+					setDescription(message);
+				}}).then();
 			} else {
 				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MOVE_ERROR, guild);
-				return channel.createMessage(spec -> spec.setEmbed(embed -> {
-					embed.setColor(Color.ORANGE);
-					embed.setDescription(String.format(local.getValue(), trackIndex + 1, destination + 1));
-				})).then();
+				return MessageSender.send(new HeraMsgSpec(channel) {{
+					setDescription(String.format(local.getValue(), trackIndex + 1, destination + 1));
+					setMessageType(MessageType.ERROR);
+				}}).then();
 			}
 		} catch (NumberFormatException e) {
-			return channel.createMessage(spec -> spec.setEmbed(embed -> {
-				embed.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
-				embed.setColor(Color.ORANGE);
-			})).then();
+			return MessageSender.send(new HeraMsgSpec(channel) {{
+				setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
+				setMessageType(MessageType.ERROR);
+			}}).then();
 		}
 	}
 }

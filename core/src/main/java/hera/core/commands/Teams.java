@@ -5,6 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
@@ -22,12 +24,12 @@ public class Teams {
         try {
             teamCount = Integer.parseInt(params.get(0));
         } catch (NumberFormatException n) {
-            //no teamamount specified
+            // no team amount specified
             start = 0;
         }
 
         List<String> names = new ArrayList<>();
-        for (int x = start;x < params.size();x++) {
+        for (int x = start; x < params.size(); x++) {
             names.add(params.get(x));
         }
 
@@ -40,9 +42,9 @@ public class Teams {
         List<List<String>> teams = new ArrayList<>();
 
         int counter = 0;
-        for (int x = 0;x < teamCount;x++) {
+        for (int x = 0; x < teamCount; x++) {
             List<String> team = new ArrayList<>();
-            for (int y = 0;y < teamSize;y++) {
+            for (int y = 0; y < teamSize; y++) {
                 team.add(names.get(counter++));
             }
             if (remains > 0) {
@@ -52,12 +54,7 @@ public class Teams {
             teams.add(team);
         }
 
-
-
-        return channel.createMessage(spec -> spec.setEmbed(embed -> {
-            embed.setColor(Color.ORANGE);
-            embed.setDescription(makeMessage(teams, guild));
-        })).then();
+        return MessageSender.send(new HeraMsgSpec(channel).setDescription(makeMessage(teams, guild))).then();
     }
 
     private static String makeMessage(List<List<String>> teams, Guild guild) {

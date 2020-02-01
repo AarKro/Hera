@@ -5,6 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.database.entities.GuildSetting;
 import hera.database.entities.Localisation;
 import hera.database.types.GuildSettingKey;
@@ -29,9 +31,6 @@ public class Prefix {
 		}
 
 		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PREFIX, guild);
-		return channel.createMessage(spec -> spec.setEmbed(embed -> {
-			embed.setColor(Color.ORANGE);
-			embed.setDescription(String.format(message.getValue(), params.get(0)));
-		})).then();
+		return MessageSender.send(new HeraMsgSpec(channel).setDescription(String.format(message.getValue(), params.get(0)))).then();
 	}
 }

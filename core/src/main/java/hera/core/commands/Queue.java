@@ -8,6 +8,8 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -121,12 +123,11 @@ public class Queue {
 
 	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
 		return getQueueString(pageIndex, guild)
-				.flatMap(queueStringParts -> channel.createMessage(spec -> spec.setEmbed(embed -> {
-							embed.setColor(Color.ORANGE);
-							embed.setTitle(queueStringParts[0]);
-							embed.setDescription(queueStringParts[1]);
-							embed.setFooter(queueStringParts[2], null);
-						}))
+				.flatMap(queueStringParts -> MessageSender.send(new HeraMsgSpec(channel) {{
+							setTitle(queueStringParts[0]);
+							setDescription(queueStringParts[1]);
+							setFooter(queueStringParts[2], null);
+						}})
 						.doOnNext(message -> HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(message.getId().asLong()))
 						.flatMap(m -> Flux.fromIterable(emojis)
 								.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
