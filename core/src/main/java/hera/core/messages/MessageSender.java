@@ -13,6 +13,7 @@ public class MessageSender {
 
 	public static Mono<Message> send(HeraMsgSpec heraMessageSpec) {
 		if (heraMessageSpec.getColor() == null) {
+			if (heraMessageSpec.getMessageType() == null) heraMessageSpec.setMessageType(MessageType.DEFAULT);
 			switch (heraMessageSpec.getMessageType()) {
 				case INFO: heraMessageSpec.setColor(Color.BLUE);
 					break;
