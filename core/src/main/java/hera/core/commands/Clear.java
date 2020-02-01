@@ -5,6 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -17,9 +19,6 @@ public class Clear {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		HeraAudioManager.getScheduler(guild).clearQueue();
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_CLEAR, guild);
-		return channel.createMessage(spec -> spec.setEmbed(embed -> {
-			embed.setColor(Color.ORANGE);
-			embed.setDescription(local.getValue());
-		})).then();
+		return MessageSender.send(new HeraMsgSpec(channel).setDescription(local.getValue())).then();
 	}
 }

@@ -5,6 +5,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
+import hera.core.messages.MessageType;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -26,10 +29,9 @@ public class LoopQueue {
 		Localisation loopQueue = HeraUtil.getLocalisation(LocalisationKey.COMMAND_LOOPQUEUE, guild);
 		Localisation state = HeraUtil.getLocalisation(enabledDisabled, guild);
 
-		return channel.createMessage(spec -> spec.setEmbed(embed -> {
-			embed.setColor(Color.ORANGE);
-			embed.setDescription(String.format(loopQueue.getValue(), state.getValue()));
-		}))
-		.then();
+		return MessageSender.send(new HeraMsgSpec(channel) {{
+			setDescription(String.format(loopQueue.getValue(), state.getValue()));
+			setMessageType(MessageType.CONFIRMATION);
+		}}).then();
 	}
 }

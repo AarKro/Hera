@@ -5,6 +5,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
+import hera.core.messages.MessageType;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.GuildSetting;
 import hera.database.entities.Localisation;
@@ -12,7 +15,6 @@ import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 
 import static hera.store.DataStore.STORE;
@@ -25,12 +27,10 @@ public class Volume {
 			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOLUME_ERROR, guild);
 			String message = String.format(local.getValue(), volume);
 
-			return channel.createMessage(spec ->
-					spec.setEmbed(embed -> {
-						embed.setColor(Color.RED);
-						embed.setDescription(message);
-					})
-			).then();
+			return MessageSender.send(new HeraMsgSpec(channel) {{
+				setDescription(message);
+				setMessageType(MessageType.ERROR);
+			}}).then();
 		}
 
 		List<GuildSetting> gsList = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.VOLUME);
@@ -54,12 +54,7 @@ public class Volume {
 
 		String message = String.format(local.getValue(), volume);
 
-		return channel.createMessage(spec ->
-				spec.setEmbed(embed -> {
-					embed.setColor(Color.ORANGE);
-					embed.setDescription(message);
-				})
-		).then();
+		return MessageSender.send(new HeraMsgSpec(channel).setDescription(message)).then();
 	}
 
 }
