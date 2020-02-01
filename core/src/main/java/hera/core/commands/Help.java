@@ -8,6 +8,7 @@ import hera.core.HeraUtil;
 import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
@@ -28,18 +29,10 @@ public class Help {
 
 	private static String getHelp(Guild guild) {
 
-		List<Long> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
-				.filter(ms -> !ms.isEnabled())
-				.map(ms -> ms.getCommand().getId())
-				.collect(Collectors.toList());
 
-		List<Command> command = STORE.commands().getAll();
 
 		// NOTE this might be a problem later on (Integer compare)
-		List<String> commandStrings = command.stream()
-				.filter(cmd -> !disabledCommands.contains(cmd.getId()))
-				.map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase()))
-				.collect(Collectors.toList());
+
 
 		StringBuilder helpStringBuilder = new StringBuilder();
 		for (String commandString : commandStrings) {
@@ -48,4 +41,26 @@ public class Help {
 
 		return helpStringBuilder.toString();
 	}
+
+	private static Flux<String> getEnabledCommands(Member member, Guild guild) {
+		List<Long> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
+				.filter(ms -> !ms.isEnabled())
+				.map(ms -> ms.getCommand().getId())
+				.collect(Collectors.toList());
+
+		List<Command> command = STORE.commands().getAll();
+
+		List<Command> commandStrings = command.stream()
+				.filter(cmd -> !disabledCommands.contains(cmd.getId()))
+				.filter(cmd -> cmd.getLevel() > 1)
+				.collect(Collectors.toList());
+
+		member.getBasePermissions().flatMap(p -> )
+
+		for (int )
+
+		.map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase()))
+
+		member.getBasePermissions().flatMap(p );
+}
 }

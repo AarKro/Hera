@@ -78,8 +78,27 @@ public class HeraUtil {
 		}
 	}
 
+	//doesn't check  for owner
+	public static Boolean checkPermissions(Command command, Member member) {
+		if (command.getLevel() > 1) {
+			return false;
+		} else if (command.getLevel() == 1) {
+			return member.getBasePermissions()
+					.filter(permissions -> permissions.contains(Permission.ADMINISTRATOR))
+					.hasElement()
+					.flatMap(exist -> {
+						if (exist) return Mono.just(true);
+						return Mono.just(false);
+					}).block();
+		} else {
+			return true;
+		}
+
+
+	}
+
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
-		return Mono.just(message.split(" ").length - 1 >= command.getParamCount())
+		return Mono.just(checkParamAmount(message.split(" ").length - 1, command.getParamCount(), command.getOptionalParams()))
 		.flatMap(valid -> {
 			if (valid) return Mono.just(true);
 			else return MessageSender.send(new HeraMsgSpec(channel) {{
@@ -89,19 +108,32 @@ public class HeraUtil {
 		});
 	}
 
+	public static boolean checkParamAmount(int params, int expected, int optional) {
+		if (params < expected) {
+			return false;
+		} else {
+			if (optional == -1) {
+				return true;
+			} else if (params - expected > optional) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static List<String> extractParameters(String message, Command command) {
-		String[] parts = message.split(" ");
+		String[] parts = message.trim().split(" ");
 		List<String> params = new ArrayList<>();
 
 		// start at index 1 so we skip the prefix + command
-		for(int i = 1 ; i <= command.getParamCount(); i++) {
+		for(int i = 1 ; i <= parts.length; i++) {
 			params.add(parts[i]);
 		}
 
-		//TODO make this better when doing optional parameters
-		if (command.isInfiniteParam()) {
-			for (int i = command.getParamCount() + 1; i < parts.length; i++) {
-				params.add(parts[i]);
+		int effectiveParams = (command.getParamCount() + command.getOptionalParams());
+		if (command.getOptionalParams() != -1 && parts.length < effectiveParams) {
+			for (int i = 0;i < effectiveParams - parts.length;i++) {
+				params.add("");
 			}
 		}
 
