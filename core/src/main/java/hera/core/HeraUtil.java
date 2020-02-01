@@ -6,6 +6,7 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
+import discord4j.core.object.util.PermissionSet;
 import discord4j.core.object.util.Snowflake;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
@@ -78,23 +79,15 @@ public class HeraUtil {
 		}
 	}
 
-	//doesn't check  for owner
-	public static Boolean checkPermissions(Command command, Member member) {
+	// doesn't check for owne
+	public static Boolean checkPermissions(Command command, PermissionSet permissions) {
 		if (command.getLevel() > 1) {
 			return false;
 		} else if (command.getLevel() == 1) {
-			return member.getBasePermissions()
-					.filter(permissions -> permissions.contains(Permission.ADMINISTRATOR))
-					.hasElement()
-					.flatMap(exist -> {
-						if (exist) return Mono.just(true);
-						return Mono.just(false);
-					}).block();
+			return permissions.contains(Permission.ADMINISTRATOR);
 		} else {
 			return true;
 		}
-
-
 	}
 
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {

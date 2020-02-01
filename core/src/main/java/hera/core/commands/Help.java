@@ -42,22 +42,27 @@ public class Help {
 		return helpStringBuilder.toString();
 	}
 
-	private static Flux<String> getEnabledCommands(Member member, Guild guild) {
+	private static Mono<Void> getEnabledCommands(Member member, Guild guild) {
 		List<Long> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
 				.filter(ms -> !ms.isEnabled())
 				.map(ms -> ms.getCommand().getId())
 				.collect(Collectors.toList());
 
-		List<Command> command = STORE.commands().getAll();
+		List<Command> allCommands = STORE.commands().getAll();
 
-		List<Command> commandStrings = command.stream()
+		List<Command> enabledCommands = allCommands.stream()
 				.filter(cmd -> !disabledCommands.contains(cmd.getId()))
-				.filter(cmd -> cmd.getLevel() > 1)
+				.filter(cmd -> cmd.getLevel() < 2)
 				.collect(Collectors.toList());
 
-		member.getBasePermissions().flatMap(p -> )
+		return member.getBasePermissions()
+				.doOnNext(permissions -> {
+					List<Command> usableCommands = enabledCommands.stream()
+						.filter(command -> HeraUtil.checkPermissions(command, permissions))
+						.collect(Collectors.toList());
 
-		for (int )
+					// do whatever you want with these commands in here
+				}).then();
 
 		.map(cmd -> String.format("- %s", cmd.getName().name().toLowerCase()))
 
