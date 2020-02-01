@@ -12,6 +12,7 @@ import discord4j.core.object.util.Snowflake;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
+import hera.core.commands.Vote;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Guild;
 import hera.database.entities.Token;
@@ -139,21 +140,41 @@ public class Core {
 		// Reaction emoji event stream
 		client.getEventDispatcher().on(ReactionAddEvent.class)
 				.flatMap(event -> Mono.justOrEmpty(client.getSelfId())
-					.filter(selfId -> event.getUserId().asLong() != selfId.asLong())
-					.flatMap(selfId -> event.getGuild()
-						.filter(guild -> event.getMessageId().asLong() == HeraAudioManager.getScheduler(guild).getCurrentQueueMessageId())
-						.flatMap(guild -> event.getChannel()
-								.flatMap(channel -> event.getMessage()
-										.flatMap(message -> Mono.justOrEmpty(message.getEmbeds().get(0).getFooter())
-												.flatMap(footer -> Mono.justOrEmpty(event.getEmoji().asUnicodeEmoji())
-														.flatMap(unicode -> message.delete()
-															.then(Queue.executeFromReaction(event, channel, footer.getText(), unicode.getRaw(), guild))
+						.filter(selfId -> event.getUserId().asLong() != selfId.asLong())
+						.flatMap(selfId -> event.getGuild()
+								.filter(guild -> event.getMessageId().asLong() == HeraAudioManager.getScheduler(guild).getCurrentQueueMessageId())
+								.flatMap(guild -> event.getChannel()
+										.flatMap(channel -> event.getMessage()
+												.flatMap(message -> Mono.justOrEmpty(message.getEmbeds().get(0).getFooter())
+														.flatMap(footer -> Mono.justOrEmpty(event.getEmoji().asUnicodeEmoji())
+																.flatMap(unicode -> message.delete()
+																	.then(Queue.executeFromReaction(event, channel, footer.getText(), unicode.getRaw(), guild))
+																)
+														)
+												)
+										)
+								)
+								.switchIfEmpty(Mono.just(Vote.ACTIVE_VOTE_MESSAGE_IDS)
+										.filter(activeVotes -> activeVotes.values().contains(event.getMessageId().asLong()))
+										.flatMap(activeVotes -> event.getGuild()
+												.flatMap(guild -> event.getChannel()
+														.flatMap(channel -> event.getUser()
+																.flatMap(user -> user.asMember(guild.getId())
+																		.flatMap(member -> event.getMessage()
+																				.flatMap(message -> Mono.justOrEmpty(message.getEmbeds().get(0).getDescription())
+																						.flatMap(description -> Mono.justOrEmpty(event.getEmoji().asUnicodeEmoji())
+																								.flatMap(unicode -> message.delete()
+																										.then(Vote.executeFromReaction(event, channel, message.getReactions(), description, unicode.getRaw(), member))
+																								)
+																						)
+																				)
+																		)
+																)
 														)
 												)
 										)
 								)
 						)
-					)
 				)
 				.subscribe();
 

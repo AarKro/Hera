@@ -18,6 +18,7 @@ INSERT INTO `owner` (`id`) VALUES (248116143020048384);
 INSERT INTO `owner` (`id`) VALUES (340585395899203585);
 INSERT INTO `owner` (`id`) VALUES (442711068737929216);
 
+<<<<<<< HEAD
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('UPTIME', 'Checks how long Hera has been up and running', 0, 0, 0);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('VERSION', 'Displays current version number', 0, 0, 0);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('HELP', 'Shows this Help page', 0, 1, 0);
@@ -44,6 +45,8 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('FLIP', 'Flips a coin', 0, 0, 0);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('TEAMS', 'Makes teams from the specified parameters', 3, -1, 0);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('UPDATEYTTOKEN', 'Sets the youtube tokens to a new value', 2, 0, 2);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('VOTE', 'Start a guild wide vote', 1, -1, 0);
+
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API');
