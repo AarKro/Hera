@@ -119,11 +119,12 @@ public class HeraUtil {
 		List<String> params = new ArrayList<>();
 
 		// start at index 1 so we skip the prefix + command
-		for(int i = 1 ; i <= parts.length; i++) {
+		for(int i = 1 ; i < parts.length; i++) {
 			params.add(parts[i]);
 		}
 
-		int effectiveParams = (command.getParamCount() + command.getOptionalParams());
+		//im adding one here because prefix and commandname is the first entry and it has to be counted too
+		int effectiveParams = (command.getParamCount() + command.getOptionalParams()) + 1;
 		if (command.getOptionalParams() != -1 && parts.length < effectiveParams) {
 			for (int i = 0;i < effectiveParams - parts.length;i++) {
 				params.add("");

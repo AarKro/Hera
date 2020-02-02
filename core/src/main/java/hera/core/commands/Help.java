@@ -5,6 +5,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
+import hera.core.messages.MessageType;
 import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -27,32 +30,27 @@ public class Help {
 		if (commandName.isEmpty()) {
 			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
 			message = getHelpFromCommandList(getEnabledCommands(member, guild));
-		} else if (commandName.equals("all")) {
+		} else if (commandName.toUpperCase().equals("ALL")) {
 			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
 			List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
 			message = getHelpFromCommandList(Mono.just(commands));
 		} else {
 			Command cmd = getHelp(commandName);
 			if (cmd == null) {
-				
+				return MessageSender.send(new HeraMsgSpec(channel).setMessageType(MessageType.ERROR).setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName))).then();
 			}
-
+			title = cmd.getName().toString().toLowerCase();
+			//this will break as soon as descriptions are localized
+			message = Mono.just(cmd.getDescription());
 		}
-
-
-		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild);
-		return channel.createMessage(spec -> spec.setEmbed(embed -> {
-			embed.setColor(Color.ORANGE);
-			embed.setTitle(title.getValue());
-			embed.setDescription(getHelp(guild));
-		})).then();
+		return message.flatMap(m -> MessageSender.send(new HeraMsgSpec(channel).setMessageType(MessageType.INFO).setTitle(title).setDescription(m))).then();
 	}
 
 	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands) {
 		return commands.flatMap(cmnds -> {
 			StringBuilder helpStringBuilder = new StringBuilder();
 			for (Command cmd : cmnds) {
-				helpStringBuilder.append(cmd.getName() + "\n");
+				helpStringBuilder.append(cmd.getName().toString().toLowerCase() + "\n");
 			}
 			return Mono.just(helpStringBuilder.toString());
 		});
