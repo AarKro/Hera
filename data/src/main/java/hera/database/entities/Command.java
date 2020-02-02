@@ -21,27 +21,27 @@ public class Command implements PersistenceEntity {
 
 	private int paramCount;
 
-	private boolean infiniteParam;
+	private int optionalParams;
 
 	private int level;
 
 	public Command() {
 	}
 
-	public Command(CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
+	public Command(CommandName name, String description, int paramCount, int optionalParams, int level) {
 		this.name = name;
 		this.description = description;
 		this.paramCount = paramCount;
-		this.infiniteParam = infiniteParam;
+		this.optionalParams = optionalParams;
 		this.level = level;
 	}
 
-	public Command(Long id, CommandName name, String description, int paramCount, boolean infiniteParam, int level) {
+	public Command(Long id, CommandName name, String description, int paramCount, int optionalParams, int level) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.paramCount = paramCount;
-		this.infiniteParam = infiniteParam;
+		this.optionalParams = optionalParams;
 		this.level = level;
 	}
 
@@ -77,12 +77,12 @@ public class Command implements PersistenceEntity {
 		this.paramCount = paramCount;
 	}
 
-	public boolean isInfiniteParam() {
-		return infiniteParam;
+	public int getOptionalParams() {
+		return optionalParams;
 	}
 
-	public void setInfiniteParam(boolean infiniteParam) {
-		this.infiniteParam = infiniteParam;
+	public void setOptionalParams(int optionalParams) {
+		this.optionalParams = optionalParams;
 	}
 
 	public int getLevel() {
