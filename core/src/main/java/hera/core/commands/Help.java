@@ -43,7 +43,7 @@ public class Help {
 			//this will break as soon as descriptions are localized
 			message = Mono.just(cmd.getDescription());
 		}
-		return message.flatMap(m -> MessageSender.send(new HeraMsgSpec(channel).setMessageType(MessageType.INFO).setTitle(title).setDescription(m))).then();
+		return message.flatMap(m -> MessageSender.send(new HeraMsgSpec(channel).setTitle(title).setDescription(m))).then();
 	}
 
 	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands) {
