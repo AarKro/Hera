@@ -23,6 +23,7 @@ public enum CommandName {
 	REMOVE,
 	MOVE,
 	JUMPTO,
+	VOTE,
 	TEAMS,
 	ONJOINROLE,
 	VOLUME,
