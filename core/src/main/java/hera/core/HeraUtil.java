@@ -55,7 +55,7 @@ public class HeraUtil {
 
 		if (isOwner) return Mono.just(true);
 
-		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command.getId());
+		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command);
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
 		if (ms == null || ms.isEnabled()) {
 			if (command.getLevel() > 1) {

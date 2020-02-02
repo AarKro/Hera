@@ -204,7 +204,10 @@ public class Core {
 								).next()
 						)
 				)
-				.subscribe();
+				.subscribe(aVoid -> Mono.empty(), throwable -> {
+					LOG.debug("Top level error catch block:");
+					LOG.debug("Stacktrace:", throwable);
+				});
 
 		LOG.info("...Hera is ready to use as soon as connection to gateway is established");
 
