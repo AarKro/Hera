@@ -16,11 +16,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Vote {
-
-	private static final Logger LOG = LoggerFactory.getLogger(Vote.class);
 
 	private static final List<String> VOTE_EMOJIS = Arrays.asList("\uD83D\uDC4D\uD83C\uDFFB", "\uD83D\uDC4E\uD83C\uDFFB", "\uD83D\uDED1");
 
@@ -35,12 +32,12 @@ public class Vote {
 			setFooter(member.getDisplayName() + ", react with " + VOTE_EMOJIS.get(2) + " to end the vote", null);
 		}}).doOnNext(m -> ACTIVE_VOTE_MESSAGE_IDS.put(member.getId().asLong(), m.getId().asLong()))
 			.flatMap(m -> Flux.fromIterable(VOTE_EMOJIS)
-			.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
-			.next()
-		).then();
+					.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
+					.next()
+			).then();
 	}
 
-	// TODO: We have a potential bug where. If someone deletes a vote message, we won't remove the message ID from the ACTIVE_VOTE_MESSAGE_IDS map.
+	// TODO: We have a potential bug here. If someone deletes a vote message, we won't remove the message ID from the ACTIVE_VOTE_MESSAGE_IDS map.
 	// So techincally someone could fill up this list with IDs and fill up our memory :/
 	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel channel, Set<Reaction> reactions, String message, String unicode, Member member) {
 		if (unicode.equals(VOTE_EMOJIS.get(2)) &&
@@ -65,8 +62,8 @@ public class Vote {
 
 			final double allVotes = forIt.get() + againstIt.get();
 			// calculate percentage and round to 2 decimal places
-			double percentageForIt = (double) Math.round((forIt.get() / allVotes * 100) * 100) / 100;
-			double percentageAgainstIt = (double) Math.round((againstIt.get() / allVotes * 100) * 100) / 100;
+			final double percentageForIt = (double) Math.round((forIt.get() / allVotes * 100) * 100) / 100;
+			final double percentageAgainstIt = (double) Math.round((againstIt.get() / allVotes * 100) * 100) / 100;
 
 			ACTIVE_VOTE_MESSAGE_IDS.remove(member.getId().asLong());
 
