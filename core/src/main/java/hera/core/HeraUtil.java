@@ -6,7 +6,11 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
+import discord4j.core.object.util.PermissionSet;
 import discord4j.core.object.util.Snowflake;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
+import hera.core.messages.MessageType;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -62,7 +66,10 @@ public class HeraUtil {
 						.hasElement()
 						.flatMap(exist -> {
 							if (exist) return Mono.just(true);
-							return channel.createMessage(LOCALISATION_PERMISSION_ERROR.getValue()).flatMap(c -> Mono.just(false));
+							return MessageSender.send(new HeraMsgSpec(channel) {{
+								setDescription(LOCALISATION_PERMISSION_ERROR.getValue());
+								setMessageType(MessageType.ERROR);
+							}}).flatMap(message -> Mono.just(false));
 						});
 			} else {
 				return Mono.just(true);
@@ -70,31 +77,57 @@ public class HeraUtil {
 		} else {
 			return Mono.just(false);
 		}
+	}
 
-
+	// doesn't check for owne
+	public static Boolean checkPermissions(Command command, PermissionSet permissions) {
+		if (command.getLevel() > 1) {
+			return false;
+		} else if (command.getLevel() == 1) {
+			return permissions.contains(Permission.ADMINISTRATOR);
+		} else {
+			return true;
+		}
 	}
 
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
-		return Mono.just(message.split(" ").length - 1 >= command.getParamCount())
+		return Mono.just(checkParamAmount(message.split(" ").length - 1, command.getParamCount(), command.getOptionalParams()))
 		.flatMap(valid -> {
 			if (valid) return Mono.just(true);
-			else return channel.createMessage(LOCALISATION_PARAM_ERROR.getValue()).flatMap(c -> Mono.just(false));
+			else return MessageSender.send(new HeraMsgSpec(channel) {{
+				setDescription(LOCALISATION_PARAM_ERROR.getValue());
+				setMessageType(MessageType.ERROR);
+			}}).flatMap(c -> Mono.just(false));
 		});
 	}
 
+	public static boolean checkParamAmount(int params, int expected, int optional) {
+		if (params < expected) {
+			return false;
+		} else {
+			if (optional == -1) {
+				return true;
+			} else if (params - expected > optional) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static List<String> extractParameters(String message, Command command) {
-		String[] parts = message.split(" ");
+		String[] parts = message.trim().split(" ");
 		List<String> params = new ArrayList<>();
 
 		// start at index 1 so we skip the prefix + command
-		for(int i = 1 ; i <= command.getParamCount(); i++) {
+		for(int i = 1 ; i < parts.length; i++) {
 			params.add(parts[i]);
 		}
 
-		//TODO make this better when doing optional parameters
-		if (command.isInfiniteParam()) {
-			for (int i = command.getParamCount() + 1; i < parts.length; i++) {
-				params.add(parts[i]);
+		//im adding one here because prefix and commandname is the first entry and it has to be counted too
+		int effectiveParams = (command.getParamCount() + command.getOptionalParams()) + 1;
+		if (command.getOptionalParams() != -1 && parts.length < effectiveParams) {
+			for (int i = 0;i < effectiveParams - parts.length;i++) {
+				params.add("");
 			}
 		}
 
@@ -163,18 +196,27 @@ public class HeraUtil {
 	}
 
 	public static Mono<Boolean> hasRightsToSetRole(Guild guild, Role role) {
-		return hasSetRoleRights(guild).flatMap(hasSetRole -> hasHigherRole(guild, role).flatMap(hasHigherRole -> Mono.just(hasSetRole && hasHigherRole)));
+		return hasSetRoleRights(guild)
+				.flatMap(hasSetRole -> hasHigherRole(guild, role)
+						.flatMap(hasHigherRole -> Mono.just(hasSetRole && hasHigherRole))
+				);
 	}
 
 	public static Mono<Boolean> hasSetRoleRights(Guild guild) {
-		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(m -> m.getRoles().any(p -> p.getPermissions().asEnumSet().contains(Permission.MANAGE_ROLES))));
+		return client.getSelf()
+				.flatMap(user -> user.asMember(guild.getId())
+						.flatMap(m -> m.getRoles().any(p -> p.getPermissions().asEnumSet().contains(Permission.MANAGE_ROLES)))
+				);
 	}
 
 	public static Mono<Boolean> hasHigherRole(Guild guild, Role role) {
-		return client.getSelf().flatMap(user -> user.asMember(guild.getId())
+		return client.getSelf()
+				.flatMap(user -> user.asMember(guild.getId())
 						.flatMap(m -> m.getHighestRole()
-								.filterWhen(r -> Mono.just(r.getRawPosition() > role.getRawPosition())).hasElement()));
-
+								.filterWhen(r -> Mono.just(r.getRawPosition() > role.getRawPosition()))
+								.hasElement()
+						)
+				);
 	}
 
 	public static boolean isRoleMention(String string) {

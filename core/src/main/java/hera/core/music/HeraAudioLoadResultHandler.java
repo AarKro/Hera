@@ -8,6 +8,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
@@ -33,14 +35,11 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
 
 		HeraAudioManager.getScheduler(guild).queue(player, track);
-		channel.createMessage(spec -> spec.setEmbed(embed -> {
-			embed.setColor(Color.ORANGE);
-			embed.setTitle(local.getValue());
-			embed.setDescription(
-					track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
-					+ track.getInfo().title + "](" + track.getInfo().uri + ")"
-			);
-		}))
+		MessageSender.send(new HeraMsgSpec(channel) {{
+			setTitle(local.getValue());
+			setDescription(track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
+					+ track.getInfo().title + "](" + track.getInfo().uri + ")");
+		}})
 		.subscribe();
 	}
 
@@ -53,14 +52,13 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 				.doOnNext(track -> HeraAudioManager.getScheduler(guild).queue(player, track))
 				.map(AudioTrack::getDuration)
 				.reduce(((accumulation, duration) -> accumulation + duration))
-				.flatMap(totalDuration -> channel.createMessage(spec -> spec.setEmbed(embed -> {
-					embed.setColor(Color.ORANGE);
-					embed.setTitle(title.getValue());
-					embed.setDescription(
+				.flatMap(totalDuration -> MessageSender.send(new HeraMsgSpec(channel) {{
+					setTitle(title.getValue());
+					setDescription(
 							playlist.getName() + "\n" +
-							String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`")
+									String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`")
 					);
-				})))
+				}}))
 				.subscribe();
 	}
 
