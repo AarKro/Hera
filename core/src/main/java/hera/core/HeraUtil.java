@@ -6,6 +6,7 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
+import discord4j.core.object.util.PermissionSet;
 import discord4j.core.object.util.Snowflake;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
@@ -54,7 +55,7 @@ public class HeraUtil {
 
 		if (isOwner) return Mono.just(true);
 
-		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command.getId());
+		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command);
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
 		if (ms == null || ms.isEnabled()) {
 			if (command.getLevel() > 1) {
@@ -78,8 +79,19 @@ public class HeraUtil {
 		}
 	}
 
+	// doesn't check for owne
+	public static Boolean checkPermissions(Command command, PermissionSet permissions) {
+		if (command.getLevel() > 1) {
+			return false;
+		} else if (command.getLevel() == 1) {
+			return permissions.contains(Permission.ADMINISTRATOR);
+		} else {
+			return true;
+		}
+	}
+
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
-		return Mono.just(message.split(" ").length - 1 >= command.getParamCount())
+		return Mono.just(checkParamAmount(message.split(" ").length - 1, command.getParamCount(), command.getOptionalParams()))
 		.flatMap(valid -> {
 			if (valid) return Mono.just(true);
 			else return MessageSender.send(new HeraMsgSpec(channel) {{
@@ -89,19 +101,33 @@ public class HeraUtil {
 		});
 	}
 
+	public static boolean checkParamAmount(int params, int expected, int optional) {
+		if (params < expected) {
+			return false;
+		} else {
+			if (optional == -1) {
+				return true;
+			} else if (params - expected > optional) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static List<String> extractParameters(String message, Command command) {
-		String[] parts = message.split(" ");
+		String[] parts = message.trim().split(" ");
 		List<String> params = new ArrayList<>();
 
 		// start at index 1 so we skip the prefix + command
-		for(int i = 1 ; i <= command.getParamCount(); i++) {
+		for(int i = 1 ; i < parts.length; i++) {
 			params.add(parts[i]);
 		}
 
-		//TODO make this better when doing optional parameters
-		if (command.isInfiniteParam()) {
-			for (int i = command.getParamCount() + 1; i < parts.length; i++) {
-				params.add(parts[i]);
+		//im adding one here because prefix and commandname is the first entry and it has to be counted too
+		int effectiveParams = (command.getParamCount() + command.getOptionalParams()) + 1;
+		if (command.getOptionalParams() != -1 && parts.length < effectiveParams) {
+			for (int i = 0;i < effectiveParams - parts.length;i++) {
+				params.add("");
 			}
 		}
 

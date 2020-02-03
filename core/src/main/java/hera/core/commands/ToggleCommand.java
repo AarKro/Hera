@@ -30,7 +30,7 @@ public class ToggleCommand {
 		}
 
 		Command cmd = commands.get(0);
-		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), cmd.getId());
+		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), cmd);
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
 
 		if (ms == null) {

@@ -19,7 +19,7 @@
             <level>INFO</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>./logs/hera.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/hera.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -34,7 +34,7 @@
             <level>DEBUG</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>./logs/hera.debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/hera.debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>25MB</maxFileSize>
             <maxHistory>10</maxHistory>
         </rollingPolicy>

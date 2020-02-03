@@ -1,5 +1,6 @@
 package hera.store.unit;
 
+import hera.database.entities.Role;
 import hera.database.entities.RoleMember;
 import hera.database.types.SnowflakeType;
 
@@ -13,7 +14,7 @@ public class RoleMemberAccessUnit extends StorageAccessUnit<RoleMember>{
 		super(RoleMember.class, RoleMember.ENTITY_NAME);
 	}
 
-	public List<RoleMember> forRole(Long role) {
+	public List<RoleMember> forRole(Role role) {
 		return get(Collections.singletonMap("role", role));
 	}
 
