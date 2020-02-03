@@ -9,6 +9,7 @@ import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.util.Snowflake;
+import hera.core.api.handlers.TwitchApiHandler;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
@@ -52,6 +53,8 @@ public class Core {
 
 		LOG.info("Initialising YouTube API Handler");
 		YouTubeApiHandler.initialise();
+
+		TwitchApiHandler.initialise();
 
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 		HeraUtil.setClient(client);
