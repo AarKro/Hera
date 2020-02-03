@@ -19,6 +19,6 @@ public class Clear {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		HeraAudioManager.getScheduler(guild).clearQueue();
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_CLEAR, guild);
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(local.getValue())).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(local.getValue())).then();
 	}
 }

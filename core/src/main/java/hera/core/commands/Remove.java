@@ -8,7 +8,6 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
-import hera.core.messages.MessageType;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -27,22 +26,20 @@ public class Remove {
 				String desc = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
 						+ track.getInfo().title + "](" + track.getInfo().uri + ")";
 
-				return MessageSender.send(new HeraMsgSpec(channel) {{
-					setDescription(desc);
-					setTitle(local.getValue());
-				}}).then();
+				return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
+					.setDescription(desc)
+					.setTitle(local.getValue())
+				).then();
 			} else {
 				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_REMOVE_ERROR, guild);
-				return MessageSender.send(new HeraMsgSpec(channel) {{
-					setDescription(String.format(local.getValue(), trackIndex));
-					setMessageType(MessageType.ERROR);
-				}}).then();
+				return MessageSender.send( HeraMsgSpec.getErrorSpec(channel)
+					.setDescription(String.format(local.getValue(), trackIndex))
+				).then();
 			}
 		} catch (NumberFormatException e) {
-			return MessageSender.send(new HeraMsgSpec(channel) {{
-				setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
-				setMessageType(MessageType.ERROR);
-			}}).then();
+			return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
+				.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue())
+			).then();
 		}
 	}
 }

@@ -10,7 +10,6 @@ import discord4j.core.object.util.PermissionSet;
 import discord4j.core.object.util.Snowflake;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
-import hera.core.messages.MessageType;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -66,10 +65,8 @@ public class HeraUtil {
 						.hasElement()
 						.flatMap(exist -> {
 							if (exist) return Mono.just(true);
-							return MessageSender.send(new HeraMsgSpec(channel) {{
-								setDescription(LOCALISATION_PERMISSION_ERROR.getValue());
-								setMessageType(MessageType.ERROR);
-							}}).flatMap(message -> Mono.just(false));
+							return MessageSender.send(HeraMsgSpec.getErrorSpec(channel).setDescription(LOCALISATION_PERMISSION_ERROR.getValue()))
+									.flatMap(message -> Mono.just(false));
 						});
 			} else {
 				return Mono.just(true);
@@ -94,10 +91,8 @@ public class HeraUtil {
 		return Mono.just(checkParamAmount(message.split(" ").length - 1, command.getParamCount(), command.getOptionalParams()))
 		.flatMap(valid -> {
 			if (valid) return Mono.just(true);
-			else return MessageSender.send(new HeraMsgSpec(channel) {{
-				setDescription(LOCALISATION_PARAM_ERROR.getValue());
-				setMessageType(MessageType.ERROR);
-			}}).flatMap(c -> Mono.just(false));
+			else return MessageSender.send(HeraMsgSpec.getErrorSpec(channel).setDescription(LOCALISATION_PARAM_ERROR.getValue()))
+					.flatMap(c -> Mono.just(false));
 		});
 	}
 

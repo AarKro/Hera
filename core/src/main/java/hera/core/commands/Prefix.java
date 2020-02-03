@@ -31,6 +31,6 @@ public class Prefix {
 		}
 
 		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PREFIX, guild);
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(String.format(message.getValue(), params.get(0)))).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(String.format(message.getValue(), params.get(0)))).then();
 	}
 }

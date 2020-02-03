@@ -6,12 +6,13 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.messages.HeraMsgSpec;
+import hera.core.messages.MessageSender;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 
 public class Join {
@@ -21,10 +22,9 @@ public class Join {
 				.flatMap(VoiceState::getChannel)
 				.flatMap(vChannel -> vChannel.join(spec -> spec.setProvider(HeraAudioManager.getProvider(guild))))
 				.doOnNext(vc -> HeraAudioManager.addVC(guild, vc))
-				.switchIfEmpty(channel.createMessage(spec -> spec.setEmbed(embed -> {
-					embed.setColor(Color.ORANGE);
-					embed.setDescription(local.getValue());
-				})).then(Mono.empty()))
+				.switchIfEmpty(MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
+						.setDescription(local.getValue())
+				).then(Mono.empty()))
 				.then();
 	}
 }

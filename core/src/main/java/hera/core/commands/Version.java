@@ -19,7 +19,7 @@ import static hera.store.DataStore.STORE;
 
 public class Version {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(getVersion(guild))).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(getVersion(guild))).then();
 	}
 
 	private static String getVersion(Guild guild) {
