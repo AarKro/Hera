@@ -12,26 +12,11 @@ public class MessageSender {
 	private static final Logger LOG = LoggerFactory.getLogger(MessageSender.class);
 
 	public static Mono<Message> send(HeraMsgSpec heraMessageSpec) {
-		if (heraMessageSpec.getColor() == null) {
-			if (heraMessageSpec.getMessageType() == null) heraMessageSpec.setMessageType(MessageType.DEFAULT);
-			switch (heraMessageSpec.getMessageType()) {
-				case INFO: heraMessageSpec.setColor(Color.BLUE);
-					break;
-				case WARNING: heraMessageSpec.setColor(Color.YELLOW);
-					break;
-				case ERROR: heraMessageSpec.setColor(Color.RED);
-					break;
-				case CONFIRMATION: heraMessageSpec.setColor(Color.GREEN);
-				default: // MessageType.DEFAULT
-					heraMessageSpec.setColor(Color.ORANGE);
-			}
-		}
-
 		return heraMessageSpec.getChannel().createMessage(messageCreateSpec -> messageCreateSpec.setEmbed(embedCreateSpec -> {
 			if (heraMessageSpec.getTitle() != null) embedCreateSpec.setTitle(heraMessageSpec.getTitle());
 			if (heraMessageSpec.getDescription() != null) embedCreateSpec.setDescription(heraMessageSpec.getDescription());
 			if (heraMessageSpec.getFooterText() != null) embedCreateSpec.setFooter(heraMessageSpec.getFooterText(), null);
-			embedCreateSpec.setColor(heraMessageSpec.getColor());
+			if (heraMessageSpec.getColor() != null) embedCreateSpec.setColor(heraMessageSpec.getColor());
 		}));
 	}
 }

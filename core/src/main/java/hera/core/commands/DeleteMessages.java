@@ -8,7 +8,6 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
-import hera.core.messages.MessageType;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -18,10 +17,9 @@ public class DeleteMessages {
 		try {
 			int deleteAmount = Integer.parseInt(params.get(0));
 			if (deleteAmount < 1) {
-				return MessageSender.send(new HeraMsgSpec(channel) {{
-					setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
-					setMessageType(MessageType.ERROR);
-				}}).then();
+				return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
+					.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue())
+				).then();
 			}
 			return channel.getLastMessage()
 					.flatMap(message -> channel.getMessagesBefore(message.getId())
@@ -31,10 +29,9 @@ public class DeleteMessages {
 							.then(message.delete())
 					).then();
 		} catch (NumberFormatException e) {
-			return MessageSender.send(new HeraMsgSpec(channel) {{
-				setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
-				setMessageType(MessageType.ERROR);
-			}}).then();
+			return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
+				.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue())
+			).then();
 		}
 	}
 }

@@ -13,15 +13,14 @@ import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 
 public class NowPlaying {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return getNowPlayingString(guild).flatMap(nowPlayingStringParts -> MessageSender.send(new HeraMsgSpec(channel) {{
-			setTitle(nowPlayingStringParts[0]);
-			setDescription(nowPlayingStringParts[1]);
-		}}))
+		return getNowPlayingString(guild).flatMap(nowPlayingStringParts -> MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
+			.setTitle(nowPlayingStringParts[0])
+			.setDescription(nowPlayingStringParts[1])
+		))
 		.then();
 	}
 

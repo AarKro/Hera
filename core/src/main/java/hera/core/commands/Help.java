@@ -7,14 +7,10 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
-import hera.core.messages.MessageType;
 import hera.database.entities.Command;
-import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,13 +33,15 @@ public class Help {
 		} else {
 			Command cmd = getHelp(commandName);
 			if (cmd == null) {
-				return MessageSender.send(new HeraMsgSpec(channel).setMessageType(MessageType.ERROR).setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName))).then();
+				return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
+						.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName))
+				).then();
 			}
 			title = cmd.getName().toString().toLowerCase();
 			//this will break as soon as descriptions are localized
 			message = Mono.just(cmd.getDescription());
 		}
-		return message.flatMap(m -> MessageSender.send(new HeraMsgSpec(channel).setTitle(title).setDescription(m))).then();
+		return message.flatMap(m -> MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setTitle(title).setDescription(m))).then();
 	}
 
 	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands) {

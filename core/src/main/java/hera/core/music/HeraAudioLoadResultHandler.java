@@ -35,12 +35,13 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
 
 		HeraAudioManager.getScheduler(guild).queue(player, track);
-		MessageSender.send(new HeraMsgSpec(channel) {{
-			setTitle(local.getValue());
-			setDescription(track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
-					+ track.getInfo().title + "](" + track.getInfo().uri + ")");
-		}})
-		.subscribe();
+
+		HeraMsgSpec msgSpec = HeraMsgSpec.getDefaultSpec(channel)
+				.setTitle(local.getValue())
+				.setDescription(track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
+						+ track.getInfo().title + "](" + track.getInfo().uri + ")");
+
+		MessageSender.send(msgSpec).subscribe();
 	}
 
 	@Override
@@ -52,13 +53,14 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 				.doOnNext(track -> HeraAudioManager.getScheduler(guild).queue(player, track))
 				.map(AudioTrack::getDuration)
 				.reduce(((accumulation, duration) -> accumulation + duration))
-				.flatMap(totalDuration -> MessageSender.send(new HeraMsgSpec(channel) {{
-					setTitle(title.getValue());
-					setDescription(
-							playlist.getName() + "\n" +
-									String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`")
-					);
-				}}))
+				.flatMap(totalDuration -> {
+					HeraMsgSpec msgSpec = HeraMsgSpec.getDefaultSpec(channel)
+						.setTitle(title.getValue())
+						.setDescription(playlist.getName() + "\n" +
+								String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`"));
+
+					return MessageSender.send(msgSpec);
+				})
 				.subscribe();
 	}
 

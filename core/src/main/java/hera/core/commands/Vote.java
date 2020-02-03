@@ -13,7 +13,6 @@ import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
-import net.bytebuddy.asm.Advice;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,11 +30,11 @@ public class Vote {
 		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_START_TITLE, guild);
 		Localisation footer = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_START_FOOTER, guild);
 
-		return MessageSender.send(new HeraMsgSpec(channel) {{
-			setTitle(String.format(title.getValue(), member.getDisplayName()));
-			setDescription(voteMessage);
-			setFooter(String.format(footer.getValue(), member.getDisplayName(), VOTE_EMOJIS.get(2)), null);
-		}}).doOnNext(m -> ACTIVE_VOTE_MESSAGE_IDS.put(m.getId().asLong(), member.getId().asLong()))
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
+			.setTitle(String.format(title.getValue(), member.getDisplayName()))
+			.setDescription(voteMessage)
+			.setFooter(String.format(footer.getValue(), member.getDisplayName(), VOTE_EMOJIS.get(2)), null)
+		).doOnNext(m -> ACTIVE_VOTE_MESSAGE_IDS.put(m.getId().asLong(), member.getId().asLong()))
 			.flatMap(m -> Flux.fromIterable(VOTE_EMOJIS)
 					.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
 					.next()
@@ -75,10 +74,10 @@ public class Vote {
 			Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_END_TITLE, guild);
 			Localisation desc = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_END_DESC, guild);
 
-			return MessageSender.send(new HeraMsgSpec(channel) {{
-				setTitle(title.getValue());
-				setDescription(String.format(desc.getValue(), message, (int) allVotes, (int) forIt.get(), percentageForIt, (int) againstIt.get(), percentageAgainstIt));
-			}}).then();
+			return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
+				.setTitle(title.getValue())
+				.setDescription(String.format(desc.getValue(), message, (int) allVotes, (int) forIt.get(), percentageForIt, (int) againstIt.get(), percentageAgainstIt))
+			).then();
 		}
 
 		return Mono.empty();

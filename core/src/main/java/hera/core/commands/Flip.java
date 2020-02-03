@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class Flip {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(flipCoin(guild))).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(flipCoin(guild))).then();
 	}
 
 	private static String flipCoin(Guild guild) {

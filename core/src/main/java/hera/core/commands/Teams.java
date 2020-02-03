@@ -54,7 +54,7 @@ public class Teams {
             teams.add(team);
         }
 
-        return MessageSender.send(new HeraMsgSpec(channel).setDescription(makeMessage(teams, guild))).then();
+        return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(makeMessage(teams, guild))).then();
     }
 
     private static String makeMessage(List<List<String>> teams, Guild guild) {

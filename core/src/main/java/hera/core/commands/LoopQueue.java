@@ -7,13 +7,11 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
-import hera.core.messages.MessageType;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 
 public class LoopQueue {
@@ -29,9 +27,8 @@ public class LoopQueue {
 		Localisation loopQueue = HeraUtil.getLocalisation(LocalisationKey.COMMAND_LOOPQUEUE, guild);
 		Localisation state = HeraUtil.getLocalisation(enabledDisabled, guild);
 
-		return MessageSender.send(new HeraMsgSpec(channel) {{
-			setDescription(String.format(loopQueue.getValue(), state.getValue()));
-			setMessageType(MessageType.CONFIRMATION);
-		}}).then();
+		return MessageSender.send(HeraMsgSpec.getConfirmationSpec(channel)
+			.setDescription(String.format(loopQueue.getValue(), state.getValue()))
+		).then();
 	}
 }

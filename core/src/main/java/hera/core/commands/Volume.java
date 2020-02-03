@@ -7,7 +7,6 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.HeraMsgSpec;
 import hera.core.messages.MessageSender;
-import hera.core.messages.MessageType;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.GuildSetting;
 import hera.database.entities.Localisation;
@@ -27,10 +26,9 @@ public class Volume {
 			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOLUME_ERROR, guild);
 			String message = String.format(local.getValue(), volume);
 
-			return MessageSender.send(new HeraMsgSpec(channel) {{
-				setDescription(message);
-				setMessageType(MessageType.ERROR);
-			}}).then();
+			return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
+				.setDescription(message)
+			).then();
 		}
 
 		List<GuildSetting> gsList = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.VOLUME);
@@ -54,7 +52,6 @@ public class Volume {
 
 		String message = String.format(local.getValue(), volume);
 
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(message)).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(message)).then();
 	}
-
 }

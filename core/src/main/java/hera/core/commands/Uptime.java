@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Uptime {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(getTime(guild))).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(getTime(guild))).then();
 	}
 
 	private static String getTime(Guild guild) {
