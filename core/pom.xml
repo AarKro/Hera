@@ -11,12 +11,17 @@
 
     <artifactId>core</artifactId>
 
-    <!-- Needed for lavaplayer dependency -->
     <repositories>
+        <!-- Needed for lavaplayer dependency -->
         <repository>
             <id>central</id>
             <name>bintray</name>
             <url>https://jcenter.bintray.com</url>
+        </repository>
+        <!-- Needed for java-express dependency -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -35,6 +40,11 @@
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.4.00</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Simonwep</groupId>
+            <artifactId>java-express</artifactId>
+            <version>0.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>

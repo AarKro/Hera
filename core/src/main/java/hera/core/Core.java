@@ -9,6 +9,7 @@ import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.util.Snowflake;
+import express.Express;
 import hera.core.api.handlers.TwitchApiHandler;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
@@ -63,6 +64,15 @@ public class Core {
 
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
 		hci.startupHCI();
+
+		Express app = new Express();
+
+		app.get("/", ((request, response) -> {
+			System.out.println("GET REQUEST RECEIVED");
+			response.send("Hello, World!");
+		})).listen(() -> {
+			System.out.println("Server listening on port 8080");
+		}, 8080);
 
 		// on guild join -> Add guild to store if we don't have it already
 		client.getEventDispatcher().on(GuildCreateEvent.class)
