@@ -20,6 +20,6 @@ public class Shuffle {
 		HeraAudioManager.getScheduler(guild).shuffle(HeraAudioManager.getPlayer(guild));
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_SHUFFLE, guild);
 
-		return MessageSender.send(new HeraMsgSpec(channel).setDescription(local.getValue())).then();
+		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(local.getValue())).then();
 	}
 }

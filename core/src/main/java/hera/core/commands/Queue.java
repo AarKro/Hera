@@ -123,11 +123,11 @@ public class Queue {
 
 	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
 		return getQueueString(pageIndex, guild)
-				.flatMap(queueStringParts -> MessageSender.send(new HeraMsgSpec(channel) {{
-							setTitle(queueStringParts[0]);
-							setDescription(queueStringParts[1]);
-							setFooter(queueStringParts[2], null);
-						}})
+				.flatMap(queueStringParts -> MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
+							.setTitle(queueStringParts[0])
+							.setDescription(queueStringParts[1])
+							.setFooter(queueStringParts[2], null)
+						)
 						.doOnNext(message -> HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(message.getId().asLong()))
 						.flatMap(m -> Flux.fromIterable(emojis)
 								.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
