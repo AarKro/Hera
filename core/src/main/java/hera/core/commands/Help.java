@@ -5,8 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.database.entities.Command;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
@@ -33,23 +33,33 @@ public class Help {
 		} else {
 			Command cmd = getHelp(commandName);
 			if (cmd == null) {
-				return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
-						.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName))
-				).then();
+				return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
+					messageSpec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
+				})).then();
 			}
 			title = cmd.getName().toString().toLowerCase();
 			//this will break as soon as descriptions are localized
 			message = Mono.just(cmd.getDescription());
 		}
-		return message.flatMap(m -> MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setTitle(title).setDescription(m))).then();
+		return message.flatMap(m -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
+			messageSpec.setTitle(title);
+			messageSpec.setDescription(m);
+		}))).then();
 	}
 
 	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands) {
 		return commands.flatMap(cmnds -> {
-			StringBuilder helpStringBuilder = new StringBuilder();
-			for (Command cmd : cmnds) {
-				helpStringBuilder.append(cmd.getName().toString().toLowerCase() + "\n");
-			}
+			final StringBuilder helpStringBuilder = new StringBuilder();
+
+			cmnds.stream()
+					.map(cmd -> cmd.getName().toString().toLowerCase())
+					.sorted()
+					.forEach(cmd -> {
+						helpStringBuilder.append("- ");
+						helpStringBuilder.append(cmd);
+						helpStringBuilder.append("\n");
+					});
+
 			return Mono.just(helpStringBuilder.toString());
 		});
 	}
@@ -77,10 +87,9 @@ public class Help {
 				.collect(Collectors.toList());
 
 		return member.getBasePermissions()
-				.flatMap(permissions -> {
-						return Mono.just(enabledCommands.stream()
+				.flatMap(permissions -> Mono.just(enabledCommands.stream()
 						.filter(command -> HeraUtil.checkPermissions(command, permissions))
-						.collect(Collectors.toList()));
-				});
+						.collect(Collectors.toList()))
+				);
 }
 }

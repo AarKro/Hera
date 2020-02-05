@@ -8,13 +8,11 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
-
-import java.awt.*;
 
 public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler {
 
@@ -36,12 +34,11 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 
 		HeraAudioManager.getScheduler(guild).queue(player, track);
 
-		HeraMsgSpec msgSpec = HeraMsgSpec.getDefaultSpec(channel)
-				.setTitle(local.getValue())
-				.setDescription(track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
-						+ track.getInfo().title + "](" + track.getInfo().uri + ")");
-
-		MessageSender.send(msgSpec).subscribe();
+		MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
+			messageSpec.setTitle(local.getValue());
+			messageSpec.setDescription(track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
+					+ track.getInfo().title + "](" + track.getInfo().uri + ")");
+		})).subscribe();
 	}
 
 	@Override
@@ -53,14 +50,11 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 				.doOnNext(track -> HeraAudioManager.getScheduler(guild).queue(player, track))
 				.map(AudioTrack::getDuration)
 				.reduce(((accumulation, duration) -> accumulation + duration))
-				.flatMap(totalDuration -> {
-					HeraMsgSpec msgSpec = HeraMsgSpec.getDefaultSpec(channel)
-						.setTitle(title.getValue())
-						.setDescription(playlist.getName() + "\n" +
-								String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`"));
-
-					return MessageSender.send(msgSpec);
-				})
+				.flatMap(totalDuration -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
+					messageSpec.setTitle(title.getValue());
+					messageSpec.setDescription(playlist.getName() + "\n" +
+							String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`"));
+				})))
 				.subscribe();
 	}
 
