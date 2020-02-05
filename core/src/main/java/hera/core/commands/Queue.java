@@ -127,12 +127,8 @@ public class Queue {
 					messageSpec.setTitle(queueStringParts[0]);
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
-				}))
-				.doOnNext(message -> HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(message.getId().asLong()))
-				.flatMap(m -> Flux.fromIterable(emojis)
-						.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
-						.next()
-				)).then();
+				})).flatMap(message -> addReactions(message, guild, emojis)))
+				.then();
 	}
 
 	private static Mono<Void> editMessage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
@@ -141,14 +137,15 @@ public class Queue {
 					messageSpec.setTitle(queueStringParts[0]);
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
-				}))
-					.doOnNext(message -> HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(message.getId().asLong()))
-					.doOnNext(Message::removeAllReactions)
-					.flatMap(m -> Flux.fromIterable(emojis)
-							.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
-							.next()
-					)
-				));
+				})).flatMap(message -> addReactions(message, guild, emojis))))
+				.then();
+	}
+
+	private static Mono<Void> addReactions(Message msg, Guild guild, List<String> emojis) {
+		HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(msg.getId().asLong());
+		return Flux.fromIterable(emojis)
+					.flatMap(emoji -> msg.addReaction(ReactionEmoji.unicode(emoji)))
+					.next();
 	}
 
 	private static int getMaxPage(List<AudioTrack> tracks) {
