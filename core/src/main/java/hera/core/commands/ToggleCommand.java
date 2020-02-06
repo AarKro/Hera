@@ -5,8 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.entities.ModuleSettings;
@@ -22,9 +22,9 @@ public class ToggleCommand {
 		List<Command> commands = STORE.commands().forName(params.get(0));
 		if (commands.isEmpty()) {
 			String message = String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), params.get(0));
-			return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
-				.setDescription(message)
-			).then();
+			return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
+				messageSpec.setDescription(message);
+			})).then();
 		}
 
 		Command cmd = commands.get(0);
@@ -46,8 +46,8 @@ public class ToggleCommand {
 			message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_TOGGLE_OFF, guild);
 		}
 
-		return MessageSender.send(HeraMsgSpec.getConfirmationSpec(channel)
-			.setDescription(String.format(message.getValue(), cmd.getName()))
-		).then();
+		return MessageHandler.send(channel, MessageSpec.getConfirmationSpec(messageSpec -> {
+			messageSpec.setDescription(String.format(message.getValue(), cmd.getName()));
+		})).then();
 	}
 }

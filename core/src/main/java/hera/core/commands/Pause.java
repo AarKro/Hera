@@ -5,8 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -16,9 +16,9 @@ import java.util.List;
 
 public class Pause {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return pausePlayer(guild).flatMap(m -> MessageSender.send(HeraMsgSpec.getConfirmationSpec(channel)
-			.setDescription(m)
-		)).then();
+		return pausePlayer(guild).flatMap(m -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(messageSpec -> {
+			messageSpec.setDescription(m);
+		}))).then();
 	}
 
 	private static Mono<String> pausePlayer(Guild guild) {

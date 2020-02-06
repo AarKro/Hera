@@ -6,8 +6,8 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.database.entities.GuildSetting;
 import hera.database.entities.Localisation;
 import hera.database.types.GuildSettingKey;
@@ -35,12 +35,14 @@ public class OnJoinRole {
 						}
 
 						Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE, guild);
-						return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(String.format(message.getValue(), r.getMention()))).then();
+						return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
+							messageSpec.setDescription(String.format(message.getValue(), r.getMention()));
+						})).then();
 					}
 					Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE_ERROR, guild);
-					return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
-						.setDescription(String.format(message.getValue(), r.getMention()))
-					).then();
+					return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
+						messageSpec.setDescription(String.format(message.getValue(), r.getMention()));
+					})).then();
 				})
 		).then();
 	}

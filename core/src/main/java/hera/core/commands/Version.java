@@ -5,8 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.database.entities.GlobalSetting;
 import hera.database.entities.Localisation;
 import hera.database.types.GlobalSettingKey;
@@ -19,7 +19,7 @@ import static hera.store.DataStore.STORE;
 
 public class Version {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(getVersion(guild))).then();
+		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> messageSpec.setDescription(getVersion(guild)))).then();
 	}
 
 	private static String getVersion(Guild guild) {
