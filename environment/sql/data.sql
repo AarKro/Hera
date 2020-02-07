@@ -50,6 +50,7 @@ INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#DISCORD_LOGIN_TOK
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API');
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
 
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_UPTIME', 'I am up since %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VERSION', 'I am running on version %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_HELP', 'Commands');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PREFIX', 'Prefix set to: %s');
