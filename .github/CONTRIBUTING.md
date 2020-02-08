@@ -22,7 +22,7 @@ Branch Type | Pattern
 Issue branch | {group}/{number}-few-descriptive-words
 Feature branch | feature/{number}-few-descriptive-words
 
-{group} can be one of the following: bugfix, feature, enhancement, maintenance or management.  
+{group} can be one of the following: bug, hotfix, release, command, change, db, website, api, feature.
 {number} corresponds to the issue number the branch is for. Usually the group name can be taken from the issue labels.  
 
 Preface every pull request with the issue number it is for (#number).
