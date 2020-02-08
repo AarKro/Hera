@@ -23,8 +23,4 @@ data class ModuleSettings(
 		var role: Role? = null
 ) : PersistenceEntity {
 	constructor(guild: Long, command: Command, enabled: Boolean, role: Role?) : this(null, guild, command, enabled, role)
-
-	companion object {
-		const val ENTITY_NAME = "ModuleSettings"
-	}
 }

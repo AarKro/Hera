@@ -6,8 +6,4 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "owner")
-data class Owner(@Id override var id: Long? = null) : PersistenceEntity {
-	companion object {
-		const val ENTITY_NAME = "Owner"
-	}
-}
+data class Owner(@Id override var id: Long? = null) : PersistenceEntity

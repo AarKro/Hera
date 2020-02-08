@@ -21,8 +21,4 @@ data class GuildSetting(
 		var value: String? = null
 ) : PersistenceEntity {
 	constructor(guild: Long, key: GuildSettingKey, value: String) : this(null, guild, key, value)
-
-	companion object {
-		const val ENTITY_NAME = "GuildSetting"
-	}
 }

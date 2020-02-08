@@ -19,8 +19,4 @@ data class Alias(
 		var guild: Long? = null
 ) : PersistenceEntity {
 	constructor(command: Command, alias: String, guild: Long?) : this(null, command, alias, guild)
-
-	companion object {
-		const val ENTITY_NAME = "Alias"
-	}
 }

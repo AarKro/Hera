@@ -17,8 +17,4 @@ data class DefaultRole(
 		var role: Role? = null
 ) : PersistenceEntity {
 	constructor(guild: Long, role: Role) : this(null, guild, role)
-
-	companion object {
-		const val ENTITY_NAME = "DefaultRole"
-	}
 }

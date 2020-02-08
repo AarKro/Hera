@@ -13,7 +13,7 @@ public class ModuleSettingsAccessUnit extends StorageAccessUnit<ModuleSettings>{
 	private static final Logger LOG = LoggerFactory.getLogger(ModuleSettingsAccessUnit.class);
 
 	public ModuleSettingsAccessUnit() {
-		super(ModuleSettings.class, ModuleSettings.ENTITY_NAME);
+		super(ModuleSettings.class);
 	}
 
 	public List<ModuleSettings> forGuild(Long guild) {

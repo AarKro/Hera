@@ -11,7 +11,7 @@ import java.util.List;
 public class RoleMemberAccessUnit extends StorageAccessUnit<RoleMember>{
 
 	public RoleMemberAccessUnit() {
-		super(RoleMember.class, RoleMember.ENTITY_NAME);
+		super(RoleMember.class);
 	}
 
 	public List<RoleMember> forRole(Role role) {

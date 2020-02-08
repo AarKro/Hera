@@ -10,7 +10,7 @@ import java.util.List;
 public class BindingAccessUnit extends StorageAccessUnit<Binding>{
 
 	public BindingAccessUnit() {
-		super(Binding.class, Binding.ENTITY_NAME);
+		super(Binding.class);
 	}
 
 	public List<Binding> forGuild(Long guild) {

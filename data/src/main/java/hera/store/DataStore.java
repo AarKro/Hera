@@ -60,10 +60,10 @@ public class DataStore {
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
-		guilds = new StorageAccessUnit<>(Guild.class, Guild.ENTITY_NAME);
-		owners = new StorageAccessUnit<>(Owner.class, Owner.ENTITY_NAME);
-		metrics = new StorageAccessUnit<>(Metric.class, Metric.ENTITY_NAME);
-		users = new StorageAccessUnit<>(User.class, User.ENTITY_NAME);
+		guilds = new StorageAccessUnit<>(Guild.class);
+		owners = new StorageAccessUnit<>(Owner.class);
+		metrics = new StorageAccessUnit<>(Metric.class);
+		users = new StorageAccessUnit<>(User.class);
 		LOG.info("DataStore initialised");
 	}
 
