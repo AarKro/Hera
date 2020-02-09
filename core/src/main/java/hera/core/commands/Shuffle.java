@@ -5,14 +5,13 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.List;
 
 public class Shuffle {
@@ -20,6 +19,6 @@ public class Shuffle {
 		HeraAudioManager.getScheduler(guild).shuffle(HeraAudioManager.getPlayer(guild));
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_SHUFFLE, guild);
 
-		return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel).setDescription(local.getValue())).then();
+		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> messageSpec.setDescription(local.getValue()))).then();
 	}
 }

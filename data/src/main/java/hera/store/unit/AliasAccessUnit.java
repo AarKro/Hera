@@ -10,7 +10,7 @@ import java.util.List;
 public class AliasAccessUnit extends StorageAccessUnit<Alias>{
 
 	public AliasAccessUnit() {
-		super(Alias.class, Alias.ENTITY_NAME);
+		super(Alias.class);
 	}
 
 	public List<Alias> forGuild(Long guild) {

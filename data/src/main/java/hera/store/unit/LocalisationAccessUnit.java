@@ -10,7 +10,7 @@ import java.util.List;
 public class LocalisationAccessUnit extends StorageAccessUnit<Localisation>{
 
 	public LocalisationAccessUnit() {
-		super(Localisation.class, Localisation.ENTITY_NAME);
+		super(Localisation.class);
 	}
 
 	public List<Localisation> forLanguage(String language) {

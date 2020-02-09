@@ -5,18 +5,18 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
+import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class Queue {
 		return writeMessage(currentPageIndex, channel, emojis, guild);
 	}
 
-	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel channel, String message, String unicode, Guild guild) {
+	public static Mono<Void> executeFromReaction(ReactionAddEvent event, Message originalMessage, String message, String unicode, Guild guild) {
 		int currentPageIndex = Integer.parseInt(message.substring(message.indexOf("Page: ") + 6, message.indexOf(" of")));
 		currentPageIndex--;
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
@@ -52,7 +52,7 @@ public class Queue {
 
 		List<String> emojis = getEmojis(currentPageIndex, maxPage);
 
-		return writeMessage(currentPageIndex, channel, emojis, guild);
+		return editMessage(currentPageIndex, originalMessage, emojis, guild);
 	}
 
 	private static Mono<String[]> getQueueString(int page, Guild guild) {
@@ -123,18 +123,29 @@ public class Queue {
 
 	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
 		return getQueueString(pageIndex, guild)
-				.flatMap(queueStringParts -> MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
-							.setTitle(queueStringParts[0])
-							.setDescription(queueStringParts[1])
-							.setFooter(queueStringParts[2], null)
-						)
-						.doOnNext(message -> HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(message.getId().asLong()))
-						.flatMap(m -> Flux.fromIterable(emojis)
-								.flatMap(emoji -> m.addReaction(ReactionEmoji.unicode(emoji)))
-								.next()
-						)
-				)
+				.flatMap(queueStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
+					messageSpec.setTitle(queueStringParts[0]);
+					messageSpec.setDescription(queueStringParts[1]);
+					messageSpec.setFooter(queueStringParts[2], null);
+				})).flatMap(message -> addReactions(message, guild, emojis)))
 				.then();
+	}
+
+	private static Mono<Void> editMessage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
+		return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
+				.flatMap(queueStringParts -> MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
+					messageSpec.setTitle(queueStringParts[0]);
+					messageSpec.setDescription(queueStringParts[1]);
+					messageSpec.setFooter(queueStringParts[2], null);
+				})).flatMap(message -> addReactions(message, guild, emojis))))
+				.then();
+	}
+
+	private static Mono<Void> addReactions(Message msg, Guild guild, List<String> emojis) {
+		HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(msg.getId().asLong());
+		return Flux.fromIterable(emojis)
+					.flatMap(emoji -> msg.addReaction(ReactionEmoji.unicode(emoji)))
+					.next();
 	}
 
 	private static int getMaxPage(List<AudioTrack> tracks) {

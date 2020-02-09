@@ -50,6 +50,7 @@ INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#DISCORD_LOGIN_TOK
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API');
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_APP_NAME', 'YOUTUBE_API_APP_NAME', 'YouTube API application name for the YouTube Data v3 API');
 
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_UPTIME', 'I am up since %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VERSION', 'I am running on version %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_HELP', 'Commands');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PREFIX', 'Prefix set to: %s');
@@ -90,8 +91,8 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ON_JOIN_ROLE_ERROR', 'Can\'t set on join role to %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_START_TITLE', '%s started a vote');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_START_FOOTER', '%s, react with %s to end the vote');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_TITLE', 'Vote ended');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_DESC', '> %s\n\nNumber of votes: %s\n\nYes: %s | %s%%\nNo: %s | %s%%');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_TITLE', 'Vote results');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_DESC', '> %s\n\nYes: %s | %s%%\nNo: %s | %s%%\n\nTotal votes: %s');
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.2');
 

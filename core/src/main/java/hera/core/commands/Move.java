@@ -6,8 +6,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
-import hera.core.messages.HeraMsgSpec;
-import hera.core.messages.MessageSender;
+import hera.core.messages.MessageSpec;
+import hera.core.messages.MessageHandler;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -27,20 +27,20 @@ public class Move {
 				String message = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
 						+ track.getInfo().title + "](" + track.getInfo().uri + ")";
 
-				return MessageSender.send(HeraMsgSpec.getDefaultSpec(channel)
-					.setTitle(String.format(local.getValue(), trackIndex + 1, destination + 1))
-					.setDescription(message)
-				).then();
+				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
+					messageSpec.setTitle(String.format(local.getValue(), trackIndex + 1, destination + 1));
+					messageSpec.setDescription(message);
+				})).then();
 			} else {
 				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MOVE_ERROR, guild);
-				return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
-					.setDescription(String.format(local.getValue(), trackIndex + 1, destination + 1))
-				).then();
+				return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
+					messageSpec.setDescription(String.format(local.getValue(), trackIndex + 1, destination + 1));
+				})).then();
 			}
 		} catch (NumberFormatException e) {
-			return MessageSender.send(HeraMsgSpec.getErrorSpec(channel)
-				.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue())
-			).then();
+			return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
+				messageSpec.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
+			})).then();
 		}
 	}
 }
