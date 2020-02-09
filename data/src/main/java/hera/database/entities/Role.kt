@@ -21,8 +21,4 @@ data class Role(
 		var description: String? = null
 ) : PersistenceEntity {
 	constructor(guild: Long, parent: Role?, name: String, description: String) : this(null, guild, parent, name, description)
-
-	companion object {
-		const val ENTITY_NAME = "Role"
-	}
 }

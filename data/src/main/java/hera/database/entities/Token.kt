@@ -20,8 +20,4 @@ data class Token(
 		var description: String? = null
 ) : PersistenceEntity {
 	constructor(token: String, key: TokenKey, description: String) : this(null, token, key, description)
-
-	companion object {
-		const val ENTITY_NAME = "Token"
-	}
 }

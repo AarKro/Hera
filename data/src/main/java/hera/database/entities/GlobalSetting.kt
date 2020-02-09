@@ -18,8 +18,4 @@ data class GlobalSetting(
 		var value: String? = null
 ) : PersistenceEntity {
 	constructor(key: GlobalSettingKey, value: String) : this(null, key, value)
-
-	companion object {
-		const val ENTITY_NAME = "GlobalSetting"
-	}
 }

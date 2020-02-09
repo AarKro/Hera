@@ -33,8 +33,4 @@ data class Metric(
 		var details: String? = null
 ) : PersistenceEntity {
 	constructor(key: MetricKey, date: Timestamp, command: Command?, guild: Long, user: Long, value: Long?, details: String?) : this(null, key, date, command, guild, user, value, details)
-
-	companion object {
-		const val ENTITY_NAME = "Metric"
-	}
 }

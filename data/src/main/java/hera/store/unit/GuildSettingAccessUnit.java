@@ -10,7 +10,7 @@ import java.util.List;
 public class GuildSettingAccessUnit extends StorageAccessUnit<GuildSetting>{
 
 	public GuildSettingAccessUnit() {
-		super(GuildSetting.class, GuildSetting.ENTITY_NAME);
+		super(GuildSetting.class);
 	}
 
 	public List<GuildSetting> forGuild(Long guild) {

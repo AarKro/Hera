@@ -21,8 +21,4 @@ data class Binding(
 		var channelSnowflake: Long? = null
 ) : PersistenceEntity {
 	constructor(guild: Long, bindingType: BindingType, channelSnowflake: Long) : this(null, guild, bindingType, channelSnowflake)
-
-	companion object {
-		const val ENTITY_NAME = "Binding"
-	}
 }

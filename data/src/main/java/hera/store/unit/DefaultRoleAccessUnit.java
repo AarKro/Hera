@@ -9,7 +9,7 @@ import java.util.List;
 public class DefaultRoleAccessUnit extends StorageAccessUnit<DefaultRole>{
 
 	public DefaultRoleAccessUnit() {
-		super(DefaultRole.class, DefaultRole.ENTITY_NAME);
+		super(DefaultRole.class);
 	}
 
 	public List<DefaultRole> forGuild(Long guild) {

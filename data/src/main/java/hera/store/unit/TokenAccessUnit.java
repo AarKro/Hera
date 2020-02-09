@@ -11,7 +11,7 @@ import java.util.List;
 public class TokenAccessUnit extends StorageAccessUnit<Token>{
 
 	public TokenAccessUnit() {
-		super(Token.class, Token.ENTITY_NAME);
+		super(Token.class);
 	}
 	private static final Logger LOG = LoggerFactory.getLogger(GuildSettingAccessUnit.class);
 

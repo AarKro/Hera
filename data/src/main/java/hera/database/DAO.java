@@ -15,12 +15,9 @@ public class DAO<T extends PersistenceEntity> {
 
 	private Class<T> cl;
 
-	private String entityName;
-
-	public DAO(Class<T> cl, String entityName) {
+	public DAO(Class<T> cl) {
 		this.cl = cl;
-		this.entityName = entityName;
-		LOG.debug("DAO for entity {} created", cl.getName());
+		LOG.debug("DAO for entity {} created", cl.getSimpleName());
 	}
 
 	public List<T> getAll() {
@@ -28,7 +25,7 @@ public class DAO<T extends PersistenceEntity> {
 		entityManager.getTransaction().begin();
 
 		try {
-			Query query = entityManager.createQuery("SELECT e FROM " + entityName + " e");
+			Query query = entityManager.createQuery("SELECT e FROM " + cl.getSimpleName() + " e");
 
 			@SuppressWarnings("unchecked")
 			List<T> results = query.getResultList();
@@ -57,7 +54,7 @@ public class DAO<T extends PersistenceEntity> {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		StringBuilder queryString = new StringBuilder("SELECT e FROM " + entityName + " e WHERE ");
+		StringBuilder queryString = new StringBuilder("SELECT e FROM " + cl.getSimpleName() + " e WHERE ");
 
 		int i = 0;
 		String[] wheres = new String[whereClauses.size()];
@@ -102,7 +99,7 @@ public class DAO<T extends PersistenceEntity> {
 			entityManager.persist(object);
 
 			// only log if its not about metrics, else we would just spam our logs
-			if (!cl.getName().equals(Metric.class.getName())) LOG.info("Persisted entity of type {}", object.getClass().getName());
+			if (!cl.getName().equals(Metric.class.getName())) LOG.info("Persisted entity of type {}", object.getClass().getSimpleName());
 
 			return object;
 		} finally {
@@ -119,9 +116,9 @@ public class DAO<T extends PersistenceEntity> {
 			T entity = entityManager.find(cl, id);
 			if (entity != null) {
 				entityManager.remove(entity);
-				LOG.info("Deleted entity of type {}", cl.getName());
+				LOG.info("Deleted entity of type {}", cl.getSimpleName());
 			} else {
-				LOG.error("No entity found for type {}", cl.getName());
+				LOG.error("No entity found for type {}", cl.getSimpleName());
 			}
 		} finally {
 			entityManager.getTransaction().commit();
@@ -135,7 +132,7 @@ public class DAO<T extends PersistenceEntity> {
 
 		try {
 			entityManager.remove(entity);
-			LOG.info("Deleted entity of type {}", entity.getClass().getName());
+			LOG.info("Deleted entity of type {}", entity.getClass().getSimpleName());
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
@@ -148,7 +145,7 @@ public class DAO<T extends PersistenceEntity> {
 
 		try {
 			entityManager.merge(entity);
-			LOG.info("Merged entity of type {}", entity.getClass().getName());
+			LOG.info("Merged entity of type {}", entity.getClass().getSimpleName());
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
@@ -166,10 +163,10 @@ public class DAO<T extends PersistenceEntity> {
 
 			if (persistedEntity != null) {
 				entityManager.merge(entity);
-				LOG.info("Merged entity of type {}", entity.getClass().getName());
+				LOG.info("Merged entity of type {}", entity.getClass().getSimpleName());
 			} else {
 				entityManager.persist(entity);
-				LOG.info("Persisted entity of type {}", entity.getClass().getName());
+				LOG.info("Persisted entity of type {}", entity.getClass().getSimpleName());
 			}
 
 		} finally {

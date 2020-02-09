@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class CommandAccessUnit extends StorageAccessUnit<Command> {
 
 	public CommandAccessUnit() {
-		super(Command.class, Command.ENTITY_NAME);
+		super(Command.class);
 	}
 
 	public List<Command> forName(CommandName name) {

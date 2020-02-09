@@ -6,8 +6,4 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "guild")
-data class Guild(@Id override var id: Long? = null) : PersistenceEntity {
-	companion object {
-		const val ENTITY_NAME = "Guild"
-	}
-}
+data class Guild(@Id override var id: Long? = null) : PersistenceEntity

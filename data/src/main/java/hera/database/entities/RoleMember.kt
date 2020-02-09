@@ -22,8 +22,4 @@ data class RoleMember(
 		var snowflakeType: SnowflakeType? = null
 ) : PersistenceEntity {
 	constructor(snowflake: Long, role: Role, snowflakeType: SnowflakeType) : this(null, snowflake, role, snowflakeType)
-
-	companion object {
-		const val ENTITY_NAME = "RoleMember"
-	}
 }

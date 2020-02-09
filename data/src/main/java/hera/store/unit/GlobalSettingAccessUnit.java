@@ -9,7 +9,7 @@ import java.util.List;
 public class GlobalSettingAccessUnit extends StorageAccessUnit<GlobalSetting>{
 
 	public GlobalSettingAccessUnit() {
-		super(GlobalSetting.class, GlobalSetting.ENTITY_NAME);
+		super(GlobalSetting.class);
 	}
 
 	public List<GlobalSetting> forKey(GlobalSettingKey key) {

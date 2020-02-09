@@ -23,8 +23,4 @@ data class Command(
 		var level: Int? = null
 ) : PersistenceEntity {
 	constructor(name: CommandName, description: String, paramCount: Int, optionalParams: Int, level: Int) : this(null, name, description, paramCount, optionalParams, level)
-
-	companion object {
-		const val ENTITY_NAME = "Command"
-	}
 }

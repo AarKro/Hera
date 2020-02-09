@@ -12,18 +12,18 @@ import java.util.Map;
 public class StorageAccessUnit<T extends PersistenceEntity> {
 	private static final Logger LOG = LoggerFactory.getLogger(StorageAccessUnit.class);
 
-	DAO<T> dao;
+	protected DAO<T> dao;
 
-	private Class<T> cl;
+	protected Class<T> cl;
 
 	public StorageAccessUnit() {
 	}
 
-	public StorageAccessUnit(Class<T> cl, String entityName) {
-		dao = new DAO<>(cl, entityName);
+	public StorageAccessUnit(Class<T> cl) {
+		dao = new DAO<>(cl);
 		this.cl = cl;
 
-		LOG.info("StorageAccessUnit for entity {} created and initialized", cl.getName());
+		LOG.info("StorageAccessUnit for entity {} created and initialized", cl.getSimpleName());
 	}
 
 	public List<T> getAll() {
@@ -49,7 +49,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 
 			throw new FailedAfterRetriesException("DB modification failed after 3 retries");
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to get entity of type {}", cl.getName());
+			LOG.error("Error while trying to get entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 
@@ -79,7 +79,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 
 			throw new FailedAfterRetriesException("DB modification failed after 3 retries");
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to get entity of type {}", cl.getName());
+			LOG.error("Error while trying to get entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 
@@ -109,7 +109,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 
 			throw new FailedAfterRetriesException("DB modification failed after 3 retries");
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to get entity of type {}", cl.getName());
+			LOG.error("Error while trying to get entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 
@@ -120,7 +120,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		try {
 			retryOnFail(() -> dao.insert(entity));
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to add entity of type {}", cl.getName());
+			LOG.error("Error while trying to add entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 	}
@@ -129,7 +129,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		try {
 			retryOnFail(() -> dao.delete(entity));
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to delete entity of type {}", cl.getName());
+			LOG.error("Error while trying to delete entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 	}
@@ -138,7 +138,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		try {
 			retryOnFail(() -> dao.delete(id));
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to delete entity of type {}", cl.getName());
+			LOG.error("Error while trying to delete entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 	}
@@ -147,7 +147,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		try {
 			retryOnFail(() -> dao.update(entity));
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to update entity of type {}", cl.getName());
+			LOG.error("Error while trying to update entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 	}
@@ -156,7 +156,7 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 		try {
 			retryOnFail(() -> dao.upsert(entity));
 		} catch(FailedAfterRetriesException e) {
-			LOG.error("Error while trying to upsert entity of type {}", cl.getName());
+			LOG.error("Error while trying to upsert entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
 		}
 	}
@@ -181,6 +181,6 @@ public class StorageAccessUnit<T extends PersistenceEntity> {
 			}
 		}
 
-		throw new FailedAfterRetriesException("DB modification failed after 3 retries");
+		throw new FailedAfterRetriesException("-----> DB modification failed after 3 retries <-----");
 	}
 }

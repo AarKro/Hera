@@ -20,8 +20,4 @@ data class Localisation(
 		var value: String? = null
 ) : PersistenceEntity {
 	constructor(language: String, key: LocalisationKey, value: String) : this(null, language, key, value)
-
-	companion object {
-		const val ENTITY_NAME = "Localisation"
-	}
 }
