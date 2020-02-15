@@ -1,5 +1,7 @@
 # Hera Contributing Guidelines
 
+**Disclaimer**: These guidelines are here to guide you into the general directions of how we want to collaborate on this project. We do realise that sometimes these rules can be a bit strict, which is why there will be exceptions and why we don't strictly enforce them. Still try to be in line with the contributing guidelines most of the time :)
+
 ## Branch Management
 
 The develop branch always contains a working version of Hera, up to date with the latest work done in the project.  
