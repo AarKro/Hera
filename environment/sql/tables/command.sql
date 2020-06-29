@@ -4,5 +4,6 @@ CREATE TABLE `command` (
   `description` varchar(500) NOT NULL,
   `paramCount` int(11) NOT NULL,
   `optionalParams` int(11) NOT NULL,
-  `level` tinyint(1) NOT NULL
+  `level` tinyint(1) NOT NULL,
+  `minPermission` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

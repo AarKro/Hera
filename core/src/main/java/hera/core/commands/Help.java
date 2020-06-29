@@ -18,18 +18,17 @@ import static hera.store.DataStore.STORE;
 
 public class Help {
 
-
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		Mono<String> message;
 		String title;
 		String commandName = params.get(0);
 		if (commandName.isEmpty()) {
 			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
-			message = getHelpFromCommandList(getEnabledCommands(member, guild));
+			message = getHelpFromCommandList(getEnabledCommands(member, guild), guild);
 		} else if (commandName.toUpperCase().equals("ALL")) {
 			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
 			List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
-			message = getHelpFromCommandList(Mono.just(commands));
+			message = getHelpFromCommandList(Mono.just(commands), guild);
 		} else {
 			Command cmd = getHelp(commandName);
 			if (cmd == null) {
@@ -47,21 +46,32 @@ public class Help {
 		}))).then();
 	}
 
-	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands) {
-		return commands.flatMap(cmnds -> {
-			final StringBuilder helpStringBuilder = new StringBuilder();
+	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands, Guild guild) {
+		return HeraUtil.getHeraPermissionSetForGuild(guild)
+				.flatMap(heraPermissions -> commands.flatMap(cmnds -> {
+						final StringBuilder helpStringBuilder = new StringBuilder();
 
-			cmnds.stream()
-					.map(cmd -> cmd.getName().toString().toLowerCase())
-					.sorted()
-					.forEach(cmd -> {
-						helpStringBuilder.append("- ");
-						helpStringBuilder.append(cmd);
-						helpStringBuilder.append("\n");
-					});
+						cmnds.sort((commandA, commandB) -> {
+							String a = commandA.getName().toString().toLowerCase();
+							String b = commandB.getName().toString().toLowerCase();
 
-			return Mono.just(helpStringBuilder.toString());
-		});
+							return a.compareTo(b);
+						});
+
+						cmnds.forEach(cmd -> {
+							helpStringBuilder.append("- ");
+							helpStringBuilder.append(cmd.getName().toString().toLowerCase());
+
+							if (!HeraUtil.checkCommandPermissions(cmd, heraPermissions)) {
+								helpStringBuilder.append(" (Disabled because Hera is missing Permissions)");
+							}
+
+							helpStringBuilder.append("\n");
+						});
+
+						return Mono.just(helpStringBuilder.toString());
+				})
+		);
 	}
 
 	private static Command getHelp(String commandName) {
@@ -86,10 +96,13 @@ public class Help {
 				.filter(cmd -> cmd.getLevel() < 2)
 				.collect(Collectors.toList());
 
-		return member.getBasePermissions()
-				.flatMap(permissions -> Mono.just(enabledCommands.stream()
-						.filter(command -> HeraUtil.checkPermissions(command, permissions))
-						.collect(Collectors.toList()))
+		return HeraUtil.getHeraPermissionSetForGuild(guild)
+				.flatMap(heraPermissionSet -> member.getBasePermissions()
+						.flatMap(permissions -> Mono.just(enabledCommands.stream()
+								.filter(command -> HeraUtil.checkCommandPermissions(command, heraPermissionSet))
+								.filter(command -> HeraUtil.checkPermissions(command, permissions))
+								.collect(Collectors.toList()))
+						)
 				);
 }
 }

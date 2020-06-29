@@ -7,6 +7,7 @@ import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
 import discord4j.core.object.util.PermissionSet;
 import discord4j.core.object.util.Snowflake;
+import discord4j.core.util.PermissionUtil;
 import hera.core.messages.MessageSpec;
 import hera.core.messages.MessageHandler;
 import hera.database.entities.*;
@@ -47,8 +48,28 @@ public class HeraUtil {
 		}
 	}
 
+	public static Mono<PermissionSet> getHeraPermissionSetForGuild(Guild guild) {
+		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(Member::getBasePermissions));
+	}
+
+	public static Mono<Boolean> checkHeraPermissions(Command command, Guild guild) {
+		return getHeraPermissionSetForGuild(guild)
+			.flatMap(heraPermissions -> {
+				PermissionSet minPermissions = PermissionSet.of(command.getMinPermission());
+				return Mono.just(heraPermissions.asEnumSet().containsAll(minPermissions.asEnumSet()));
+			}
+		);
+	}
+
+	public static boolean checkCommandPermissions(Command command, PermissionSet permissionSet) {
+		PermissionSet minPermissions = PermissionSet.of(command.getMinPermission());
+		return permissionSet.asEnumSet().containsAll(minPermissions.asEnumSet());
+	}
+
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
-		if (STORE.owners().isOwner(member.getId().asLong())) return Mono.just(true);
+		boolean isOwner = STORE.owners().get(member.getId().asLong()) != null;
+
+		if (isOwner) return Mono.just(true);
 
 		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command);
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
