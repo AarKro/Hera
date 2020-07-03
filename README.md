@@ -14,6 +14,9 @@ To streamline setting up the development environment there are several scripts a
 
 ### Hera Chatbot :robot:
 
+Hera Chatbot is the heart of the project and is what users directly interact with via Discord.  
+The code for it can be found in the [`core/`](https://github.com/AarKro/Hera/tree/master/core) module and is written in Java using the [Discord4J](https://github.com/Discord4J/Discord4J) Discord API wrapper.
+
 #### Setup
 
 * Copy the file [`env_var_template.sh`](https://github.com/AarKro/Hera/blob/master/environment/scripts/env_var_template.sh) and create a new file with its contents called `env_var.sh` in [`environment/scripts/`](https://github.com/AarKro/Hera/tree/master/environment/scripts)
@@ -36,6 +39,9 @@ To generate the executable `.jar` file for the Chatbot just build the project.
 :exclamation: &nbsp; Don't forget to update the database (which is also on the EC2 instance) with relevant changes as you deploy
 
 ### Hera Website :globe_with_meridians:
+
+Through the website users can easily configure some of Heras behaviour in their Discord server, as well as get an overview of their servers activity.  
+The website is written as a React app using TypeScript. The code for it can be found in the [`website/`](https://github.com/AarKro/Hera/tree/master/core) module.
 
 #### Setup
 
