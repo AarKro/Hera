@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Commands {
-	public static final Map<CommandName, Command> COMMANDS = new HashMap<>();
+	public static final Map<CommandName, ICommand> COMMANDS = new HashMap<>();
 
 	private Commands() {
 

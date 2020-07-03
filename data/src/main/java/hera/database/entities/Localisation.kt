@@ -18,6 +18,6 @@ data class Localisation(
 		var key: LocalisationKey? = null,
 
 		var value: String? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(language: String, key: LocalisationKey, value: String) : this(null, language, key, value)
 }

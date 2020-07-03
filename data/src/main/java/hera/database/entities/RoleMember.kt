@@ -20,6 +20,6 @@ data class RoleMember(
 		@Enumerated(EnumType.STRING)
 		@Column(name = "snowflakeTypeFK")
 		var snowflakeType: SnowflakeType? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(snowflake: Long, role: Role, snowflakeType: SnowflakeType) : this(null, snowflake, role, snowflakeType)
 }

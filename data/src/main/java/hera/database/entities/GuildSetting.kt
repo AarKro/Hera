@@ -19,6 +19,6 @@ data class GuildSetting(
 		var key: GuildSettingKey? = null,
 
 		var value: String? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(guild: Long, key: GuildSettingKey, value: String) : this(null, guild, key, value)
 }

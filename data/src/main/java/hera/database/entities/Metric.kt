@@ -31,6 +31,6 @@ data class Metric(
 		var value: Long? = null,
 
 		var details: String? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(key: MetricKey, date: Timestamp, command: Command?, guild: Long, user: Long, value: Long?, details: String?) : this(null, key, date, command, guild, user, value, details)
 }

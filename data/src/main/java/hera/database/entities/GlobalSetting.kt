@@ -16,6 +16,6 @@ data class GlobalSetting(
 		var key: GlobalSettingKey? = null,
 
 		var value: String? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(key: GlobalSettingKey, value: String) : this(null, key, value)
 }

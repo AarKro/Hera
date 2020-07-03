@@ -1,5 +1,5 @@
 package hera.database.entities
 
-interface PersistenceEntity {
+interface IPersistenceEntity {
 	var id: Long?
 }

@@ -22,6 +22,6 @@ data class ModuleSettings(
 		@ManyToOne
 		@JoinColumn(name = "roleFK")
 		var role: Role? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(guild: Long, command: Command, enabled: Boolean, role: Role?) : this(null, guild, command, enabled, role)
 }

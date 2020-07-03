@@ -18,6 +18,6 @@ data class Token(
 		var key: TokenKey? = null,
 
 		var description: String? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(token: String, key: TokenKey, description: String) : this(null, token, key, description)
 }

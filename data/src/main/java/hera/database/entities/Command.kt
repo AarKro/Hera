@@ -14,7 +14,9 @@ data class Command(
 		@Enumerated(EnumType.STRING)
 		var name: CommandName? = null,
 
-		var description: String? = null,
+		@ManyToOne
+		@JoinColumn(name = "description")
+		var description: Localisation? = null,
 
 		var paramCount: Int? = null,
 
@@ -23,6 +25,6 @@ data class Command(
 		var level: Int? = null,
 
 		var minPermission: Int? = null
-) : PersistenceEntity {
-	constructor(name: CommandName, description: String, paramCount: Int, optionalParams: Int, level: Int, minPermission: Int) : this(null, name, description, paramCount, optionalParams, level, minPermission)
+) : IPersistenceEntity {
+	constructor(name: CommandName, description: Localisation, paramCount: Int, optionalParams: Int, level: Int) : this(null, name, description, paramCount, optionalParams, level)
 }

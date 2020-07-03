@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-public interface Command {
+public interface ICommand {
     Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params);
 }

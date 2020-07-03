@@ -17,6 +17,6 @@ data class Alias(
 
 		@Column(name = "guildFK")
 		var guild: Long? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(command: Command, alias: String, guild: Long?) : this(null, command, alias, guild)
 }

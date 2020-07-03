@@ -38,8 +38,7 @@ public class Help {
 				})).then();
 			}
 			title = cmd.getName().toString().toLowerCase();
-			//this will break as soon as descriptions are localized
-			message = Mono.just(cmd.getDescription());
+			message = Mono.just(cmd.getDescription().getValue());
 		}
 		return message.flatMap(m -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 			messageSpec.setTitle(title);

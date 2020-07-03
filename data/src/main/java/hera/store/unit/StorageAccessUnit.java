@@ -1,7 +1,7 @@
 package hera.store.unit;
 
 import hera.database.DAO;
-import hera.database.entities.PersistenceEntity;
+import hera.database.entities.IPersistenceEntity;
 import hera.store.exception.FailedAfterRetriesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-public class StorageAccessUnit<T extends PersistenceEntity> {
+public class StorageAccessUnit<T extends IPersistenceEntity> {
 	private static final Logger LOG = LoggerFactory.getLogger(StorageAccessUnit.class);
 
 	protected DAO<T> dao;
