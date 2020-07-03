@@ -68,7 +68,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for report');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_UPTIME', 'Checks how long Hera has been up and running');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_VERSION', 'Displays current version number');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_HELP', 'Shows this Help page);
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_HELP', 'Shows this Help page');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_DELETEMESSAGES', 'Deletes the newest channel messages');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_ALIAS', 'Creates an alias for a command that works in only the current guild');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_PREFIX', 'Sets command prefix');
