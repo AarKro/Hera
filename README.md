@@ -4,10 +4,8 @@ Hera is a multi purpose chatbot, coming with an array of different features like
 
 ## Development Setup :rocket:
 
-The project is structured as a Maven multi module project and functions as a mono-repo containing the Hera chatbot, API & website.
-
+The project is structured as a Maven multi module project and functions as a mono-repo containing the Hera chatbot, API & website.  
 Hera expects a local MySQL database to be ready and available.  
-
 To streamline setting up the development environment there are several scripts available in [`environment/scripts/`](https://github.com/AarKro/Hera/tree/master/environment/scripts).  
 
 :warning: &nbsp; _Scripts/Instructions are tested on macOS/Linux, there may be complications using other operating systems_
