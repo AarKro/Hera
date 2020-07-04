@@ -41,3 +41,10 @@ jobs:
     - name: Copy files to S3 with the AWS CLI
       run: |
         aws s3 sync /home/runner/work/hera/staging s3://hera-prod
+        
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: DeployHeraChatbot
+        template: environment/aws/cloudformation_template.yaml
+        parameter-overrides: "ParameterKey=KeyName,ParameterValue=hera_prod_ec2_instance"
