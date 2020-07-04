@@ -372,6 +372,11 @@ Resources:
           - AWSInstanceType2Arch
           - !Ref InstanceType
           - Arch
+      UserData: !Base64
+        Fn::Sub: |
+          yum install java-1.8.0-amazon-corretto-devel -y
+          aws s3 cp s3://hera-prod/hera-prod-bundle-jar-with-dependencies.jar .
+          java -jar hera-prod-bundle-jar-with-dependencies.jar
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
