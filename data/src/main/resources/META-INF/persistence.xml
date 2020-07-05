@@ -31,6 +31,11 @@
             <property name="javax.persistence.jdbc.password" value="HERA_DB_PWD" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="autoReconnect" value="true"/>
+            <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+            <property name="hibernate.c3p0.min_size" value="3" />
+            <property name="hibernate.c3p0.max_size" value="20" />
+            <property name="hibernate.c3p0.acquire_increment" value="3" />
+            <property name="hibernate.c3p0.timeout" value="600" />
         </properties>
 
     </persistence-unit>
