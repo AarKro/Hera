@@ -16,6 +16,7 @@ data class ModuleSettings(
 		@JoinColumn(name = "commandFK")
 		var command: Command? = null,
 
+		@Column(name = "enabled")
 		var isEnabled: Boolean? = null,
 
 		@ManyToOne
