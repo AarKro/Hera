@@ -5,4 +5,4 @@ files:
     destination: /home/ec2-user/bots
 hooks:
   ApplicationStart:
-      - location: ../scripts/start_hera.sh
+      - location: scripts/start_hera.sh
