@@ -1,9 +1,6 @@
 package hera.store;
 
-import hera.database.entities.Guild;
-import hera.database.entities.Metric;
-import hera.database.entities.Owner;
-import hera.database.entities.User;
+import hera.database.entities.*;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +14,8 @@ public class DataStore {
 	private AliasAccessUnit aliases;
 
 	private BindingAccessUnit bindings;
+
+	private BindingTypeAccessUnit bindingTypes;
 
 	private CommandAccessUnit commands;
 
@@ -51,6 +50,7 @@ public class DataStore {
 		LOG.info("Initialising DataStore");
 		aliases = new AliasAccessUnit();
 		bindings = new BindingAccessUnit();
+		bindingTypes = new BindingTypeAccessUnit();
 		commands = new CommandAccessUnit();
 		defaultRoles = new DefaultRoleAccessUnit();
 		globalSettings = new GlobalSettingAccessUnit();
@@ -71,6 +71,10 @@ public class DataStore {
 
 	public BindingAccessUnit bindings() {
 		return bindings;
+	}
+
+	public BindingTypeAccessUnit bindingTypes() {
+		return bindingTypes;
 	}
 
 	public CommandAccessUnit commands() {
