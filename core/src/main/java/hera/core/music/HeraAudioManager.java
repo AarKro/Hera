@@ -41,7 +41,7 @@ public class HeraAudioManager {
 	}
 
 	private static TrackScheduler createSchedulerForGuild(Guild guild) {
-		TrackScheduler scheduler = new TrackScheduler();
+		TrackScheduler scheduler = new TrackScheduler(guild.getId().asLong());
 		getPlayer(guild).addListener(scheduler);
 		SCHEDULERS.put(guild.getId().asLong(), scheduler);
 		return scheduler;

@@ -31,6 +31,7 @@ public class MetricsLogger {
 
 		return true;
 	}
+
 	public void log(MetricKey key, Command command, Long user, Long guild, Long value, String details) {
 		if (isLoggingEnabled(guild)) {
 			STORE.metrics().add(new Metric(key, Timestamp.valueOf(LocalDateTime.now()), command, guild, user, value, details));
