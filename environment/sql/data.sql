@@ -93,7 +93,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_DESC', '> %s\n\nYes: %s | %s%%\nNo: %s | %s%%\n\nTotal votes: %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_MUSIC', 'Binded channel for music');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ANNOUNCEMENT', 'Binded channel for announcements');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for music');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for report');
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.2');
 

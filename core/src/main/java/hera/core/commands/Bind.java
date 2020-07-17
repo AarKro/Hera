@@ -19,37 +19,18 @@ public class Bind {
 		try {
 			List<BindingType> bTypes = STORE.bindingTypes().forName(params.get(0).trim().toUpperCase());
 			if (!bTypes.isEmpty()) {
-				BindingType bindingType = bTypes.get(0);
-				switch (bindingType.getSnowflakeType()) {
-					case ROLE:
-						Mono<Role> role = HeraUtil.getRoleFromMention(guild, params.get(1));
-						return role.flatMap(r -> HeraUtil.hasRightsToSetRole(guild, r).flatMap(b -> {
-							List<Binding> bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bindingType);
-							if (bindings.isEmpty()) {
-								STORE.bindings().add(new Binding(guild.getId().asLong(), bindingType, r.getId().asLong()));
-							} else {
-								Binding binding = bindings.get(0);
-								binding.setSnowflake(r.getId().asLong());
-								STORE.bindings().update(binding);
-							}
-							return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(bindingType.getMessage().getValue()))).then();
-						}));
-					case CHANNEL:
-					default:
-						Mono<GuildChannel> cnl = HeraUtil.getChannelFromMention(guild, params.get(1));
-						return cnl.flatMap(c -> {
-							List<Binding> bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bindingType);
-							if (bindings.isEmpty()) {
-								STORE.bindings().add(new Binding(guild.getId().asLong(), bindingType, c.getId().asLong()));
-							} else {
-								Binding binding = bindings.get(0);
-								binding.setSnowflake(c.getId().asLong());
-								STORE.bindings().update(binding);
-							}
-							return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(bindingType.getMessage().getValue()))).then();
-						});
+					BindingType bindingType = bTypes.get(0);
+					switch (bindingType.getSnowflakeType()) {
+						case ROLE:
+							Mono<Role> role = HeraUtil.getRoleFromMention(guild, params.get(1));
+							return role.flatMap(r -> HeraUtil.hasRightsToSetRole(guild, r).flatMap(b -> setBinding(guild.getId().asLong(), r.getId().asLong(), bindingType, channel)));
+						case CHANNEL:
+						default:
+							Mono<GuildChannel> cnl = HeraUtil.getChannelFromMention(guild, params.get(1));
+							return cnl.flatMap(c -> setBinding(guild.getId().asLong(), c.getId().asLong(), bindingType, channel));
+					}
 				}
-			}
+
 
 
 		}
@@ -58,5 +39,18 @@ public class Bind {
 		}
 		return Mono.empty();
 
+	}
+
+
+	private static Mono setBinding(Long guildId, Long snowflakeId, BindingType bindingType, MessageChannel channel) {
+		List<Binding> bindings = STORE.bindings().forGuildAndType(guildId, bindingType);
+		if (bindings.isEmpty()) {
+			STORE.bindings().add(new Binding(guildId, bindingType, snowflakeId));
+		} else {
+			Binding binding = bindings.get(0);
+			binding.setSnowflake(snowflakeId);
+			STORE.bindings().update(binding);
+		}
+		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(bindingType.getMessage().getValue()))).then();
 	}
 }

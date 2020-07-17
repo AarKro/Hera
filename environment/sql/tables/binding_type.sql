@@ -1,5 +1,5 @@
 CREATE TABLE `binding_type` (
-  `id` bigint(11) PRIMARY KEY AUtO_INCREMENT,
+  `id` bigint(11) PRIMARY KEY AUTO_INCREMENT,
   `type` varchar(30) NOT NULL,
   `localisationFK` bigint(11) NOT NULL,
   `snowflakeTypeFK` bigint(11) NOT NULL
