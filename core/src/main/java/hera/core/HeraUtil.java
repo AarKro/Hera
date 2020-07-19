@@ -1,9 +1,8 @@
 package hera.core;
 
 import discord4j.core.DiscordClient;
+import discord4j.core.object.entity.*;
 import discord4j.core.object.entity.Guild;
-import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.MessageChannel;
 import discord4j.core.object.entity.Role;
 import discord4j.core.object.util.Permission;
 import discord4j.core.object.util.PermissionSet;
@@ -49,10 +48,7 @@ public class HeraUtil {
 	}
 
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
-
-		boolean isOwner = STORE.owners().get(member.getId().asLong()) != null;
-
-		if (isOwner) return Mono.just(true);
+		if (STORE.owners().isOwner(member.getId().asLong())) return Mono.just(true);
 
 		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command);
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;
@@ -214,17 +210,47 @@ public class HeraUtil {
 				);
 	}
 
+	public static boolean isUserMention(String string) {
+		return string.matches("<@!\\d{1,50}>");
+	}
+
+	public static Long getIdUserFromString(String mention) {
+		return Long.parseLong(mention.substring(3, mention.length()-1));
+	}
+
+	public static Mono<Member> getUserFromMention(Guild guild, String mention) {
+		if (isUserMention(mention)) {
+			return guild.getMemberById(Snowflake.of(getIdUserFromString(mention)));
+		}
+		return Mono.empty();
+	}
+
 	public static boolean isRoleMention(String string) {
 		return string.matches("<@&\\d{1,50}>");
 	}
 
-	public static Long getIdFromString(String mention) {
+	public static Long getRoleIdFromString(String mention) {
 		return Long.parseLong(mention.substring(3, mention.length()-1));
 	}
 
 	public static Mono<Role> getRoleFromMention(Guild guild, String mention) {
 		if (isRoleMention(mention)) {
-			return guild.getRoleById(Snowflake.of(getIdFromString(mention)));
+			return guild.getRoleById(Snowflake.of(getRoleIdFromString(mention)));
+		}
+		return Mono.empty();
+	}
+
+	public static boolean isChannelMention(String string) {
+		return string.matches("<#\\d{1,50}>");
+	}
+
+	public static Long getIdChannelFromString(String mention) {
+		return Long.parseLong(mention.substring(2, mention.length()-1));
+	}
+
+	public static Mono<GuildChannel> getChannelFromMention(Guild guild, String mention) {
+		if (isChannelMention(mention)) {
+			return guild.getChannelById(Snowflake.of(getIdChannelFromString(mention)));
 		}
 		return Mono.empty();
 	}

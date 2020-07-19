@@ -24,3 +24,6 @@ ALTER TABLE `role_member` ADD CONSTRAINT `role_member_ibfk_2` FOREIGN KEY (`snow
 
 ALTER TABLE `alias` ADD CONSTRAINT `alias_ibfk_1` FOREIGN KEY (`commandFK`) REFERENCES `command` (`id`) ON DELETE CASCADE;
 ALTER TABLE `alias` Add CONSTRAINT `alias_ibfk_2` FOREIGN KEY (`guildFK`) REFERENCES `guild` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `binding_type` ADD CONSTRAINT `binding_type_ibfk_1` FOREIGN KEY (`localisationFK`) REFERENCES `localisation` (`id`) ON DELETE CASCADE;
+ALTER TABLE `binding_type` ADD CONSTRAINT `binding_type_ibfk_2` FOREIGN KEY (`snowflakeTypeFK`) REFERENCES `snowflake_type` (`id`) ON DELETE CASCADE;

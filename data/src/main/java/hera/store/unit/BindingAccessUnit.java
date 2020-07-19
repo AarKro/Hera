@@ -1,7 +1,7 @@
 package hera.store.unit;
 
 import hera.database.entities.Binding;
-import hera.database.types.BindingType;
+import hera.database.entities.BindingType;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;

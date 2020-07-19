@@ -1,10 +1,7 @@
-INSERT INTO `binding_type` (`type`) VALUES ('Music');
-INSERT INTO `binding_type` (`type`) VALUES ('Announcement');
-INSERT INTO `binding_type` (`type`) VALUES ('Report');
-
-INSERT INTO `snowflake_type` (`type`) VALUES ('Guild');
-INSERT INTO `snowflake_type` (`type`) VALUES ('Channel');
-INSERT INTO `snowflake_type` (`type`) VALUES ('User');
+INSERT INTO `snowflake_type` (`type`) VALUES ('GUILD');
+INSERT INTO `snowflake_type` (`type`) VALUES ('CHANNEL');
+INSERT INTO `snowflake_type` (`type`) VALUES ('USER');
+INSERT INTO `snowflake_type` (`type`) VALUES ('ROLE');
 
 INSERT INTO `user` (`id`) VALUES (178581372284305409);
 INSERT INTO `user` (`id`) VALUES (245597003323670528);
@@ -45,6 +42,7 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('TEAMS', 'Makes teams from the specified parameters', 3, -1, 0);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('UPDATEYTTOKEN', 'Sets the youtube tokens to a new value', 2, 0, 2);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('VOTE', 'Start a guild wide vote', 1, -1, 0);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`) VALUES ('BIND', 'Set a binding', 2, 0, 1);
 
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#DISCORD_LOGIN_TOKEN', 'DISCORD_LOGIN', 'Discord bot token for Hera login');
 INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_TOKEN', 'YOUTUBE_API_TOKEN', 'YouTube API token for the YouTube Data v3 API');
@@ -93,6 +91,9 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_START_FOOTER', '%s, react with %s to end the vote');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_TITLE', 'Vote results');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_DESC', '> %s\n\nYes: %s | %s%%\nNo: %s | %s%%\n\nTotal votes: %s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_MUSIC', 'Binded channel for music');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ANNOUNCEMENT', 'Binded channel for announcements');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for report');
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.2');
 
@@ -102,3 +103,7 @@ INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` W
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'LOOPQUEUE'), 'LQ');
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'CLEAR'), 'CLR');
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'DELETEMESSAGES'), 'DELMSG');
+
+INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'), '2');
+INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), '2');
+INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), '2');

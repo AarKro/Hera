@@ -1,9 +1,6 @@
 package hera.store;
 
-import hera.database.entities.Guild;
-import hera.database.entities.Metric;
-import hera.database.entities.Owner;
-import hera.database.entities.User;
+import hera.database.entities.*;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +15,8 @@ public class DataStore {
 
 	private BindingAccessUnit bindings;
 
+	private BindingTypeAccessUnit bindingTypes;
+
 	private CommandAccessUnit commands;
 
 	private DefaultRoleAccessUnit defaultRoles;
@@ -30,6 +29,8 @@ public class DataStore {
 
 	private ModuleSettingsAccessUnit moduleSettings;
 
+	private OwnerAccesUnit owners;
+
 	private RoleMemberAccessUnit roleMembers;
 
 	private RoleAccessUnit roles;
@@ -37,8 +38,6 @@ public class DataStore {
 	private TokenAccessUnit tokens;
 
 	private StorageAccessUnit<Guild> guilds;
-
-	private StorageAccessUnit<Owner> owners;
 
 	private StorageAccessUnit<Metric> metrics;
 
@@ -51,17 +50,18 @@ public class DataStore {
 		LOG.info("Initialising DataStore");
 		aliases = new AliasAccessUnit();
 		bindings = new BindingAccessUnit();
+		bindingTypes = new BindingTypeAccessUnit();
 		commands = new CommandAccessUnit();
 		defaultRoles = new DefaultRoleAccessUnit();
 		globalSettings = new GlobalSettingAccessUnit();
 		guildSettings = new GuildSettingAccessUnit();
 		localisations = new LocalisationAccessUnit();
 		moduleSettings = new ModuleSettingsAccessUnit();
+		owners = new OwnerAccesUnit();
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
 		guilds = new StorageAccessUnit<>(Guild.class);
-		owners = new StorageAccessUnit<>(Owner.class);
 		metrics = new StorageAccessUnit<>(Metric.class);
 		users = new StorageAccessUnit<>(User.class);
 		LOG.info("DataStore initialised");
@@ -71,6 +71,10 @@ public class DataStore {
 
 	public BindingAccessUnit bindings() {
 		return bindings;
+	}
+
+	public BindingTypeAccessUnit bindingTypes() {
+		return bindingTypes;
 	}
 
 	public CommandAccessUnit commands() {
@@ -97,6 +101,10 @@ public class DataStore {
 		return moduleSettings;
 	}
 
+	public OwnerAccesUnit owners() {
+		return owners;
+	}
+
 	public RoleMemberAccessUnit roleMembers() {
 		return roleMembers;
 	}
@@ -111,10 +119,6 @@ public class DataStore {
 
 	public StorageAccessUnit<Guild> guilds() {
 		return guilds;
-	}
-
-	public StorageAccessUnit<Owner> owners() {
-		return owners;
 	}
 
 	public StorageAccessUnit<Metric> metrics() {

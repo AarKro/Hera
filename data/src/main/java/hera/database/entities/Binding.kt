@@ -1,7 +1,5 @@
 package hera.database.entities
 
-import hera.database.types.BindingType
-
 import javax.persistence.*
 
 @Entity
@@ -14,11 +12,11 @@ data class Binding(
 		@Column(name = "guildFK")
 		var guild: Long? = null,
 
-		@Enumerated(EnumType.STRING)
-		@Column(name = "bindingTypeFK")
+		@ManyToOne
+		@JoinColumn(name = "bindingTypeFK")
 		var bindingType: BindingType? = null,
 
-		var channelSnowflake: Long? = null
+		var snowflake: Long? = null
 ) : PersistenceEntity {
 	constructor(guild: Long, bindingType: BindingType, channelSnowflake: Long) : this(null, guild, bindingType, channelSnowflake)
 }
