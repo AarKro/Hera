@@ -48,10 +48,7 @@ public class HeraUtil {
 	}
 
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
-
-		boolean isOwner = STORE.owners().get(member.getId().asLong()) != null;
-
-		if (isOwner) return Mono.just(true);
+		if (STORE.owners().isOwner(member.getId().asLong())) return Mono.just(true);
 
 		List<ModuleSettings> msList = STORE.moduleSettings().forModule(guild.getId().asLong(), command);
 		ModuleSettings ms = !msList.isEmpty() ? msList.get(0) : null;

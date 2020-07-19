@@ -29,6 +29,8 @@ public class DataStore {
 
 	private ModuleSettingsAccessUnit moduleSettings;
 
+	private OwnerAccesUnit owners;
+
 	private RoleMemberAccessUnit roleMembers;
 
 	private RoleAccessUnit roles;
@@ -36,8 +38,6 @@ public class DataStore {
 	private TokenAccessUnit tokens;
 
 	private StorageAccessUnit<Guild> guilds;
-
-	private StorageAccessUnit<Owner> owners;
 
 	private StorageAccessUnit<Metric> metrics;
 
@@ -57,11 +57,11 @@ public class DataStore {
 		guildSettings = new GuildSettingAccessUnit();
 		localisations = new LocalisationAccessUnit();
 		moduleSettings = new ModuleSettingsAccessUnit();
+		owners = new OwnerAccesUnit();
 		roleMembers = new RoleMemberAccessUnit();
 		roles = new RoleAccessUnit();
 		tokens = new TokenAccessUnit();
 		guilds = new StorageAccessUnit<>(Guild.class);
-		owners = new StorageAccessUnit<>(Owner.class);
 		metrics = new StorageAccessUnit<>(Metric.class);
 		users = new StorageAccessUnit<>(User.class);
 		LOG.info("DataStore initialised");
@@ -101,6 +101,10 @@ public class DataStore {
 		return moduleSettings;
 	}
 
+	public OwnerAccesUnit owners() {
+		return owners;
+	}
+
 	public RoleMemberAccessUnit roleMembers() {
 		return roleMembers;
 	}
@@ -115,10 +119,6 @@ public class DataStore {
 
 	public StorageAccessUnit<Guild> guilds() {
 		return guilds;
-	}
-
-	public StorageAccessUnit<Owner> owners() {
-		return owners;
 	}
 
 	public StorageAccessUnit<Metric> metrics() {

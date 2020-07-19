@@ -40,7 +40,7 @@ $command <<< "UPDATE token SET token = '$HERA_YOUTUBE_APP_NAME' WHERE name = 'YO
 echo "Create CONSTRAINTS"
 $command < constraints.sql
 
-echo "Created views from views.sql"
+echo "Create VIEWS from views.sql"
 $command < views.sql
 
 echo

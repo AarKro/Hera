@@ -18,9 +18,8 @@ data class BindingType(
 		@JoinColumn(name = "localisationFK")
 		var message: Localisation? = null,
 
-		@Enumerated(EnumType.STRING)
-		@Column(name = "snowflakeType")
-		var snowflakeType: SnowflakeType? = null
+		@Column(name = "needsOwner")
+		var isGlobal: Boolean? = null
 ) : PersistenceEntity {
-	constructor(type: String, message: Localisation, snowflakeType: SnowflakeType) : this(null, type, message, snowflakeType)
+	constructor(type: String, message: Localisation, isOwner: Boolean) : this(null, type, message, isOwner)
 }
