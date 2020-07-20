@@ -8,8 +8,7 @@
 # THIS SCRIPT WILL NOT WORK LOCALLY AND WAS NEVER INTENDED TO DO SO                   #
 #######################################################################################
 
-cd "$(dirname "$0")"
-cd ..
+cd /home/ec2-user
 
 # Terminate running jar processes as in terminating Hera
 pkill -f 'java -jar'
