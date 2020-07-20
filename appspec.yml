@@ -5,4 +5,4 @@ files:
     destination: /home/ec2-user/bots
 hooks:
    ApplicationStart:
-     - location: environment/scripts/aws_start_hera.sh
+     - location: ./aws_start_hera.sh
