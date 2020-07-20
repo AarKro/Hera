@@ -2,6 +2,12 @@
 
 Hera is a multi purpose chatbot, coming with an array of different features like a music player, server metrics tracking, general server moderation features and other fun commands!
 
+Application | Status
+------------|--------------
+Hera Chatbot | ![build status](https://hera-badges-images-prod.s3-eu-west-1.amazonaws.com/hera-codebuild.svg) ![pipeline status](https://hera-badges-images-prod.s3-eu-west-1.amazonaws.com/hera-code-pipeline.svg)
+Hera API | _comming soon_
+Hera Website | _comming soon_
+
 ## Development Setup :rocket:
 
 The project is structured as a Maven multi module project and functions as a mono-repo containing the Hera chatbot, API & website.  
@@ -27,12 +33,8 @@ The code for it can be found in the [`core/`](https://github.com/AarKro/Hera/tre
 
 #### Deployment
 
-The Hera Chatbot is currently deployed on an AWS EC2 instance and manually deployed.  
-In the future we would like to automate this process.  
-
-To generate the executable `.jar` file for the Chatbot just build the project.
-
-:exclamation: &nbsp; If you use IntelliJ, make sure you have setup a proper artifact and that its dependencies are up to date  
+The Hera Chatbot is automatically built and deployed to an AWS EC2 instance using AWS CodePipeline.  
+The process is triggered when pushing to `master`.
 
 :exclamation: &nbsp; Don't forget to update the database (which is also on the EC2 instance) with relevant changes as you deploy
 
