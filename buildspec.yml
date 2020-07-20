@@ -11,5 +11,6 @@ phases:
 artifacts:
   files:
     - core/target/hera-prod-bundle-jar-with-dependencies.jar
+    - environment/scripts/aws_start_hera.sh
     - appspec.yml
   discard-paths: yes
