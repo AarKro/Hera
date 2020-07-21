@@ -271,6 +271,6 @@ public class HeraUtil {
 		if (isChannelMention(mention)) {
 			return guild.getChannelById(Snowflake.of(getIdChannelFromString(mention)));
 		}
-		return Mono.empty();
+		return null;
 	}
 }

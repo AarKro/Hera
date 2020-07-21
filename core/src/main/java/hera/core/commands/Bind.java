@@ -7,6 +7,8 @@ import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.Binding;
 import hera.database.entities.BindingType;
+import hera.database.entities.Localisation;
+import hera.database.types.LocalisationKey;
 import hera.database.types.SnowflakeType;
 import reactor.core.publisher.Mono;
 
@@ -22,6 +24,12 @@ public class Bind {
 			BindingType bindingType = bTypes.get(0);
 			if (!bindingType.isGlobal() || STORE.owners().isOwner(member.getId().asLong())) {
 				Mono<GuildChannel> cnl = HeraUtil.getChannelFromMention(guild, params.get(1));
+
+				if (cnl == null) return MessageHandler.send(channel, MessageSpec.getErrorSpec(spec -> {
+					Localisation local = HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_CHANNEL, guild);
+					spec.setDescription(String.format(local.getValue(), params.get(1)));
+				})).then();
+
 				return cnl.flatMap(c -> {
 					List<Binding> bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bindingType);
 					if (bindings.isEmpty()) {
