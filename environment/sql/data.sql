@@ -134,6 +134,6 @@ INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` W
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'CLEAR'), 'CLR');
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'DELETEMESSAGES'), 'DELMSG');
 
-INSERT INTO `binding_type` (`type`, `localisationFK`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'));
-INSERT INTO `binding_type` (`type`, `localisationFK`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'));
-INSERT INTO `binding_type` (`type`, `localisationFK`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'));
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'), false);
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), false);
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), false);
