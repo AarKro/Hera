@@ -1,7 +1,5 @@
 package hera.database.entities
 
-import hera.database.types.SnowflakeType
-
 import javax.persistence.*
 
 @Entity
@@ -18,7 +16,6 @@ data class BindingType(
 		@JoinColumn(name = "localisationFK")
 		var message: Localisation? = null,
 
-		@Column(name = "needsOwner")
 		var isGlobal: Boolean? = null
 ) : IPersistenceEntity {
 	constructor(type: String, message: Localisation, isOwner: Boolean) : this(null, type, message, isOwner)

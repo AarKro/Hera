@@ -133,6 +133,6 @@ INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` W
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'CLEAR'), 'CLR');
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'DELETEMESSAGES'), 'DELMSG');
 
-INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'), '2');
-INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), '2');
-INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), '2');
+INSERT INTO `binding_type` (`type`, `localisationFK`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'));
+INSERT INTO `binding_type` (`type`, `localisationFK`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'));
+INSERT INTO `binding_type` (`type`, `localisationFK`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'));

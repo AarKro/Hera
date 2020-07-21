@@ -17,5 +17,6 @@ echo "USE $HERA_DB_NAME;" >> $commands
 cat tables/* >> $commands
 cat data.sql >> $commands
 cat constraints.sql >> $commands
+cat views.sql >> $commands
 
 cd $start
