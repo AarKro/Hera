@@ -17,6 +17,6 @@ data class Binding(
 		var bindingType: BindingType? = null,
 
 		var snowflake: Long? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(guild: Long, bindingType: BindingType, channelSnowflake: Long) : this(null, guild, bindingType, channelSnowflake)
 }

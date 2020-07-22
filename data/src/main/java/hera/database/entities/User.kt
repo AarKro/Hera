@@ -6,4 +6,4 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "user")
-data class User(@Id override var id: Long? = null): PersistenceEntity
+data class User(@Id override var id: Long? = null): IPersistenceEntity

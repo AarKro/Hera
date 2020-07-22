@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # set environment variables
-source env_var.sh
+chmod +x env_var.sh
+./env_var.sh
 
 echo "Enter your mysql password"
 echo "It will be saved in an encrypted password file and stored on your PC"

@@ -9,7 +9,9 @@ command="mysql --login-path=local"
 echo "---------- START HERA DATABASE SETUP SCRIPT ----------"
 
 echo "Set environment variables"
-source env_var.sh
+
+chmod +x env_var.sh
+./env_var.sh
 
 cd ../sql
 

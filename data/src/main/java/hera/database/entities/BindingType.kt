@@ -20,6 +20,6 @@ data class BindingType(
 
 		@Column(name = "needsOwner")
 		var isGlobal: Boolean? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(type: String, message: Localisation, isOwner: Boolean) : this(null, type, message, isOwner)
 }

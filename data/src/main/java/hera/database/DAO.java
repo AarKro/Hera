@@ -1,7 +1,7 @@
 package hera.database;
 
 import hera.database.entities.Metric;
-import hera.database.entities.PersistenceEntity;
+import hera.database.entities.IPersistenceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 
-public class DAO<T extends PersistenceEntity> {
+public class DAO<T extends IPersistenceEntity> {
 	private static final Logger LOG = LoggerFactory.getLogger(DAO.class);
 
 	private Class<T> cl;

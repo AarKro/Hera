@@ -15,6 +15,6 @@ data class DefaultRole(
 		@ManyToOne
 		@JoinColumn(name = "roleFK")
 		var role: Role? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(guild: Long, role: Role) : this(null, guild, role)
 }

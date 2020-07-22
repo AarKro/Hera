@@ -19,6 +19,6 @@ data class Role(
 		var name: String? = null,
 
 		var description: String? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(guild: Long, parent: Role?, name: String, description: String) : this(null, guild, parent, name, description)
 }
