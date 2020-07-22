@@ -65,7 +65,8 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VOTE_END_DESC', '> %s\n\nYes: %s | %s%%\nNo: %s | %s%%\n\nTotal votes: %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_MUSIC', 'Binded channel for music');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ANNOUNCEMENT', 'Binded channel for announcements');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for report');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for reports');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_CHANNEL', '%s is not a valid channel mention');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_UPTIME', 'Checks how long Hera has been up and running');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_VERSION', 'Displays current version number');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_HELP', 'Shows this Help page');
@@ -133,6 +134,6 @@ INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` W
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'CLEAR'), 'CLR');
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'DELETEMESSAGES'), 'DELMSG');
 
-INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'), '2');
-INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), '2');
-INSERT INTO `binding_type` (`type`, `localisationFK`, `snowflakeTypeFK`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), '2');
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'), 0);
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), 0);
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), 0);

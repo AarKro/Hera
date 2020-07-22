@@ -1,1 +1,0 @@
-CREATE VIEW `binding_type_joined` AS SELECT bt.id, bt.type, bt.localisationFK, st.type as snowflakeType FROM `binding_type` as bt LEFT JOIN `snowflake_type` as `st` ON bt.snowflakeTypeFK = st.id;
