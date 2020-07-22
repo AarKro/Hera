@@ -6,4 +6,4 @@ files:
 hooks:
    ApplicationStart:
      - location: ./aws_start_hera.sh
-     - runas: ec2-user
+       runas: ec2-user
