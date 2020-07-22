@@ -20,7 +20,9 @@ data class Command(
 
 		var optionalParams: Int? = null,
 
-		var level: Int? = null
+		var level: Int? = null,
+
+		var minPermission: Int? = null
 ) : PersistenceEntity {
-	constructor(name: CommandName, description: String, paramCount: Int, optionalParams: Int, level: Int) : this(null, name, description, paramCount, optionalParams, level)
+	constructor(name: CommandName, description: String, paramCount: Int, optionalParams: Int, level: Int, minPermission: Int) : this(null, name, description, paramCount, optionalParams, level, minPermission)
 }

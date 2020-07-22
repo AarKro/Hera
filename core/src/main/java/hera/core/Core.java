@@ -185,6 +185,7 @@ public class Core {
 										.flatMap(content -> Mono.justOrEmpty(HeraUtil.getCommandFromMessage(content, commandPrefix, guild))
 												.flatMap(command -> Mono.justOrEmpty(event.getMember())
 														.flatMap(member -> event.getMessage().getChannel()
+																.filterWhen(channel -> HeraUtil.checkHeraPermissions(command, guild))
 																.filterWhen(channel -> HeraUtil.checkPermissions(command, member, guild, channel))
 																.filterWhen(channel -> HeraUtil.checkParameters(content, command, channel))
 																.flatMap(channel -> Mono.just(HeraUtil.extractParameters(content, command))
