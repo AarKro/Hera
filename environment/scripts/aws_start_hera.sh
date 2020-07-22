@@ -13,6 +13,9 @@ cd /home/ec2-user
 # Terminate Hera
 pkill -f 'java -jar bots/hera-prod-bundle-jar-with-dependencies.jar'
 
+# Terminate active screens
+pkill screen
+
 echo "$(date): starting hera" >> logs/hera-start.log
 
-java -jar bots/hera-prod-bundle-jar-with-dependencies.jar
+screen -dmS hera bash "java -jar bots/hera-prod-bundle-jar-with-dependencies.jar"
