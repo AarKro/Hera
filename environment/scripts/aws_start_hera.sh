@@ -10,8 +10,8 @@
 
 cd /home/ec2-user
 
-# Terminate running jar processes as in terminating Hera
-pkill -f 'java -jar'
+# Terminate Hera
+pkill -f 'java -jar bots/hera-prod-bundle-jar-with-dependencies.jar'
 
 echo "$(date): starting hera" >> logs/hera-start.log
 
