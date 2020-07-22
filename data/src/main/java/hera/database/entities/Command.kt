@@ -26,5 +26,5 @@ data class Command(
 
 		var minPermission: Int? = null
 ) : IPersistenceEntity {
-	constructor(name: CommandName, description: Localisation, paramCount: Int, optionalParams: Int, level: Int) : this(null, name, description, paramCount, optionalParams, level)
+	constructor(name: CommandName, description: Localisation, paramCount: Int, optionalParams: Int, level: Int, minPermission: Int) : this(null, name, description, paramCount, optionalParams, level, minPermission)
 }
