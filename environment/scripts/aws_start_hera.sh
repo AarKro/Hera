@@ -15,4 +15,4 @@ pkill -f 'java -jar bots/hera-prod-bundle-jar-with-dependencies.jar'
 
 echo "$(date): starting hera" >> logs/hera-start.log
 
-nohup java -jar bots/hera-prod-bundle-jar-with-dependencies.jar &
+nohup java -jar bots/hera-prod-bundle-jar-with-dependencies.jar > /dev/null 2>&1 &
