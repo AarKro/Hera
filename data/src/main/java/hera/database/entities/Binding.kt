@@ -16,7 +16,7 @@ data class Binding(
 		@JoinColumn(name = "bindingTypeFK")
 		var bindingType: BindingType? = null,
 
-		var channelSnowflake: Long? = null
+		var snowflake: Long? = null
 ) : IPersistenceEntity {
 	constructor(guild: Long, bindingType: BindingType, channelSnowflake: Long) : this(null, guild, bindingType, channelSnowflake)
 }
