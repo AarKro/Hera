@@ -8,6 +8,7 @@ import hera.core.HeraUtil;
 import hera.core.messages.MessageSpec;
 import hera.core.messages.MessageHandler;
 import hera.database.entities.Command;
+import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
@@ -47,6 +48,7 @@ public class Help {
 	}
 
 	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands, Guild guild) {
+		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild);
 		return HeraUtil.getHeraPermissionSetForGuild(guild)
 				.flatMap(heraPermissions -> commands.flatMap(cmnds -> {
 						final StringBuilder helpStringBuilder = new StringBuilder();
@@ -63,7 +65,9 @@ public class Help {
 							helpStringBuilder.append(cmd.getName().toString().toLowerCase());
 
 							if (!HeraUtil.checkCommandPermissions(cmd, heraPermissions)) {
-								helpStringBuilder.append(" (Disabled because Hera is missing Permissions)");
+								helpStringBuilder.append(" _(");
+								helpStringBuilder.append(local.getValue());
+								helpStringBuilder.append(")_ ");
 							}
 
 							helpStringBuilder.append("\n");

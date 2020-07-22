@@ -51,6 +51,7 @@ INSERT INTO `token` (`token`, `name`, `description`) VALUES ('#YOUTUBE_API_APP_N
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_UPTIME', 'I am up since %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_VERSION', 'I am running on version %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_HELP', 'Commands');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_HELP_MISSING_PERMISSION', 'Disabled because Hera is missing permissions');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PREFIX', 'Prefix set to: %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_PLAY_TITLE', 'Added to queue');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_RESUMED', 'Player resumed');
