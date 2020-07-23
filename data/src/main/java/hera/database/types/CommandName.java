@@ -29,5 +29,6 @@ public enum CommandName {
 	VOLUME,
 	RELOADDATA,
 	UPDATEYTTOKEN,
-	BIND;
+	BIND,
+	FEEDBACK;
 }

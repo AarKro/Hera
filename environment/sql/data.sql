@@ -66,7 +66,9 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_MUSIC', 'Binded channel for music');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ANNOUNCEMENT', 'Binded channel for announcements');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for reports');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_FEEDBACK', 'Binded channel for Feedback');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_CHANNEL', '%s is not a valid channel mention');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_EXIST', 'The binding your trying to set does not exist');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_UPTIME', 'Checks how long Hera has been up and running');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_VERSION', 'Displays current version number');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_HELP', 'Shows this Help page');
@@ -95,6 +97,9 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_UPDATEYTTOKEN', 'Sets the youtube tokens to a new value');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_VOTE', 'Start a guild wide vote');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_BIND', 'Bind a message output group to a channel');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_FEEDBACK', 'Send a message to the divine rulers of the Olympus');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FEEDBACK_SUBMIT', 'Feedback submitted');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FEEDBACK_RESPONSE', 'Name: %s - %d\nGuild: %s - %d\nFeedback: \n%s');
 
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('UPTIME', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_UPTIME'), 0, 0, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VERSION', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VERSION'), 0, 0, 0, 3072);
@@ -123,7 +128,8 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('TEAMS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_TEAMS'), 3, -1, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('UPDATEYTTOKEN', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_UPDATEYTTOKEN'), 2, 0, 2, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VOTE', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VOTE'), 1, -1, 0, 3136);
-INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('BIND', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_BIND'), 2, 0, 1, 3072);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('BIND', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_BIND'), 1, 1, 1, 3072);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('FEEDBACK', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_FEEDBACK'), 1, -1, 0, 3072);
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.3');
 
@@ -137,3 +143,4 @@ INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` W
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('MUSIC', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_MUSIC'), 0);
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), 0);
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), 0);
+INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('FEEDBACK', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_FEEDBACK'), 1);

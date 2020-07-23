@@ -23,4 +23,10 @@ public class BindingAccessUnit extends StorageAccessUnit<Binding>{
 			put("bindingType", type);
 		}});
 	}
+
+	public List<Binding> forGlobalType(BindingType type) {
+		return get(new LinkedHashMap<String, Object>() {{
+			put("bindingType", type);
+		}});
+	}
 }

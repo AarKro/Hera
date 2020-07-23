@@ -133,14 +133,6 @@ public class HeraUtil {
 			params.add(parts[i]);
 		}
 
-		//im adding one here because prefix and commandname is the first entry and it has to be counted too
-		int effectiveParams = (command.getParamCount() + command.getOptionalParams()) + 1;
-		if (command.getOptionalParams() != -1 && parts.length < effectiveParams) {
-			for (int i = 0;i < effectiveParams - parts.length;i++) {
-				params.add("");
-			}
-		}
-
 		return params;
 	}
 
@@ -203,6 +195,10 @@ public class HeraUtil {
 
 	public static void setClient(DiscordClient _client) {
 		client = _client;
+	}
+
+	public static DiscordClient getClient() {
+		return client;
 	}
 
 	public static Mono<Boolean> hasRightsToSetRole(Guild guild, Role role) {

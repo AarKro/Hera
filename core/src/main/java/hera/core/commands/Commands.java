@@ -42,5 +42,6 @@ public class Commands {
 		COMMANDS.put(CommandName.UPDATEYTTOKEN, UpdateYtToken::execute);
 		COMMANDS.put(CommandName.VOTE, Vote::execute);
 		COMMANDS.put(CommandName.BIND, Bind::execute);
+		COMMANDS.put(CommandName.FEEDBACK, Feedback::execute);
 	}
 }

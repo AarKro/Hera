@@ -22,23 +22,25 @@ public class Help {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		Mono<String> message;
 		String title;
-		String commandName = params.get(0);
-		if (commandName.isEmpty()) {
+		if (params.size() < 1) {
 			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
 			message = getHelpFromCommandList(getEnabledCommands(member, guild), guild);
-		} else if (commandName.toUpperCase().equals("ALL")) {
-			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
-			List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
-			message = getHelpFromCommandList(Mono.just(commands), guild);
 		} else {
-			Command cmd = getHelp(commandName);
-			if (cmd == null) {
-				return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
-					messageSpec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
-				})).then();
+			String commandName = params.get(0);
+			if (commandName.toUpperCase().equals("ALL")) {
+				title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
+				List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
+				message = getHelpFromCommandList(Mono.just(commands), guild);
+			} else {
+				Command cmd = getHelp(commandName);
+				if (cmd == null) {
+					return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
+						messageSpec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
+					})).then();
+				}
+				title = cmd.getName().toString().toLowerCase();
+				message = Mono.just(cmd.getDescription().getValue());
 			}
-			title = cmd.getName().toString().toLowerCase();
-			message = Mono.just(cmd.getDescription().getValue());
 		}
 		return message.flatMap(m -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 			messageSpec.setTitle(title);
