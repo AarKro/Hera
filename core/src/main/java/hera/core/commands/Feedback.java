@@ -8,9 +8,7 @@ import discord4j.core.object.util.Snowflake;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
-import hera.core.music.HeraAudioManager;
 import hera.database.entities.Binding;
-import hera.database.entities.BindingType;
 import hera.database.entities.Localisation;
 import hera.database.types.BindingName;
 import hera.database.types.LocalisationKey;
@@ -25,7 +23,7 @@ public class Feedback {
 
 		String feedback = String.join(" ", params);
 
-		List<Binding> bindings = STORE.bindings().forGlobalType(STORE.bindingTypes().forName(BindingName.FEEDBACK).get(0));
+		List<Binding> bindings = STORE.bindings().forType(STORE.bindingTypes().forName(BindingName.FEEDBACK).get(0));
 		if (!bindings.isEmpty()) {
 			Binding binding = bindings.get(0);
 			return HeraUtil.getClient().getGuildById(Snowflake.of(binding.getGuild()))
@@ -43,6 +41,8 @@ public class Feedback {
 				).flatMap(x -> {
 					return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_SUBMIT, guild).getValue())));
 					}).then();
+		} else {
+
 		}
 		return Mono.empty();
 	}

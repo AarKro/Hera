@@ -66,9 +66,9 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_MUSIC', 'Binded channel for music');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ANNOUNCEMENT', 'Binded channel for announcements');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for reports');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_FEEDBACK', 'Binded channel for Feedback');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_FEEDBACK', 'Binded channel for feedback');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_CHANNEL', '%s is not a valid channel mention');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_EXIST', 'The binding your trying to set does not exist');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_EXIST', 'The binding you\'re trying to set doesn\'t exist');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_UPTIME', 'Checks how long Hera has been up and running');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_VERSION', 'Displays current version number');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_HELP', 'Shows this Help page');

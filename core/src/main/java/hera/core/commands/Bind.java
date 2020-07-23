@@ -10,7 +10,6 @@ import hera.database.entities.BindingType;
 import hera.database.entities.Localisation;
 import hera.database.types.BindingName;
 import hera.database.types.LocalisationKey;
-import hera.database.types.SnowflakeType;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class Bind {
 
 					List<Binding> bindings;
 					if (bindingType.isGlobal()) {
-						bindings = STORE.bindings().forGlobalType(bindingType);
+						bindings = STORE.bindings().forType(bindingType);
 					} else {
 						bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bindingType);
 					}
