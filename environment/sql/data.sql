@@ -67,7 +67,6 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ANNOUNCEMENT', 'Binded channel for announcements');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_REPORT', 'Binded channel for reports');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_FEEDBACK', 'Binded channel for feedback');
-INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_CHANNEL', '%s is not a valid channel mention');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'BINDING_ERROR_EXIST', 'The binding you\'re trying to set doesn\'t exist');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_UPTIME', 'Checks how long Hera has been up and running');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_VERSION', 'Displays current version number');
@@ -100,6 +99,14 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_FEEDBACK', 'Send a message to the divine rulers of the Olympus');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FEEDBACK_SUBMIT', 'Feedback submitted');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FEEDBACK_RESPONSE', 'Name: %s - %d\nGuild: %s - %d\nFeedback: \n%s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_FEEDBACK_ERROR_BINDING', 'The humble overlords do not accept any prayers at the moment');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_REPORT', 'Report a person for something');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_REPORT_RESPONSE', 'Reporter: %s\nOffender: %s\n\nReason:\n%s');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_REPORT_SUBMIT', 'Report submitted');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_MENTION_CHANNEL', '%s is not a proper mention of a channel');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_MENTION_ROLE', '%s is not a proper mention of a role');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_MENTION_USER', '%s is not a proper mention of a user');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_REPORT_ERROR_BINDING', 'Noone accepts reports on this server (yet)');
 
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('UPTIME', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_UPTIME'), 0, 0, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VERSION', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VERSION'), 0, 0, 0, 3072);
@@ -130,6 +137,7 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VOTE', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VOTE'), 1, -1, 0, 3136);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('BIND', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_BIND'), 1, 1, 1, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('FEEDBACK', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_FEEDBACK'), 1, -1, 0, 3072);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_REPORT'), 2, -1, 0, 3072);
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.3');
 

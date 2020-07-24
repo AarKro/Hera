@@ -37,11 +37,6 @@ public class Bind {
                     cnl = HeraUtil.getChannelFromMention(guild, params.get(1));
                 }
 
-				if (cnl == null) return MessageHandler.send(channel, MessageSpec.getErrorSpec(spec -> {
-					Localisation local = HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_CHANNEL, guild);
-					spec.setDescription(String.format(local.getValue(), params.get(1)));
-				})).then();
-
 				return cnl.flatMap(c -> {
 
 					List<Binding> bindings;
@@ -65,9 +60,9 @@ public class Bind {
 			} else {
 				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
 			}
+		} else {
+			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
 		}
-		return Mono.empty();
-
 	}
 
 }
