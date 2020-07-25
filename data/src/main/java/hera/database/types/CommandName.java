@@ -30,5 +30,6 @@ public enum CommandName {
 	RELOADDATA,
 	UPDATEYTTOKEN,
 	BIND,
-	FEEDBACK;
+	FEEDBACK,
+	REPORT;
 }
