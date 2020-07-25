@@ -38,7 +38,7 @@ public class Feedback {
 							s.setDescription(String.format(response.getValue(), userName, userId, guildName, guildId, feedback));
 						}));
 					})
-				).flatMap(x -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_SUBMIT, guild).getValue())))).then();
+				).flatMap(x -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_SUBMIT, guild).getValue())))).then();
 		} else {
 			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_ERROR_BINDING, guild).getValue()))).then();
 		}

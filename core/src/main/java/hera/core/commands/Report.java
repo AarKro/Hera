@@ -37,7 +37,7 @@ public class Report {
                                     String cause = joinMessage(params, 1);
                                     s.setDescription(String.format(response.getValue(), repMention, offMention, cause));
                                 }));
-                            }).flatMap(x -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_REPORT_SUBMIT, guild).getValue()))))
+                            }).flatMap(x -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_REPORT_SUBMIT, guild).getValue()))))
                     ).then();
             } else {
                 return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_MENTION_USER, guild).getValue(), userMention)))).then();
