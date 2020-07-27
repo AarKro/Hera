@@ -25,6 +25,9 @@ import static hera.store.DataStore.STORE;
 public class Config {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_CONFIG, guild);
+		Localisation localEnabled = HeraUtil.getLocalisation(LocalisationKey.COMMON_ENABLED, guild);
+		Localisation localDisabled = HeraUtil.getLocalisation(LocalisationKey.COMMON_DISABLED, guild);
+
 		if (params.size() == 0 || params.get(0).equals("")) {
 			// list all config flags and their current value
 			StringBuilder message = new StringBuilder();
@@ -36,9 +39,9 @@ public class Config {
 				List<ConfigFlag> guildSetFlag = flags.stream().filter(f -> f.getConfigFlagType().getName() == flag).collect(Collectors.toList());
 				if (!guildSetFlag.isEmpty()) {
 					// flag has been set for guild
-					message.append(guildSetFlag.get(0).getValue() ? "ON" : "OFF");
+					message.append(guildSetFlag.get(0).getValue() ? localEnabled.getValue() : localDisabled.getValue());
 				} else {
-					message.append("OFF");
+					message.append(localDisabled.getValue());
 				}
 				message.append("\n");
 			});
@@ -63,13 +66,7 @@ public class Config {
 				}
 
 				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(spec -> {
-					LocalisationKey valueKey;
-					if (flagValue.get()) valueKey = LocalisationKey.COMMON_ENABLED;
-					else valueKey = LocalisationKey.COMMON_DISABLED;
-					Localisation valueLocal = HeraUtil.getLocalisation(valueKey, guild);
-
-					spec.setTitle(local.getValue());
-					spec.setDescription(flag.toString() + " " + valueLocal.getValue());
+					spec.setDescription(flag.toString().toLowerCase() + " " + (flagValue.get() ? localEnabled.getValue() : localDisabled.getValue()));
 				})).then();
 			} catch (Exception exception) {
 				LOG.debug("Stacktrace", exception);
