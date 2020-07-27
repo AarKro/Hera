@@ -168,7 +168,7 @@ INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('ANNOU
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), 0);
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('FEEDBACK', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_FEEDBACK'), 1);
 
-INSERT INTO `config_flag_type` (`name`) VALUES ('METRIC_LOGGING');
-INSERT INTO `config_flag_type` (`name`) VALUES ('JOIN_ON_PLAY');
-INSERT INTO `config_flag_type` (`name`) VALUES ('CLEAR_QUEUE_ON_LEAVE');
-INSERT INTO `config_flag_type` (`name`) VALUES ('ANNOUNCE_NEXT_SONG');
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('METRIC_LOGGING', 1);
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('JOIN_ON_PLAY', 1);
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('CLEAR_QUEUE_ON_LEAVE', 0);
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('ANNOUNCE_NEXT_SONG', 1);
