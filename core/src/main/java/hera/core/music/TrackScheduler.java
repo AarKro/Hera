@@ -6,6 +6,15 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import discord4j.core.object.entity.Guild;
+import hera.core.HeraUtil;
+import hera.core.messages.MessageHandler;
+import hera.core.messages.MessageSpec;
+import hera.database.entities.Binding;
+import hera.database.entities.ConfigFlag;
+import hera.database.entities.ConfigFlagType;
+import hera.database.entities.Localisation;
+import hera.database.types.ConfigFlagName;
+import hera.database.types.LocalisationKey;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,7 +130,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
-		/*
 		List<Binding> bindings = STORE.bindings().forGuildAndType(guild, BindingTypeName.MUSIC);
 		// Only announce when there is a music channle binding
 		if (!bindings.isEmpty()) {
@@ -137,7 +145,6 @@ public class TrackScheduler extends AudioEventAdapter {
 					})).subscribe();
 			}
 		}
-		*/
 	}
 
 	@Override
