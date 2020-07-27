@@ -2,8 +2,9 @@ package hera.metrics;
 
 import hera.database.entities.Command;
 import hera.database.entities.ConfigFlag;
+import hera.database.entities.ConfigFlagType;
 import hera.database.entities.Metric;
-import hera.database.types.ConfigFlagType;
+import hera.database.types.ConfigFlagName;
 import hera.database.types.MetricKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,8 @@ public class MetricsLogger {
 	}
 
 	private boolean isLoggingEnabled(Long guild) {
-		List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild, ConfigFlagType.METRIC_LOGGING);
+		List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.METRIC_LOGGING);
+		List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild, type.get(0));
 
 		if (!flags.isEmpty()) {
 			return flags.get(0).getValue();

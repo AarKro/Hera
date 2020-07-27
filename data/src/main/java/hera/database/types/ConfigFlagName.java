@@ -1,6 +1,6 @@
 package hera.database.types;
 
-public enum ConfigFlagType {
+public enum ConfigFlagName {
 	METRIC_LOGGING,
 	JOIN_ON_PLAY,
 	CLEAR_QUEUE_ON_LEAVE,

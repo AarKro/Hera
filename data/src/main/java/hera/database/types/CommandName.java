@@ -32,5 +32,6 @@ public enum CommandName {
 	BIND,
 	FEEDBACK,
 	REPORT,
-	DELETEALIAS;
+	DELETEALIAS,
+	CONFIG;
 }

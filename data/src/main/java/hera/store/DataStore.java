@@ -21,6 +21,8 @@ public class DataStore {
 
 	private ConfigFlagAccessUnit configFlags;
 
+	private ConfigFlagTypeAccessUnit configFlagTypes;
+
 	private DefaultRoleAccessUnit defaultRoles;
 
 	private GlobalSettingAccessUnit globalSettings;
@@ -55,6 +57,7 @@ public class DataStore {
 		bindingTypes = new BindingTypeAccessUnit();
 		commands = new CommandAccessUnit();
 		configFlags = new ConfigFlagAccessUnit();
+		configFlagTypes = new ConfigFlagTypeAccessUnit();
 		defaultRoles = new DefaultRoleAccessUnit();
 		globalSettings = new GlobalSettingAccessUnit();
 		guildSettings = new GuildSettingAccessUnit();
@@ -88,6 +91,10 @@ public class DataStore {
 
 	public ConfigFlagAccessUnit configFlags() {
 		return configFlags;
+	}
+
+	public ConfigFlagTypeAccessUnit configFlagTypes() {
+		return configFlagTypes;
 	}
 
 	public DefaultRoleAccessUnit defaultRoles() {

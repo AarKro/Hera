@@ -6,19 +6,10 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import discord4j.core.object.entity.Guild;
-import hera.core.HeraUtil;
-import hera.core.messages.MessageHandler;
-import hera.core.messages.MessageSpec;
-import hera.database.entities.ConfigFlag;
-import hera.database.entities.Localisation;
-import hera.database.types.ConfigFlagType;
-import hera.database.types.LocalisationKey;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static hera.store.DataStore.STORE;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -130,18 +121,23 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
-		//TODO:  Finish implementing when binding command is available
-
+		/*
+		List<Binding> bindings = STORE.bindings().forGuildAndType(guild, BindingTypeName.MUSIC);
 		// Only announce when there is a music channle binding
-		List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), ConfigFlagType.ANNOUNCE_NEXT_SONG);
-		if (!flags.isEmpty() && flags.get(0).getValue()) {
-			MessageHandler.send(#channel, MessageSpec.getDefaultSpec(spec -> {
-				Localisation local = HeraUtil.getLocalisation(LocalisationKey.CONFIG_FLAG_ANNOUNCE_NEXT_SONG, guild);
-				spec.setTitle(local.getValue());
-				String descString = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n[" + track.getInfo().title + "](" + track.getInfo().uri + ")";
-				spec.setDescription(descString);
-			})).subscribe();
+		if (!bindings.isEmpty()) {
+			List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.ANNOUNCE_NEXT_SONG);
+			List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), type.get(0));
+			// get channel from snowflake
+			if (!flags.isEmpty() && flags.get(0).getValue()) {
+				MessageHandler.send(#channel, MessageSpec.getDefaultSpec(spec -> {
+					Localisation local = HeraUtil.getLocalisation(LocalisationKey.CONFIG_FLAG_ANNOUNCE_NEXT_SONG, guild);
+						spec.setTitle(local.getValue());
+						String descString = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n[" + track.getInfo().title + "](" + track.getInfo().uri + ")";
+						spec.setDescription(descString);
+					})).subscribe();
+			}
 		}
+		*/
 	}
 
 	@Override

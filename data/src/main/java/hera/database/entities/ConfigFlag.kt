@@ -1,6 +1,5 @@
 package hera.database.entities
 
-import hera.database.types.ConfigFlagType
 import javax.persistence.*
 
 @Entity
@@ -13,11 +12,11 @@ data class ConfigFlag(
 		@Column(name = "guildFK")
 		var guild: Long? = null,
 
-		@Enumerated(EnumType.STRING)
-		@Column(name = "configFlagTypeFK")
+		@ManyToOne
+		@JoinColumn(name = "configFlagTypeFK")
 		var configFlagType: ConfigFlagType? = null,
 
 		var value: Boolean? = null
-) : PersistenceEntity {
+) : IPersistenceEntity {
 	constructor(guild: Long?, configFlagType: ConfigFlagType?, value: Boolean?) : this(null, guild, configFlagType, value)
 }

@@ -6,7 +6,8 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.MessageChannel;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.ConfigFlag;
-import hera.database.types.ConfigFlagType;
+import hera.database.entities.ConfigFlagType;
+import hera.database.types.ConfigFlagName;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -18,7 +19,8 @@ public class Leave {
 		HeraAudioManager.dcFromVc(guild);
 
 		// clear queue if config flag is on
-		List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), ConfigFlagType.CLEAR_QUEUE_ON_LEAVE);
+		List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.CLEAR_QUEUE_ON_LEAVE);
+		List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), type.get(0));
 		if (!flags.isEmpty() && flags.get(0).getValue()) {
 			HeraAudioManager.getScheduler(guild).clearQueue();
 		}

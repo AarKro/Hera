@@ -45,5 +45,6 @@ public class Commands {
 		COMMANDS.put(CommandName.FEEDBACK, Feedback::execute);
 		COMMANDS.put(CommandName.REPORT, Report::execute);
 		COMMANDS.put(CommandName.DELETEALIAS, DeleteAlias::execute);
+		COMMANDS.put(CommandName.CONFIG, Config::execute);
 	}
 }

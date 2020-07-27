@@ -1,7 +1,7 @@
 package hera.store.unit;
 
 import hera.database.entities.ConfigFlag;
-import hera.database.types.ConfigFlagType;
+import hera.database.entities.ConfigFlagType;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
