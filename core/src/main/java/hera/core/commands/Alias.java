@@ -30,6 +30,10 @@ public class Alias {
 
             if (!STORE.aliases().exists(alias, guild.getId().asLong())) {
                 STORE.aliases().add(new hera.database.entities.Alias(command, alias, guild.getId().asLong()));
+
+                return MessageHandler.send(channel, MessageSpec.getConfirmationSpec(spec -> {
+                    spec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.COMMAND_ALIAS_NEW, guild).getValue(), alias.toLowerCase(), command.getName().toString().toLowerCase()));
+                })).then();
             }
             return Mono.empty();
         } else if (params.isEmpty()) {

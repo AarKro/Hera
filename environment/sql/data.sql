@@ -111,6 +111,7 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_GUILD', 'Guild Aliases');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_GLOBAL', 'Global Aliases');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_NONE', 'No aliases set');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_NEW', 'Created alias %s for command %s');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_DELETEALIAS', 'Delete a guild alias');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DELETEALIAS', '%s deleted');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DELETEALIAS_ERROR', 'No alias with name %s found');
