@@ -31,5 +31,6 @@ public enum CommandName {
 	UPDATEYTTOKEN,
 	BIND,
 	FEEDBACK,
-	REPORT;
+	REPORT,
+	DELETEALIAS;
 }

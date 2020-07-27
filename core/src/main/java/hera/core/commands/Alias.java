@@ -11,7 +11,6 @@ import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
-import sun.jvm.hotspot.jdi.LocationImpl;
 
 import java.util.List;
 
@@ -57,7 +56,8 @@ public class Alias {
                 });
             }
 
-            message.append("\n\n");
+            message.append("\n");
+            if (aliases.isEmpty()) message.append("\n");
 
             List<hera.database.entities.Alias> globals = STORE.aliases().forGuild(null);
             message.append("**");
