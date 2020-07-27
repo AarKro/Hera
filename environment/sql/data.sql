@@ -107,12 +107,16 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_ME
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_MENTION_ROLE', '%s is not a proper mention of a role');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_MENTION_USER', '%s is not a proper mention of a user');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_REPORT_ERROR_BINDING', 'No one accepts reports on this server (yet)');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_TITLE', 'Aliases');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_GUILD', 'Guild Aliases');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_GLOBAL', 'Global Aliases');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_ALIAS_NONE', 'No aliases set');
 
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('UPTIME', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_UPTIME'), 0, 0, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VERSION', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VERSION'), 0, 0, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('HELP', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_HELP'), 0, 1, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('DELETEMESSAGES', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_DELETEMESSAGES'), 1, 0, 1, 11264);
-INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('ALIAS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_ALIAS'), 2, 0, 1, 3072);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('ALIAS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_ALIAS'), 0, 2, 1, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('PREFIX', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_PREFIX'), 1, 0, 1, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('JOIN', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_JOIN'), 0, 0, 0, 1051648);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('LEAVE', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_LEAVE'), 0, 0, 0, 1051648);
