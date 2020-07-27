@@ -31,14 +31,14 @@ public class Config {
 			List<ConfigFlag> flags = STORE.configFlags().forGuild(guild.getId().asLong());
 
 			Stream.of(ConfigFlagName.values()).forEach(flag -> {
-				message.append(flag.toString());
+				message.append(flag.toString().toLowerCase());
 				message.append(": ");
 				List<ConfigFlag> guildSetFlag = flags.stream().filter(f -> f.getConfigFlagType().getName() == flag).collect(Collectors.toList());
 				if (!guildSetFlag.isEmpty()) {
 					// flag has been set for guild
-					message.append(guildSetFlag.get(0).getValue() ? "on" : "off");
+					message.append(guildSetFlag.get(0).getValue() ? "ON" : "OFF");
 				} else {
-					message.append("off");
+					message.append("OFF");
 				}
 				message.append("\n");
 			});
