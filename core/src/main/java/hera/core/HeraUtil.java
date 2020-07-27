@@ -265,7 +265,11 @@ public class HeraUtil {
 
 	public static Mono<GuildChannel> getChannelFromMention(Guild guild, String mention) {
 		if (isChannelMention(mention)) {
-			return guild.getChannelById(Snowflake.of(getIdChannelFromString(mention)));
+			return guild.getChannelById(Snowflake.of(getIdChannelFromString(mention))).onErrorResume(throwable -> {
+				LOG.error("Error when trying to parse supplied channel id: {}", mention);
+				LOG.error("Stacktrace", throwable);
+				return Mono.empty();
+			});
 		}
 		return Mono.empty();
 	}
