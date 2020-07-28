@@ -64,10 +64,6 @@ public class Core {
 				.flatMap(event-> {
 					STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
 
-					if (client.getSelfId().isPresent()) {
-						STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
-					}
-
 					// activate some config flags by default
 					List<ConfigFlagType> types = STORE.configFlagTypes().getAll();
 					List<ConfigFlag> guildFlags = STORE.configFlags().forGuild(event.getGuild().getId().asLong());
@@ -78,6 +74,10 @@ public class Core {
 							STORE.configFlags().add(new ConfigFlag(event.getGuild().getId().asLong(), type, type.isDefault()));
 						}
 					});
+
+					if (client.getSelfId().isPresent()) {
+						STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
+					}
 
 					return Mono.empty();
 				})
