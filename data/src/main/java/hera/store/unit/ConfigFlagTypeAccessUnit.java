@@ -14,8 +14,4 @@ public class ConfigFlagTypeAccessUnit extends StorageAccessUnit<ConfigFlagType> 
 	public List<ConfigFlagType> forName(ConfigFlagName name) {
 		return get(Collections.singletonMap("name", name));
 	}
-
-	public List<ConfigFlagType> defaults() {
-		return get(Collections.singletonMap("isDefault", true));
-	}
 }

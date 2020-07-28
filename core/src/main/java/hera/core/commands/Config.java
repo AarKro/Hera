@@ -28,7 +28,7 @@ public class Config {
 		Localisation localEnabled = HeraUtil.getLocalisation(LocalisationKey.COMMON_ENABLED, guild);
 		Localisation localDisabled = HeraUtil.getLocalisation(LocalisationKey.COMMON_DISABLED, guild);
 
-		if (params.size() == 0 || params.get(0).equals("")) {
+		if (params.size() == 0) {
 			// list all config flags and their current value
 			StringBuilder message = new StringBuilder();
 			List<ConfigFlag> flags = STORE.configFlags().forGuild(guild.getId().asLong());
