@@ -235,7 +235,11 @@ public class HeraUtil {
 
 	public static Mono<Member> getUserFromMention(Guild guild, String mention) {
 		if (isUserMention(mention)) {
-			return guild.getMemberById(Snowflake.of(getIdUserFromString(mention)));
+			return guild.getMemberById(Snowflake.of(getIdUserFromString(mention))).onErrorResume(throwable -> {
+				LOG.error("Error when trying to parse supplied user id: {}", mention);
+				LOG.error("Stacktrace", throwable);
+				return Mono.empty();
+			});
 		}
 		return Mono.empty();
 	}
@@ -250,7 +254,11 @@ public class HeraUtil {
 
 	public static Mono<Role> getRoleFromMention(Guild guild, String mention) {
 		if (isRoleMention(mention)) {
-			return guild.getRoleById(Snowflake.of(getRoleIdFromString(mention)));
+			return guild.getRoleById(Snowflake.of(getRoleIdFromString(mention))).onErrorResume(throwable -> {
+				LOG.error("Error when trying to parse supplied role id: {}", mention);
+				LOG.error("Stacktrace", throwable);
+				return Mono.empty();
+			});
 		}
 		return Mono.empty();
 	}
