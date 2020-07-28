@@ -33,16 +33,10 @@ public class Config {
 			StringBuilder message = new StringBuilder();
 			List<ConfigFlag> flags = STORE.configFlags().forGuild(guild.getId().asLong());
 
-			Stream.of(ConfigFlagName.values()).forEach(flag -> {
-				message.append(flag.toString().toLowerCase());
+			flags.forEach(flag -> {
+				message.append(flag.getConfigFlagType().getName().toString().toLowerCase());
 				message.append(": ");
-				List<ConfigFlag> guildSetFlag = flags.stream().filter(f -> f.getConfigFlagType().getName() == flag).collect(Collectors.toList());
-				if (!guildSetFlag.isEmpty()) {
-					// flag has been set for guild
-					message.append(guildSetFlag.get(0).getValue() ? localEnabled.getValue() : localDisabled.getValue());
-				} else {
-					message.append(localDisabled.getValue());
-				}
+				message.append(flag.getValue() ? localEnabled.getValue() : localDisabled.getValue());
 				message.append("\n");
 			});
 
@@ -56,14 +50,11 @@ public class Config {
 				List<ConfigFlagType> type = STORE.configFlagTypes().forName(flag);
 				List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), type.get(0));
 				final AtomicBoolean flagValue = new AtomicBoolean(true);
-				if (flags.isEmpty()) {
-					STORE.configFlags().add(new ConfigFlag(guild.getId().asLong(), type.get(0), true));
-				} else {
-					ConfigFlag flagToUpdate = flags.get(0);
-					flagToUpdate.setValue(!flagToUpdate.getValue());
-					flagValue.set(flagToUpdate.getValue());
-					STORE.configFlags().update(flagToUpdate);
-				}
+
+				ConfigFlag flagToUpdate = flags.get(0);
+				flagToUpdate.setValue(!flagToUpdate.getValue());
+				flagValue.set(flagToUpdate.getValue());
+				STORE.configFlags().update(flagToUpdate);
 
 				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(spec -> {
 					spec.setDescription(flag.toString().toLowerCase() + " " + (flagValue.get() ? localEnabled.getValue() : localDisabled.getValue()));

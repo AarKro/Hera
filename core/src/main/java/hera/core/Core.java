@@ -69,17 +69,15 @@ public class Core {
 					}
 
 					// activate some config flags by default
-					List<ConfigFlagType> defaults = STORE.configFlagTypes().defaults();
+					List<ConfigFlagType> types = STORE.configFlagTypes().getAll();
 					List<ConfigFlag> guildFlags = STORE.configFlags().forGuild(event.getGuild().getId().asLong());
-					if (!defaults.isEmpty()) {
-						defaults.forEach(type -> {
-							List<ConfigFlag> flags = guildFlags.stream().filter(flag -> flag.getConfigFlagType().getName() == type.getName()).collect(Collectors.toList());
-							if (flags.isEmpty()) {
-								// flag has not been set yet for that guild, so we turn it on by default
-								STORE.configFlags().add(new ConfigFlag(event.getGuild().getId().asLong(), type, true));
-							}
-						});
-					}
+					types.forEach(type -> {
+						List<ConfigFlag> flags = guildFlags.stream().filter(flag -> flag.getConfigFlagType().getName() == type.getName()).collect(Collectors.toList());
+						if (flags.isEmpty()) {
+							// flag has not been set yet for that guild, so we turn it on by default
+							STORE.configFlags().add(new ConfigFlag(event.getGuild().getId().asLong(), type, type.isDefault()));
+						}
+					});
 
 					return Mono.empty();
 				})

@@ -26,12 +26,7 @@ public class MetricsLogger {
 	private boolean isLoggingEnabled(Long guild) {
 		List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.METRIC_LOGGING);
 		List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild, type.get(0));
-
-		if (!flags.isEmpty()) {
-			return flags.get(0).getValue();
-		}
-
-		return true;
+		return flags.get(0).getValue();
 	}
 
 	public void log(MetricKey key, Command command, Long user, Long guild, Long value, String details) {
