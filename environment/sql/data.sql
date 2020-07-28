@@ -116,6 +116,10 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DELETEALIAS', '%s deleted');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DELETEALIAS_ERROR', 'No alias with name %s found');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DELETEALIAS_ERROR_GLOBAL', '%s is a global alias and can not be deleted');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'CONFIG_FLAG_ANNOUNCE_NEXT_SONG', 'Next up');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_CONFIG', 'Control various configurations to change Heras behaviour');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_CONFIG', 'Configuration flags');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_CONFIG_ERROR', '%s is not a valid configuration flag');
 
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('UPTIME', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_UPTIME'), 0, 0, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VERSION', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VERSION'), 0, 0, 0, 3072);
@@ -148,6 +152,7 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('FEEDBACK', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_FEEDBACK'), 1, -1, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_REPORT'), 2, -1, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('DELETEALIAS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_DELETEALIAS'), 1, 0, 1, 3072);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('CONFIG', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_CONFIG'), 0, 1, 1, 3072);
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-alpha.3');
 
@@ -162,3 +167,8 @@ INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('MUSIC
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('ANNOUNCEMENT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_ANNOUNCEMENT'), 0);
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_REPORT'), 0);
 INSERT INTO `binding_type` (`type`, `localisationFK`, `isGlobal`) VALUES ('FEEDBACK', (SELECT `id` FROM `localisation` WHERE `name` = 'BINDING_FEEDBACK'), 1);
+
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('METRIC_LOGGING', 1);
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('JOIN_ON_PLAY', 1);
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('CLEAR_QUEUE_ON_LEAVE', 0);
+INSERT INTO `config_flag_type` (`name`, `isDefault`) VALUES ('ANNOUNCE_NEXT_SONG', 1);

@@ -18,3 +18,5 @@ ALTER TABLE `alias` 				ADD CONSTRAINT `alias_ibfk_1` 				FOREIGN KEY (`commandF
 ALTER TABLE `alias`					ADD CONSTRAINT `alias_ibfk_2` 				FOREIGN KEY (`guildFK`) 			REFERENCES `guild` (`id`) 				ON DELETE CASCADE;
 ALTER TABLE `command`				ADD CONSTRAINT `command_ibfk_1`				FOREIGN KEY (`description`)			REFERENCES `localisation` (`id`)		ON DELETE CASCADE;
 ALTER TABLE `binding_type`			ADD CONSTRAINT `binding_type_ibfk_1`		FOREIGN KEY (`localisationFK`) 		REFERENCES `localisation` (`id`) 		ON DELETE CASCADE;
+ALTER TABLE `config_flag` 			ADD CONSTRAINT `config_flag_ibfk_1` 		FOREIGN KEY (`guildFK`) 			REFERENCES `guild` (`id`) 				ON DELETE CASCADE;
+ALTER TABLE `config_flag`			ADD CONSTRAINT `config_flag_ibfk_2` 		FOREIGN KEY (`configFlagTypeFK`) 	REFERENCES `config_flag_type` (`id`) 	ON DELETE CASCADE;

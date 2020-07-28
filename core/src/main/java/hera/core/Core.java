@@ -14,9 +14,7 @@ import hera.core.commands.Commands;
 import hera.core.commands.Queue;
 import hera.core.commands.Vote;
 import hera.core.music.HeraAudioManager;
-import hera.database.entities.Guild;
-import hera.database.entities.Token;
-import hera.database.entities.User;
+import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.TokenKey;
 import org.slf4j.Logger;
@@ -25,6 +23,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static hera.metrics.MetricsLogger.STATS;
 import static hera.store.DataStore.STORE;
@@ -57,7 +56,6 @@ public class Core {
 		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 		HeraUtil.setClient(client);
 
-
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
 		hci.startupHCI();
 
@@ -65,6 +63,17 @@ public class Core {
 		client.getEventDispatcher().on(GuildCreateEvent.class)
 				.flatMap(event-> {
 					STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
+
+					// activate some config flags by default
+					List<ConfigFlagType> types = STORE.configFlagTypes().getAll();
+					List<ConfigFlag> guildFlags = STORE.configFlags().forGuild(event.getGuild().getId().asLong());
+					types.forEach(type -> {
+						List<ConfigFlag> flags = guildFlags.stream().filter(flag -> flag.getConfigFlagType().getName() == type.getName()).collect(Collectors.toList());
+						if (flags.isEmpty()) {
+							// flag has not been set yet for that guild, so we turn it on by default
+							STORE.configFlags().add(new ConfigFlag(event.getGuild().getId().asLong(), type, type.isDefault()));
+						}
+					});
 
 					if (client.getSelfId().isPresent()) {
 						STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());

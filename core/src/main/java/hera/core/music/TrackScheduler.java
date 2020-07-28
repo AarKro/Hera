@@ -5,10 +5,22 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.MessageChannel;
+import discord4j.core.object.util.Snowflake;
+import hera.core.HeraUtil;
+import hera.core.messages.MessageHandler;
+import hera.core.messages.MessageSpec;
+import hera.database.entities.*;
+import hera.database.types.BindingName;
+import hera.database.types.ConfigFlagName;
+import hera.database.types.LocalisationKey;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static hera.store.DataStore.STORE;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -20,11 +32,14 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private long currentQueueMessageId;
 
-	TrackScheduler() {
+	private Guild guild;
+
+	TrackScheduler(Guild guild) {
 		this.queue = new ArrayList<>();
 		this.queueIndex = 0;
 		this.loopQueue = false;
 		this.currentQueueMessageId = 0;
+		this.guild = guild;
 	}
 
 	void queue(AudioPlayer player, AudioTrack track) {
@@ -117,7 +132,24 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
-		// A track started playing
+		List<BindingType> bType = STORE.bindingTypes().forName(BindingName.MUSIC);
+		List<Binding> bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bType.get(0));
+		// Only announce when there is a music channle binding
+		if (!bindings.isEmpty()) {
+			List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.ANNOUNCE_NEXT_SONG);
+			List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), type.get(0));
+			// get channel from snowflake
+			if (!flags.isEmpty() && flags.get(0).getValue()) {
+				guild.getChannelById(Snowflake.of(bindings.get(0).getSnowflake())).flatMap(channel -> {
+					return MessageHandler.send((MessageChannel) channel, MessageSpec.getDefaultSpec(spec -> {
+						Localisation local = HeraUtil.getLocalisation(LocalisationKey.CONFIG_FLAG_ANNOUNCE_NEXT_SONG, guild);
+						spec.setTitle(local.getValue());
+						String descString = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n[" + track.getInfo().title + "](" + track.getInfo().uri + ")";
+						spec.setDescription(descString);
+					}));
+				}).subscribe();
+			}
+		}
 	}
 
 	@Override
