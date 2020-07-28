@@ -2,6 +2,10 @@
 
 Hera is a multi purpose chatbot, coming with an array of different features like a music player, server metrics tracking, general server moderation features and other fun commands!
 
+[Invite Hera to your server!](https://discord.com/api/oauth2/authorize?client_id=403816989191176192&permissions=271809600&scope=bot)  
+
+Use this [link](https://discord.com/api/oauth2/authorize?client_id=403816989191176192&permissions=0&scope=bot) to add Hera without having Discord create a managed role (Some commands might be disabled if Hera is missing necessary Discord permissions)
+
 Application | Status
 ------------|--------------
 Hera Chatbot | ![build status](https://hera-badges-images-prod.s3-eu-west-1.amazonaws.com/hera-codebuild.svg) ![pipeline status](https://hera-badges-images-prod.s3-eu-west-1.amazonaws.com/hera-code-pipeline.svg)
@@ -34,9 +38,10 @@ The code for it can be found in the [`core/`](https://github.com/AarKro/Hera/tre
 #### Deployment
 
 The Hera Chatbot is automatically built and deployed to an AWS EC2 instance using AWS CodePipeline.  
-The process is triggered when pushing to `master`.
+The process is triggered when pushing to `master`.  
+To start Hera, `shh` into the EC2 instance and run the script `script/start_hera.sh`.
 
-:exclamation: &nbsp; Don't forget to update the database (which is also on the EC2 instance) with relevant changes as you deploy
+:exclamation: &nbsp; Don't forget to update the database (which is on an AWS RDS instance) with relevant changes as you deploy
 
 ### Hera Website :globe_with_meridians:
 
