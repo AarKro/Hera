@@ -4,6 +4,7 @@
 logs/
 env_var.sh
 deployment.sql
+dump.sql
 
 ##############################
 ## Website
