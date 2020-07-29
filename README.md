@@ -39,7 +39,7 @@ The code for it can be found in the [`core/`](https://github.com/AarKro/Hera/tre
 
 The Hera Chatbot is automatically built and deployed to an AWS EC2 instance using AWS CodePipeline.  
 The process is triggered when pushing to `master`.  
-To start Hera, `shh` into the EC2 instance and run the script `script/start_hera.sh`.
+To start Hera, `ssh` into the EC2 instance and run the script `script/start_hera.sh`.
 
 :exclamation: &nbsp; Don't forget to update the database (which is on an AWS RDS instance) with relevant changes as you deploy
 
