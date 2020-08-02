@@ -10,6 +10,7 @@ phases:
       - mvn clean install
 artifacts:
   files:
-    - core/target/hera-prod-bundle-jar-with-dependencies.jar
+    - core/target/hera-prod-bot-jar-with-dependencies.jar
+    - api/target/hera-prod-api-jar-with-dependencies.jar
     - appspec.yml
   discard-paths: yes
