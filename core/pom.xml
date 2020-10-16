@@ -59,7 +59,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <finalName>hera-prod-bundle</finalName>
+                    <finalName>hera-prod-bot</finalName>
                     <archive>
                         <manifest>
                             <mainClass>hera.core.Core</mainClass>

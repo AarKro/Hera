@@ -22,6 +22,7 @@
         <module>core</module>
         <module>data</module>
         <module>metrics</module>
+        <module>api</module>
     </modules>
 
     <dependencies>
