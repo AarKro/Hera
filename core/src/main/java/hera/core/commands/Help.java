@@ -33,7 +33,7 @@ public class Help {
 				List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
 				message = getHelpFromCommandList(Mono.just(commands), guild);
 			} else { // help COMMAND_NAME, shows help to specific command
-				Command cmd = getHelp(commandName, guild);
+				Command cmd = HeraUtil.getNonOwnerCommandFromName(commandName, guild);
 				if (cmd == null) { // input COMMAND_NAME not valid
 					return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
 						messageSpec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
@@ -79,20 +79,6 @@ public class Help {
 						return Mono.just(helpStringBuilder.toString());
 				})
 		);
-	}
-
-	private static Command getHelp(String commandName, Guild guild) {
-		List<Command> commands =  STORE.commands().forName(commandName).stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
-		if (commands.isEmpty()) {
-			//added this for command help to support aliases
-			List<Alias> aliases = STORE.aliases().forGuildAndAlias(guild.getId().asLong(), commandName);
-			if (!aliases.isEmpty()) {
-				aliases.get(0).getCommand();
-			}
-			return null;
-		} else {
-			return commands.get(0);
-		}
 	}
 
 	private static Mono<List<Command>> getEnabledCommands(Member member, Guild guild) {

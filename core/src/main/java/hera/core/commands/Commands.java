@@ -46,5 +46,6 @@ public class Commands {
 		COMMANDS.put(CommandName.REPORT, Report::execute);
 		COMMANDS.put(CommandName.DELETEALIAS, DeleteAlias::execute);
 		COMMANDS.put(CommandName.CONFIG, Config::execute);
+		COMMANDS.put(CommandName.MODULESTATUS, ModuleStatus::execute);
 	}
 }

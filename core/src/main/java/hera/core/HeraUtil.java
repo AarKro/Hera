@@ -20,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static hera.store.DataStore.STORE;
 
@@ -48,6 +49,24 @@ public class HeraUtil {
 		}
 	}
 
+	public static Command getCommandFromName(String commandName, Guild guild) {
+		List<Command> commands =  STORE.commands().forName(commandName).stream().collect(Collectors.toList());
+		if (commands.isEmpty()) {
+			List<Alias> aliases = STORE.aliases().forGuildAndAlias(guild.getId().asLong(), commandName);
+			if (!aliases.isEmpty()) {
+				aliases.get(0).getCommand();
+			}
+			return null;
+		} else {
+			return commands.get(0);
+		}
+	}
+
+	public static Command getNonOwnerCommandFromName(String commandName, Guild guild) {
+		Command out = getCommandFromName(commandName, guild);
+		return out.getLevel() < 2 ? out : null;
+	}
+
 	public static Mono<PermissionSet> getHeraPermissionSetForGuild(Guild guild) {
 		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(Member::getBasePermissions));
 	}
@@ -66,6 +85,8 @@ public class HeraUtil {
 		return permissionSet.asEnumSet().containsAll(minPermissions.asEnumSet());
 	}
 
+
+	//TODO make this multiple methods
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
 		if (STORE.owners().isOwner(member.getId().asLong())) return Mono.just(true);
 
@@ -91,7 +112,7 @@ public class HeraUtil {
 		}
 	}
 
-	// doesn't check for owne
+	// doesn't check for owner
 	public static Boolean checkPermissions(Command command, PermissionSet permissions) {
 		if (command.getLevel() > 1) {
 			return false;

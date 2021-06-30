@@ -120,6 +120,16 @@ INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'CONFIG_F
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_CONFIG', 'Control various configurations to change Heras behaviour');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_CONFIG', 'Configuration flags');
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_CONFIG_ERROR', '%s is not a valid configuration flag');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_TITLE_ALL', 'Modulestatuslist');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_TITLE_ON', 'Enabled Commands');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_TITLE_OFF', 'Disabled Commands');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_TITLE_GROUPED', 'Modulestatuslist Grouped');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'ERROR_WRONG_INPUT', 'The input you gave is invalid');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_ENABLED', 'enabled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_DISABLED', 'disabled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_DESC_MODULESTATUS', 'Shows a list of commands and whether they are enabled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_COMMAND_ENABLED', '%s is enabled');
+INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', 'COMMAND_MODULESTATUS_COMMAND_DISABLED', '%s is disabled');
 
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('UPTIME', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_UPTIME'), 0, 0, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('VERSION', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_VERSION'), 0, 0, 0, 3072);
@@ -153,6 +163,7 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('REPORT', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_REPORT'), 2, -1, 0, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('DELETEALIAS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_DELETEALIAS'), 1, 0, 1, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('CONFIG', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_CONFIG'), 0, 1, 1, 3072);
+INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('MODULESTATUS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_MODULESTATUS'), 0, 1, 1, 3072);
 
 INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-beta.0');
 

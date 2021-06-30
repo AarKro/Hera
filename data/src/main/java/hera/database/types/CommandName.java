@@ -33,5 +33,5 @@ public enum CommandName {
 	FEEDBACK,
 	REPORT,
 	DELETEALIAS,
-	CONFIG;
+	CONFIG, MODULESTATUS;
 }
