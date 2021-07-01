@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static hera.store.DataStore.STORE;
@@ -45,10 +46,10 @@ public class YouTubeApiHandler {
 
 	public static String getYoutubeVideoFromKeyword(String keyword) {
 		try {
-			YouTube.Search.List search = youtube.search().list("id,snippet");
+			YouTube.Search.List search = youtube.search().list(Collections.singletonList("id,snippet"));
 			search.setKey(apiToken);
 			search.setQ(keyword);
-			search.setType("video");
+			search.setType(Collections.singletonList("video"));
 			search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
 			search.setMaxResults((long) 1);
 
