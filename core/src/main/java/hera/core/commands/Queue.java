@@ -6,11 +6,11 @@ import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.MessageChannel;
+import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
-import hera.core.messages.MessageSpec;
 import hera.core.messages.MessageHandler;
+import hera.core.messages.MessageSpec;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -78,7 +78,7 @@ public class Queue {
 			queueString.append("\n\n");
 		}
 
-		long totalDuration = (long) 0;
+		long totalDuration = 0;
 		int maxPage = 1;
 		if (tracks.isEmpty()) {
 			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild);

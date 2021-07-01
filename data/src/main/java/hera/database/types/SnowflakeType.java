@@ -4,5 +4,5 @@ public enum SnowflakeType {
 	GUILD,
 	CHANNEL,
 	USER,
-	ROLE;
+	ROLE
 }

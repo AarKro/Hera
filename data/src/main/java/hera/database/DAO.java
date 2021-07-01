@@ -1,7 +1,7 @@
 package hera.database;
 
-import hera.database.entities.Metric;
 import hera.database.entities.IPersistenceEntity;
+import hera.database.entities.Metric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

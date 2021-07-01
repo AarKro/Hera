@@ -3,7 +3,7 @@ package hera.core.commands;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.MessageChannel;
+import discord4j.core.object.entity.channel.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
@@ -16,8 +16,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static hera.core.HeraUtil.LOG;
 import static hera.store.DataStore.STORE;
