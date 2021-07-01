@@ -7,6 +7,7 @@ import discord4j.core.object.entity.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageSpec;
 import hera.core.messages.MessageHandler;
+import hera.database.entities.Alias;
 import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
@@ -22,18 +23,18 @@ public class Help {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		Mono<String> message;
 		String title;
-		if (params.size() < 1) {
+		if (params.size() < 1) { //no text behind command
 			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
 			message = getHelpFromCommandList(getEnabledCommands(member, guild), guild);
 		} else {
 			String commandName = params.get(0);
-			if (commandName.toUpperCase().equals("ALL")) {
+			if (commandName.toUpperCase().equals("ALL")) { // help ALL, shows all commands
 				title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP, guild).getValue();
 				List<Command> commands = STORE.commands().getAll().stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
 				message = getHelpFromCommandList(Mono.just(commands), guild);
-			} else {
-				Command cmd = getHelp(commandName);
-				if (cmd == null) {
+			} else { // help COMMAND_NAME, shows help to specific command
+				Command cmd = HeraUtil.getNonOwnerCommandFromName(commandName, guild);
+				if (cmd == null) { // input COMMAND_NAME not valid
 					return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
 						messageSpec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
 					})).then();
@@ -49,7 +50,7 @@ public class Help {
 	}
 
 	private static Mono<String> getHelpFromCommandList(Mono<List<Command>> commands, Guild guild) {
-		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild);
+		Localisation noPermissionMsg = HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild);
 		return HeraUtil.getHeraPermissionSetForGuild(guild)
 				.flatMap(heraPermissions -> commands.flatMap(cmnds -> {
 						final StringBuilder helpStringBuilder = new StringBuilder();
@@ -65,9 +66,10 @@ public class Help {
 							helpStringBuilder.append("- ");
 							helpStringBuilder.append(cmd.getName().toString().toLowerCase());
 
+							//TODO check if this is faster than concat so "_(" + noPermissionMsg.getValue() + ")_"
 							if (!HeraUtil.checkCommandPermissions(cmd, heraPermissions)) {
 								helpStringBuilder.append(" _(");
-								helpStringBuilder.append(local.getValue());
+								helpStringBuilder.append(noPermissionMsg.getValue());
 								helpStringBuilder.append(")_ ");
 							}
 
@@ -77,15 +79,6 @@ public class Help {
 						return Mono.just(helpStringBuilder.toString());
 				})
 		);
-	}
-
-	private static Command getHelp(String commandName) {
-		List<Command> commands =  STORE.commands().forName(commandName).stream().filter(cmd -> cmd.getLevel() < 2).collect(Collectors.toList());
-		if (commands.isEmpty()) {
-			return null;
-		} else {
-			return commands.get(0);
-		}
 	}
 
 	private static Mono<List<Command>> getEnabledCommands(Member member, Guild guild) {
