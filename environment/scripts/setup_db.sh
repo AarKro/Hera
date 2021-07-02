@@ -45,6 +45,9 @@ $command < constraints.sql
 echo "Create VIEWS from views.sql"
 $command < views.sql
 
+echo "Apply further changes"
+$command <
+
 echo
 echo
 echo "⡆⣐⢕⢕⢕⢕⢕⢕⢕⢕⠅⢗⢕⢕⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕"
