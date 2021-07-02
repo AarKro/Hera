@@ -165,7 +165,7 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('CONFIG', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_CONFIG'), 0, 1, 1, 3072);
 INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `level`, `minPermission`) VALUES ('MODULESTATUS', (SELECT `id` FROM `localisation` WHERE `name` = 'COMMAND_DESC_MODULESTATUS'), 0, 1, 1, 3072);
 
-INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-beta.0');
+INSERT INTO `global_setting` (`name`, `value`) VALUES ('VERSION', '2.0.0-beta.1');
 
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'PLAY'), 'P');
 INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = 'QUEUE'), 'Q');
