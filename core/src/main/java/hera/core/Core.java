@@ -1,14 +1,14 @@
 package hera.core;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
-import discord4j.core.DiscordClientBuilder;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.VoiceStateUpdateEvent;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
-import discord4j.core.object.util.Snowflake;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
 import hera.core.commands.Queue;
@@ -53,89 +53,86 @@ public class Core {
 		LOG.info("Initialising YouTube API Handler");
 		YouTubeApiHandler.initialise();
 
-		final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
-		HeraUtil.setClient(client);
+		//final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
+		final DiscordClient client = DiscordClient.create(loginTokens.get(0).getToken());
+		final GatewayDiscordClient gateway = client.login().block();
+		HeraUtil.setClient(gateway);
 
-		HeraCommunicationInterface hci = new HeraCommunicationInterface(client);
+		HeraCommunicationInterface hci = new HeraCommunicationInterface(gateway);
 		hci.startupHCI();
 
 		// on guild join -> Add guild to store if we don't have it already
-		client.getEventDispatcher().on(GuildCreateEvent.class)
-				.flatMap(event-> {
-					STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
+		gateway.on(GuildCreateEvent.class).subscribe(event-> {
+			STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
 
-					// activate some config flags by default
-					List<ConfigFlagType> types = STORE.configFlagTypes().getAll();
-					List<ConfigFlag> guildFlags = STORE.configFlags().forGuild(event.getGuild().getId().asLong());
-					types.forEach(type -> {
-						List<ConfigFlag> flags = guildFlags.stream().filter(flag -> flag.getConfigFlagType().getName() == type.getName()).collect(Collectors.toList());
-						if (flags.isEmpty()) {
-							// flag has not been set yet for that guild, so we turn it on by default
-							STORE.configFlags().add(new ConfigFlag(event.getGuild().getId().asLong(), type, type.isDefault()));
-						}
-					});
+			// activate some config flags by default
+			List<ConfigFlagType> types = STORE.configFlagTypes().getAll();
+			List<ConfigFlag> guildFlags = STORE.configFlags().forGuild(event.getGuild().getId().asLong());
+			types.forEach(type -> {
+				List<ConfigFlag> flags = guildFlags.stream().filter(flag -> flag.getConfigFlagType().getName() == type.getName()).collect(Collectors.toList());
+				if (flags.isEmpty()) {
+					// flag has not been set yet for that guild, so we turn it on by default
+					STORE.configFlags().add(new ConfigFlag(event.getGuild().getId().asLong(), type, type.isDefault()));
+				}
+			});
 
-					if (client.getSelfId().isPresent()) {
-						STATS.logHeraGuildJoin(client.getSelfId().get().asLong(), event.getGuild().getId().asLong());
-					}
+			if (gateway.getSelfId() != null) {
+				STATS.logHeraGuildJoin(gateway.getSelfId().asLong(), event.getGuild().getId().asLong());
+			}
 
-					return Mono.empty();
-				})
-				.subscribe();
+		});
+
 
 		// on guild join -> Add members of guild to store if we don't have them already
-		client.getEventDispatcher().on(GuildCreateEvent.class)
-				.flatMap(event -> event.getGuild().getMembers()
+
+		gateway.on(GuildCreateEvent.class)
+				.subscribe(event -> event.getGuild().getMembers()
 						.flatMap(member -> {
 							STORE.users().upsert(new User(member.getId().asLong()));
 							return Mono.empty();
 						})
 						.next()
-				)
-				.subscribe();
+				);
 
 		// on user joins guild  -> Add new member to store if we don't have him already
-		client.getEventDispatcher().on(MemberJoinEvent.class)
-				.flatMap(event -> {
+		gateway.on(MemberJoinEvent.class)
+				.subscribe(event -> {
 					STORE.users().upsert(new User(event.getMember().getId().asLong()));
 					STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
-					return Mono.empty();
-				})
-				.subscribe();
+
+				});
 
 		// on user joins guild ->
-		client.getEventDispatcher().on(MemberJoinEvent.class)
-				.flatMap(event -> event.getGuild()
+		gateway.on(MemberJoinEvent.class)
+				.subscribe(event -> event.getGuild()
 						.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
 								.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
 										flatMap(r -> event.getMember().addRole(r.getId()))
 								)
 								.next()
 						)
-				)
-				.subscribe();
+				);
 
 		// log when a user leaves a guild
-		client.getEventDispatcher().on(MemberLeaveEvent.class)
+		gateway.on(MemberLeaveEvent.class)
 				.doOnNext(event -> STATS.logUserGuildLeave(event.getUser().getId().asLong(), event.getGuildId().asLong()))
 				.subscribe();
 
 		// log when someone joins or leaves a voice channel
-		client.getEventDispatcher().on(VoiceStateUpdateEvent.class)
-				.doOnNext(event -> {
+		gateway.on(VoiceStateUpdateEvent.class)
+				.subscribe(event -> {
 					if (event.getCurrent().getChannelId().isPresent()) {
 						STATS.logVcJoin(event.getCurrent().getUserId().asLong(), event.getCurrent().getGuildId().asLong());
 					} else {
 						STATS.logVcLeave(event.getCurrent().getUserId().asLong(), event.getCurrent().getGuildId().asLong());
 					}
-				})
-				.subscribe();
+				});
 
 		// log when message is written
-		client.getEventDispatcher().on(MessageCreateEvent.class)
+		gateway.on(MessageCreateEvent.class)
 				.flatMap(event -> event.getGuild()
 						.flatMap(guild -> Mono.justOrEmpty(event.getMember())
-								.flatMap(member -> Mono.justOrEmpty(client.getSelfId())
+								.flatMap(member -> Mono.justOrEmpty(gateway.getSelfId())
 										.filter(selfId -> selfId.asLong() != member.getId().asLong())
 										.flatMap(selfId -> {
 											STATS.logMessage(member.getId().asLong(), guild.getId().asLong());
@@ -147,8 +144,8 @@ public class Core {
 				.subscribe();
 
 		// Reaction emoji event stream
-		client.getEventDispatcher().on(ReactionAddEvent.class)
-				.flatMap(event -> Mono.justOrEmpty(client.getSelfId())
+		gateway.on(ReactionAddEvent.class)
+				.flatMap(event -> Mono.justOrEmpty(gateway.getSelfId())
 						.filter(selfId -> event.getUserId().asLong() != selfId.asLong())
 						.flatMap(selfId -> event.getGuild()
 								.filter(guild -> event.getMessageId().asLong() == HeraAudioManager.getScheduler(guild).getCurrentQueueMessageId())
@@ -161,7 +158,7 @@ public class Core {
 										)
 								)
 								.switchIfEmpty(Mono.just(Vote.ACTIVE_VOTE_MESSAGE_IDS)
-										.filter(activeVotes -> activeVotes.keySet().contains(event.getMessageId().asLong()))
+										.filter(activeVotes -> activeVotes.containsKey(event.getMessageId().asLong()))
 										.flatMap(activeVotes -> event.getGuild()
 												.flatMap(guild -> event.getChannel()
 														.flatMap(channel -> event.getUser()
@@ -184,7 +181,7 @@ public class Core {
 				.subscribe();
 
 		// Main event stream. Commands are triggered here
-		client.getEventDispatcher().on(MessageCreateEvent.class)
+		gateway.on(MessageCreateEvent.class)
 				.flatMap(event -> event.getGuild()
 						.flatMap(guild -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.COMMAND_PREFIX))
 								.flatMap(settings -> Mono.justOrEmpty(settings.getValue()))

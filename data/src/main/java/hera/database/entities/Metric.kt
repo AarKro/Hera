@@ -1,9 +1,8 @@
 package hera.database.entities
 
 import hera.database.types.MetricKey
-
-import javax.persistence.*
 import java.sql.Timestamp
+import javax.persistence.*
 
 @Entity
 @Table(name = "metric")

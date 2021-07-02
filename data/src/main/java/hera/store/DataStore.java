@@ -1,6 +1,8 @@
 package hera.store;
 
-import hera.database.entities.*;
+import hera.database.entities.Guild;
+import hera.database.entities.Metric;
+import hera.database.entities.User;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

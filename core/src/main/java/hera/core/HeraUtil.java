@@ -1,15 +1,16 @@
 package hera.core;
 
-import discord4j.core.DiscordClient;
-import discord4j.core.object.entity.*;
+import discord4j.common.util.Snowflake;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Role;
-import discord4j.core.object.util.Permission;
-import discord4j.core.object.util.PermissionSet;
-import discord4j.core.object.util.Snowflake;
-import discord4j.core.util.PermissionUtil;
-import hera.core.messages.MessageSpec;
+import discord4j.core.object.entity.channel.GuildChannel;
+import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.rest.util.Permission;
+import discord4j.rest.util.PermissionSet;
 import hera.core.messages.MessageHandler;
+import hera.core.messages.MessageSpec;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -31,7 +32,7 @@ public class HeraUtil {
 	public static final Localisation LOCALISATION_PERMISSION_ERROR = new Localisation("en", LocalisationKey.ERROR, "You do not have the necessary permissions to use this command");
 	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
 
-	private static DiscordClient client;
+	private static GatewayDiscordClient client;
 
 	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
 		// message is a complete discord command. (prefix + command + parameters)
@@ -138,11 +139,8 @@ public class HeraUtil {
 		} else {
 			if (optional == -1) {
 				return true;
-			} else if (params - expected > optional) {
-				return false;
-			}
+			} else return params - expected <= optional;
 		}
-		return true;
 	}
 
 	public static List<String> extractParameters(String message, Command command) {
@@ -214,11 +212,11 @@ public class HeraUtil {
 		return builder.toString().trim();
 	}
 
-	public static void setClient(DiscordClient _client) {
+	public static void setClient(GatewayDiscordClient _client) {
 		client = _client;
 	}
 
-	public static DiscordClient getClient() {
+	public static GatewayDiscordClient getClient() {
 		return client;
 	}
 
