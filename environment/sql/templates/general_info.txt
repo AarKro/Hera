@@ -1,0 +1,10 @@
+This folder mainly exists since this process might not actually be sql but some selfmade pseudo language.
+But even if it won't be i think having templates of what has to be added generally will make our live easier.
+
+Every template should follow certain rules:
+	- A template may have mu
+	- Having clear variables that have to be replaced
+		- These variables are encased in $ as to be easily distinguished
+		- The variable names are camelcase and don't contain any special characters
+		- Two variables with the same name will always have the same end value
+		- This allows you to match them with $\ew+$
