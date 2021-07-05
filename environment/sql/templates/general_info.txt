@@ -1,0 +1,14 @@
+This folder mainly exists since this process might not actually be sql but some self made pseudo language.
+But even if it won't be i think having templates of what has to be added generally will make our live easier.
+
+Every template should follow certain rules:
+	- One file is one template
+		-Every template file has to have a purpose and be named as such
+	- A template may have multiple sections for different things
+		- Every one of there section has to be commented with at least the purpose
+		- Section comments use -- other comments use /* */
+	- Having clear variables that have to be replaced
+		- These variables are encased in $ as to be easily distinguished
+		- The variable names are camelcase and don't contain any special characters
+		- Two variables with the same name will always have the same end value
+		- This allows you to match them with $\ew+$
