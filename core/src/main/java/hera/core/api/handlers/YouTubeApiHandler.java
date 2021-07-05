@@ -46,10 +46,10 @@ public class YouTubeApiHandler {
 
 	public static String getYoutubeVideoFromKeyword(String keyword) {
 		try {
-			YouTube.Search.List search = youtube.search().list(Collections.singletonList("id,snippet"));
+			YouTube.Search.List search = youtube.search().list("id,snippet");
 			search.setKey(apiToken);
 			search.setQ(keyword);
-			search.setType(Collections.singletonList("video"));
+			search.setType("video");
 			search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
 			search.setMaxResults((long) 1);
 
