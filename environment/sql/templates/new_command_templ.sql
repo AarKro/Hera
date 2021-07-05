@@ -17,3 +17,5 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', '$fieldName$', '$output$');
 
 -- Make an alias
+INSERT INTO `alias` (`commandFK`, `alias`) VALUES ((SELECT `id` FROM `command` WHERE `name` = '$name$'), '$alias$');
+
