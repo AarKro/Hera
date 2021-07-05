@@ -15,3 +15,5 @@ INSERT INTO `command` (`name`, `description`, `paramCount`, `optionalParams`, `l
 
 -- Make new localisation, self explanatory
 INSERT INTO `localisation` (`language`, `name`, `value`) VALUES ('en', '$fieldName$', '$output$');
+
+-- Make an alias
