@@ -91,7 +91,7 @@ public class Help {
 
 		List<Command> enabledCommands = allCommands.stream()
 				.filter(cmd -> !disabledCommands.contains(cmd.getId()))
-				.filter(cmd -> cmd.getLevel() < 2)
+				.filter(cmd -> {System.err.println(cmd.getLevel()); return cmd.getLevel() < 2;})
 				.collect(Collectors.toList());
 
 		return HeraUtil.getHeraPermissionSetForGuild(guild)

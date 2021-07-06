@@ -18,7 +18,6 @@ public class Commands {
 		COMMANDS.put(CommandName.VERSION, Version::execute);
 		COMMANDS.put(CommandName.HELP, Help::execute);
 		COMMANDS.put(CommandName.DELETEMESSAGES, DeleteMessages::execute);
-		COMMANDS.put(CommandName.ALIAS, Alias::execute);
 		COMMANDS.put(CommandName.PREFIX, Prefix::execute);
 		COMMANDS.put(CommandName.JOIN, Join::execute);
 		COMMANDS.put(CommandName.PLAY, Play::execute);
@@ -47,5 +46,7 @@ public class Commands {
 		COMMANDS.put(CommandName.DELETEALIAS, DeleteAlias::execute);
 		COMMANDS.put(CommandName.CONFIG, Config::execute);
 		COMMANDS.put(CommandName.MODULESTATUS, ModuleStatus::execute);
+		COMMANDS.put(CommandName.SHOWALIAS, ShowAlias::execute);
+		COMMANDS.put(CommandName.CREATEALIAS, CreateAlias::execute);
 	}
 }

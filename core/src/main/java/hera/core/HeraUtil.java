@@ -51,7 +51,7 @@ public class HeraUtil {
 	}
 
 	public static Command getCommandFromName(String commandName, Guild guild) {
-		List<Command> commands =  STORE.commands().forName(commandName).stream().collect(Collectors.toList());
+		List<Command> commands =  STORE.commands().forName(commandName);
 		if (commands.isEmpty()) {
 			List<Alias> aliases = STORE.aliases().forGuildAndAlias(guild.getId().asLong(), commandName);
 			if (!aliases.isEmpty()) {

@@ -216,6 +216,7 @@ public class Core {
 		LOG.info("...Hera is ready to use as soon as connection to gateway is established");
 
 		// login
-		client.login().block();
+		gateway.onDisconnect().block();
+		//client.login().block();
 	}
 }
