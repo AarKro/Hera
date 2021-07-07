@@ -1,8 +1,10 @@
 package hera.core.commands;
 
+import com.sedmelluq.discord.lavaplayer.player.event.TrackStartEvent;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
+import discord4j.core.object.Embed;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
@@ -11,7 +13,13 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
+import hera.core.messages.Regex;
+import hera.core.messages.Regex.RegexMatch;
+import hera.core.messages.formatter.DefaultStrings;
+import hera.core.messages.formatter.ListGen;
+import hera.core.messages.formatter.TextFormatter;
 import hera.core.music.HeraAudioManager;
+import hera.core.music.TrackScheduler;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
@@ -19,6 +27,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
@@ -58,33 +67,34 @@ public class Queue {
 	private static Mono<String[]> getQueueString(int page, Guild guild) {
 		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_TITLE, guild);
 
-		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
-		int queueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex();
+		TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
+		List<AudioTrack> tracks = scheduler.getQueue();
+		int queueIndex = scheduler.getQueueIndex();
+
 
 		StringBuilder queueString = new StringBuilder();
-		for (int i = (10 * page); i < tracks.size() && i < (10 * page + 10); i++) {
-			if (i == queueIndex) queueString.append("**");
-			queueString.append(i + 1);
-			queueString.append(": ");
-			queueString.append(tracks.get(i).getInfo().author);
-			queueString.append(" | `");
-			queueString.append(HeraUtil.getFormattedTime(tracks.get(i).getDuration()));
-			queueString.append("`\n[");
-			queueString.append(tracks.get(i).getInfo().title);
-			queueString.append("](");
-			queueString.append(tracks.get(i).getInfo().uri);
-			queueString.append(")");
-			if (i == queueIndex) queueString.append("**");
-			queueString.append("\n\n");
-		}
+		final int pageStart = page * 10;
+		final int pageEnd = pageStart + 10 < tracks.size() ? pageStart + 10 : tracks.size() -1;
+
+		List<AudioTrack> pageTracks = tracks.subList(pageStart, pageEnd);
+		ListGen<AudioTrack> generator = new ListGen<AudioTrack>()
+				.setNodes("%s: %s | `%s`\n[%s](%s)")
+				.setItems(pageTracks)
+				.addIndexConverter(i -> String.valueOf(i + pageStart + 1))
+				.addItemConverter(t -> t.getInfo().author)
+				.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()))
+				.addItemConverter(t -> t.getInfo().title)
+				.addItemConverter(t -> t.getInfo().uri)
+				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> String.format(TextFormatter.encaseWith(s, DefaultStrings.BOLD)))
+				.setLineBreak("\n\n");w
+		queueString.append(generator.makeList());
+
 
 		long totalDuration = 0;
 		int maxPage = 1;
 		if (tracks.isEmpty()) {
 			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild);
-			queueString.append("*... ");
-			queueString.append(local.getValue());
-			queueString.append(" ...*");
+			queueString.append(TextFormatter.encaseWith(local.getValue(), DefaultStrings.ITALICS2.getStr(), "...", " "));
 		} else {
 			totalDuration = tracks.stream()
 					.map(AudioTrack::getDuration)
@@ -94,7 +104,7 @@ public class Queue {
 		}
 
 		LocalisationKey enabledDisabled;
-		if (HeraAudioManager.getScheduler(guild).isLoopQueue()) {
+		if (scheduler.isLoopQueue()) {
 			enabledDisabled = LocalisationKey.COMMON_ENABLED;
 		} else {
 			enabledDisabled = LocalisationKey.COMMON_DISABLED;
@@ -109,6 +119,7 @@ public class Queue {
 
 	private static List<String> getEmojis(int currentPageIndex, int maxPage) {
 		List<String> emojis = new ArrayList<>();
+		//TODO make this outsourced constants
 		if (currentPageIndex > 0) {
 			emojis.add("\u23EE");
 			emojis.add("\u23EA");
@@ -127,7 +138,14 @@ public class Queue {
 					messageSpec.setTitle(queueStringParts[0]);
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
-				})).flatMap(message -> addReactions(message, guild, emojis)))
+				})).flatMap(message -> {
+					TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
+					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
+						int index = scheduler.getQueueIndex();
+						return changeHighlightedTrack(message, guild, index);
+					});
+					return Mono.just(message);
+				}).flatMap(message -> addReactions(message, guild, emojis)))
 				.then();
 	}
 
@@ -140,6 +158,42 @@ public class Queue {
 				})).flatMap(message -> addReactions(message, guild, emojis))))
 				.then();
 	}
+
+	private static Mono<Void> changeHighlightedTrack(Message editableMessage, Guild guild, int newIndex) {
+		if (editableMessage.getContent().contains(HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue())) return Mono.empty();
+		//TODO change this is hacky
+		Embed embed = editableMessage.getEmbeds().get(0);
+		String content = embed.getDescription().orElse("");
+		if (content.isEmpty()) return Mono.empty();
+		StringBuilder message = new StringBuilder(content);
+
+		String lineWithoutNumberRegEx = ": .+ \\| `([0-9]+[dhms] ?){1,4}`\n\\[.+\\]\\(.+\\)";
+		String findStartBoldStars = "\\*\\*(?=[0-9]+" + lineWithoutNumberRegEx + ")";
+		String findEndBoldStars = "(?<=[0-9]+" + lineWithoutNumberRegEx + ")\"\\*\\*";
+		String newHighlightNumberRegex = newIndex + lineWithoutNumberRegEx;
+		RegexMatch startBold = Regex.getMatch(findStartBoldStars, message.toString());
+		message.delete(startBold.getStart(), startBold.getStart());
+
+		RegexMatch endBold = Regex.getMatch(findEndBoldStars, message.toString());
+		message.delete(endBold.getStart(), endBold.getStart());
+
+		RegexMatch newHiglightLine = Regex.getMatch(newHighlightNumberRegex, message.toString());
+		if (newHiglightLine.hasMatch()) {
+			message.insert(newHiglightLine.getStart(), DefaultStrings.BOLD);
+
+			//getting the end anew since i changed the string i searched in
+			newHiglightLine = Regex.getMatch(newHighlightNumberRegex, message.toString());
+			message.insert(newHiglightLine.getEnd(), DefaultStrings.BOLD);
+		}
+		String title = embed.getTitle().orElse("");
+		String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
+		return MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
+			messageSpec.setTitle(title);
+			messageSpec.setDescription(message.toString());
+			messageSpec.setFooter(footer, null);
+		})).then();
+	}
+
 
 	private static Mono<Void> addReactions(Message msg, Guild guild, List<String> emojis) {
 		HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(msg.getId().asLong());

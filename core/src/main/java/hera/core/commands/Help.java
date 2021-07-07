@@ -7,12 +7,13 @@ import discord4j.core.object.entity.channel.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
-import hera.database.entities.Alias;
+import hera.core.messages.formatter.ListGen;
 import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,32 +56,23 @@ public class Help {
 				.flatMap(heraPermissions -> commands.flatMap(cmnds -> {
 						final StringBuilder helpStringBuilder = new StringBuilder();
 
-						cmnds.sort((commandA, commandB) -> {
-							String a = commandA.getName().toString().toLowerCase();
-							String b = commandB.getName().toString().toLowerCase();
+						//sorting by name
+						cmnds.sort(Comparator.comparing(c -> c.getName().toString().toLowerCase()));
 
-							return a.compareTo(b);
-						});
-
-						cmnds.forEach(cmd -> {
-							helpStringBuilder.append("- ");
-							helpStringBuilder.append(cmd.getName().toString().toLowerCase());
-
-							//TODO check if this is faster than concat so "_(" + noPermissionMsg.getValue() + ")_"
-							if (!HeraUtil.checkCommandPermissions(cmd, heraPermissions)) {
-								helpStringBuilder.append(" _(");
-								helpStringBuilder.append(noPermissionMsg.getValue());
-								helpStringBuilder.append(")_ ");
-							}
-
-							helpStringBuilder.append("\n");
-						});
+						helpStringBuilder.append(new ListGen<Command>()
+								.setNodes(" - %s$$_(%s)_$$")
+								.setItems(cmnds)
+								.addItemConverter(c -> c.getName().toString().toLowerCase())
+								.addItemConverter(c -> noPermissionMsg.getValue())
+								.makeList());
 
 						return Mono.just(helpStringBuilder.toString());
 				})
 		);
 	}
 
+
+	//TODO get this to another class
 	private static Mono<List<Command>> getEnabledCommands(Member member, Guild guild) {
 		List<Long> disabledCommands = STORE.moduleSettings().forGuild(guild.getId().asLong()).stream()
 				.filter(ms -> !ms.isEnabled())
@@ -91,7 +83,7 @@ public class Help {
 
 		List<Command> enabledCommands = allCommands.stream()
 				.filter(cmd -> !disabledCommands.contains(cmd.getId()))
-				.filter(cmd -> {System.err.println(cmd.getLevel()); return cmd.getLevel() < 2;})
+				.filter(cmd -> cmd.getLevel() < 2)
 				.collect(Collectors.toList());
 
 		return HeraUtil.getHeraPermissionSetForGuild(guild)
@@ -102,5 +94,5 @@ public class Help {
 								.collect(Collectors.toList()))
 						)
 				);
-}
+	}
 }

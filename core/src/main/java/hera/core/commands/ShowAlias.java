@@ -8,10 +8,9 @@ import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.core.messages.formatter.DefaultStrings;
-import hera.core.messages.formatter.ListGenerator;
+import hera.core.messages.formatter.ListGen;
 import hera.core.messages.formatter.TextFormatter;
-import hera.core.messages.formatter.list.ParameterList;
-import hera.database.entities.Command;
+import hera.database.entities.Alias;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
@@ -27,34 +26,35 @@ public class ShowAlias {
             Localisation globalLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ALIAS_GLOBAL, guild);
             Localisation guildLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ALIAS_GUILD, guild);
             Localisation noneLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ALIAS_NONE, guild);
+            ListGen<Alias> aliasListGen = new ListGen<Alias>()
+                    .setNodes(" %s: %s")
+                    .addItemConverter(a -> a.getCommand().getName().toString().toLowerCase())
+                    .addItemConverter(a -> a.getAlias().toLowerCase());
 
-            List<hera.database.entities.Alias> aliases = STORE.aliases().forGuild(guild.getId().asLong());
+
             StringBuilder message = new StringBuilder();
-            message.append(TextFormatter.withMarkdown(guildLocal.getValue(), DefaultStrings.BOLD));
-            message.append(DefaultStrings.NEW_LINE);
-            if (!aliases.isEmpty()) {  // if there is aliases list them
-                String guildAliasList = ListGenerator.makeList(" %s: %s\n", aliases,
-                        new ParameterList<hera.database.entities.Alias>()
-                                .add(a -> a.getCommand().getName().toString().toLowerCase())
-                                .add(a -> a.getAlias().toLowerCase()));
 
+            message.append(TextFormatter.encaseWith(guildLocal.getValue(), DefaultStrings.BOLD));
+            message.append(DefaultStrings.NEW_LINE);
+
+            List<Alias> guildAliases = STORE.aliases().forGuild(guild.getId().asLong());
+            if (!guildAliases.isEmpty()) {  // if there is aliases list them
+                message.append(aliasListGen.setItems(guildAliases).makeList());
             } else { // otherwise output that there is none
-                message.append(TextFormatter.withMarkdown(noneLocal.getValue(), DefaultStrings.ITALICS1));
+                message.append(TextFormatter.encaseWith(noneLocal.getValue(), DefaultStrings.ITALICS1));
                 message.append(DefaultStrings.NEW_LINE);
             }
 
             message.append(DefaultStrings.NEW_LINE);
 
-            List<hera.database.entities.Alias> globals = STORE.aliases().forGuild(null);
-            message.append(TextFormatter.withMarkdown(globalLocal.getValue(), DefaultStrings.BOLD));
+            message.append(TextFormatter.encaseWith(globalLocal.getValue(), DefaultStrings.BOLD));
             message.append(DefaultStrings.NEW_LINE);
-            if (!globals.isEmpty()) {
-                message.append(ListGenerator.makeList(" %s: %s\n", globals,
-                        new ParameterList<hera.database.entities.Alias>()
-                                .add(a -> a.getCommand().getName().toString().toLowerCase())
-                                .add(a -> a.getAlias().toLowerCase())));
+
+            List<Alias> globalAliases = STORE.aliases().forGuild(null);
+            if (!globalAliases.isEmpty()) {
+                message.append(aliasListGen.setItems(globalAliases).makeList());
             } else {
-                message.append(TextFormatter.withMarkdown(noneLocal.getValue(), DefaultStrings.ITALICS1));
+                message.append(TextFormatter.encaseWith(noneLocal.getValue(), DefaultStrings.ITALICS1));
             }
 
             return MessageHandler.send(channel, MessageSpec.getDefaultSpec(spec -> {

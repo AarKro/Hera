@@ -5,7 +5,7 @@ public class TextNode extends hera.core.messages.formatter.list.ListFormatNode {
 
 	public TextNode(String value)
 	{
-		super(false, false);
+		super(0, false);
 		this.value = value;
 	}
 

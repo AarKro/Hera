@@ -1,6 +1,7 @@
 package hera.core.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -15,10 +16,17 @@ import hera.database.entities.*;
 import hera.database.types.BindingName;
 import hera.database.types.ConfigFlagName;
 import hera.database.types.LocalisationKey;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
 import static hera.store.DataStore.STORE;
 
@@ -33,6 +41,12 @@ public class TrackScheduler extends AudioEventAdapter {
 	private long currentQueueMessageId;
 
 	private Guild guild;
+
+	//makes you able to subscribe to any event one time per server. TODO monitor performance of this
+	private HashMap<Class<? extends AudioEvent>, Function<AudioEvent, Mono<Void>>> eventListeners  = new HashMap();
+
+	private HashMap<Class<? extends AudioEvent>, LocalDateTime> subscriptionTimer = new HashMap();
+	private static final Duration TIME_TILL_LISTENER_TIMEOUT = Duration.of(12, ChronoUnit.HOURS);
 
 	TrackScheduler(Guild guild) {
 		this.queue = new ArrayList<>();
@@ -134,7 +148,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
 		List<BindingType> bType = STORE.bindingTypes().forName(BindingName.MUSIC);
 		List<Binding> bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bType.get(0));
-		// Only announce when there is a music channle binding
+		// Only announce when there is a music channel binding
 		if (!bindings.isEmpty()) {
 			List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.ANNOUNCE_NEXT_SONG);
 			List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), type.get(0));
@@ -188,6 +202,44 @@ public class TrackScheduler extends AudioEventAdapter {
 	@Override
 	public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
 		// Audio track has been unable to provide us any audio, might want to just start a new track
+	}
+
+	public boolean subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler) {
+		if (eventListeners.containsKey(event)) {
+			eventListeners.replace(event, handler);
+			subscriptionTimer.replace(event, LocalDateTime.now().plus(TIME_TILL_LISTENER_TIMEOUT));
+		} else {
+			eventListeners.put(event, handler);
+			subscriptionTimer.put(event, LocalDateTime.now().plus(TIME_TILL_LISTENER_TIMEOUT));
+		}
+		return true;
+	}
+
+
+	public boolean unsubscribe(Class<? extends  AudioEvent> event) {
+		if (eventListeners.containsKey(event)) {
+			eventListeners.remove(event);
+			subscriptionTimer.remove(event);
+			return true;
+		}
+		return false;
+	}
+
+
+
+
+	@Override
+	public void onEvent(AudioEvent event) {
+		if (!eventListeners.isEmpty()) {
+			eventListeners.get(event.getClass()).apply(event).block();
+
+			//auto unsubscribe after 12h
+			if (subscriptionTimer.get(event.getClass()).isBefore(LocalDateTime.now())) unsubscribe(event.getClass());
+		}
+
+
+
+		super.onEvent(event);
 	}
 
 	public List<AudioTrack> getQueue() {

@@ -4,12 +4,12 @@ package hera.core.messages.formatter.list;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormatingList {
+public class FormatingList implements NodeConverter {
 
 	public static final String OPTIONAL_STRING = "$$";
 	public static final String VARIABLE_STRING = "%s";
 
-	public static List<ListFormatNode> getNodeList(String format) {
+	public List<ListFormatNode> getNodeList(String format) {
 		List<hera.core.messages.formatter.list.ListFormatNode> out = new ArrayList<>();
 		String[] splitFormat = format.split("\\$\\$");
 
@@ -52,10 +52,10 @@ public class FormatingList {
 
 	}
 
-	public static int getVariableCount(List<hera.core.messages.formatter.list.ListFormatNode> list) {
+	public int getVariableCount(List<ListFormatNode> list) {
 		int variableCount = 0;
 		for (hera.core.messages.formatter.list.ListFormatNode node : list) {
-			if (node.isVariable()) variableCount++;
+			if (node.getParameterCount() > 0) variableCount++;
 		}
 		return variableCount;
 	}

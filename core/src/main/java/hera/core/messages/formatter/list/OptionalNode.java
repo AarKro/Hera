@@ -5,14 +5,9 @@ public class OptionalNode extends hera.core.messages.formatter.list.ListFormatNo
 	String after;
 
 	public OptionalNode(String before, String after) {
-		super(true, true);
+		super(1, true);
 		this.before = before;
 		this.after = after;
-	}
-
-	@Override
-	public boolean isVariable() {
-		return true;
 	}
 
 	@Override
