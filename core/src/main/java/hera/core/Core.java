@@ -61,6 +61,7 @@ public class Core {
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(gateway);
 		hci.startupHCI();
 
+
 		// on guild join -> Add guild to store if we don't have it already
 		gateway.on(GuildCreateEvent.class).subscribe(event-> {
 			STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));

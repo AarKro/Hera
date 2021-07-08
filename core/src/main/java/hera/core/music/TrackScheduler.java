@@ -20,12 +20,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 import static hera.store.DataStore.STORE;
@@ -42,11 +37,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private Guild guild;
 
-	//makes you able to subscribe to any event one time per server. TODO monitor performance of this
-	private HashMap<Class<? extends AudioEvent>, Function<AudioEvent, Mono<Void>>> eventListeners  = new HashMap();
-
-	private HashMap<Class<? extends AudioEvent>, LocalDateTime> subscriptionTimer = new HashMap();
-	private static final Duration TIME_TILL_LISTENER_TIMEOUT = Duration.of(12, ChronoUnit.HOURS);
+	HashMap<Class<? extends AudioEvent>, AudioEventListeners> eventListeners = new HashMap<>();
 
 	TrackScheduler(Guild guild) {
 		this.queue = new ArrayList<>();
@@ -204,41 +195,48 @@ public class TrackScheduler extends AudioEventAdapter {
 		// Audio track has been unable to provide us any audio, might want to just start a new track
 	}
 
-	public boolean subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler) {
-		if (eventListeners.containsKey(event)) {
-			eventListeners.replace(event, handler);
-			subscriptionTimer.replace(event, LocalDateTime.now().plus(TIME_TILL_LISTENER_TIMEOUT));
-		} else {
-			eventListeners.put(event, handler);
-			subscriptionTimer.put(event, LocalDateTime.now().plus(TIME_TILL_LISTENER_TIMEOUT));
-		}
-		return true;
-	}
-
-
-	public boolean unsubscribe(Class<? extends  AudioEvent> event) {
-		if (eventListeners.containsKey(event)) {
-			eventListeners.remove(event);
-			subscriptionTimer.remove(event);
-			return true;
-		}
-		return false;
-	}
-
-
-
-
 	@Override
 	public void onEvent(AudioEvent event) {
 		super.onEvent(event);
 
-		if (!eventListeners.isEmpty()) {
-			eventListeners.get(event.getClass()).apply(event).subscribe();
+		if (!eventListeners.isEmpty() && eventListeners.containsKey(event.getClass())) {
+			//goes through all the handlers removes any that are no longer valid and executes the rest
+			eventListeners.get(event.getClass()).removeInValid(event);
 
-			//auto unsubscribe after 12h
-			if (subscriptionTimer.get(event.getClass()).isBefore(LocalDateTime.now())) unsubscribe(event.getClass());
+			for (AudioEventListener listener : eventListeners.get(event.getClass())) {
+				listener.execute(event).subscribe();
+			}
 		}
+	}
 
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler) {
+
+		AudioEventListener listener = new AudioEventListener(handler);
+		if (eventListeners.containsKey(event)) {
+			eventListeners.get(event).add(listener);
+		} else {
+			eventListeners.put(event, new AudioEventListeners(listener));
+		}
+		return listener;
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, Duration lifetime) {
+		AudioEventListener listener = new AudioEventListener(handler, lifetime);
+		if (eventListeners.containsKey(event)) {
+			eventListeners.get(event).add(listener);
+
+		} else {
+			eventListeners.put(event, new AudioEventListeners(listener));
+		}
+		return listener;
+	}
+
+	public boolean unsubscribe(Class<? extends  AudioEvent> event, AudioEventListener listener) {
+		if (eventListeners.containsKey(event)) {
+			eventListeners.get(event).remove(listener);
+			return true;
+		}
+		return false;
 	}
 
 	public List<AudioTrack> getQueue() {

@@ -137,7 +137,6 @@ public class Queue {
 		return emojis;
 	}
 
-	//TODO gonna add a little sleep cuz it is too fast maybe this is just my pc?
 	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
 		return getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -145,11 +144,6 @@ public class Queue {
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
 				})).flatMap(message -> {
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 					TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
 					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
 						int index = scheduler.getQueueIndex();
@@ -190,23 +184,24 @@ public class Queue {
 					Pattern startBold = Pattern.compile(findStartBoldStars);
 					Pattern endBold = Pattern.compile(findEndBoldStars);
 
+
 					Matcher startMatcher;
 					Matcher endMatcher;
 					do {
 						startMatcher = startBold.matcher(message.toString());
-						startMatcher.reset();
+						//startMatcher.reset();
 						if (startMatcher.find()) {
 							message.delete(startMatcher.start(), startMatcher.end());
 						}
 						endMatcher = endBold.matcher(message.toString());
-						endMatcher.reset();
+						//endMatcher.reset();
 						if (endMatcher.find()) {
 							message.delete(endMatcher.start(), endMatcher.end());
 						}
 						startMatcher = startBold.matcher(message.toString());
 						endMatcher = endBold.matcher(message.toString());
-						startMatcher.reset();
-						endMatcher.reset();
+						//startMatcher.reset();
+						//endMatcher.reset();
 					} while (startMatcher.find() || endMatcher.find());
 
 					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\\s\\[.{1,100}\\]\\(.{1,500}\\)";

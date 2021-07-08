@@ -1,10 +1,48 @@
 package hera.core.music;
 
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
+import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.function.Consumer;
 
-public class AudioEventListeners extends ArrayList<AudioEvent> {
+public class AudioEventListeners extends ArrayList<AudioEventListener> {
+
+	public AudioEventListeners(AudioEventListener listener) {
+		super();
+		add(listener);
+	}
+
+	public void removeEndedLifetime() {
+		this.removeIf(l -> !l.stillInLifetime());
+	}
+
+	public void removeInValid(AudioEvent event) {
+		this.removeIf(l -> !l.isValid(event));
+	}
+
+	public void forEachInLifetime(Consumer<? super AudioEventListener> action) {
+		super.forEach(l -> { if (l.stillInLifetime()) action.accept(l);});
+	}
+
+	@Override
+	public void forEach(Consumer<? super AudioEventListener> action) {
+		super.forEach(action);
+	}
+
+	public void executeValid(AudioEvent event) {
+		super.forEach(l -> l.executeIfValid(event).subscribe());
+	}
+
+	public void executeValidRemoveInvalid(AudioEvent event) {
+		int pointer = 0;
+		while (pointer < this.size()) {
+			if (!this.get(pointer).isValid(event)) {
+				this.remove(pointer);
+			} else {
+				this.get(pointer).execute(event).subscribe();
+			}
+		}
+	}
 
 }
