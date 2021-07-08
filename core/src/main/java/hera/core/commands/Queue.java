@@ -1,7 +1,9 @@
 package hera.core.commands;
 
+import com.sedmelluq.discord.lavaplayer.player.event.TrackEndEvent;
 import com.sedmelluq.discord.lavaplayer.player.event.TrackStartEvent;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.Embed;
@@ -22,12 +24,15 @@ import hera.core.music.HeraAudioManager;
 import hera.core.music.TrackScheduler;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
+import hera.database.types.SnowflakeType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
@@ -86,7 +91,7 @@ public class Queue {
 				.addItemConverter(t -> t.getInfo().title)
 				.addItemConverter(t -> t.getInfo().uri)
 				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> String.format(TextFormatter.encaseWith(s, DefaultStrings.BOLD)))
-				.setLineBreak("\n\n");w
+				.setLineBreak("\n\n");
 		queueString.append(generator.makeList());
 
 
@@ -132,6 +137,7 @@ public class Queue {
 		return emojis;
 	}
 
+	//TODO gonna add a little sleep cuz it is too fast maybe this is just my pc?
 	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
 		return getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -139,10 +145,15 @@ public class Queue {
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
 				})).flatMap(message -> {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
 					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
 						int index = scheduler.getQueueIndex();
-						return changeHighlightedTrack(message, guild, index);
+						return changeHighlightedTrack(message.getChannel(), message.getId(), guild, index);
 					});
 					return Mono.just(message);
 				}).flatMap(message -> addReactions(message, guild, emojis)))
@@ -159,39 +170,68 @@ public class Queue {
 				.then();
 	}
 
-	private static Mono<Void> changeHighlightedTrack(Message editableMessage, Guild guild, int newIndex) {
-		if (editableMessage.getContent().contains(HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue())) return Mono.empty();
-		//TODO change this is hacky
-		Embed embed = editableMessage.getEmbeds().get(0);
-		String content = embed.getDescription().orElse("");
-		if (content.isEmpty()) return Mono.empty();
-		StringBuilder message = new StringBuilder(content);
+	private static Mono<Void> changeHighlightedTrack(Mono<MessageChannel> channel, Snowflake messageId, Guild guild, int newIndex) {
+		return channel.flatMap(c ->
+				c.getMessageById(messageId).flatMap(editableMessage -> {
+					if (editableMessage.getContent().contains(HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue()))
+						return Mono.empty();
+					//TODO change this is hacky
+					Embed embed = editableMessage.getEmbeds().get(0);
+					String content = "";
+					content = embed.getDescription().orElse("");
+					if (content.isEmpty()) return Mono.empty();
+					StringBuilder message = new StringBuilder();
+					message.append(content);
 
-		String lineWithoutNumberRegEx = ": .+ \\| `([0-9]+[dhms] ?){1,4}`\n\\[.+\\]\\(.+\\)";
-		String findStartBoldStars = "\\*\\*(?=[0-9]+" + lineWithoutNumberRegEx + ")";
-		String findEndBoldStars = "(?<=[0-9]+" + lineWithoutNumberRegEx + ")\"\\*\\*";
-		String newHighlightNumberRegex = newIndex + lineWithoutNumberRegEx;
-		RegexMatch startBold = Regex.getMatch(findStartBoldStars, message.toString());
-		message.delete(startBold.getStart(), startBold.getStart());
+					//TODO look at numbers, maybe change
+					String findStartBoldStars = "\\*\\*(?=[0-9]{1,10}: .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`)";
+					String findEndBoldStars = "(?<=\\[.{1,100}\\]\\(.{1,500}\\))\\*\\*";
 
-		RegexMatch endBold = Regex.getMatch(findEndBoldStars, message.toString());
-		message.delete(endBold.getStart(), endBold.getStart());
+					Pattern startBold = Pattern.compile(findStartBoldStars);
+					Pattern endBold = Pattern.compile(findEndBoldStars);
 
-		RegexMatch newHiglightLine = Regex.getMatch(newHighlightNumberRegex, message.toString());
-		if (newHiglightLine.hasMatch()) {
-			message.insert(newHiglightLine.getStart(), DefaultStrings.BOLD);
+					Matcher startMatcher;
+					Matcher endMatcher;
+					do {
+						startMatcher = startBold.matcher(message.toString());
+						startMatcher.reset();
+						if (startMatcher.find()) {
+							message.delete(startMatcher.start(), startMatcher.end());
+						}
+						endMatcher = endBold.matcher(message.toString());
+						endMatcher.reset();
+						if (endMatcher.find()) {
+							message.delete(endMatcher.start(), endMatcher.end());
+						}
+						startMatcher = startBold.matcher(message.toString());
+						endMatcher = endBold.matcher(message.toString());
+						startMatcher.reset();
+						endMatcher.reset();
+					} while (startMatcher.find() || endMatcher.find());
 
-			//getting the end anew since i changed the string i searched in
-			newHiglightLine = Regex.getMatch(newHighlightNumberRegex, message.toString());
-			message.insert(newHiglightLine.getEnd(), DefaultStrings.BOLD);
-		}
-		String title = embed.getTitle().orElse("");
-		String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
-		return MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
-			messageSpec.setTitle(title);
-			messageSpec.setDescription(message.toString());
-			messageSpec.setFooter(footer, null);
-		})).then();
+					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\\s\\[.{1,100}\\]\\(.{1,500}\\)";
+
+					Pattern highlightLine = Pattern.compile(newHighlightNumberRegex);
+					Matcher highlightLineMatcher = highlightLine.matcher(message.toString());
+					highlightLineMatcher.reset();
+					if (highlightLineMatcher.find()) {
+						message.insert(highlightLineMatcher.start(), DefaultStrings.BOLD);
+
+						highlightLineMatcher = highlightLine.matcher(message.toString());
+						highlightLineMatcher.reset();
+						highlightLineMatcher.find();
+						message.insert(highlightLineMatcher.end(), DefaultStrings.BOLD);
+
+					}
+
+					String title = embed.getTitle().orElse("");
+					String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
+					return MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
+						messageSpec.setTitle(title);
+						messageSpec.setDescription(message.toString());
+						messageSpec.setFooter(footer, null);
+					})).then();
+				}));
 	}
 
 

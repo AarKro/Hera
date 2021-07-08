@@ -230,16 +230,15 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	@Override
 	public void onEvent(AudioEvent event) {
+		super.onEvent(event);
+
 		if (!eventListeners.isEmpty()) {
-			eventListeners.get(event.getClass()).apply(event).block();
+			eventListeners.get(event.getClass()).apply(event).subscribe();
 
 			//auto unsubscribe after 12h
 			if (subscriptionTimer.get(event.getClass()).isBefore(LocalDateTime.now())) unsubscribe(event.getClass());
 		}
 
-
-
-		super.onEvent(event);
 	}
 
 	public List<AudioTrack> getQueue() {

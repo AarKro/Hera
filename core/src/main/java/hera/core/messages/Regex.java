@@ -25,7 +25,10 @@ public class Regex {
 	public static RegexMatch getMatch(String find, String text) {
 		Pattern regex = Pattern.compile(find);
 		Matcher matcher = regex.matcher(text);
+		matcher.reset();
 		RegexMatch out = new RegexMatch();
+		out.hasMatch = matcher.find();
+		matcher.reset();
 		out.hasMatch = matcher.find();
 		if (out.hasMatch) {
 			out.start = matcher.start();
