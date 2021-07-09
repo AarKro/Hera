@@ -49,9 +49,9 @@ public class AudioEventListener implements Comparable<AudioEventListener> {
 		return eventHandler.apply(event);
 	}
 
-	public Mono<Boolean> executeIfValid(AudioEvent event) {
-		if (isValid(event)) return Mono.just(false);
-		return eventHandler.apply(event).just(true);
+	public Mono<Void> executeIfValid(AudioEvent event) {
+		if (!isValid(event)) return Mono.empty();
+		return eventHandler.apply(event);
 	}
 
 	public boolean isValid(AudioEvent event) {

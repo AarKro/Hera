@@ -200,12 +200,8 @@ public class TrackScheduler extends AudioEventAdapter {
 		super.onEvent(event);
 
 		if (!eventListeners.isEmpty() && eventListeners.containsKey(event.getClass())) {
-			//goes through all the handlers removes any that are no longer valid and executes the rest
-			eventListeners.get(event.getClass()).removeInValid(event);
-
-			for (AudioEventListener listener : eventListeners.get(event.getClass())) {
-				listener.execute(event).subscribe();
-			}
+			//remove all listeners that became invalid since last time, execute all the remaining ones
+			eventListeners.get(event.getClass()).executeValidRemoveInvalid(event);
 		}
 	}
 

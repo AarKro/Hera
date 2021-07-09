@@ -25,15 +25,15 @@ public class AudioEventListeners extends ArrayList<AudioEventListener> {
 		super.forEach(l -> { if (l.stillInLifetime()) action.accept(l);});
 	}
 
-	@Override
-	public void forEach(Consumer<? super AudioEventListener> action) {
-		super.forEach(action);
+	public void executeAll(AudioEvent event) {
+		super.forEach(l -> l.execute(event).subscribe());
 	}
 
 	public void executeValid(AudioEvent event) {
 		super.forEach(l -> l.executeIfValid(event).subscribe());
 	}
 
+	//goes through the list and
 	public void executeValidRemoveInvalid(AudioEvent event) {
 		int pointer = 0;
 		while (pointer < this.size()) {
@@ -41,6 +41,7 @@ public class AudioEventListeners extends ArrayList<AudioEventListener> {
 				this.remove(pointer);
 			} else {
 				this.get(pointer).execute(event).subscribe();
+				pointer++;
 			}
 		}
 	}
