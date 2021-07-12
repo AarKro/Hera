@@ -21,6 +21,7 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 import static hera.store.DataStore.STORE;
@@ -205,9 +206,8 @@ public class TrackScheduler extends AudioEventAdapter {
 		}
 	}
 
-	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler) {
-
-		AudioEventListener listener = new AudioEventListener(handler);
+	//TODO check which of these methods make sense, destructionCondition ones can prob be removed and should be handled by this one by construction the listener prior to applying it.
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, AudioEventListener listener) {
 		if (eventListeners.containsKey(event)) {
 			eventListeners.get(event).add(listener);
 		} else {
@@ -216,15 +216,20 @@ public class TrackScheduler extends AudioEventAdapter {
 		return listener;
 	}
 
-	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, Duration lifetime) {
-		AudioEventListener listener = new AudioEventListener(handler, lifetime);
-		if (eventListeners.containsKey(event)) {
-			eventListeners.get(event).add(listener);
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler) {
+		return subscribeEvent(event, new AudioEventListener(handler));
+	}
 
-		} else {
-			eventListeners.put(event, new AudioEventListeners(listener));
-		}
-		return listener;
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, Duration lifetime) {
+		return subscribeEvent(event, new AudioEventListener(handler, lifetime));
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, BiPredicate<AudioEvent, AudioEventListener> destructionCondition) {
+		return subscribeEvent(event, new AudioEventListener(handler, destructionCondition));
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, Duration lifetime, BiPredicate<AudioEvent, AudioEventListener> destructionCondition) {
+		return subscribeEvent(event, new AudioEventListener(handler, lifetime, destructionCondition));
 	}
 
 	public boolean unsubscribe(Class<? extends  AudioEvent> event, AudioEventListener listener) {

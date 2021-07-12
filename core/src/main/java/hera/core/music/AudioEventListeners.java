@@ -39,6 +39,7 @@ public class AudioEventListeners extends ArrayList<AudioEventListener> {
 		while (pointer < this.size()) {
 			if (!this.get(pointer).isValid(event)) {
 				this.remove(pointer);
+				System.err.println("REMOVED LISTENER");
 			} else {
 				this.get(pointer).execute(event).subscribe();
 				pointer++;

@@ -28,6 +28,8 @@ import hera.database.types.SnowflakeType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -148,7 +150,11 @@ public class Queue {
 					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
 						int index = scheduler.getQueueIndex();
 						return changeHighlightedTrack(message.getChannel(), message.getId(), guild, index);
-					});
+					}, Duration.of(5, ChronoUnit.MINUTES));
+					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
+						System.err.println("THIS DOES NOT WORK!!!!!!!!!!!!!!!!");
+						return Mono.empty();
+					}, (e, l) -> true);
 					return Mono.just(message);
 				}).flatMap(message -> addReactions(message, guild, emojis)))
 				.then();
@@ -189,19 +195,15 @@ public class Queue {
 					Matcher endMatcher;
 					do {
 						startMatcher = startBold.matcher(message.toString());
-						//startMatcher.reset();
 						if (startMatcher.find()) {
 							message.delete(startMatcher.start(), startMatcher.end());
 						}
 						endMatcher = endBold.matcher(message.toString());
-						//endMatcher.reset();
 						if (endMatcher.find()) {
 							message.delete(endMatcher.start(), endMatcher.end());
 						}
 						startMatcher = startBold.matcher(message.toString());
 						endMatcher = endBold.matcher(message.toString());
-						//startMatcher.reset();
-						//endMatcher.reset();
 					} while (startMatcher.find() || endMatcher.find());
 
 					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\\s\\[.{1,100}\\]\\(.{1,500}\\)";

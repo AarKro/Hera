@@ -85,7 +85,6 @@ public class Core {
 
 
 		// on guild join -> Add members of guild to store if we don't have them already
-
 		gateway.on(GuildCreateEvent.class)
 				.subscribe(event -> event.getGuild().getMembers()
 						.flatMap(member -> {
