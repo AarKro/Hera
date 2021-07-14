@@ -7,7 +7,7 @@ import discord4j.core.object.entity.channel.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
-import hera.core.messages.formatter.ListGen;
+import hera.core.messages.formatter.list.ListGen;
 import hera.database.entities.Command;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;

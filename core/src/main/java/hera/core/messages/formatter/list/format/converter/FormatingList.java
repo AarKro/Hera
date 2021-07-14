@@ -1,5 +1,10 @@
-package hera.core.messages.formatter.list;
+package hera.core.messages.formatter.list.format.converter;
 
+
+import hera.core.messages.formatter.list.ListFormatNode;
+import hera.core.messages.formatter.list.format.nodes.OptionalNode;
+import hera.core.messages.formatter.list.format.nodes.TextNode;
+import hera.core.messages.formatter.list.format.nodes.VariableNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +47,11 @@ public class FormatingList implements NodeConverter {
 			} else if (optionalParameterSplit.length == 1) {
 				out.add(new OptionalNode(optionalParameterSplit[0], ""));
 			} else {
-				out.add(new hera.core.messages.formatter.list.OptionalNode(optionalParameterSplit[0], optionalParameterSplit[1]));
+				out.add(new OptionalNode(optionalParameterSplit[0], optionalParameterSplit[1]));
 			}
 		}
 		if (afterParameter != null) {
-			out.add(new hera.core.messages.formatter.list.TextNode(afterParameter));
+			out.add(new TextNode(afterParameter));
 		}
 		return out;
 

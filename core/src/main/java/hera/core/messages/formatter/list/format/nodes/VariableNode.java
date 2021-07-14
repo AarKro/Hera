@@ -1,4 +1,4 @@
-package hera.core.messages.formatter.list;
+package hera.core.messages.formatter.list.format.nodes;
 
 public class VariableNode extends hera.core.messages.formatter.list.ListFormatNode {
 	public VariableNode() {

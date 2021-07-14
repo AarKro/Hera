@@ -8,7 +8,7 @@ import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.core.messages.formatter.DefaultStrings;
-import hera.core.messages.formatter.ListGen;
+import hera.core.messages.formatter.list.ListGen;
 import hera.core.messages.formatter.TextFormatter;
 import hera.database.entities.Alias;
 import hera.database.entities.Localisation;
@@ -27,7 +27,7 @@ public class ShowAlias {
             Localisation guildLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ALIAS_GUILD, guild);
             Localisation noneLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ALIAS_NONE, guild);
             ListGen<Alias> aliasListGen = new ListGen<Alias>()
-                    .setNodes(" %s: %s")
+                    .setNodes(" %s: %s") //
                     .addItemConverter(a -> a.getCommand().getName().toString().toLowerCase())
                     .addItemConverter(a -> a.getAlias().toLowerCase());
 

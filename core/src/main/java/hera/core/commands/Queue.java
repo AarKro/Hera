@@ -1,6 +1,5 @@
 package hera.core.commands;
 
-import com.sedmelluq.discord.lavaplayer.player.event.TrackEndEvent;
 import com.sedmelluq.discord.lavaplayer.player.event.TrackStartEvent;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import discord4j.common.util.Snowflake;
@@ -11,21 +10,20 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
-import discord4j.core.object.reaction.ReactionEmoji;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
-import hera.core.messages.Regex;
-import hera.core.messages.Regex.RegexMatch;
 import hera.core.messages.formatter.DefaultStrings;
-import hera.core.messages.formatter.ListGen;
+import hera.core.messages.formatter.list.ListGen;
 import hera.core.messages.formatter.TextFormatter;
+import hera.core.messages.reaction.GuildReactionListener;
+import hera.core.messages.reaction.ReactionHandler;
+import hera.core.messages.reaction.emoji.Emoji;
+import hera.core.messages.reaction.emoji.EmojiHandler;
 import hera.core.music.HeraAudioManager;
 import hera.core.music.TrackScheduler;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
-import hera.database.types.SnowflakeType;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -49,26 +47,27 @@ public class Queue {
 		return writeMessage(currentPageIndex, channel, emojis, guild);
 	}
 
-	public static Mono<Void> executeFromReaction(ReactionAddEvent event, Message originalMessage, String message, String unicode, Guild guild) {
-		int currentPageIndex = Integer.parseInt(message.substring(message.indexOf("Page: ") + 6, message.indexOf(" of")));
+	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel channel, Message message, String unicode, Member member, Guild guild, ReactionHandler.MetaData metaData) {
+		String footer = message.getEmbeds().get(0).getFooter().get().getText();
+		int currentPageIndex = Integer.parseInt(footer.substring(footer.indexOf("Page: ") + 6, footer.indexOf(" of")));
 		currentPageIndex--;
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
 
 		switch(unicode) {
-			case "\u23EE": currentPageIndex = 0; // |<<
+			case Emoji.TRACK_PREVIOUS: currentPageIndex = 0; // |<<
 				break;
-			case "\u23EA": currentPageIndex--; // <<
+			case Emoji.REWIND: currentPageIndex--; // <<
 				break;
-			case "\u23E9": currentPageIndex++; // >>
+			case Emoji.FAST_FORWARD: currentPageIndex++; // >>
 				break;
-			case "\u23ED": currentPageIndex = maxPage - 1; // >>|
+			case Emoji.TRACK_NEXT: currentPageIndex = maxPage - 1; // >>|
 				break;
 		}
 
 		List<String> emojis = getEmojis(currentPageIndex, maxPage);
 
-		return editMessage(currentPageIndex, originalMessage, emojis, guild);
+		return editMessageToChangePage(currentPageIndex, message, emojis, guild);
 	}
 
 	private static Mono<String[]> getQueueString(int page, Guild guild) {
@@ -78,12 +77,13 @@ public class Queue {
 		List<AudioTrack> tracks = scheduler.getQueue();
 		int queueIndex = scheduler.getQueueIndex();
 
-
+		// gets the tracks for the queue page
 		StringBuilder queueString = new StringBuilder();
 		final int pageStart = page * 10;
 		final int pageEnd = pageStart + 10 < tracks.size() ? pageStart + 10 : tracks.size() -1;
-
 		List<AudioTrack> pageTracks = tracks.subList(pageStart, pageEnd);
+
+		// makes the queue List. format is : ( %index: %author \n [%title](%link) )
 		ListGen<AudioTrack> generator = new ListGen<AudioTrack>()
 				.setNodes("%s: %s | `%s`\n[%s](%s)")
 				.setItems(pageTracks)
@@ -92,7 +92,7 @@ public class Queue {
 				.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()))
 				.addItemConverter(t -> t.getInfo().title)
 				.addItemConverter(t -> t.getInfo().uri)
-				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> String.format(TextFormatter.encaseWith(s, DefaultStrings.BOLD)))
+				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> TextFormatter.encaseWith(s, DefaultStrings.BOLD))
 				.setLineBreak("\n\n");
 		queueString.append(generator.makeList());
 
@@ -106,7 +106,6 @@ public class Queue {
 			totalDuration = tracks.stream()
 					.map(AudioTrack::getDuration)
 					.reduce((long) 0, (accumulation, track) -> accumulation + track);
-
 			maxPage = getMaxPage(tracks);
 		}
 
@@ -126,14 +125,13 @@ public class Queue {
 
 	private static List<String> getEmojis(int currentPageIndex, int maxPage) {
 		List<String> emojis = new ArrayList<>();
-		//TODO make this outsourced constants
 		if (currentPageIndex > 0) {
-			emojis.add("\u23EE");
-			emojis.add("\u23EA");
+			emojis.add(Emoji.TRACK_PREVIOUS);
+			emojis.add(Emoji.REWIND);
 		}
 		if (currentPageIndex < maxPage - 1) {
-			emojis.add("\u23E9");
-			emojis.add("\u23ED");
+			emojis.add(Emoji.FAST_FORWARD);
+			emojis.add(Emoji.TRACK_NEXT);
 		}
 
 		return emojis;
@@ -145,22 +143,24 @@ public class Queue {
 					messageSpec.setTitle(queueStringParts[0]);
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
-				})).flatMap(message -> {
-					TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
-					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
-						int index = scheduler.getQueueIndex();
-						return changeHighlightedTrack(message.getChannel(), message.getId(), guild, index);
-					}, Duration.of(5, ChronoUnit.MINUTES));
-					scheduler.subscribeEvent(TrackStartEvent.class, e -> {
-						System.err.println("THIS DOES NOT WORK!!!!!!!!!!!!!!!!");
-						return Mono.empty();
-					}, (e, l) -> true);
-					return Mono.just(message);
+				}))
+				.doOnSuccess(m -> GuildReactionListener.getGuildListener(guild).addListener(m.getId(), new ReactionHandler(Queue::executeFromReaction)))
+						.flatMap(message -> {
+
+								// adds a listener that changes the highlighted track whenever a new song starts. decays after 2h
+								// this should technically work on more than one q method the way it is rn, may be worth changing
+								TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
+								scheduler.subscribeEvent(TrackStartEvent.class, e -> {
+									int index = scheduler.getQueueIndex();
+									return changeHighlightedTrack(message.getChannel(), message.getId(), guild, index);
+								}, Duration.of(2, ChronoUnit.HOURS));
+
+								return Mono.just(message);
 				}).flatMap(message -> addReactions(message, guild, emojis)))
 				.then();
 	}
 
-	private static Mono<Void> editMessage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
+	private static Mono<Void> editMessageToChangePage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
 		return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
 					messageSpec.setTitle(queueStringParts[0]);
@@ -170,13 +170,32 @@ public class Queue {
 				.then();
 	}
 
+	/**
+	 * This method changes the highlit track when a new track starts.
+	 * It does this by first removing any existing highlights and then adding a new one on the new queueIndex
+	 *
+	 * @param channel The channel where the queue message is in
+	 * @param messageId The message Id for the queue message
+	 * @param guild The guild the message and player is in
+	 * @param newIndex The current queueIndex
+	 * @return empty mono
+	 */
 	private static Mono<Void> changeHighlightedTrack(Mono<MessageChannel> channel, Snowflake messageId, Guild guild, int newIndex) {
 		return channel.flatMap(c ->
 				c.getMessageById(messageId).flatMap(editableMessage -> {
 					if (editableMessage.getContent().contains(HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue()))
 						return Mono.empty();
-					//TODO change this is hacky
-					Embed embed = editableMessage.getEmbeds().get(0);
+
+
+					Embed embed;
+					if (editableMessage.getEmbeds().size() > 0) {
+						embed = editableMessage.getEmbeds().get(0);
+					} else {
+						throw new RuntimeException("Queue message isn't embedded");
+					}
+
+
+					//get the current context string
 					String content = "";
 					content = embed.getDescription().orElse("");
 					if (content.isEmpty()) return Mono.empty();
@@ -231,12 +250,16 @@ public class Queue {
 				}));
 	}
 
-
+	/**
+	 * Adds reactions to a message
+	 * @param msg The message to add emojis too
+	 * @param guild The guild the message is in
+	 * @param emojis
+	 * @return
+	 */
 	private static Mono<Void> addReactions(Message msg, Guild guild, List<String> emojis) {
 		HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(msg.getId().asLong());
-		return Flux.fromIterable(emojis)
-					.flatMap(emoji -> msg.addReaction(ReactionEmoji.unicode(emoji)))
-					.next();
+		return EmojiHandler.addReactions(msg, emojis);
 	}
 
 	private static int getMaxPage(List<AudioTrack> tracks) {

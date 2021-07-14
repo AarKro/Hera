@@ -1,14 +1,10 @@
-package hera.core.messages.formatter;
+package hera.core.messages.formatter.list;
 
-import hera.core.Core;
-import hera.core.messages.formatter.list.FormatingList;
-import hera.core.messages.formatter.list.ListFormatNode;
-import hera.core.messages.formatter.list.NodeConverter;
-import hera.core.messages.formatter.list.ParameterList;
+import hera.core.messages.formatter.list.format.converter.FormatingList;
+import hera.core.messages.formatter.list.format.converter.NodeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
@@ -238,9 +234,8 @@ public class ListGen<T> {
 
 	@Override
 	public String toString() {
+		//TODO check if this is actually the case
 		LOG.warn("While to String might work it should not be done. Please change the way the list is generated to use the makeList() method", new Throwable("Warning: ToString call on ListGen"));
-		//TODO this is for development so remove
-		System.err.println("DO IT RIGHT");
 		return makeList();
 	}
 }
