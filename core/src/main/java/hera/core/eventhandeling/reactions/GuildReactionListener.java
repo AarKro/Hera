@@ -1,4 +1,4 @@
-package hera.core.events.handlers.reactions;
+package hera.core.eventhandeling.reactions;
 
 import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.ReactionAddEvent;

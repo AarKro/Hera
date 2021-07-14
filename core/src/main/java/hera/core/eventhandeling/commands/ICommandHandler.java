@@ -1,4 +1,4 @@
-package hera.core.events.handlers.commands;
+package hera.core.eventhandeling.commands;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;

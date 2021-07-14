@@ -1,7 +1,6 @@
-package hera.core.music;
+package hera.core.eventhandeling.music;
 
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
-import reactor.core.publisher.Mono;
 
 import java.util.*;
 import java.util.function.Consumer;

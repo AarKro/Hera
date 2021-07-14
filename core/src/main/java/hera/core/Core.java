@@ -12,7 +12,7 @@ import discord4j.core.event.domain.message.MessageDeleteEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
-import hera.core.events.handlers.reactions.GuildReactionListener;
+import hera.core.eventhandeling.reactions.GuildReactionListener;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
