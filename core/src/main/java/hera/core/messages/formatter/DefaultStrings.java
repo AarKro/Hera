@@ -1,16 +1,10 @@
 package hera.core.messages.formatter;
 
-public enum DefaultStrings {
+public enum DefaultStrings implements IDefaultStrings {
 	NEW_LINE("\n"),
-	BOLD("**"),
-	ITALICS1("_"),
-	ITALICS2("*"),
-	UNDERLINE("__"),
-	STRIKE_THROUGH("~~"),
-	SINGLE_LINE_CODE("`"),
-	MULTI_LINE_CODE("```"),
-	SINGLE_LINE_BLOCK(">"),
-	MULTI_LINE_BLOCK(">>>");
+	TABULATOR("\t"),
+	WHITESPACE(" ");
+
 
 
 	private final String str;

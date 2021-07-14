@@ -1,12 +1,25 @@
 package hera.core.commands;
 
+import hera.core.commands.global.Feedback;
+import hera.core.commands.global.UpdateYtToken;
+import hera.core.commands.global.Uptime;
+import hera.core.commands.global.Version;
+import hera.core.commands.guild.*;
+import hera.core.commands.miscellaneous.Flip;
+import hera.core.commands.miscellaneous.Teams;
+import hera.core.commands.miscellaneous.Vote;
+import hera.core.commands.moderation.DeleteMessages;
+import hera.core.commands.moderation.OnJoinRole;
+import hera.core.commands.moderation.Report;
+import hera.core.commands.music.*;
+import hera.core.events.handlers.commands.ICommandHandler;
 import hera.database.types.CommandName;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Commands {
-	public static final Map<CommandName, ICommand> COMMANDS = new HashMap<>();
+	public static final Map<CommandName, ICommandHandler> COMMANDS = new HashMap<>();
 
 	private Commands() {
 
