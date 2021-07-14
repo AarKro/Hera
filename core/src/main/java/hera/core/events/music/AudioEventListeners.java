@@ -1,4 +1,4 @@
-package hera.core.eventhandeling.music;
+package hera.core.events.music;
 
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
 

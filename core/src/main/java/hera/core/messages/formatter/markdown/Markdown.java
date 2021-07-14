@@ -6,8 +6,8 @@ import java.util.function.Function;
 
 public enum Markdown implements IDefaultStrings {
 	BOLD("**", MarkdownHelper::makeBold),
-	ITALICS1("_", MarkdownHelper::makeCursive1),
-	ITALICS2("*", MarkdownHelper::makeCursive2),
+	ITALICS1("_", MarkdownHelper::makeItalics1),
+	ITALICS2("*", MarkdownHelper::makeItalics2),
 	UNDERLINE("__", MarkdownHelper::underline),
 	STRIKE_THROUGH("~~", MarkdownHelper::strikeThrough),
 	SINGLE_LINE_CODE("`", MarkdownHelper::makeSingleLineCodeBlock),

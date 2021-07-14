@@ -1,4 +1,4 @@
-package hera.core.eventhandeling.reactions;
+package hera.core.events.reactions;
 
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.Guild;

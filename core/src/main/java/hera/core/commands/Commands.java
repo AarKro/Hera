@@ -12,7 +12,7 @@ import hera.core.commands.moderation.DeleteMessages;
 import hera.core.commands.moderation.OnJoinRole;
 import hera.core.commands.moderation.Report;
 import hera.core.commands.music.*;
-import hera.core.eventhandeling.commands.ICommandHandler;
+import hera.core.events.commands.ICommandHandler;
 import hera.database.types.CommandName;
 
 import java.util.HashMap;

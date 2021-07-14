@@ -1,4 +1,4 @@
-package hera.core.eventhandeling.reactions;
+package hera.core.events.reactions;
 
 import java.util.HashMap;
 

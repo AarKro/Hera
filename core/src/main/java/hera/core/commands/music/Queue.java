@@ -13,11 +13,10 @@ import discord4j.core.object.entity.channel.MessageChannel;
 import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
-import hera.core.messages.formatter.DefaultStrings;
-import hera.core.messages.formatter.list.ListGen;
 import hera.core.messages.formatter.TextFormatter;
-import hera.core.eventhandeling.reactions.GuildReactionListener;
-import hera.core.eventhandeling.reactions.ReactionHandler;
+import hera.core.messages.formatter.list.ListGen;
+import hera.core.events.reactions.GuildReactionListener;
+import hera.core.events.reactions.ReactionHandler;
 import hera.core.messages.reaction.emoji.Emoji;
 import hera.core.messages.reaction.emoji.EmojiHandler;
 import hera.core.music.HeraAudioManager;
@@ -33,6 +32,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static hera.core.messages.formatter.DefaultStrings.*;
+import static hera.core.messages.formatter.markdown.Markdown.*;
+import static hera.core.messages.formatter.markdown.MarkdownHelper.*;
+import static hera.core.messages.formatter.TextFormatter.*;
+
 
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
@@ -92,7 +97,7 @@ public class Queue {
 				.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()))
 				.addItemConverter(t -> t.getInfo().title)
 				.addItemConverter(t -> t.getInfo().uri)
-				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> TextFormatter.encaseWith(s, DefaultStrings.BOLD))
+				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> makeBold(s))
 				.setLineBreak("\n\n");
 		queueString.append(generator.makeList());
 
@@ -101,7 +106,7 @@ public class Queue {
 		int maxPage = 1;
 		if (tracks.isEmpty()) {
 			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild);
-			queueString.append(TextFormatter.encaseWith(local.getValue(), DefaultStrings.ITALICS2.getStr(), "...", " "));
+			queueString.append(TextFormatter.encaseWith(makeItalics2(local.getValue()), "...", " "));
 		} else {
 			totalDuration = tracks.stream()
 					.map(AudioTrack::getDuration)
@@ -231,12 +236,12 @@ public class Queue {
 					Matcher highlightLineMatcher = highlightLine.matcher(message.toString());
 					highlightLineMatcher.reset();
 					if (highlightLineMatcher.find()) {
-						message.insert(highlightLineMatcher.start(), DefaultStrings.BOLD);
+						message.insert(highlightLineMatcher.start(), BOLD.getStr());
 
 						highlightLineMatcher = highlightLine.matcher(message.toString());
 						highlightLineMatcher.reset();
 						highlightLineMatcher.find();
-						message.insert(highlightLineMatcher.end(), DefaultStrings.BOLD);
+						message.insert(highlightLineMatcher.end(), BOLD.getStr());
 
 					}
 

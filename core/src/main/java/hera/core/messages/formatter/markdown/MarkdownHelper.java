@@ -16,11 +16,11 @@ public class MarkdownHelper {
 		return TextFormatter.encaseWith(s, Markdown.BOLD);
 	}
 
-	public static String makeCursive1(String s) {
+	public static String makeItalics1(String s) {
 		return TextFormatter.encaseWith(s, Markdown.ITALICS1);
 	}
 
-	public static String makeCursive2(String s) {
+	public static String makeItalics2(String s) {
 		return TextFormatter.encaseWith(s, Markdown.ITALICS2);
 	}
 
