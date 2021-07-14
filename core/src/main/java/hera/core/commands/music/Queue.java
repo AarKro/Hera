@@ -17,6 +17,7 @@ import hera.core.messages.formatter.TextFormatter;
 import hera.core.messages.formatter.list.ListGen;
 import hera.core.events.reactions.GuildReactionListener;
 import hera.core.events.reactions.ReactionHandler;
+import hera.core.messages.formatter.markdown.MarkdownHelper;
 import hera.core.messages.reaction.emoji.Emoji;
 import hera.core.messages.reaction.emoji.EmojiHandler;
 import hera.core.music.HeraAudioManager;
@@ -97,7 +98,7 @@ public class Queue {
 				.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()))
 				.addItemConverter(t -> t.getInfo().title)
 				.addItemConverter(t -> t.getInfo().uri)
-				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, s -> makeBold(s))
+				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, MarkdownHelper::makeBold)
 				.setLineBreak("\n\n");
 		queueString.append(generator.makeList());
 
@@ -110,7 +111,7 @@ public class Queue {
 		} else {
 			totalDuration = tracks.stream()
 					.map(AudioTrack::getDuration)
-					.reduce((long) 0, (accumulation, track) -> accumulation + track);
+					.reduce((long) 0, Long::sum);
 			maxPage = getMaxPage(tracks);
 		}
 
@@ -230,7 +231,7 @@ public class Queue {
 						endMatcher = endBold.matcher(message.toString());
 					} while (startMatcher.find() || endMatcher.find());
 
-					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\\s\\[.{1,100}\\]\\(.{1,500}\\)";
+					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\\s\\[.{1,100}]\\(.{1,500}\\)";
 
 					Pattern highlightLine = Pattern.compile(newHighlightNumberRegex);
 					Matcher highlightLineMatcher = highlightLine.matcher(message.toString());
@@ -240,8 +241,11 @@ public class Queue {
 
 						highlightLineMatcher = highlightLine.matcher(message.toString());
 						highlightLineMatcher.reset();
-						highlightLineMatcher.find();
-						message.insert(highlightLineMatcher.end(), BOLD.getStr());
+						if (highlightLineMatcher.find()) {
+							message.insert(highlightLineMatcher.end(), BOLD.getStr());
+						} else {
+							throw new RuntimeException("Couldn't find end of regex even though start was there.");
+						}
 
 					}
 
@@ -257,10 +261,11 @@ public class Queue {
 
 	/**
 	 * Adds reactions to a message
+	 *
 	 * @param msg The message to add emojis too
 	 * @param guild The guild the message is in
-	 * @param emojis
-	 * @return
+	 * @param emojis the emojis which are to be set as reaction as unicode string
+	 * @return a {@code Mono<Void>} to subscribe to
 	 */
 	private static Mono<Void> addReactions(Message msg, Guild guild, List<String> emojis) {
 		HeraAudioManager.getScheduler(guild).setCurrentQueueMessageId(msg.getId().asLong());

@@ -170,6 +170,8 @@ public class HeraUtil {
 		List<Localisation> messages;
 		messages = STORE.localisations().forLanguageAndKey(language, key);
 
+
+
 		if (messages.isEmpty() && !language.equals("en")) {
 			LOG.debug("message for custom language '{}' not found, get standard english localisation instead", language);
 			messages = STORE.localisations().forLanguageAndKey("en", key);
