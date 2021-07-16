@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,7 @@ public class DAO<T extends IPersistenceEntity> {
 		entityManager.getTransaction().begin();
 
 		try {
-			T entity = entityManager.find(cl, id);
-			return entity;
+			return entityManager.find(cl, id);
 		} finally {
 			entityManager.getTransaction().commit();
 			entityManager.close();
@@ -56,11 +56,16 @@ public class DAO<T extends IPersistenceEntity> {
 
 		StringBuilder queryString = new StringBuilder("SELECT e FROM " + cl.getSimpleName() + " e WHERE ");
 
+
+		//make a map to save the value for each value key string that the query object uses
+		Map<String, Object> valueParser = new HashMap<>();
+
 		int i = 0;
 		String[] wheres = new String[whereClauses.size()];
 		for (String key : whereClauses.keySet()) {
 			if (whereClauses.get(key) != null) {
 				wheres[i] = "e." + key + " = :value" + i;
+				valueParser.put("value" + i, whereClauses.get(key));
 			} else {
 				wheres[i] = "e." + key + " IS NULL";
 			}
@@ -72,16 +77,10 @@ public class DAO<T extends IPersistenceEntity> {
 		try {
 			Query query = entityManager.createQuery(queryString.toString());
 
-			i = 0;
-			for (Object value : whereClauses.values()) {
-				if (value != null) {
-					query.setParameter("value" + i, value);
-				}
-				i++;
-			}
+			valueParser.forEach(query::setParameter);
 
 			@SuppressWarnings("unchecked")
-			List<T> results = query.getResultList();
+			List<T> results = (List<T>) query.getResultList();
 
 			return results;
 

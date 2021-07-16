@@ -23,6 +23,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static hera.metrics.MetricsLogger.STATS;
@@ -32,9 +33,20 @@ public class Core {
 	private static final Logger LOG = LoggerFactory.getLogger(Core.class);
 
 	public static void main(String[] args) {
+		String dbUser = null, dbPassword = null, dbUrl = null;
+		Map<String, String> env = System.getenv();
+		dbUser = env.get("HERA_DB_USER");
+		dbPassword = env.get("HERA_DB_PWD");
+		dbUrl = env.get("HERA_DB_URL");
+
+		startup(dbUser, dbPassword, dbUrl);
+	}
+
+	//TODO see if this should be even more generalized -> maybe take first db statments out and make a method to start the bot with all parameters
+	public static void startup(String dbUser, String dbPassword, String dbUrl) {
 		LOG.info("Starting Hera...");
 
-		STORE.initialise();
+		STORE.initialise(dbUser, dbPassword, dbUrl);
 
 		LOG.info("Get discord login token from store");
 		List<Token> loginTokens = STORE.tokens().forKey(TokenKey.DISCORD_LOGIN);

@@ -17,9 +17,17 @@ public class JPAUtil {
 	private static EntityManagerFactory factory;
 
 	static EntityManager getEntityManager() {
+		if (factory == null) throw new RuntimeException("Didn't initialize factory");
+		return factory.createEntityManager();
+	}
+
+	public static void initializeFactory(String user, String password, String url) {
 		if (factory == null) {
 			Map<String, String> env = System.getenv();
 			Map<String, Object> configOverrides = new HashMap<>();
+			configOverrides.put("javax.persistence.jdbc.user", user);
+			configOverrides.put("javax.persistence.jdbc.password", password);
+			configOverrides.put("javax.persistence.jdbc.url", url);
 			for (String envName : env.keySet()) {
 				switch(envName) {
 					case "HERA_DB_USER":
@@ -39,7 +47,6 @@ public class JPAUtil {
 			LOG.info("EntityManagerFactory {} created", PERSISTENCE_UNIT_NAME);
 			LOG.info("Successfully connected to DB");
 		}
-		return factory.createEntityManager();
 	}
 
 	static void shutdownFactory() {
