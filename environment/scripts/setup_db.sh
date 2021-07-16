@@ -46,7 +46,13 @@ echo "Create VIEWS from views.sql"
 $command < views.sql
 
 echo "Apply further changes"
-$command <
+
+cd updates
+for file in *; do
+  echo "Apply update $file"
+  $command < $file
+done
+cd ..
 
 echo
 echo
