@@ -57,7 +57,8 @@ public class DAO<T extends IPersistenceEntity> {
 		StringBuilder queryString = new StringBuilder("SELECT e FROM " + cl.getSimpleName() + " e WHERE ");
 
 
-		//make a map to save the value for each value key string that the query object uses
+		// make a map to save the value for each value key string that the query object uses
+		// deemed this necessary since map doesn't enforce keySet and valueSet to be ordered the same way, but no matter if this way it will always work
 		Map<String, Object> valueParser = new HashMap<>();
 
 		int i = 0;
