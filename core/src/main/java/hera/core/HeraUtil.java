@@ -33,9 +33,9 @@ import static hera.store.DataStore.STORE;
 public class HeraUtil {
 	public static final Logger LOG = LoggerFactory.getLogger(HeraUtil.class);
 
-	public static final Localisation LOCALISATION_GENERAL_ERROR = new Localisation("en", LocalisationKey.ERROR, "Seems like something went wrong... please try again");
+	/*public static final Localisation LOCALISATION_GENERAL_ERROR = new Localisation("en", LocalisationKey.ERROR, "Seems like something went wrong... please try again");
 	public static final Localisation LOCALISATION_PERMISSION_ERROR = new Localisation("en", LocalisationKey.ERROR, "You do not have the necessary permissions to use this command");
-	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
+	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");*/
 
 	private static GatewayDiscordClient client;
 
@@ -73,7 +73,7 @@ public class HeraUtil {
 		return out.getLevel() < 2 ? out : null;
 	}
 
-	public static Mono<PermissionSet> getHeraPermissionSetForGuild(Guild guild) {
+	/*public static Mono<PermissionSet> getHeraPermissionSetForGuild(Guild guild) {
 		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(Member::getBasePermissions));
 	}
 
@@ -127,7 +127,7 @@ public class HeraUtil {
 		} else {
 			return true;
 		}
-	}
+	}*/
 
 	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
 		return Mono.just(checkParamAmount(message.split(" ").length - 1, command.getParamCount(), command.getOptionalParams()))
