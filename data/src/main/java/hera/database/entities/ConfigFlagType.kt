@@ -13,7 +13,9 @@ data class ConfigFlagType(
 		@Enumerated(EnumType.STRING)
 		var name: ConfigFlagName? = null,
 
-		var isDefault: Boolean? = null
+		var isDefault: Boolean? = null,
+
+		var level: Int? = null
 ) : IPersistenceEntity {
-	constructor(name: ConfigFlagName?, isDefault: Boolean?) : this(null, name, isDefault)
+	constructor(name: ConfigFlagName?, isDefault: Boolean?, level: Int?) : this(null, name, isDefault, level)
 }

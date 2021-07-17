@@ -1,0 +1,5 @@
+ALTER TABLE `config_flag_type` ADD `level` tinyint(1);
+
+UPDATE `config_flag_type` SET `level` 1;
+
+INSERT INTO `config_flag_type` (`name`, `isDefault`, `level`) VALUES ('OWNER_IGNORES_RESTRICTIONS', 1, 2);

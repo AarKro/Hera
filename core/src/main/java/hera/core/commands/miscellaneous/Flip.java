@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Random;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class Flip {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> messageSpec.setDescription(flipCoin(guild)))).then();
@@ -26,10 +28,10 @@ public class Flip {
 		switch (i) {
 			default:
 			case 0:
-				message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_FLIP_HEADS, guild);
+				message = getLocalisation(LocalisationKey.COMMAND_FLIP_HEADS, guild);
 				break;
 			case 1:
-				message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_FLIP_TAILS, guild);
+				message = getLocalisation(LocalisationKey.COMMAND_FLIP_TAILS, guild);
 				break;
 		}
 

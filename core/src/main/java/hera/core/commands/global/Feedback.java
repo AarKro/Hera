@@ -16,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class Feedback {
@@ -26,7 +27,7 @@ public class Feedback {
 		List<Binding> bindings = STORE.bindings().forType(STORE.bindingTypes().forName(BindingName.FEEDBACK).get(0));
 		if (!bindings.isEmpty()) {
 			Binding binding = bindings.get(0);
-			return HeraUtil.getClient().getGuildById(Snowflake.of(binding.getGuild()))
+			return event.getClient().getGuildById(Snowflake.of(binding.getGuild()))
 				.flatMap(g -> g.getChannelById(Snowflake.of(binding.getSnowflake()))
 					.flatMap(chl -> {
 						String userName = member.getUsername();
@@ -34,13 +35,13 @@ public class Feedback {
 						String guildName = guild.getName();
 						Long guildId = guild.getId().asLong();
 						return MessageHandler.send((MessageChannel) chl, MessageSpec.getDefaultSpec(s ->  {
-							Localisation response = HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_RESPONSE, g);
+							Localisation response = getLocalisation(LocalisationKey.COMMAND_FEEDBACK_RESPONSE, g);
 							s.setDescription(String.format(response.getValue(), userName, userId, guildName, guildId, feedback));
 						}));
 					})
-				).flatMap(x -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_SUBMIT, guild).getValue())))).then();
+				).flatMap(x -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(s -> s.setDescription(getLocalisation(LocalisationKey.COMMAND_FEEDBACK_SUBMIT, guild).getValue())))).then();
 		} else {
-			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_FEEDBACK_ERROR_BINDING, guild).getValue()))).then();
+			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(getLocalisation(LocalisationKey.COMMAND_FEEDBACK_ERROR_BINDING, guild).getValue()))).then();
 		}
 	}
 }

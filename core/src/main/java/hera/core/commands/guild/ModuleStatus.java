@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+import static hera.core.util.PermissionUtil.checkCommandPermissions;
 import static hera.store.DataStore.STORE;
 
 public class ModuleStatus {
@@ -32,28 +34,28 @@ public class ModuleStatus {
 		String title;
 		Mono<List<CommandStatus>> commandStatusMap = makeCommandStatusMap(getCommands(), guild);
 		if (params.size() < 1) {
-			title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ALL, guild).getValue();
+			title = getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ALL, guild).getValue();
 			message = makeMessageForAllCommands(commandStatusMap, guild);
 		} else {
 			String commandName = params.get(0);
 			//TODO add localization option option so that if you write Modules igschaltä it can work / talk to erin bout it
 			if (commandName.toUpperCase().equals("ON")) {
-				title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ON, guild).getValue();
+				title = getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ON, guild).getValue();
 				message = makeMessageForFilteredByEnabledCommands(commandStatusMap, true,  guild);
 			} else if (commandName.toUpperCase().equals("OFF")) {
-				title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_OFF, guild).getValue();
+				title = getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_OFF, guild).getValue();
 				message = makeMessageForFilteredByEnabledCommands(commandStatusMap, false, guild);
 			} else if (commandName.toUpperCase().equals("GROUPED")) {
-				title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_GROUPED, guild).getValue();
+				title = getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_GROUPED, guild).getValue();
 				message = makeMessageForAllCommandsGrouped(commandStatusMap, guild);
 			} else if (commandName.toUpperCase().equals("ALL")) {
-				title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ALL, guild).getValue();
+				title = getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ALL, guild).getValue();
 				message = makeMessageForAllCommands(commandStatusMap, guild);
 			} else {
-				Command cmd = HeraUtil.getNonOwnerCommandFromName(commandName, guild);
+				Command cmd = getNonOwnerCommandFromName(commandName, guild);
 				if (cmd == null) { // input COMMAND_NAME not valid
 					return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
-						messageSpec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
+						messageSpec.setDescription(String.format(getLocalisation(LocalisationKey.ERROR_NOT_REAL_COMMAND, guild).getValue(), commandName));
 					})).then();
 				}
 				title = cmd.getName().toString().toLowerCase();
@@ -79,7 +81,7 @@ public class ModuleStatus {
 				sb.append(String.format(" - %s: %s", cmd.command.getName().name().toLowerCase(), getTextForEnabled(cmd.isEnabled, guild)));
 				if (!cmd.hasPermissions) {
 					sb.append(" _(");
-					sb.append(HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
+					sb.append(getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
 					sb.append(")_");
 				}
 				sb.append("\n");
@@ -102,7 +104,7 @@ public class ModuleStatus {
 				sb.append(cmd.command.getName().name().toLowerCase());
 				if (!cmd.hasPermissions) {
 					sb.append(" _(");
-					sb.append(HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
+					sb.append(getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
 					sb.append(")_");
 				}
 				sb.append("\n");
@@ -115,7 +117,7 @@ public class ModuleStatus {
 				sb.append(String.format(" - %s", cmd.command.getName().name().toLowerCase()));
 				if (!cmd.hasPermissions) {
 					sb.append(" _(");
-					sb.append(HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
+					sb.append(getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
 					sb.append(")_");
 				}
 				sb.append("\n");
@@ -132,7 +134,7 @@ public class ModuleStatus {
 				sb.append(String.format(" - %s", cmd.command.getName().name().toLowerCase()));
 				if (!cmd.hasPermissions) {
 					sb.append(" _(");
-					sb.append(HeraUtil.getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
+					sb.append(getLocalisation(LocalisationKey.COMMAND_HELP_MISSING_PERMISSION, guild).getValue());
 					sb.append(")_");
 				}
 				sb.append("\n");
@@ -142,7 +144,7 @@ public class ModuleStatus {
 	}
 
 	private static Mono<List<CommandStatus>> makeCommandStatusMap(List<Command> commands, Guild guild) {
-		return HeraUtil.getHeraPermissionSetForGuild(guild)
+		return getHeraPermissionSetForGuild(guild)
 			.flatMap(heraPermissions ->  {
 				List<CommandStatus> commandList = new ArrayList<>();
 
@@ -152,7 +154,7 @@ public class ModuleStatus {
 					List<ModuleSettings> moduleSettings = STORE.moduleSettings().forModule(guild.getId().asLong(), cmd);
 					status.command = cmd;
 					status.isEnabled = moduleSettings.isEmpty() ? true : moduleSettings.get(0).isEnabled();
-					status.hasPermissions = HeraUtil.checkCommandPermissions(cmd, heraPermissions);
+					status.hasPermissions = checkCommandPermissions(cmd, heraPermissions);
 
 					commandList.add(status);
 				}

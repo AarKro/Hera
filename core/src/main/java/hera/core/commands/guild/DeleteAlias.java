@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class DeleteAlias {
@@ -23,12 +24,12 @@ public class DeleteAlias {
         if (!aliasToDelete.isEmpty()) {
             STORE.aliases().delete(aliasToDelete.get(0).getId());
             return MessageHandler.send(channel, MessageSpec.getConfirmationSpec(spec -> {
-                spec.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.COMMAND_DELETEALIAS, guild).getValue(), params.get(0)));
+                spec.setDescription(String.format(getLocalisation(LocalisationKey.COMMAND_DELETEALIAS, guild).getValue(), params.get(0)));
             })).then();
         } else {
             LocalisationKey key = found.size() > aliasToDelete.size() ? LocalisationKey.COMMAND_DELETEALIAS_ERROR_GLOBAL : LocalisationKey.COMMAND_DELETEALIAS_ERROR;
             return MessageHandler.send(channel, MessageSpec.getErrorSpec(spec -> {
-                spec.setDescription(String.format(HeraUtil.getLocalisation(key, guild).getValue(), params.get(0)));
+                spec.setDescription(String.format(getLocalisation(key, guild).getValue(), params.get(0)));
             })).then();
         }
     }

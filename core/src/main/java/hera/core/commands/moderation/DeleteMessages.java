@@ -12,13 +12,15 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.LOCALISATION_PARAM_ERROR;
+
 public class DeleteMessages {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		try {
 			int deleteAmount = Integer.parseInt(params.get(0));
 			if (deleteAmount < 1) {
 				return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
-					messageSpec.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
+					messageSpec.setDescription(LOCALISATION_PARAM_ERROR.getValue());
 				})).then();
 			}
 			return channel.getLastMessage()
@@ -30,7 +32,7 @@ public class DeleteMessages {
 					).then();
 		} catch (NumberFormatException e) {
 			return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
-				messageSpec.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
+				messageSpec.setDescription(LOCALISATION_PARAM_ERROR.getValue());
 			})).then();
 		}
 	}

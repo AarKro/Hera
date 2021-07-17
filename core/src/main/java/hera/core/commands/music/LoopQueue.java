@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class LoopQueue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		HeraAudioManager.getScheduler(guild).toggleLoopQueue();
@@ -24,8 +26,8 @@ public class LoopQueue {
 		} else {
 			enabledDisabled = LocalisationKey.COMMON_DISABLED;
 		}
-		Localisation loopQueue = HeraUtil.getLocalisation(LocalisationKey.COMMAND_LOOPQUEUE, guild);
-		Localisation state = HeraUtil.getLocalisation(enabledDisabled, guild);
+		Localisation loopQueue = getLocalisation(LocalisationKey.COMMAND_LOOPQUEUE, guild);
+		Localisation state = getLocalisation(enabledDisabled, guild);
 
 		return MessageHandler.send(channel, MessageSpec.getConfirmationSpec(messageSpec -> {
 			messageSpec.setDescription(String.format(loopQueue.getValue(), state.getValue()));

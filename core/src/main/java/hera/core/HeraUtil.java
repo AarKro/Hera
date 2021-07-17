@@ -19,11 +19,10 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +36,9 @@ public class HeraUtil {
 	public static final Localisation LOCALISATION_PERMISSION_ERROR = new Localisation("en", LocalisationKey.ERROR, "You do not have the necessary permissions to use this command");
 	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");*/
 
-	private static GatewayDiscordClient client;
+	// private static GatewayDiscordClient client;
 
-	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
+	/*public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
 		// message is a complete discord command. (prefix + command + parameters)
 		String commandName = message.split(" ")[0].substring(prefix.length());
 		List<Command> commands = STORE.commands().forName(commandName);
@@ -71,7 +70,7 @@ public class HeraUtil {
 	public static Command getNonOwnerCommandFromName(String commandName, Guild guild) {
 		Command out = getCommandFromName(commandName, guild);
 		return out.getLevel() < 2 ? out : null;
-	}
+	}*/
 
 	/*public static Mono<PermissionSet> getHeraPermissionSetForGuild(Guild guild) {
 		return client.getSelf().flatMap(user -> user.asMember(guild.getId()).flatMap(Member::getBasePermissions));
@@ -129,7 +128,7 @@ public class HeraUtil {
 		}
 	}*/
 
-	public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
+	/*public static Mono<Boolean> checkParameters(String message, Command command, MessageChannel channel) {
 		return Mono.just(checkParamAmount(message.split(" ").length - 1, command.getParamCount(), command.getOptionalParams()))
 		.flatMap(valid -> {
 			if (valid) return Mono.just(true);
@@ -158,9 +157,9 @@ public class HeraUtil {
 		}
 
 		return params;
-	}
+	}*/
 
-	public static Localisation getLocalisation(LocalisationKey key, Guild guild) {
+	/*public static Localisation getLocalisation(LocalisationKey key, Guild guild) {
 		List<GuildSetting> settings = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.LANGUAGE);
 
 		String language;
@@ -187,48 +186,34 @@ public class HeraUtil {
 		} else {
 			return messages.get(0);
 		}
-	}
+	}*/
 
-	public static Flux<Member> getDiscordUser(Guild guild, String user) {
+	/*public static Flux<Member> getDiscordUser(Guild guild, String user) {
 		return guild.getMembers().filter(member -> member.getDisplayName().toUpperCase().equals(user.toUpperCase()));
 	}
 
 	public static Flux<Member> getDiscordUser(Guild guild, Long user) {
 		return guild.getMembers().filter(member -> user.equals(member.getId().asLong()));
+	}*/
+
+	public static String getFormattedTime(long millis) {
+		Duration dur = Duration.of(millis, ChronoUnit.MILLIS);
+		String formatted = DateTimeFormatter.ofPattern("u'y' D'd' H'h' m'm' s's'").format(dur.addTo(LocalDateTime.of(0,1,1,0,0)));
+		System.out.println(formatted);
+		String done =  formatted.replaceAll("(?<!\\d{1,100})0+\\w\\s?", ""); // removes every unit that is 0
+		return done.isEmpty() ? "0s" : done;
 	}
 
-	//TODO make this good
-	public static String getFormattedTime(long time) {
-		long days = time / 1000 / 60 / 60 / 24;
-		long hours = time / 1000 / 60 / 60 - (days * 24);
-		long minutes = time / 1000 / 60 - (hours * 60 + (days * 24 * 60));
-		long seconds = time / 1000 - (minutes * 60 + (hours * 60 * 60 + (days * 24 * 60 * 60)));
 
-		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return "0s";
-
-		String formatted = String.format("%sd %sh %sm %ss", days, hours, minutes, seconds);
-		String[] parts = formatted.split(" ");
-
-		StringBuilder builder = new StringBuilder();
-		for (String part : parts) {
-			if (builder.length() > 0 || part.charAt(0) != '0') {
-				builder.append(part);
-				builder.append(" ");
-			}
-		}
-
-		return builder.toString().trim();
-	}
-
-	public static void setClient(GatewayDiscordClient _client) {
+	/*public static void setClient(GatewayDiscordClient _client) {
 		client = _client;
 	}
 
 	public static GatewayDiscordClient getClient() {
 		return client;
-	}
+	}*/
 
-	public static Mono<Boolean> hasRightsToSetRole(Guild guild, Role role) {
+	/*public static Mono<Boolean> hasRightsToSetRole(Guild guild, Role role) {
 		return hasSetRoleRights(guild)
 				.flatMap(hasSetRole -> hasHigherRole(guild, role)
 						.flatMap(hasHigherRole -> Mono.just(hasSetRole && hasHigherRole))
@@ -250,9 +235,9 @@ public class HeraUtil {
 								.hasElement()
 						)
 				);
-	}
+	}*/
 
-	public static boolean isUserMention(String string) {
+	/*public static boolean isUserMention(String string) {
 		return string.matches("<@!\\d{1,50}>");
 	}
 
@@ -307,5 +292,5 @@ public class HeraUtil {
 			});
 		}
 		return Mono.empty();
-	}
+	}*/
 }

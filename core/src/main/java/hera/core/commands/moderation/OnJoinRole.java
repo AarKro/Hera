@@ -17,12 +17,15 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static hera.store.DataStore.STORE;
+import static hera.core.util.LocalisationUtil.*;
+import static hera.core.util.PermissionUtil.*;
+import static hera.core.util.DiscordUtil.*;
 
 public class OnJoinRole {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		Mono<Role> role = HeraUtil.getRoleFromMention(guild, params.get(0));
+		Mono<Role> role = getRoleFromMention(guild, params.get(0));
 		return role.flatMap(r ->
-				HeraUtil.hasRightsToSetRole(guild, r).flatMap(b -> {
+				canHeraSetRole(guild, r).flatMap(b -> {
 					if(b) {
 						List<GuildSetting> gsList = STORE.guildSettings().forGuildAndKey(guild.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE);
 
@@ -34,12 +37,12 @@ public class OnJoinRole {
 							STORE.guildSettings().update(gs);
 						}
 
-						Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE, guild);
+						Localisation message = getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE, guild);
 						return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 							messageSpec.setDescription(String.format(message.getValue(), r.getMention()));
 						})).then();
 					}
-					Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE_ERROR, guild);
+					Localisation message = getLocalisation(LocalisationKey.COMMAND_ON_JOIN_ROLE_ERROR, guild);
 					return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
 						messageSpec.setDescription(String.format(message.getValue(), r.getMention()));
 					})).then();

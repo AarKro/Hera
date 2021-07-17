@@ -16,6 +16,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.DiscordUtil.getChannelFromMention;
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class Bind {
@@ -25,7 +27,7 @@ public class Bind {
 		try {
 			name = BindingName.valueOf(params.get(0).toUpperCase());
 		} catch (IllegalArgumentException exception) {
-			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
+			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
 		}
 		List<BindingType> bTypes = STORE.bindingTypes().forName(name);
 		if (!bTypes.isEmpty()) {
@@ -36,7 +38,7 @@ public class Bind {
 			    if (params.size() < 2) {
 			        cnl = Mono.just((GuildChannel) channel);
                 } else {
-                    cnl = HeraUtil.getChannelFromMention(guild, params.get(1));
+                    cnl = getChannelFromMention(guild, params.get(1));
                 }
 
 				return cnl.flatMap(c -> {
@@ -60,10 +62,10 @@ public class Bind {
 					return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(bindingType.getMessage().getValue()))).then();
 				});
 			} else {
-				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
+				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
 			}
 		} else {
-			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
+			return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(getLocalisation(LocalisationKey.BINDING_ERROR_EXIST, guild).getValue()))).then();
 		}
 	}
 

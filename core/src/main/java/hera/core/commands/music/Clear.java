@@ -14,10 +14,12 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class Clear {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		HeraAudioManager.getScheduler(guild).clearQueue();
-		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_CLEAR, guild);
+		Localisation local = getLocalisation(LocalisationKey.COMMAND_CLEAR, guild);
 		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> messageSpec.setDescription(local.getValue()))).then();
 	}
 }

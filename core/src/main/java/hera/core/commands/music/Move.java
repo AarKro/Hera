@@ -9,11 +9,14 @@ import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.core.music.HeraAudioManager;
+import hera.core.util.LocalisationUtil;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
+import static hera.core.util.LocalisationUtil.getLocalisation;
 
 public class Move {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
@@ -23,7 +26,7 @@ public class Move {
 
 			AudioTrack track = HeraAudioManager.getScheduler(guild).moveTrack(trackIndex, destination);
 			if (track != null) {
-				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MOVE, guild);
+				Localisation local = getLocalisation(LocalisationKey.COMMAND_MOVE, guild);
 				String message = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
 						+ track.getInfo().title + "](" + track.getInfo().uri + ")";
 
@@ -32,14 +35,14 @@ public class Move {
 					messageSpec.setDescription(message);
 				})).then();
 			} else {
-				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_MOVE_ERROR, guild);
+				Localisation local = getLocalisation(LocalisationKey.COMMAND_MOVE_ERROR, guild);
 				return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
 					messageSpec.setDescription(String.format(local.getValue(), trackIndex + 1, destination + 1));
 				})).then();
 			}
 		} catch (NumberFormatException e) {
 			return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
-				messageSpec.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
+				messageSpec.setDescription(LocalisationUtil.LOCALISATION_PARAM_ERROR.getValue());
 			})).then();
 		}
 	}

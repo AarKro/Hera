@@ -15,9 +15,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class Join {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_JOIN, guild);
+		Localisation local = getLocalisation(LocalisationKey.COMMAND_JOIN, guild);
 		return member.getVoiceState()
 				.flatMap(VoiceState::getChannel)
 				.flatMap(vChannel -> vChannel.join(spec -> spec.setProvider(HeraAudioManager.getProvider(guild))))

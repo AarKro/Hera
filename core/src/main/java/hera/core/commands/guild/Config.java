@@ -17,14 +17,14 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static hera.core.HeraUtil.LOG;
 import static hera.store.DataStore.STORE;
+import static hera.core.util.LocalisationUtil.*;
 
 public class Config {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_CONFIG, guild);
-		Localisation localEnabled = HeraUtil.getLocalisation(LocalisationKey.COMMON_ENABLED, guild);
-		Localisation localDisabled = HeraUtil.getLocalisation(LocalisationKey.COMMON_DISABLED, guild);
+		Localisation local = getLocalisation(LocalisationKey.COMMAND_CONFIG, guild);
+		Localisation localEnabled = getLocalisation(LocalisationKey.COMMON_ENABLED, guild);
+		Localisation localDisabled = getLocalisation(LocalisationKey.COMMON_DISABLED, guild);
 
 		if (params.size() == 0) {
 			// list all config flags and their current value
@@ -60,7 +60,7 @@ public class Config {
 			} catch (Exception exception) {
 				LOG.debug("Stacktrace", exception);
 				return MessageHandler.send(channel, MessageSpec.getErrorSpec(spec -> {
-					Localisation errorLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_CONFIG_ERROR, guild);
+					Localisation errorLocal = getLocalisation(LocalisationKey.COMMAND_CONFIG_ERROR, guild);
 					spec.setDescription(String.format(errorLocal.getValue(), params.get(0)));
 				})).then();
 			}
