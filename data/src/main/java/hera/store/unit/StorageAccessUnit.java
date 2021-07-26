@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 
 public class StorageAccessUnit<T extends IPersistenceEntity> {
 	private static final Logger LOG = LoggerFactory.getLogger(StorageAccessUnit.class);
+	public static final int RETRY_TIMEOUT = 500;
 
 	protected DAO<T> dao;
 
@@ -29,12 +30,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity> {
 
 	public List<T> getAll() {
 		try {
-			Object object = retryOnFail(() -> dao.getAll());
-
-			@SuppressWarnings("unchecked")
-			List<T> result = object != null ? (List<T>) object : null;
-
-			return result;
+			return retryOnFail(() -> dao.getAll());
 		} catch(FailedAfterRetriesException e) {
 			LOG.error("Error while trying to get entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
@@ -45,12 +41,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity> {
 
 	public T get(Long id) {
 		try {
-			Object object = retryOnFail(() -> dao.get(id));
-
-			@SuppressWarnings("unchecked")
-			T result = object != null ? (T) object : null;
-
-			return result;
+			return retryOnFail(() -> dao.get(id));
 		} catch(FailedAfterRetriesException e) {
 			LOG.error("Error while trying to get entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
@@ -61,12 +52,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity> {
 
 	public List<T> get(Map<String, Object> whereClauses) {
 		try {
-			Object object = retryOnFail(() -> dao.get(whereClauses));
-
-			@SuppressWarnings("unchecked")
-			List<T> result = object != null ? (List<T>) object : null;
-
-			return result;
+			return retryOnFail(() -> dao.get(whereClauses));
 		} catch(FailedAfterRetriesException e) {
 			LOG.error("Error while trying to get entity of type {}", cl.getSimpleName());
 			LOG.debug("Stacktrace:", e);
@@ -121,7 +107,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity> {
 	}
 
 	// Some functions return T, others return List<T>. That's why this one returns Object
-	protected Object retryOnFail(Callable<Object> callable) {
+	protected <K> K retryOnFail(Callable<K> callable) {
 		for(int i = 0; i < 3; i++) {
 			try {
 				// We want to have a log message for when we retry after the modification failed
@@ -132,7 +118,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity> {
 				LOG.error("Error during DB modification, retry count: {}", i);
 
 				try {
-					Thread.sleep(500);
+					Thread.sleep(RETRY_TIMEOUT);
 				} catch (InterruptedException interruptedException) {
 					LOG.debug("Stacktrace:", interruptedException);
 					LOG.error("Error while trying to delay the retry function call on failed DB modification");
@@ -155,7 +141,7 @@ public class StorageAccessUnit<T extends IPersistenceEntity> {
 				LOG.error("Error during DB modification, retry count: {}", i);
 
 				try {
-					Thread.sleep(500);
+					Thread.sleep(RETRY_TIMEOUT);
 				} catch (InterruptedException interruptedException) {
 					LOG.debug("Stacktrace:", interruptedException);
 					LOG.error("Error while trying to delay the retry function call on failed DB modification");
