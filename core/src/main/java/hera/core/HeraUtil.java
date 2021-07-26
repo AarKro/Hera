@@ -19,6 +19,11 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalField;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +56,7 @@ public class HeraUtil {
 	}
 
 	public static Command getCommandFromName(String commandName, Guild guild) {
-		List<Command> commands =  STORE.commands().forName(commandName).stream().collect(Collectors.toList());
+		List<Command> commands =  STORE.commands().forName(commandName);
 		if (commands.isEmpty()) {
 			List<Alias> aliases = STORE.aliases().forGuildAndAlias(guild.getId().asLong(), commandName);
 			if (!aliases.isEmpty()) {
@@ -165,6 +170,8 @@ public class HeraUtil {
 		List<Localisation> messages;
 		messages = STORE.localisations().forLanguageAndKey(language, key);
 
+
+
 		if (messages.isEmpty() && !language.equals("en")) {
 			LOG.debug("message for custom language '{}' not found, get standard english localisation instead", language);
 			messages = STORE.localisations().forLanguageAndKey("en", key);
@@ -190,13 +197,14 @@ public class HeraUtil {
 		return guild.getMembers().filter(member -> user.equals(member.getId().asLong()));
 	}
 
+	//TODO make this good
 	public static String getFormattedTime(long time) {
 		long days = time / 1000 / 60 / 60 / 24;
 		long hours = time / 1000 / 60 / 60 - (days * 24);
 		long minutes = time / 1000 / 60 - (hours * 60 + (days * 24 * 60));
 		long seconds = time / 1000 - (minutes * 60 + (hours * 60 * 60 + (days * 24 * 60 * 60)));
 
-		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return "0";
+		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return "0s";
 
 		String formatted = String.format("%sd %sh %sm %ss", days, hours, minutes, seconds);
 		String[] parts = formatted.split(" ");

@@ -1,6 +1,7 @@
 package hera.core.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -9,16 +10,20 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.channel.MessageChannel;
 import hera.core.HeraUtil;
+import hera.core.events.music.AudioEventListener;
+import hera.core.events.music.AudioEventListeners;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.*;
 import hera.database.types.BindingName;
 import hera.database.types.ConfigFlagName;
 import hera.database.types.LocalisationKey;
+import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.Duration;
+import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 import static hera.store.DataStore.STORE;
 
@@ -33,6 +38,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	private long currentQueueMessageId;
 
 	private Guild guild;
+
+	HashMap<Class<? extends AudioEvent>, AudioEventListeners> eventListeners = new HashMap<>();
 
 	TrackScheduler(Guild guild) {
 		this.queue = new ArrayList<>();
@@ -134,7 +141,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
 		List<BindingType> bType = STORE.bindingTypes().forName(BindingName.MUSIC);
 		List<Binding> bindings = STORE.bindings().forGuildAndType(guild.getId().asLong(), bType.get(0));
-		// Only announce when there is a music channle binding
+		// Only announce when there is a music channel binding
 		if (!bindings.isEmpty()) {
 			List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.ANNOUNCE_NEXT_SONG);
 			List<ConfigFlag> flags = STORE.configFlags().forGuildAndType(guild.getId().asLong(), type.get(0));
@@ -188,6 +195,50 @@ public class TrackScheduler extends AudioEventAdapter {
 	@Override
 	public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
 		// Audio track has been unable to provide us any audio, might want to just start a new track
+	}
+
+	@Override
+	public void onEvent(AudioEvent event) {
+		super.onEvent(event);
+
+		if (!eventListeners.isEmpty() && eventListeners.containsKey(event.getClass())) {
+			//remove all listeners that became invalid since last time, execute all the remaining ones
+			eventListeners.get(event.getClass()).executeValidRemoveInvalid(event);
+		}
+	}
+
+	//TODO check which of these methods make sense, destructionCondition ones can prob be removed and should be handled by this one by construction the listener prior to applying it.
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, AudioEventListener listener) {
+		if (eventListeners.containsKey(event)) {
+			eventListeners.get(event).add(listener);
+		} else {
+			eventListeners.put(event, new AudioEventListeners(listener));
+		}
+		return listener;
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler) {
+		return subscribeEvent(event, new AudioEventListener(handler));
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, Duration lifetime) {
+		return subscribeEvent(event, new AudioEventListener(handler, lifetime));
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, BiPredicate<AudioEvent, AudioEventListener> destructionCondition) {
+		return subscribeEvent(event, new AudioEventListener(handler, destructionCondition));
+	}
+
+	public AudioEventListener subscribeEvent(Class<? extends AudioEvent> event, Function<AudioEvent, Mono<Void>> handler, Duration lifetime, BiPredicate<AudioEvent, AudioEventListener> destructionCondition) {
+		return subscribeEvent(event, new AudioEventListener(handler, lifetime, destructionCondition));
+	}
+
+	public boolean unsubscribe(Class<? extends  AudioEvent> event, AudioEventListener listener) {
+		if (eventListeners.containsKey(event)) {
+			eventListeners.get(event).remove(listener);
+			return true;
+		}
+		return false;
 	}
 
 	public List<AudioTrack> getQueue() {

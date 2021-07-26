@@ -8,11 +8,11 @@ import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.event.domain.message.MessageDeleteEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
-import hera.core.commands.Queue;
-import hera.core.commands.Vote;
+import hera.core.events.reactions.GuildReactionListener;
 import hera.core.music.HeraAudioManager;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
@@ -23,6 +23,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static hera.metrics.MetricsLogger.STATS;
@@ -61,6 +62,7 @@ public class Core {
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(gateway);
 		hci.startupHCI();
 
+
 		// on guild join -> Add guild to store if we don't have it already
 		gateway.on(GuildCreateEvent.class).subscribe(event-> {
 			STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
@@ -84,7 +86,6 @@ public class Core {
 
 
 		// on guild join -> Add members of guild to store if we don't have them already
-
 		gateway.on(GuildCreateEvent.class)
 				.subscribe(event -> event.getGuild().getMembers()
 						.flatMap(member -> {
@@ -147,35 +148,38 @@ public class Core {
 		gateway.on(ReactionAddEvent.class)
 				.flatMap(event -> Mono.justOrEmpty(gateway.getSelfId())
 						.filter(selfId -> event.getUserId().asLong() != selfId.asLong())
-						.flatMap(selfId -> event.getGuild()
-								.filter(guild -> event.getMessageId().asLong() == HeraAudioManager.getScheduler(guild).getCurrentQueueMessageId())
-								.flatMap(guild -> event.getMessage()
-										.flatMap(message -> Mono.justOrEmpty(message.getEmbeds().get(0).getFooter())
-												.flatMap(footer -> Mono.justOrEmpty(event.getEmoji().asUnicodeEmoji())
-														.flatMap(unicode -> Queue.executeFromReaction(event, message, footer.getText(), unicode.getRaw(), guild))
-														.then()
-												)
-										)
-								)
-								.switchIfEmpty(Mono.just(Vote.ACTIVE_VOTE_MESSAGE_IDS)
-										.filter(activeVotes -> activeVotes.containsKey(event.getMessageId().asLong()))
-										.flatMap(activeVotes -> event.getGuild()
-												.flatMap(guild -> event.getChannel()
-														.flatMap(channel -> event.getUser()
-																.flatMap(user -> user.asMember(guild.getId())
-																		.flatMap(member -> event.getMessage()
-																				.flatMap(message -> Mono.justOrEmpty(message.getEmbeds().get(0).getDescription())
-																						.flatMap(description -> Mono.justOrEmpty(event.getEmoji().asUnicodeEmoji())
-																								.flatMap(unicode -> Vote.executeFromReaction(event, channel, message, description, unicode.getRaw(), member, guild))
-																								.then()
-																						)
-																				)
-																		)
-																)
+						.flatMap(selfId -> event.getGuild().filter(guild -> !event.getMember().flatMap(m -> Optional.of(m.getId())).orElse(selfId).equals(selfId))
+								.filter(guild -> GuildReactionListener.hasGuildListener(guild)) // checks if there is any listeners for reactions
+								.flatMap(guild -> event.getChannel()
+										.flatMap(channel -> event.getUser() // gets user
+												.flatMap(user -> user.asMember(guild.getId()) //converts user to member
+														.flatMap(member -> event.getMessage()
+																.flatMap(message -> {
+																		final Snowflake messageId = event.getMessageId();
+																		String emojiUnicode = event.getEmoji().asUnicodeEmoji().get().getRaw();
+																		return GuildReactionListener.getGuildListener(guild).handleReaction(event, channel, message, messageId, emojiUnicode, member, guild);
+																})
 														)
 												)
 										)
 								)
+						)
+				).subscribe();
+
+		// message delete stream
+		gateway.on(MessageDeleteEvent.class)
+				.flatMap(event -> event.getGuild()
+						.flatMap(guild ->
+								{
+									Snowflake messageId = event.getMessageId();
+									// remove listeners for messages that have been deleted
+									if (GuildReactionListener.hasGuildListener(guild) && GuildReactionListener.getGuildListener(guild).containsKey(messageId)) {
+										GuildReactionListener.getGuildListener(guild).removeListener(messageId);
+									}
+
+									return Mono.empty();
+								}
+
 						)
 				)
 				.subscribe();
@@ -216,6 +220,7 @@ public class Core {
 		LOG.info("...Hera is ready to use as soon as connection to gateway is established");
 
 		// login
-		client.login().block();
+		gateway.onDisconnect().block();
+		//client.login().block();
 	}
 }
