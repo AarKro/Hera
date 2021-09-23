@@ -22,6 +22,7 @@ import java.util.List;
 
 import static hera.core.util.LocalisationUtil.*;
 
+//TODO scrap this class and implement it in the new queue functionality (revenant from rebase)
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		// show the queue starting from the page where the currently playing song is in

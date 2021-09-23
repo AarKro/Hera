@@ -17,6 +17,7 @@ import java.util.List;
 import static hera.core.util.LocalisationUtil.*;
 import static hera.store.DataStore.STORE;
 
+//TODO scrap this class and implement it in the new alias functionality (revenant from rebase)
 public class Alias {
     public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
         if (params.size() == 2) {
