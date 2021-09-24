@@ -34,12 +34,13 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static hera.core.util.LocalisationUtil.*;
 import static hera.core.messages.formatter.DefaultStrings.*;
 import static hera.core.messages.formatter.markdown.Markdown.*;
 import static hera.core.messages.formatter.markdown.MarkdownHelper.*;
 import static hera.core.messages.formatter.TextFormatter.*;
 
-
+//TODO wtf was i thinking redo this logic, i hate my brain
 public class Queue {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		// show the queue starting from the page where the currently playing song is in
@@ -53,10 +54,21 @@ public class Queue {
 		return writeMessage(currentPageIndex, channel, emojis, guild);
 	}
 
-	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel channel, Message message, String unicode, Member member, Guild guild, ReactionHandler.MetaData metaData) {
-		String footer = message.getEmbeds().get(0).getFooter().get().getText();
+	private static Integer getPageIndexFromQueueMessage(Message originalMessage) {
+		Embed embed;
+		if (originalMessage.getEmbeds().size() > 0) {
+			embed = originalMessage.getEmbeds().get(0);
+		} else {
+			throw new RuntimeException("Queue message isn't embedded");
+		}
+		String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
 		int currentPageIndex = Integer.parseInt(footer.substring(footer.indexOf("Page: ") + 6, footer.indexOf(" of")));
 		currentPageIndex--;
+		return currentPageIndex;
+	}
+
+	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel messageChannel, Message originalMessage, String unicode, Guild guild, ReactionHandler.MetaData metaData) {
+		int currentPageIndex = getPageIndexFromQueueMessage(originalMessage);
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
 
@@ -73,11 +85,11 @@ public class Queue {
 
 		List<String> emojis = getEmojis(currentPageIndex, maxPage);
 
-		return editMessageToChangePage(currentPageIndex, message, emojis, guild);
+		return editMessageToChangePage(currentPageIndex, originalMessage, emojis, guild);
 	}
 
 	private static Mono<String[]> getQueueString(int page, Guild guild) {
-		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_TITLE, guild);
+		Localisation title = getLocalisation(LocalisationKey.COMMAND_QUEUE_TITLE, guild);
 
 		TrackScheduler scheduler = HeraAudioManager.getScheduler(guild);
 		List<AudioTrack> tracks = scheduler.getQueue();
@@ -106,7 +118,7 @@ public class Queue {
 		long totalDuration = 0;
 		int maxPage = 1;
 		if (tracks.isEmpty()) {
-			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild);
+			Localisation local = getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild);
 			queueString.append(TextFormatter.encaseWith(makeItalics2(local.getValue()), "...", " "));
 		} else {
 			totalDuration = tracks.stream()
@@ -115,15 +127,15 @@ public class Queue {
 			maxPage = getMaxPage(tracks);
 		}
 
-		LocalisationKey enabledDisabled;
+		LocalisationKey loopQLocalKey;
 		if (scheduler.isLoopQueue()) {
-			enabledDisabled = LocalisationKey.COMMON_ENABLED;
+			loopQLocalKey = LocalisationKey.COMMON_ENABLED;
 		} else {
-			enabledDisabled = LocalisationKey.COMMON_DISABLED;
+			loopQLocalKey = LocalisationKey.COMMON_DISABLED;
 		}
 
-		Localisation loopQueue = HeraUtil.getLocalisation(enabledDisabled, guild);
-		Localisation footerLocal = HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_FOOTER, guild);
+		Localisation loopQueue = getLocalisation(loopQLocalKey, guild);
+		Localisation footerLocal = getLocalisation(LocalisationKey.COMMAND_QUEUE_FOOTER, guild);
 		String footer = String.format(footerLocal.getValue(), page + 1, maxPage, tracks.size(), HeraUtil.getFormattedTime(totalDuration), loopQueue.getValue());
 
 		return Mono.just(new String[]{title.getValue(), queueString.toString(), footer});
@@ -143,6 +155,7 @@ public class Queue {
 		return emojis;
 	}
 
+	//TODO similar to editMessage... i don't see the reason that this handels the generation of the output text
 	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
 		return getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -166,6 +179,9 @@ public class Queue {
 				.then();
 	}
 
+
+
+	//TODO make this an edit queue method, there is no reason to genereate the message content here
 	private static Mono<Void> editMessageToChangePage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
 		return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -189,8 +205,10 @@ public class Queue {
 	private static Mono<Void> changeHighlightedTrack(Mono<MessageChannel> channel, Snowflake messageId, Guild guild, int newIndex) {
 		return channel.flatMap(c ->
 				c.getMessageById(messageId).flatMap(editableMessage -> {
-					if (editableMessage.getContent().contains(HeraUtil.getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue()))
+					if (editableMessage.getContent().contains(getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue()))
 						return Mono.empty();
+
+
 
 
 					Embed embed;
@@ -199,8 +217,7 @@ public class Queue {
 					} else {
 						throw new RuntimeException("Queue message isn't embedded");
 					}
-
-
+					/*
 					//get the current context string
 					String content = "";
 					content = embed.getDescription().orElse("");
@@ -247,10 +264,17 @@ public class Queue {
 							throw new RuntimeException("Couldn't find end of regex even though start was there.");
 						}
 
-					}
+					}*/
 
 					String title = embed.getTitle().orElse("");
 					String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
+
+					//TODO test. i think this does the same as all the commented out code but more efficiently, not confirmed though
+					int currentPageIndex = Integer.parseInt(footer.substring(footer.indexOf("Page: ") + 6, footer.indexOf(" of")));
+					currentPageIndex--;
+
+					Mono<String[]> message = getQueueString(currentPageIndex, guild);
+
 					return MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
 						messageSpec.setTitle(title);
 						messageSpec.setDescription(message.toString());

@@ -21,6 +21,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class Vote {
 
 	private static final List<String> VOTE_EMOJIS = Arrays.asList(Emoji.THUMBS_UP, Emoji.THUMBS_DOWN, Emoji.STOP_SHIELD);
@@ -29,8 +31,8 @@ public class Vote {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		String voteMessage = String.join(" ", params);
 
-		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_START_TITLE, guild);
-		Localisation footer = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_START_FOOTER, guild);
+		Localisation title = getLocalisation(LocalisationKey.COMMAND_VOTE_START_TITLE, guild);
+		Localisation footer = getLocalisation(LocalisationKey.COMMAND_VOTE_START_FOOTER, guild);
 
 		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 				messageSpec.setTitle(String.format(title.getValue(), member.getDisplayName()));
@@ -69,8 +71,8 @@ public class Vote {
 
 			GuildReactionListener.removeListener(guild, message.getId());
 
-			Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_END_TITLE, guild);
-			Localisation desc = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VOTE_END_DESC, guild);
+			Localisation title = getLocalisation(LocalisationKey.COMMAND_VOTE_END_TITLE, guild);
+			Localisation desc = getLocalisation(LocalisationKey.COMMAND_VOTE_END_DESC, guild);
 
 			String messageContent = message.getEmbeds().get(0).getDescription().get();
 
