@@ -16,7 +16,6 @@ import static hera.store.DataStore.STORE;
 
 public class Leave {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
-		HeraAudioManager.dcFromVc(guild);
 
 		// clear queue if config flag is on
 		List<ConfigFlagType> type = STORE.configFlagTypes().forName(ConfigFlagName.CLEAR_QUEUE_ON_LEAVE);
@@ -25,6 +24,7 @@ public class Leave {
 			HeraAudioManager.getScheduler(guild).clearQueue();
 		}
 
-		return Mono.empty();
+		return HeraAudioManager.dcFromVc(guild);
+
 	}
 }

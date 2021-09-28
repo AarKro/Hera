@@ -107,17 +107,6 @@ public class Queue {
 		List<AudioTrack> pageTracks = tracks.subList(pageStart, pageEnd);
 
 		// makes the queue List. format is : ( %index: %author \n [%title](%link) )
-		/*ListGen<AudioTrack> generator = new ListGen<AudioTrack>();
-		generator.setNodes("%s: %s | `%s`\n[%s](%s)");
-		generator.setItems(pageTracks);
-		generator.addIndexConverter(i -> String.valueOf(i + pageStart + 1));
-		generator.addItemConverter(t -> t.getInfo().author);
-		generator.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()));
-		generator.addItemConverter(t -> t.getInfo().title);
-		generator.addItemConverter(t -> t.getInfo().uri);
-		generator.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, MarkdownHelper::makeBold);
-		generator.setLineBreak("\n\n");
-		queueString.append(generator.makeList());*/
 		ListMaker<AudioTrack> lm = new ListMaker<>(pageTracks, "%d: %s | `%s`\n[%s](%s)", (index, track) -> {
 			AudioTrackInfo info = track.getInfo();
 			return ListMaker.argumentMaker(index+1, info.author, getFormattedTime(track.getDuration()), info.title, info.uri);
@@ -229,55 +218,6 @@ public class Queue {
 						throw new RuntimeException("Queue message isn't embedded");
 					}
 
-					/*
-					//get the current context string
-					String content = "";
-					content = embed.getDescription().orElse("");
-					if (content.isEmpty()) return Mono.empty();
-					StringBuilder message = new StringBuilder();
-					message.append(content);
-
-					//TODO look at numbers, maybe change
-					String findStartBoldStars = "\\*\\*(?=[0-9]{1,10}: .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`)";
-					String findEndBoldStars = "(?<=\\[.{1,100}\\]\\(.{1,500}\\))\\*\\*";
-
-					Pattern startBold = Pattern.compile(findStartBoldStars);
-					Pattern endBold = Pattern.compile(findEndBoldStars);
-
-
-					Matcher startMatcher;
-					Matcher endMatcher;
-					do {
-						startMatcher = startBold.matcher(message.toString());
-						if (startMatcher.find()) {
-							message.delete(startMatcher.start(), startMatcher.end());
-						}
-						endMatcher = endBold.matcher(message.toString());
-						if (endMatcher.find()) {
-							message.delete(endMatcher.start(), endMatcher.end());
-						}
-						startMatcher = startBold.matcher(message.toString());
-						endMatcher = endBold.matcher(message.toString());
-					} while (startMatcher.find() || endMatcher.find());
-
-					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\\s\\[.{1,100}]\\(.{1,500}\\)";
-
-					Pattern highlightLine = Pattern.compile(newHighlightNumberRegex);
-					Matcher highlightLineMatcher = highlightLine.matcher(message.toString());
-					highlightLineMatcher.reset();
-					if (highlightLineMatcher.find()) {
-						message.insert(highlightLineMatcher.start(), BOLD.getStr());
-
-						highlightLineMatcher = highlightLine.matcher(message.toString());
-						highlightLineMatcher.reset();
-						if (highlightLineMatcher.find()) {
-							message.insert(highlightLineMatcher.end(), BOLD.getStr());
-						} else {
-							throw new RuntimeException("Couldn't find end of regex even though start was there.");
-						}
-
-					}*/
-
 					//get the current context string
 					String content = "";
 					content = embed.getDescription().orElse("");
@@ -310,17 +250,9 @@ public class Queue {
 						message.insert(highlightLineMatcher.end(), BOLD.getStr());
 						message.insert(highlightLineMatcher.start(), BOLD.getStr());
 					}
-
+					
 					String title = embed.getTitle().orElse("");
 					String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
-
-					/*
-					//TODO test. i think this does the same as all the commented out code but more efficiently, not confirmed though
-					int currentPageIndex = Integer.parseInt(footer.substring(footer.indexOf("Page: ") + 6, footer.indexOf(" of")));
-					currentPageIndex--;
-
-					Mono<String[]> message = getQueueString(currentPageIndex, guild);
-					*/
 
 					return MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
 						messageSpec.setTitle(title);

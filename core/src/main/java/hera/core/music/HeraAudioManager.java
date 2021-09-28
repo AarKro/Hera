@@ -11,6 +11,7 @@ import discord4j.voice.AudioProvider;
 import discord4j.voice.VoiceConnection;
 import hera.database.entities.GuildSetting;
 import hera.database.types.GuildSettingKey;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
@@ -86,12 +87,13 @@ public class HeraAudioManager {
 		CONNECTIONS.put(guild.getId().asLong(), vc);
 	}
 
-	public static void dcFromVc(Guild guild) {
+	public static Mono<Void> dcFromVc(Guild guild) {
 		VoiceConnection vc = getVC(guild);
 		if (vc != null) {
-			vc.disconnect();
 			CONNECTIONS.remove(guild.getId().asLong());
+			return vc.disconnect();
 		}
+		return Mono.empty();
 	}
 
 	public static VoiceConnection getVC(Guild guild) {
