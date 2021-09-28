@@ -39,13 +39,7 @@ import static hera.core.messages.formatter.markdown.MarkdownHelper.makeItalics2;
 import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.core.util.TimeUtil.getFormattedTime;
 
-//TODO wtf was i thinking redo this logic, i hate my brain
 public class Queue {
-	private class TrackList {
-		int page, maxPage;
-		List<AudioTrack> tracks;
-	}
-
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		// show the queue starting from the page where the currently playing song is in
 		int currentQueueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex() ;
@@ -53,9 +47,7 @@ public class Queue {
 
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
-		List<String> emojis = getEmojis(currentPageIndex, maxPage);
-
-		return writeMessage(currentPageIndex, channel, emojis, guild);
+		return writeMessage(currentPageIndex, maxPage, channel, guild);
 	}
 
 	private static Integer getPageIndexFromQueueMessage(Message originalMessage) {
@@ -87,9 +79,7 @@ public class Queue {
 				break;
 		}
 
-		List<String> emojis = getEmojis(currentPageIndex, maxPage);
-
-		return editMessageToChangePage(currentPageIndex, originalMessage, emojis, guild);
+		return editMessageToChangePage(currentPageIndex, maxPage, originalMessage, guild);
 	}
 
 	private static Mono<String[]> getQueueString(int page, Guild guild) {
@@ -156,7 +146,7 @@ public class Queue {
 	}
 
 	//TODO similar to editMessage... i don't see the reason that this handels the generation of the output text
-	private static Mono<Void> writeMessage(int pageIndex, MessageChannel channel, List<String> emojis, Guild guild) {
+	private static Mono<Void> writeMessage(int pageIndex, int maxPage, MessageChannel channel, Guild guild) {
 		return getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 					messageSpec.setTitle(queueStringParts[0]);
@@ -175,20 +165,20 @@ public class Queue {
 								}, Duration.of(2, ChronoUnit.HOURS));
 
 								return Mono.just(message);
-				}).flatMap(message -> addReactions(message, guild, emojis)))
+				}).flatMap(message -> addReactions(message, guild, getEmojis(pageIndex, maxPage))))
 				.then();
 	}
 
 
 
 	//TODO make this an edit queue method, there is no reason to genereate the message content here
-	private static Mono<Void> editMessageToChangePage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
+	private static Mono<Void> editMessageToChangePage(int pageIndex, int maxPage, Message editableMessage, Guild guild) {
 			return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
 					messageSpec.setTitle(queueStringParts[0]);
 					messageSpec.setDescription(queueStringParts[1]);
 					messageSpec.setFooter(queueStringParts[2], null);
-				})).flatMap(message -> addReactions(message, guild, emojis))))
+				})).flatMap(message -> addReactions(message, guild, getEmojis(pageIndex, maxPage)))))
 				.then();
 	}
 
