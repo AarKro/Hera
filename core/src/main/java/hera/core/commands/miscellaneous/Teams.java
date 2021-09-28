@@ -4,7 +4,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.Localisation;
@@ -14,6 +13,8 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static hera.core.util.LocalisationUtil.getLocalisation;
 
 public class Teams {
     public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
@@ -58,7 +59,7 @@ public class Teams {
 
     private static String makeMessage(List<List<String>> teams, Guild guild) {
         StringBuilder sb = new StringBuilder();
-        Localisation teamName = HeraUtil.getLocalisation(LocalisationKey.COMMAND_TEAM_TEAM, guild);
+        Localisation teamName = getLocalisation(LocalisationKey.COMMAND_TEAM_TEAM, guild);
         for (int x = 0;x < teams.size();x++) {
             sb.append(String.format("%s %d: ", teamName.getValue(), x + 1));
             sb.append(String.join(", ", teams.get(x)));

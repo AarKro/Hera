@@ -4,7 +4,6 @@ import discord4j.core.object.entity.Guild;
 import hera.database.entities.ConfigFlag;
 import hera.database.entities.ConfigFlagType;
 import hera.database.types.ConfigFlagName;
-import sun.util.resources.cldr.ext.LocaleNames_zgh;
 
 import java.util.List;
 

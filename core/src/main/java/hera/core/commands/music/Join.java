@@ -5,7 +5,6 @@ import discord4j.core.object.VoiceState;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.core.music.HeraAudioManager;

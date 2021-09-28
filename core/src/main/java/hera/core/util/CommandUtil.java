@@ -2,7 +2,6 @@ package hera.core.util;
 
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.Guild;
-import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
@@ -15,11 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static hera.core.util.PermissionUtil.checkCommandPermissions;
-import static hera.core.util.PermissionUtil.getHeraPermissionSetForGuild;
+import static hera.core.util.LocalisationUtil.LOCALISATION_PARAM_ERROR;
 import static hera.store.DataStore.STORE;
-
-import static hera.core.util.LocalisationUtil.*;
 
 public class CommandUtil {
 	public static Boolean isCommandEnabled(Command command, Guild guild) {

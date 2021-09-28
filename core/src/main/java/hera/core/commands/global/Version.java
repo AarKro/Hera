@@ -4,7 +4,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.GlobalSetting;
@@ -15,6 +14,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.LOCALISATION_GENERAL_ERROR;
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class Version {
@@ -23,11 +24,11 @@ public class Version {
 	}
 
 	private static String getVersion(Guild guild) {
-		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_VERSION, guild);
+		Localisation message = getLocalisation(LocalisationKey.COMMAND_VERSION, guild);
 		List<GlobalSetting> globalSettings = STORE.globalSettings().forKey(GlobalSettingKey.VERSION);
 
 		if (globalSettings.isEmpty()) {
-			return HeraUtil.LOCALISATION_GENERAL_ERROR.getValue();
+			return LOCALISATION_GENERAL_ERROR.getValue();
 		}
 
 		return String.format(message.getValue(), globalSettings.get(0).getValue());

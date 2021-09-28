@@ -15,7 +15,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static hera.core.util.LocalisationUtil.*;
+import static hera.core.util.LocalisationUtil.LOCALISATION_PARAM_ERROR;
+import static hera.core.util.LocalisationUtil.getLocalisation;
 
 public class JumpTo {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {

@@ -1,7 +1,6 @@
 package hera.core.util;
 
 import discord4j.core.object.entity.Guild;
-import hera.core.HeraUtil;
 import hera.database.entities.GuildSetting;
 import hera.database.entities.Localisation;
 import hera.database.types.GuildSettingKey;

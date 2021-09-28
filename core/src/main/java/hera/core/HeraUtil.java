@@ -1,33 +1,12 @@
 package hera.core;
 
-import discord4j.common.util.Snowflake;
-import discord4j.core.GatewayDiscordClient;
-import discord4j.core.object.entity.Guild;
-import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.Role;
-import discord4j.core.object.entity.channel.GuildChannel;
-import discord4j.core.object.entity.channel.MessageChannel;
-import discord4j.rest.util.Permission;
-import discord4j.rest.util.PermissionSet;
-import hera.core.messages.MessageHandler;
-import hera.core.messages.MessageSpec;
-import hera.database.entities.*;
-import hera.database.types.GuildSettingKey;
-import hera.database.types.LocalisationKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static hera.store.DataStore.STORE;
 
 public class HeraUtil {
 	public static final Logger LOG = LoggerFactory.getLogger(HeraUtil.class);
@@ -197,10 +176,17 @@ public class HeraUtil {
 	}*/
 
 	public static String getFormattedTime(long millis) {
-		Duration dur = Duration.of(millis, ChronoUnit.MILLIS);
-		String formatted = DateTimeFormatter.ofPattern("u'y' D'd' H'h' m'm' s's'").format(dur.addTo(LocalDateTime.of(0,1,1,0,0)));
-		System.out.println(formatted);
-		String done =  formatted.replaceAll("(?<!\\d{1,100})0+\\w\\s?", ""); // removes every unit that is 0
+		Duration dur = Duration.ofMillis(millis);
+		String format;
+		if (dur.getSeconds() >= 86400) {
+			format = "u'y' D'd' H'h' m'm' s's'";
+			//this has to be done since the formatter cant treat it as a duration. so if the duration is 1 day it would give out 2d since after a day it's the second day of the year.
+			dur = dur.minus(1, ChronoUnit.DAYS);
+		} else {
+			format = "H'h' m'm' s's'";
+		}
+		String formatted = DateTimeFormatter.ofPattern(format).format(dur.addTo(LocalDateTime.of(0, 1, 1, 0, 0, 0)));
+		String done =  formatted.replaceAll("(?<!\\d{1,100})0+\\w\\s?", "");
 		return done.isEmpty() ? "0s" : done;
 	}
 

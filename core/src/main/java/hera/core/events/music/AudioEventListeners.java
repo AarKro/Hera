@@ -2,7 +2,7 @@ package hera.core.events.music;
 
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class AudioEventListeners extends ArrayList<AudioEventListener> {

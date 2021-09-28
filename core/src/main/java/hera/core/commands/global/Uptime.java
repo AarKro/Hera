@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class Uptime {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> messageSpec.setDescription(getTime(guild)))).then();
@@ -22,7 +24,7 @@ public class Uptime {
 	private static String getTime(Guild guild) {
 		String time = HeraUtil.getFormattedTime(ManagementFactory.getRuntimeMXBean().getUptime());
 
-		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_UPTIME, guild);
+		Localisation message = getLocalisation(LocalisationKey.COMMAND_UPTIME, guild);
 		return String.format(message.getValue(), time);
 	}
 }

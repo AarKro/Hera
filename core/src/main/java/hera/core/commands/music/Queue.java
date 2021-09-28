@@ -2,6 +2,7 @@ package hera.core.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.event.TrackStartEvent;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
@@ -10,13 +11,12 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
+import hera.core.events.reactions.GuildReactionListener;
+import hera.core.events.reactions.ReactionHandler;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.core.messages.formatter.TextFormatter;
-import hera.core.messages.formatter.list.ListGen;
-import hera.core.events.reactions.GuildReactionListener;
-import hera.core.events.reactions.ReactionHandler;
+import hera.core.messages.formatter.list.ListMaker;
 import hera.core.messages.formatter.markdown.MarkdownHelper;
 import hera.core.messages.reaction.emoji.Emoji;
 import hera.core.messages.reaction.emoji.EmojiHandler;
@@ -34,14 +34,18 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static hera.core.util.LocalisationUtil.*;
-import static hera.core.messages.formatter.DefaultStrings.*;
-import static hera.core.messages.formatter.markdown.Markdown.*;
-import static hera.core.messages.formatter.markdown.MarkdownHelper.*;
-import static hera.core.messages.formatter.TextFormatter.*;
+import static hera.core.HeraUtil.getFormattedTime;
+import static hera.core.messages.formatter.markdown.Markdown.BOLD;
+import static hera.core.messages.formatter.markdown.MarkdownHelper.makeItalics2;
+import static hera.core.util.LocalisationUtil.getLocalisation;
 
 //TODO wtf was i thinking redo this logic, i hate my brain
 public class Queue {
+	private class TrackList {
+		int page, maxPage;
+		List<AudioTrack> tracks;
+	}
+
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		// show the queue starting from the page where the currently playing song is in
 		int currentQueueIndex = HeraAudioManager.getScheduler(guild).getQueueIndex() ;
@@ -67,7 +71,7 @@ public class Queue {
 		return currentPageIndex;
 	}
 
-	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel messageChannel, Message originalMessage, String unicode, Guild guild, ReactionHandler.MetaData metaData) {
+	public static Mono<Void> executeFromReaction(ReactionAddEvent event, MessageChannel messageChannel, Message originalMessage, String unicode, Member member, Guild guild, ReactionHandler.MetaData metaData) {
 		int currentPageIndex = getPageIndexFromQueueMessage(originalMessage);
 		List<AudioTrack> tracks = HeraAudioManager.getScheduler(guild).getQueue();
 		int maxPage = getMaxPage(tracks);
@@ -98,22 +102,29 @@ public class Queue {
 		// gets the tracks for the queue page
 		StringBuilder queueString = new StringBuilder();
 		final int pageStart = page * 10;
-		final int pageEnd = pageStart + 10 < tracks.size() ? pageStart + 10 : tracks.size() -1;
+		final int pageEnd = pageStart + 10 < tracks.size() ? pageStart + 10 : Math.max(tracks.size() - 1, pageStart);
+
 		List<AudioTrack> pageTracks = tracks.subList(pageStart, pageEnd);
 
 		// makes the queue List. format is : ( %index: %author \n [%title](%link) )
-		ListGen<AudioTrack> generator = new ListGen<AudioTrack>()
-				.setNodes("%s: %s | `%s`\n[%s](%s)")
-				.setItems(pageTracks)
-				.addIndexConverter(i -> String.valueOf(i + pageStart + 1))
-				.addItemConverter(t -> t.getInfo().author)
-				.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()))
-				.addItemConverter(t -> t.getInfo().title)
-				.addItemConverter(t -> t.getInfo().uri)
-				.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, MarkdownHelper::makeBold)
-				.setLineBreak("\n\n");
-		queueString.append(generator.makeList());
-
+		/*ListGen<AudioTrack> generator = new ListGen<AudioTrack>();
+		generator.setNodes("%s: %s | `%s`\n[%s](%s)");
+		generator.setItems(pageTracks);
+		generator.addIndexConverter(i -> String.valueOf(i + pageStart + 1));
+		generator.addItemConverter(t -> t.getInfo().author);
+		generator.addItemConverter(t -> HeraUtil.getFormattedTime(t.getDuration()));
+		generator.addItemConverter(t -> t.getInfo().title);
+		generator.addItemConverter(t -> t.getInfo().uri);
+		generator.addSpecialLineFormat(t -> (t.getIndex() + pageStart) == queueIndex, MarkdownHelper::makeBold);
+		generator.setLineBreak("\n\n");
+		queueString.append(generator.makeList());*/
+		ListMaker<AudioTrack> lm = new ListMaker<>(pageTracks, "%d: %s | `%s`\n[%s](%s)", (index, track) -> {
+			AudioTrackInfo info = track.getInfo();
+			return ListMaker.argumentMaker(index+1, info.author, getFormattedTime(track.getDuration()), info.title, info.uri);
+		})
+				.setLineDelimiter("\n\n")
+				.addSpecialFormat((index,item) -> (index + pageStart) == queueIndex, MarkdownHelper::makeBold);
+		queueString.append(lm.makeList());
 
 		long totalDuration = 0;
 		int maxPage = 1;
@@ -136,7 +147,7 @@ public class Queue {
 
 		Localisation loopQueue = getLocalisation(loopQLocalKey, guild);
 		Localisation footerLocal = getLocalisation(LocalisationKey.COMMAND_QUEUE_FOOTER, guild);
-		String footer = String.format(footerLocal.getValue(), page + 1, maxPage, tracks.size(), HeraUtil.getFormattedTime(totalDuration), loopQueue.getValue());
+		String footer = String.format(footerLocal.getValue(), page + 1, maxPage, tracks.size(), getFormattedTime(totalDuration), loopQueue.getValue());
 
 		return Mono.just(new String[]{title.getValue(), queueString.toString(), footer});
 	}
@@ -183,7 +194,7 @@ public class Queue {
 
 	//TODO make this an edit queue method, there is no reason to genereate the message content here
 	private static Mono<Void> editMessageToChangePage(int pageIndex, Message editableMessage, List<String> emojis, Guild guild) {
-		return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
+			return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
 					messageSpec.setTitle(queueStringParts[0]);
 					messageSpec.setDescription(queueStringParts[1]);
@@ -217,6 +228,7 @@ public class Queue {
 					} else {
 						throw new RuntimeException("Queue message isn't embedded");
 					}
+
 					/*
 					//get the current context string
 					String content = "";
@@ -266,14 +278,49 @@ public class Queue {
 
 					}*/
 
+					//get the current context string
+					String content = "";
+					content = embed.getDescription().orElse("");
+					if (content.isEmpty()) return Mono.empty();
+					StringBuilder message = new StringBuilder();
+					message.append(content);
+
+					//TODO look at numbers, maybe change
+					String findBoldStars = "\\*\\*[0-9]{1,10}: .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\n\\[.{1,100}\\]\\(.{1,500}\\)\\*\\*";
+
+					Pattern starPattern = Pattern.compile(findBoldStars);
+
+					Matcher starMatcher = starPattern.matcher(message.toString());
+					do {
+						//starMatcher;
+						if (starMatcher.find()) {
+							int start = starMatcher.start(), end = starMatcher.end();
+							message.delete(end-2, end);
+							message.delete(start, start+2);
+						}
+						//starMatcher = starPattern.matcher(message.toString());
+					} while (!starMatcher.hitEnd());
+
+					String newHighlightNumberRegex = (newIndex + 1) + ": .{1,60} \\| `([0-9]{1,4}[dhms][ ]?){1,4}`\n\\[.{1,100}]\\(.{1,500}\\)";
+
+					Pattern highlightLine = Pattern.compile(newHighlightNumberRegex);
+					Matcher highlightLineMatcher = highlightLine.matcher(message.toString());
+					highlightLineMatcher.reset();
+					if (highlightLineMatcher.find()) {
+						message.insert(highlightLineMatcher.end(), BOLD.getStr());
+						message.insert(highlightLineMatcher.start(), BOLD.getStr());
+					}
+
 					String title = embed.getTitle().orElse("");
 					String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
 
+					/*
 					//TODO test. i think this does the same as all the commented out code but more efficiently, not confirmed though
 					int currentPageIndex = Integer.parseInt(footer.substring(footer.indexOf("Page: ") + 6, footer.indexOf(" of")));
 					currentPageIndex--;
 
 					Mono<String[]> message = getQueueString(currentPageIndex, guild);
+					*/
 
 					return MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
 						messageSpec.setTitle(title);

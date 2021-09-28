@@ -8,18 +8,20 @@ import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.object.reaction.Reaction;
 import discord4j.core.object.reaction.ReactionEmoji;
-import hera.core.HeraUtil;
-import hera.core.messages.MessageHandler;
-import hera.core.messages.MessageSpec;
 import hera.core.events.reactions.GuildReactionListener;
 import hera.core.events.reactions.ReactionHandler;
+import hera.core.messages.MessageHandler;
+import hera.core.messages.MessageSpec;
 import hera.core.messages.reaction.emoji.Emoji;
 import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import static hera.core.util.LocalisationUtil.getLocalisation;
 

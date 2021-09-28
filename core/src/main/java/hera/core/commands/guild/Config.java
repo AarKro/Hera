@@ -4,7 +4,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.ConfigFlag;
@@ -17,8 +16,9 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static hera.core.util.LocalisationUtil.LOG;
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
-import static hera.core.util.LocalisationUtil.*;
 
 public class Config {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {

@@ -15,6 +15,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.LOCALISATION_PARAM_ERROR;
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class Remove {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		try {
@@ -22,7 +25,7 @@ public class Remove {
 
 			AudioTrack track = HeraAudioManager.getScheduler(guild).removeTrack(trackIndex);
 			if (track != null) {
-				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_REMOVE, guild);
+				Localisation local = getLocalisation(LocalisationKey.COMMAND_REMOVE, guild);
 				String desc = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
 						+ track.getInfo().title + "](" + track.getInfo().uri + ")";
 
@@ -31,14 +34,14 @@ public class Remove {
 					messageSpec.setTitle(local.getValue());
 				})).then();
 			} else {
-				Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_REMOVE_ERROR, guild);
+				Localisation local = getLocalisation(LocalisationKey.COMMAND_REMOVE_ERROR, guild);
 				return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
 					messageSpec.setDescription(String.format(local.getValue(), trackIndex));
 				})).then();
 			}
 		} catch (NumberFormatException e) {
 			return MessageHandler.send(channel, MessageSpec.getErrorSpec(messageSpec -> {
-				messageSpec.setDescription(HeraUtil.LOCALISATION_PARAM_ERROR.getValue());
+				messageSpec.setDescription(LOCALISATION_PARAM_ERROR.getValue());
 			})).then();
 		}
 	}

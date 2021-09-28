@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public class NowPlaying {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		return getNowPlayingString(guild).flatMap(nowPlayingStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -24,7 +26,7 @@ public class NowPlaying {
 	}
 
 	private static Mono<String[]> getNowPlayingString(Guild guild) {
-		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_NOWPLAYING_TITLE, guild);
+		Localisation title = getLocalisation(LocalisationKey.COMMAND_NOWPLAYING_TITLE, guild);
 		AudioTrack track = HeraAudioManager.getPlayer(guild).getPlayingTrack();
 		StringBuilder nowPlayingString = new StringBuilder();
 		String message;
@@ -50,10 +52,10 @@ public class NowPlaying {
 			nowPlayingString.append(HeraUtil.getFormattedTime(track.getDuration()));
 			nowPlayingString.append("`");
 
-			Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_NOWPLAYING, guild);
+			Localisation local = getLocalisation(LocalisationKey.COMMAND_NOWPLAYING, guild);
 			message = String.format(local.getValue(), nowPlayingString.toString());
 		} else {
-			message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_NOWPLAYING_NO_SONG, guild).getValue();
+			message = getLocalisation(LocalisationKey.COMMAND_NOWPLAYING_NO_SONG, guild).getValue();
 		}
 
 		return Mono.just(new String[] {title.getValue(), message});

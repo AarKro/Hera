@@ -4,7 +4,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.GuildSetting;
@@ -15,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class Prefix {
@@ -29,7 +29,7 @@ public class Prefix {
 			STORE.guildSettings().update(gs);
 		}
 
-		Localisation message = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PREFIX, guild);
+		Localisation message = getLocalisation(LocalisationKey.COMMAND_PREFIX, guild);
 		return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 			messageSpec.setDescription(String.format(message.getValue(), params.get(0)));
 		})).then();

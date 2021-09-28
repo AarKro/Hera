@@ -12,6 +12,7 @@ import discord4j.core.event.domain.message.MessageDeleteEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
+import hera.core.events.commands.ICommandHandler;
 import hera.core.events.reactions.GuildReactionListener;
 import hera.core.music.HeraAudioManager;
 import hera.core.util.PermissionUtil;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static hera.core.util.CommandUtil.*;
 import static hera.metrics.MetricsLogger.STATS;
 import static hera.store.DataStore.STORE;
 
@@ -70,7 +72,6 @@ public class Core {
 		//final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 		final DiscordClient client = DiscordClient.create(loginTokens.get(0).getToken());
 		final GatewayDiscordClient gateway = client.login().block();
-		HeraUtil.setClient(gateway);
 
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(gateway);
 		hci.startupHCI();
@@ -205,18 +206,19 @@ public class Core {
 								.defaultIfEmpty("$")
 								.flatMap(commandPrefix -> Mono.justOrEmpty(event.getMessage().getContent())
 										.filter(content -> content.startsWith(commandPrefix))
-										.flatMap(content -> Mono.justOrEmpty(HeraUtil.getCommandFromMessage(content, commandPrefix, guild))
+										.flatMap(content -> Mono.justOrEmpty(getCommandFromMessage(content, commandPrefix, guild))
 												.flatMap(command -> Mono.justOrEmpty(event.getMember())
 														.flatMap(member -> event.getMessage().getChannel()
 																.filterWhen(channel -> PermissionUtil.checkHeraPermissions(gateway, command, guild))
 																.filterWhen(channel -> PermissionUtil.checkPermissions(command, member, guild, channel))
-																.filterWhen(channel -> HeraUtil.checkParameters(content, command, channel))
-																.flatMap(channel -> Mono.just(HeraUtil.extractParameters(content, command))
+																.filterWhen(channel -> checkParameters(content, command, channel))
+																.flatMap(channel -> Mono.just(extractParameters(content, command))
 																		.flatMap(params -> {
 																			// log commands call
 																			STATS.logCommand(command, member.getId().asLong(), guild.getId().asLong());
 																			// execute commands
-																			return Commands.COMMANDS.get(command.getName()).execute(event, guild, member, channel, params);
+																			ICommandHandler iCommandHandler = Commands.COMMANDS.get(command.getName());
+																			return iCommandHandler.execute(event, guild, member, channel, params);
 																		})
 																)
 														)

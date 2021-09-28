@@ -5,7 +5,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.Binding;
@@ -17,6 +16,9 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
+import static hera.core.util.DiscordUtil.getUserFromMention;
+import static hera.core.util.DiscordUtil.isUserMention;
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class Report {
@@ -25,25 +27,25 @@ public class Report {
         if (!bindings.isEmpty()) {
             Binding binding = bindings.get(0);
             String userMention = params.get(0);
-            if (HeraUtil.isUserMention(userMention)) {
-                return HeraUtil.getUserFromMention(guild, userMention).flatMap(offender ->
+            if (isUserMention(userMention)) {
+                return getUserFromMention(guild, userMention).flatMap(offender ->
                     guild.getChannelById(Snowflake.of(binding.getSnowflake()))
                             .flatMap(chl -> {
                                 return MessageHandler.send((MessageChannel) chl, MessageSpec.getDefaultSpec(s -> {
-                                    Localisation response = HeraUtil.getLocalisation(LocalisationKey.COMMAND_REPORT_RESPONSE, guild);
+                                    Localisation response = getLocalisation(LocalisationKey.COMMAND_REPORT_RESPONSE, guild);
                                     String repMention = member.getMention();
                                     String offMention = offender.getMention();
                                     String cause = joinMessage(params, 1);
                                     s.setDescription(String.format(response.getValue(), repMention, offMention, cause));
                                 }));
-                            }).flatMap(x -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_REPORT_SUBMIT, guild).getValue()))))
+                            }).flatMap(x -> MessageHandler.send(channel, MessageSpec.getConfirmationSpec(s -> s.setDescription(getLocalisation(LocalisationKey.COMMAND_REPORT_SUBMIT, guild).getValue()))))
                     ).then();
             } else {
-                return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(String.format(HeraUtil.getLocalisation(LocalisationKey.ERROR_MENTION_USER, guild).getValue(), userMention)))).then();
+                return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(String.format(getLocalisation(LocalisationKey.ERROR_MENTION_USER, guild).getValue(), userMention)))).then();
             }
 
         } else {
-            return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(HeraUtil.getLocalisation(LocalisationKey.COMMAND_REPORT_ERROR_BINDING, guild).getValue()))).then();
+            return MessageHandler.send(channel, MessageSpec.getDefaultSpec(s -> s.setDescription(getLocalisation(LocalisationKey.COMMAND_REPORT_ERROR_BINDING, guild).getValue()))).then();
         }
     }
 

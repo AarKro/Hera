@@ -1,10 +1,10 @@
 package hera.core.commands.guild;
 
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.Command;
@@ -15,11 +15,12 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
+import static hera.core.util.CommandUtil.getNonOwnerCommandFromName;
 import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.core.util.PermissionUtil.checkCommandPermissions;
+import static hera.core.util.PermissionUtil.getHeraPermissionSetForGuild;
 import static hera.store.DataStore.STORE;
 
 public class ModuleStatus {
@@ -32,7 +33,7 @@ public class ModuleStatus {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
 		Mono<String> message;
 		String title;
-		Mono<List<CommandStatus>> commandStatusMap = makeCommandStatusMap(getCommands(), guild);
+		Mono<List<CommandStatus>> commandStatusMap = makeCommandStatusMap(getCommands(), guild, event.getClient());
 		if (params.size() < 1) {
 			title = getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_TITLE_ALL, guild).getValue();
 			message = makeMessageForAllCommands(commandStatusMap, guild);
@@ -143,8 +144,8 @@ public class ModuleStatus {
 		});
 	}
 
-	private static Mono<List<CommandStatus>> makeCommandStatusMap(List<Command> commands, Guild guild) {
-		return getHeraPermissionSetForGuild(guild)
+	private static Mono<List<CommandStatus>> makeCommandStatusMap(List<Command> commands, Guild guild, GatewayDiscordClient client) {
+		return getHeraPermissionSetForGuild(client, guild)
 			.flatMap(heraPermissions ->  {
 				List<CommandStatus> commandList = new ArrayList<>();
 
@@ -177,10 +178,10 @@ public class ModuleStatus {
 
 
 	private static String getTextForEnabled(boolean enabled, Guild guild) {
-		return enabled ? HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_ENABLED, guild).getValue() : HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_DISABLED, guild).getValue();
+		return enabled ? getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_ENABLED, guild).getValue() : getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_DISABLED, guild).getValue();
 	}
 
 	private static String getMessageForEnabled(boolean enabled, Guild guild) {
-		return enabled ? HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_COMMAND_ENABLED, guild).getValue() : HeraUtil.getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_COMMAND_DISABLED, guild).getValue();
+		return enabled ? getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_COMMAND_ENABLED, guild).getValue() : getLocalisation(LocalisationKey.COMMAND_MODULESTATUS_COMMAND_DISABLED, guild).getValue();
 	}
 }

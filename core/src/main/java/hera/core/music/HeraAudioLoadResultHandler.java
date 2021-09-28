@@ -14,6 +14,8 @@ import hera.database.entities.Localisation;
 import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
+
 public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler {
 
 	private AudioPlayer player;
@@ -30,7 +32,7 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 
 	@Override
 	public void trackLoaded(AudioTrack track) {
-		Localisation local = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
+		Localisation local = getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
 
 		HeraAudioManager.getScheduler(guild).queue(player, track);
 
@@ -43,8 +45,8 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 
 	@Override
 	public void playlistLoaded(AudioPlaylist playlist) {
-		Localisation title = HeraUtil.getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
-		Localisation desc = HeraUtil.getLocalisation(LocalisationKey.PLAYLIST_LOADED, guild);
+		Localisation title = getLocalisation(LocalisationKey.COMMAND_PLAY_TITLE, guild);
+		Localisation desc = getLocalisation(LocalisationKey.PLAYLIST_LOADED, guild);
 
 		Flux.fromIterable(playlist.getTracks())
 				.doOnNext(track -> HeraAudioManager.getScheduler(guild).queue(player, track))

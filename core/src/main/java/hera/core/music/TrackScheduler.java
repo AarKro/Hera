@@ -21,10 +21,14 @@ import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
+import static hera.core.util.LocalisationUtil.getLocalisation;
 import static hera.store.DataStore.STORE;
 
 public class TrackScheduler extends AudioEventAdapter {
@@ -149,7 +153,7 @@ public class TrackScheduler extends AudioEventAdapter {
 			if (!flags.isEmpty() && flags.get(0).getValue()) {
 				guild.getChannelById(Snowflake.of(bindings.get(0).getSnowflake())).flatMap(channel -> {
 					return MessageHandler.send((MessageChannel) channel, MessageSpec.getDefaultSpec(spec -> {
-						Localisation local = HeraUtil.getLocalisation(LocalisationKey.CONFIG_FLAG_ANNOUNCE_NEXT_SONG, guild);
+						Localisation local = getLocalisation(LocalisationKey.CONFIG_FLAG_ANNOUNCE_NEXT_SONG, guild);
 						spec.setTitle(local.getValue());
 						String descString = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n[" + track.getInfo().title + "](" + track.getInfo().uri + ")";
 						spec.setDescription(descString);
