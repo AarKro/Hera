@@ -145,7 +145,6 @@ public class Queue {
 		return emojis;
 	}
 
-	//TODO similar to editMessage... i don't see the reason that this handels the generation of the output text
 	private static Mono<Void> writeMessage(int pageIndex, int maxPage, MessageChannel channel, Guild guild) {
 		return getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -168,10 +167,7 @@ public class Queue {
 				}).flatMap(message -> addReactions(message, guild, getEmojis(pageIndex, maxPage))))
 				.then();
 	}
-
-
-
-	//TODO make this an edit queue method, there is no reason to genereate the message content here
+	
 	private static Mono<Void> editMessageToChangePage(int pageIndex, int maxPage, Message editableMessage, Guild guild) {
 			return editableMessage.removeAllReactions().then(getQueueString(pageIndex, guild)
 				.flatMap(queueStringParts -> MessageHandler.edit(editableMessage, MessageSpec.getDefaultSpec(messageSpec -> {
@@ -197,8 +193,6 @@ public class Queue {
 				c.getMessageById(messageId).flatMap(editableMessage -> {
 					if (editableMessage.getContent().contains(getLocalisation(LocalisationKey.COMMAND_QUEUE_EMPTY, guild).getValue()))
 						return Mono.empty();
-
-
 
 
 					Embed embed;
