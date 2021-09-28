@@ -34,10 +34,10 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static hera.core.HeraUtil.getFormattedTime;
 import static hera.core.messages.formatter.markdown.Markdown.BOLD;
 import static hera.core.messages.formatter.markdown.MarkdownHelper.makeItalics2;
 import static hera.core.util.LocalisationUtil.getLocalisation;
+import static hera.core.util.TimeUtil.getFormattedTime;
 
 //TODO wtf was i thinking redo this logic, i hate my brain
 public class Queue {
@@ -250,7 +250,7 @@ public class Queue {
 						message.insert(highlightLineMatcher.end(), BOLD.getStr());
 						message.insert(highlightLineMatcher.start(), BOLD.getStr());
 					}
-					
+
 					String title = embed.getTitle().orElse("");
 					String footer = embed.getFooter().flatMap(f -> Optional.of(f.getText())).orElse("");
 

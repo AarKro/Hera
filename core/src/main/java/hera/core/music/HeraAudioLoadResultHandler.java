@@ -7,7 +7,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.database.entities.Localisation;
@@ -15,6 +14,7 @@ import hera.database.types.LocalisationKey;
 import reactor.core.publisher.Flux;
 
 import static hera.core.util.LocalisationUtil.getLocalisation;
+import static hera.core.util.TimeUtil.getFormattedTime;
 
 public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler {
 
@@ -38,7 +38,7 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 
 		MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 			messageSpec.setTitle(local.getValue());
-			messageSpec.setDescription(track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
+			messageSpec.setDescription(track.getInfo().author + " | `" + getFormattedTime(track.getDuration()) + "`\n["
 					+ track.getInfo().title + "](" + track.getInfo().uri + ")");
 		})).subscribe();
 	}
@@ -55,7 +55,7 @@ public final class HeraAudioLoadResultHandler implements AudioLoadResultHandler 
 				.flatMap(totalDuration -> MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
 					messageSpec.setTitle(title.getValue());
 					messageSpec.setDescription(playlist.getName() + "\n" +
-							String.format(desc.getValue(), "`"+playlist.getTracks().size()+"`", "`"+HeraUtil.getFormattedTime(totalDuration)+"`"));
+							String.format(desc.getValue(), "`" + playlist.getTracks().size() + "`", "`" + getFormattedTime(totalDuration)+"`"));
 				})))
 				.subscribe();
 	}

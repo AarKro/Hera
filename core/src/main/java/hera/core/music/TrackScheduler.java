@@ -9,7 +9,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.events.music.AudioEventListener;
 import hera.core.events.music.AudioEventListeners;
 import hera.core.messages.MessageHandler;
@@ -29,6 +28,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 import static hera.core.util.LocalisationUtil.getLocalisation;
+import static hera.core.util.TimeUtil.getFormattedTime;
 import static hera.store.DataStore.STORE;
 
 public class TrackScheduler extends AudioEventAdapter {
@@ -155,7 +155,7 @@ public class TrackScheduler extends AudioEventAdapter {
 					return MessageHandler.send((MessageChannel) channel, MessageSpec.getDefaultSpec(spec -> {
 						Localisation local = getLocalisation(LocalisationKey.CONFIG_FLAG_ANNOUNCE_NEXT_SONG, guild);
 						spec.setTitle(local.getValue());
-						String descString = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n[" + track.getInfo().title + "](" + track.getInfo().uri + ")";
+						String descString = track.getInfo().author + " | `" + getFormattedTime(track.getDuration()) + "`\n[" + track.getInfo().title + "](" + track.getInfo().uri + ")";
 						spec.setDescription(descString);
 					}));
 				}).subscribe();

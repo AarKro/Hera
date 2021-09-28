@@ -5,7 +5,6 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.MessageChannel;
-import hera.core.HeraUtil;
 import hera.core.messages.MessageHandler;
 import hera.core.messages.MessageSpec;
 import hera.core.music.HeraAudioManager;
@@ -17,6 +16,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static hera.core.util.LocalisationUtil.getLocalisation;
+import static hera.core.util.TimeUtil.getFormattedTime;
 
 public class Move {
 	public static Mono<Void> execute(MessageCreateEvent event, Guild guild, Member member, MessageChannel channel, List<String> params) {
@@ -27,7 +27,7 @@ public class Move {
 			AudioTrack track = HeraAudioManager.getScheduler(guild).moveTrack(trackIndex, destination);
 			if (track != null) {
 				Localisation local = getLocalisation(LocalisationKey.COMMAND_MOVE, guild);
-				String message = track.getInfo().author + " | `" + HeraUtil.getFormattedTime(track.getDuration()) + "`\n["
+				String message = track.getInfo().author + " | `" + getFormattedTime(track.getDuration()) + "`\n["
 						+ track.getInfo().title + "](" + track.getInfo().uri + ")";
 
 				return MessageHandler.send(channel, MessageSpec.getDefaultSpec(messageSpec -> {
