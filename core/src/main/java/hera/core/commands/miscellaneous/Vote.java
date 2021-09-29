@@ -85,7 +85,7 @@ public class Vote {
 		return Mono.empty();
 	}
 
-	private static HashMap<String, Double> countReactions(Set<Reaction> reactions) {
+	private static HashMap<String, Double> countReactions(List<Reaction> reactions) {
 		HashMap<String, Double> out = new HashMap<>();
 		for (Reaction reaction : reactions) {
 			if (reaction.selfReacted()) { //only consider options the bot set
