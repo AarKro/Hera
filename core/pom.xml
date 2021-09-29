@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.discord4j</groupId>
             <artifactId>discord4j-core</artifactId>
-            <version>3.1.5</version>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.sedmelluq</groupId>
@@ -40,12 +40,12 @@
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-youtube</artifactId>
-            <version>v3-rev20200618-1.30.9</version>
+            <version>v3-rev20210915-1.32.1</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.6</version>
         </dependency>
         <dependency>
             <groupId>hera</groupId>

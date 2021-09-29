@@ -10,6 +10,7 @@ import discord4j.core.event.domain.guild.MemberLeaveEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.MessageDeleteEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
+import discord4j.gateway.intent.IntentSet;
 import hera.core.api.handlers.YouTubeApiHandler;
 import hera.core.commands.Commands;
 import hera.core.events.reactions.GuildReactionListener;
@@ -68,8 +69,9 @@ public class Core {
 
 		//final DiscordClient client = new DiscordClientBuilder(loginTokens.get(0).getToken()).build();
 		final DiscordClient client = DiscordClient.create(loginTokens.get(0).getToken());
-		final GatewayDiscordClient gateway = client.login().block();
+		final GatewayDiscordClient gateway = client.gateway().setEnabledIntents(IntentSet.all()).login().block();
 		HeraUtil.setClient(gateway);
+
 
 		HeraCommunicationInterface hci = new HeraCommunicationInterface(gateway);
 		hci.startupHCI();
@@ -125,6 +127,7 @@ public class Core {
 								.next()
 						)
 				);
+
 
 		// log when a user leaves a guild
 		gateway.on(MemberLeaveEvent.class)
