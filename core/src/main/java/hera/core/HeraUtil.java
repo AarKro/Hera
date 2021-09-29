@@ -1,15 +1,16 @@
 package hera.core;
 
-import discord4j.core.DiscordClient;
-import discord4j.core.object.entity.*;
+import discord4j.common.util.Snowflake;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Role;
-import discord4j.core.object.util.Permission;
-import discord4j.core.object.util.PermissionSet;
-import discord4j.core.object.util.Snowflake;
-import discord4j.core.util.PermissionUtil;
-import hera.core.messages.MessageSpec;
+import discord4j.core.object.entity.channel.GuildChannel;
+import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.rest.util.Permission;
+import discord4j.rest.util.PermissionSet;
 import hera.core.messages.MessageHandler;
+import hera.core.messages.MessageSpec;
 import hera.database.entities.*;
 import hera.database.types.GuildSettingKey;
 import hera.database.types.LocalisationKey;
@@ -18,8 +19,14 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalField;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static hera.store.DataStore.STORE;
 
@@ -30,7 +37,7 @@ public class HeraUtil {
 	public static final Localisation LOCALISATION_PERMISSION_ERROR = new Localisation("en", LocalisationKey.ERROR, "You do not have the necessary permissions to use this command");
 	public static final Localisation LOCALISATION_PARAM_ERROR = new Localisation("en", LocalisationKey.ERROR, "Command was not used correctly");
 
-	private static DiscordClient client;
+	private static GatewayDiscordClient client;
 
 	public static Command getCommandFromMessage(String message, String prefix, Guild guild) {
 		// message is a complete discord command. (prefix + command + parameters)
@@ -46,6 +53,24 @@ public class HeraUtil {
 		} else {
 			return commands.get(0);
 		}
+	}
+
+	public static Command getCommandFromName(String commandName, Guild guild) {
+		List<Command> commands =  STORE.commands().forName(commandName);
+		if (commands.isEmpty()) {
+			List<Alias> aliases = STORE.aliases().forGuildAndAlias(guild.getId().asLong(), commandName);
+			if (!aliases.isEmpty()) {
+				aliases.get(0).getCommand();
+			}
+			return null;
+		} else {
+			return commands.get(0);
+		}
+	}
+
+	public static Command getNonOwnerCommandFromName(String commandName, Guild guild) {
+		Command out = getCommandFromName(commandName, guild);
+		return out.getLevel() < 2 ? out : null;
 	}
 
 	public static Mono<PermissionSet> getHeraPermissionSetForGuild(Guild guild) {
@@ -66,6 +91,8 @@ public class HeraUtil {
 		return permissionSet.asEnumSet().containsAll(minPermissions.asEnumSet());
 	}
 
+
+	//TODO make this multiple methods
 	public static Mono<Boolean> checkPermissions(Command command, Member member, Guild guild, MessageChannel channel) {
 		if (STORE.owners().isOwner(member.getId().asLong())) return Mono.just(true);
 
@@ -91,7 +118,7 @@ public class HeraUtil {
 		}
 	}
 
-	// doesn't check for owne
+	// doesn't check for owner
 	public static Boolean checkPermissions(Command command, PermissionSet permissions) {
 		if (command.getLevel() > 1) {
 			return false;
@@ -117,11 +144,8 @@ public class HeraUtil {
 		} else {
 			if (optional == -1) {
 				return true;
-			} else if (params - expected > optional) {
-				return false;
-			}
+			} else return params - expected <= optional;
 		}
-		return true;
 	}
 
 	public static List<String> extractParameters(String message, Command command) {
@@ -145,6 +169,8 @@ public class HeraUtil {
 
 		List<Localisation> messages;
 		messages = STORE.localisations().forLanguageAndKey(language, key);
+
+
 
 		if (messages.isEmpty() && !language.equals("en")) {
 			LOG.debug("message for custom language '{}' not found, get standard english localisation instead", language);
@@ -171,13 +197,14 @@ public class HeraUtil {
 		return guild.getMembers().filter(member -> user.equals(member.getId().asLong()));
 	}
 
+	//TODO make this good
 	public static String getFormattedTime(long time) {
 		long days = time / 1000 / 60 / 60 / 24;
 		long hours = time / 1000 / 60 / 60 - (days * 24);
 		long minutes = time / 1000 / 60 - (hours * 60 + (days * 24 * 60));
 		long seconds = time / 1000 - (minutes * 60 + (hours * 60 * 60 + (days * 24 * 60 * 60)));
 
-		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return "0";
+		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return "0s";
 
 		String formatted = String.format("%sd %sh %sm %ss", days, hours, minutes, seconds);
 		String[] parts = formatted.split(" ");
@@ -193,11 +220,11 @@ public class HeraUtil {
 		return builder.toString().trim();
 	}
 
-	public static void setClient(DiscordClient _client) {
+	public static void setClient(GatewayDiscordClient _client) {
 		client = _client;
 	}
 
-	public static DiscordClient getClient() {
+	public static GatewayDiscordClient getClient() {
 		return client;
 	}
 

@@ -1,6 +1,9 @@
 package hera.store;
 
-import hera.database.entities.*;
+import hera.database.JPAUtil;
+import hera.database.entities.Guild;
+import hera.database.entities.Metric;
+import hera.database.entities.User;
 import hera.store.unit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +53,9 @@ public class DataStore {
 	private DataStore() {
 	}
 
-	public void initialise() {
+	public void initialise(String dbUser, String dbPassword, String dbUrl) {
 		LOG.info("Initialising DataStore");
+		JPAUtil.initializeFactory(dbUser, dbPassword, dbUrl);
 		aliases = new AliasAccessUnit();
 		bindings = new BindingAccessUnit();
 		bindingTypes = new BindingTypeAccessUnit();

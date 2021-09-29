@@ -4,5 +4,5 @@ public enum BindingName {
 	MUSIC,
 	ANNOUNCEMENT,
 	REPORT,
-	FEEDBACK;
+	FEEDBACK
 }

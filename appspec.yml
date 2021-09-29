@@ -1,5 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: ./hera-prod-bundle-jar-with-dependencies.jar
-    destination: /home/ec2-user/bots
+  - source: ./hera-prod-bot-jar-with-dependencies.jar
+    destination: /home/ec2-user/apps
+  - source: ./hera-prod-api-jar-with-dependencies.jar
+    destination: /home/ec2-user/apps

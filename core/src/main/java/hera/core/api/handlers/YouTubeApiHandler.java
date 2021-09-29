@@ -1,7 +1,7 @@
 package hera.core.api.handlers;
 
+import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static hera.store.DataStore.STORE;
@@ -38,17 +41,16 @@ public class YouTubeApiHandler {
 
 		applicationName = appNames.get(0).getToken();
 		apiToken = apiTokens.get(0).getToken();
-
-		youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), request -> {
+		youtube = new YouTube.Builder(new NetHttpTransport(), Utils.getDefaultJsonFactory(), request -> {
 		}).setApplicationName(applicationName).build();
 	}
 
 	public static String getYoutubeVideoFromKeyword(String keyword) {
 		try {
-			YouTube.Search.List search = youtube.search().list("id,snippet");
+			YouTube.Search.List search = youtube.search().list(Arrays.asList("id", "snippet"));
 			search.setKey(apiToken);
 			search.setQ(keyword);
-			search.setType("video");
+			search.setType(Collections.singletonList("video"));
 			search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
 			search.setMaxResults((long) 1);
 

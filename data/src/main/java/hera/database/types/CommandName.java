@@ -6,7 +6,7 @@ public enum CommandName {
 	VERSION,
 	DELETEMESSAGES,
 	ALIAS,
-  	PREFIX,
+	PREFIX,
 	JOIN,
 	PLAY,
 	LEAVE,
@@ -33,5 +33,9 @@ public enum CommandName {
 	FEEDBACK,
 	REPORT,
 	DELETEALIAS,
-	CONFIG;
+	CONFIG,
+	MODULESTATUS,
+	SHOWALIAS,
+	CREATEALIAS
+
 }

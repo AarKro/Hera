@@ -1,8 +1,12 @@
 package hera.core;
 
-import discord4j.core.DiscordClient;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.object.entity.*;
+import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
+import discord4j.core.object.entity.channel.Channel;
+import discord4j.core.object.entity.channel.GuildChannel;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -13,7 +17,7 @@ import java.util.Scanner;
 public class HeraCommunicationInterface {
 	private static final Logger LOG = LoggerFactory.getLogger(HeraCommunicationInterface.class);
 
-	private DiscordClient client;
+	private GatewayDiscordClient client;
 
 	private Guild activeGuild;
 
@@ -21,7 +25,7 @@ public class HeraCommunicationInterface {
 
 	private boolean isEstablished;
 
-	public HeraCommunicationInterface(DiscordClient client) {
+	public HeraCommunicationInterface(GatewayDiscordClient client) {
 		this.client = client;
 	}
 
@@ -140,11 +144,11 @@ public class HeraCommunicationInterface {
 		return activeGuild.getChannels().filter(guildChannel -> guildChannel.getName().toUpperCase().equals(input.toUpperCase()));
 	}
 
-	public DiscordClient getClient() {
+	public GatewayDiscordClient getClient() {
 		return client;
 	}
 
-	public void setClient(DiscordClient client) {
+	public void setClient(GatewayDiscordClient client) {
 		this.client = client;
 	}
 

@@ -30,7 +30,7 @@ The code for it can be found in the [`core/`](https://github.com/AarKro/Hera/tre
 * Copy the file [`env_var_template.sh`](https://github.com/AarKro/Hera/blob/master/environment/scripts/env_var_template.sh) and create a new file with its contents called `env_var.sh` in [`environment/scripts/`](https://github.com/AarKro/Hera/tree/master/environment/scripts)
 * Fill out the environment variables in `env_var.sh`, run the script and make sure the environment variables are properly set
 * Run the [`mysql_prep.sh`](https://github.com/AarKro/Hera/blob/master/environment/scripts/mysql_prep.sh) script and follow its instructions
-* Run the [`setup_db.sh`](https://github.com/AarKro/Hera/blob/master/environment/scripts/setup_db.sh) script to creat the database and fill it with test data.
+* Run the [`setup_db.sh`](https://github.com/AarKro/Hera/blob/master/environment/scripts/setup_db.sh) script to create the database and fill it with test data.
 * Start Hera by running the main method in [`core/src/main/java/hera/core/Core.java`](https://github.com/AarKro/Hera/blob/master/core/src/main/java/hera/core/Core.java)
 
 :information_source: &nbsp; _Rerun the [`setup_db.sh`](https://github.com/AarKro/Hera/blob/master/environment/scripts/setup_db.sh) script during development to reset the database_
@@ -39,7 +39,7 @@ The code for it can be found in the [`core/`](https://github.com/AarKro/Hera/tre
 
 The Hera Chatbot is automatically built and deployed to an AWS EC2 instance using AWS CodePipeline.  
 The process is triggered when pushing to `master`.  
-To start Hera, `shh` into the EC2 instance and run the script `script/start_hera.sh`.
+To start Hera, `ssh` into the EC2 instance and run the script `script/start_hera.sh`.
 
 :exclamation: &nbsp; Don't forget to update the database (which is on an AWS RDS instance) with relevant changes as you deploy
 
