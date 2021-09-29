@@ -78,7 +78,7 @@ public class Core {
 
 
 		// on guild join -> Add guild to store if we don't have it already
-		gateway.on(GuildCreateEvent.class).subscribe(event-> {
+		gateway.on(GuildCreateEvent.class).flatMap(event-> {
 			STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
 
 			// activate some config flags by default
@@ -96,37 +96,26 @@ public class Core {
 				STATS.logHeraGuildJoin(gateway.getSelfId().asLong(), event.getGuild().getId().asLong());
 			}
 
-		});
-
-
-		// on guild join -> Add members of guild to store if we don't have them already
-		gateway.on(GuildCreateEvent.class)
-				.subscribe(event -> event.getGuild().getMembers()
-						.flatMap(member -> {
-							STORE.users().upsert(new User(member.getId().asLong()));
-							return Mono.empty();
-						})
-						.next()
-				);
-
-		// on user joins guild  -> Add new member to store if we don't have him already
-		gateway.on(MemberJoinEvent.class)
-				.subscribe(event -> {
-					STORE.users().upsert(new User(event.getMember().getId().asLong()));
-					STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
-
-				});
+			return event.getGuild().getMembers()
+					.flatMap(member -> {
+						STORE.users().upsert(new User(member.getId().asLong()));
+						return Mono.empty();
+					});
+		}).subscribe();
 
 		// on user joins guild ->
-		gateway.on(MemberJoinEvent.class)
-				.subscribe(event -> event.getGuild()
-						.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
-								.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
-										flatMap(r -> event.getMember().addRole(r.getId()))
-								)
-								.next()
-						)
-				);
+		gateway.on(MemberJoinEvent.class).flatMap(event -> {
+
+			STORE.users().upsert(new User(event.getMember().getId().asLong()));
+			STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
+			return event.getGuild()
+					.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
+							.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
+									flatMap(r -> event.getMember().addRole(r.getId()))
+							)
+							.next()
+					);
+		}).subscribe();
 
 
 		// log when a user leaves a guild
