@@ -78,7 +78,7 @@ public class Core {
 
 
 		// on guild join -> Add guild to store if we don't have it already
-		gateway.on(GuildCreateEvent.class).subscribe(event-> {
+		gateway.on(GuildCreateEvent.class).flatMap(event-> {
 			STORE.guilds().upsert(new Guild(event.getGuild().getId().asLong()));
 
 			// activate some config flags by default
@@ -96,18 +96,12 @@ public class Core {
 				STATS.logHeraGuildJoin(gateway.getSelfId().asLong(), event.getGuild().getId().asLong());
 			}
 
-		});
-
-
-		// on guild join -> Add members of guild to store if we don't have them already
-		gateway.on(GuildCreateEvent.class)
-				.subscribe(event -> event.getGuild().getMembers()
-						.flatMap(member -> {
-							STORE.users().upsert(new User(member.getId().asLong()));
-							return Mono.empty();
-						})
-						.next()
-				);
+			return event.getGuild().getMembers()
+					.flatMap(member -> {
+						STORE.users().upsert(new User(member.getId().asLong()));
+						return Mono.empty();
+					});
+		}).subscribe();
 
 		// on user joins guild ->
 		gateway.on(MemberJoinEvent.class).flatMap(event -> {
