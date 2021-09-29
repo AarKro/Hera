@@ -33,6 +33,9 @@ public final class MessageSpec implements Cloneable {
 	private String footerIconUrl;
 
 	private MessageSpec() {
+		footerText = "";
+		title = "";
+		description = "";
 	}
 
 	public static MessageSpec getDefaultSpec(Consumer<MessageSpec> specBuilder) {

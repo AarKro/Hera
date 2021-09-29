@@ -18,7 +18,10 @@ public class MessageHandler {
 	}
 
 	private static EmbedCreateSpec fillEmbedSpec(MessageSpec messageSpec) {
-		EmbedCreateSpec.Builder embedSpecBuilder = EmbedCreateSpec.builder().title(messageSpec.getTitle()).description(messageSpec.getDescription()).footer(messageSpec.getFooterText(), null);
+		EmbedCreateSpec.Builder embedSpecBuilder = EmbedCreateSpec.builder()
+				.title(messageSpec.getTitle())
+				.description(messageSpec.getDescription())
+				.footer(messageSpec.getFooterText(), messageSpec.getFooterIconUrl());
 		if (messageSpec.getColor() != null) embedSpecBuilder.color(messageSpec.getColor());
 		return embedSpecBuilder.build();
 	}
