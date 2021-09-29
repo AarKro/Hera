@@ -109,24 +109,19 @@ public class Core {
 						.next()
 				);
 
-		// on user joins guild  -> Add new member to store if we don't have him already
-		gateway.on(MemberJoinEvent.class)
-				.subscribe(event -> {
-					STORE.users().upsert(new User(event.getMember().getId().asLong()));
-					STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
-
-				});
-
 		// on user joins guild ->
-		gateway.on(MemberJoinEvent.class)
-				.subscribe(event -> event.getGuild()
-						.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
-								.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
-										flatMap(r -> event.getMember().addRole(r.getId()))
-								)
-								.next()
-						)
-				);
+		gateway.on(MemberJoinEvent.class).flatMap(event -> {
+
+			STORE.users().upsert(new User(event.getMember().getId().asLong()));
+			STATS.logUserGuildJoin(event.getMember().getId().asLong(), event.getGuildId().asLong());
+			return event.getGuild()
+					.flatMap(g -> Flux.fromIterable(STORE.guildSettings().forGuildAndKey(g.getId().asLong(), GuildSettingKey.ON_JOIN_ROLE))
+							.flatMap(gs -> g.getRoleById(Snowflake.of(gs.getValue())).
+									flatMap(r -> event.getMember().addRole(r.getId()))
+							)
+							.next()
+					);
+		}).subscribe();
 
 
 		// log when a user leaves a guild
