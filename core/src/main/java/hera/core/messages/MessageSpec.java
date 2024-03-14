@@ -1,9 +1,9 @@
 package hera.core.messages;
 
+import discord4j.rest.util.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.util.function.Consumer;
 
 public final class MessageSpec implements Cloneable {
